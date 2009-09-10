@@ -1,0 +1,35 @@
+$DBNAME='<dbname>';
+$DBUSER='<dbuser>';
+$DBPASSWORD='<dbpassword>';
+$DBHOST='<dbhost>';
+$DBPREFIX='<dbprefix>';
+$FILEPATH='<rootpath>data';
+$FILEURL='/data';
+$ABSFILEURL='http://<domainname>/data';
+$CMSIMGURL='/cmsimg';
+
+
+
+$DELIMAGEURL='/cmsimg/delete.png';
+$INSIMAGEURL='/cmsimg/insert.png';
+$EDTIMAGEURL='/cmsimg/edit.png';
+$POSTBUTTONURL='/cmsimg/ok_post.jpg';
+
+
+@LANGS=('rus','eng');
+%LANGS=(
+	'rus'=>'Русский',
+	'eng'=>'Английский',
+);
+
+$PASSFILE='<abspath>.htpasswd';
+$GRPFILE='<abspath>.htgroup';
+
+@SYNC=('MAIN');
+%SYNC=(
+	'MAIN'=>{
+		'url'=>'http://vjphome.dyndns.org/cgi-bin/vcms/cmlsrv.pl',
+		'login'=>'mycms',
+		'password'=>'mycms',
+	}
+);
