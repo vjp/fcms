@@ -1,0 +1,14 @@
+Options +Includes +FollowSymLinks -Indexes
+AddDefaultCharset windows-1251
+DirectoryIndex index.htm
+RewriteBase /
+RewriteEngine on
+RewriteRule ^(.*view/.*)$ /cgi-bin/viewer.pl/$1
+RewriteRule ^(_.*)$ /cgi-bin/viewer.pl/$1
+RewriteRule ^$ /cgi-bin/viewer.pl
+RewriteRule ^admin/?$ /cgi-bin/admin/admin.pl
+RewriteRule ^user/?$ /cgi-bin/user/user.pl
+RewriteRule ^vcms/?$ /cgi-bin/vcms/cmlsrv.pl
+
+
+
