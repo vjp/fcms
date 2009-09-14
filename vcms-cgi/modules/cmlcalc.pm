@@ -141,6 +141,8 @@ sub calculate 	{
  	}
  	
 	my $value=eval "$expr";
+
+	
 	my $rf=ref($value);
         my $xvalue;	
 	
@@ -263,8 +265,9 @@ sub retmemo {
  	my $v=&cmlmain::returnvalue({id=>$objid,pkey=>$pkey,lang=>$lang,noparse=>$_[0]->{noparse}});
  	if (($cmlmain::prm->{$pkey}->{extra}->{parse} eq 'y') && !($_[0]->{noparse}))  {
  		my $inner;
- 	 	$inner->{parent}=$PARID;	
-	  $v->{value}=&cmlparse::cmlparser({data=>$v->{value},objid=>$objid->{id},pkey=>$pkey,inner=>$inner,debug=>$DEBUG})
+ 	 	$inner->{parent}=$PARID;
+ 	  	$v->{value}=&cmlparse::cmlparser({data=>$v->{value},objid=>$objid->{id},pkey=>$pkey,inner=>$inner,debug=>$DEBUG})
+	        
  	}
  	$v->{value}='' unless $v; 
  	return $v;

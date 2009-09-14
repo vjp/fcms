@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: cmlparse.pm,v 1.2 2009-09-14 22:22:10 vano Exp $
 
 BEGIN
 {
@@ -1241,11 +1241,13 @@ sub tag_include {
   	
     unless ($expr) {$expr='p(PAGETEMPLATE)'} 
   	
-  	
-  	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,parent=>$inner->{objid}});
-  	
+
+  	#my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,parent=>$inner->{objid}});
+  	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
-		if ($body) {return $body }
+		if ($body) {
+			return  cmlparser({data=>$body, inner=>$inner}); 
+		}
   	else       {return "[ Include ERROR! (id:$id key:$key expr:$expr) ]"}
 }
 
