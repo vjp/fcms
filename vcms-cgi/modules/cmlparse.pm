@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.2 2009-09-14 22:22:10 vano Exp $
+# $Id: cmlparse.pm,v 1.3 2009-09-14 22:59:54 vano Exp $
 
 BEGIN
 {
@@ -1239,16 +1239,17 @@ sub tag_include {
   	if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i) {$pkey=$3; $expr="p('$pkey')" }
   	if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i) {$pkey=$3; $expr="p('$pkey')" }
   	
-    unless ($expr) {$expr='p(PAGETEMPLATE)'} 
+    	unless ($expr) {$expr='p(PAGETEMPLATE)'} 
   	
 
   	#my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,parent=>$inner->{objid}});
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
-		if ($body) {
-			return  cmlparser({data=>$body, inner=>$inner}); 
-		}
-  	else       {return "[ Include ERROR! (id:$id key:$key expr:$expr) ]"}
+	if ($body) {
+		return  cmlparser({data=>$body, inner=>$inner}); 
+	}	else       {
+		return "[ Include ERROR! (id:$id key:$key expr:$expr) ]"
+	}
 }
 
 sub tag_text {
