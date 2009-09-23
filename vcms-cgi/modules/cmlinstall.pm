@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.3 2009-09-23 20:02:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.4 2009-09-23 20:21:16 vano Exp $
 
 BEGIN
 {
@@ -125,11 +125,18 @@ addobject({forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
 addobject({forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
 
 addobject({forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
-addobject({forced=>1,upkey=>'AUTOMATE',key=>'AUTOLOGS',name=>'Логи автозапуска'});
 addprm({objkey=>'AUTOMATE',name=>'Флаг активности',type=>'FLAG',key=>'AUTOLOCK',evl=>'n'});
 addprm({objkey=>'AUTOMATE',name=>'Время последнего запуска',type=>'DATE',key=>'AUTOLOCKTIME',evl=>'n'});
 setprmextra({pkey=>'AUTOLOCKTIME',extra=>'format',value=>'%d.%m.%Y %H:%M'});
 addprm({objkey=>'AUTOMATE',name=>'Максимальный период',type=>'NUMBER',key=>'AUTOLOCKPERIOD',evl=>'n'});
+addmethod ({objkey=>'AUTOMATE',key=>'AUTOSCRIPT',name=>'Скрипт автозапуска',script=>qq(message ("AUTOSCRIPT STARTED : ".scalar localtime);)});
+
+
+
+addobject({forced=>1,upkey=>'AUTOMATE',key=>'AUTOLOGS',name=>'Логи автозапуска'});
+addprm({objkey=>'AUTOLOGS',name=>'Время запуска',type=>'DATE',key=>'EXECDATE',evl=>'n',upd=>'n'});
+addprm({objkey=>'AUTOLOGS',name=>'Лог',type=>'TEXT',key=>'LOGBODY',evl=>'n',upd=>'n'});
+
 
 
 addobject({upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'});
