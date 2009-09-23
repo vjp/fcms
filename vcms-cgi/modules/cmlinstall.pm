@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.2 2009-09-22 18:53:53 vano Exp $
+# $Id: cmlinstall.pm,v 1.3 2009-09-23 20:02:15 vano Exp $
 
 BEGIN
 {
@@ -123,7 +123,15 @@ addobject({forced=>1,up=>0,key=>'CMSDESIGN',name=>'Дизайн интерфейса администрир
 addobject({forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
 addobject({forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
 addobject({forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
+
 addobject({forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
+addobject({forced=>1,upkey=>'AUTOMATE',key=>'AUTOLOGS',name=>'Логи автозапуска'});
+addprm({objkey=>'AUTOMATE',name=>'Флаг активности',type=>'FLAG',key=>'AUTOLOCK',evl=>'n'});
+addprm({objkey=>'AUTOMATE',name=>'Время последнего запуска',type=>'DATE',key=>'AUTOLOCKTIME',evl=>'n'});
+setprmextra({pkey=>'AUTOLOCKTIME',extra=>'format',value=>'%d.%m.%Y %H:%M'});
+addprm({objkey=>'AUTOMATE',name=>'Максимальный период',type=>'NUMBER',key=>'AUTOLOCKPERIOD',evl=>'n'});
+
+
 addobject({upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'});
 
 
