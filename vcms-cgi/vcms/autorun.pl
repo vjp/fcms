@@ -13,9 +13,9 @@ use Time::HiRes qw (time);
 use Cwd;
 
 my $prm=shift;
+my $path=cwd();
 if ($prm) {
 	warn "set crontab ($prm)";
-	my $path=cwd();
 	system ('crontab -r');
 	system("echo '$prm * * * * $path/autorun.pl'");
 	system("echo '$prm * * * * $path/autorun.pl' | crontab - ");
@@ -31,9 +31,11 @@ if (
     ) {
 	message('AUTOSCRIPT RUNNING. BREAK');
 } else {
+	message("AUTOSCRIPT RUNNING [path=$path] ".scalar localtime);
 	setvalue({id=>cmlcalc::id('AUTOMATE'),prm=>'AUTOLOCK',value=>1});
 	setvalue({id=>cmlcalc::id('AUTOMATE'),prm=>'AUTOLOCKTIME',value=>&cmlcalc::now()});
 	&cmlcalc::execute({id=>cmlcalc::id('AUTOMATE'),method=>'AUTOSCRIPT'});
 	setvalue({id=>cmlcalc::id('AUTOMATE'),prm=>'AUTOLOCK',value=>0});
+	message("AUTOSCRIPT ENDED ".scalar localtime);
 }	
 viewlog();
