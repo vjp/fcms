@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: cmlmain.pm,v 1.2 2009-09-25 18:30:36 vano Exp $
 
 BEGIN
 {
@@ -974,6 +974,9 @@ sub viewlog {
 	
 	if ($cmlcalc::CGIPARAM->{_MODE} eq 'AUTORUN') {
 		my $logstr;
+		if ($ENV{HTTP_USER_AGENT}) {
+			print "Content-Type: text/plain; charset=windows-1251\n\n";	
+		}
 		print "AUTOSCRIPT LOG\n";
 		for my $mes (@LOG) {
 			if ($mes->{type} eq 'alert') {
@@ -985,7 +988,9 @@ sub viewlog {
 		my $lid=addlowobject({up=>&cmlcalc::id(AUTOLOGS),name=>scalar localtime()});	
 		setvalue({id=>$lid,prm=>'EXECDATE',value=>cmlcalc::now()});
 		setvalue({id=>$lid,prm=>'LOGBODY',value=>$logstr});
-			
+		if ($ENV{HTTP_USER_AGENT}) {
+			print $logstr;	
+		}	
 		return;
 	}
 	
