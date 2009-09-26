@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.2 2009-09-25 18:30:36 vano Exp $
+# $Id: cmlmain.pm,v 1.3 2009-09-26 21:24:31 vano Exp $
 
 BEGIN
 {
@@ -1158,7 +1158,7 @@ sub addlowobject {
  	
 	unless ($name) {$name='Новый объект'}
  	unless ($template) {
- 		if    ( $lobj->{$up}->{template} && $obj->{$lobj->{$up}->{template}}->{ltemplate})   {$template=$obj->{$lobj->{$up}->{template}}->{ltemplate}}
+ 		if    ( $lobj->{$up} && $lobj->{$up}->{template} && $obj->{$lobj->{$up}->{template}}->{ltemplate})   {$template=$obj->{$lobj->{$up}->{template}}->{ltemplate}}
  		elsif ($obj->{$obj->{$upobj}->{template}}->{ltemplate}) {$template=$obj->{$obj->{$upobj}->{template}}->{ltemplate}}
  		elsif ($obj->{$upobj}->{ltemplate}) {$template=$obj->{$upobj}->{ltemplate}}
  		
