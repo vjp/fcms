@@ -1,37 +1,43 @@
 #!/usr/bin/perl -w
+use strict;
+
+use Cwd;
+use Data::Dumper;
+use Time::HiRes qw (time);
 
 
 use lib "../modules/";
+
 use cmlmain;
 use cmlcalc;
-use strict;
 
 
 
-use Data::Dumper;
-use Time::HiRes qw (time);
-use Cwd;
+
+
 
 my $prm=shift;
 my $path=cwd();
 if ($prm) {
 	warn "set crontab ($prm)";
 	system ('crontab -r');
-	system("echo '$prm * * * * $path/autorun.pl'");
-	system("echo '$prm * * * * $path/autorun.pl' | crontab - ");
+	system(qq(echo '$prm * * * * "cd $path && ./autorun.pl"'));
+	system(qq(echo '$prm * * * * "cd $path && ./autorun.pl"' | crontab - ));
        	exit;
 }
 
 start('..');
 $cmlcalc::ENV->{USER}='%autorun';
 $cmlcalc::CGIPARAM->{_MODE}='AUTORUN';
-if (
-		&cmlcalc::p('AUTOLOCK',cmlcalc::id('AUTOMATE')) && 
-		(&cmlcalc::now() - (0+&cmlcalc::p('AUTOLOCKTIME',&cmlcalc::id('AUTOMATE')))) < 0+&cmlcalc::p('AUTOLOCKPERIOD',&cmlcalc::id('AUTOMATE')) 
-    ) {
-	message('AUTOSCRIPT RUNNING. BREAK');
+my $AL=&cmlcalc::p('AUTOLOCK',&cmlcalc::id('AUTOMATE'));
+my $N=&cmlcalc::now();
+my $ALT=0+&cmlcalc::p('AUTOLOCKTIME',&cmlcalc::id('AUTOMATE'));
+my $ALP=0+&cmlcalc::p('AUTOLOCKPERIOD',&cmlcalc::id('AUTOMATE'));
+message (sprintf("AUTOSCRIPT RUNNING: %d NOW: %s LAST RUN: %s DELTA: %d PERIOD %d",$AL,scalar localtime($N),scalar localtime($ALT),$N-$ALT,$ALP));
+if ($AL && ($N-$ALT) < $ALP) {
+	message('AUTOSCRIPT WAITING. BREAK');
 } else {
-	message("AUTOSCRIPT RUNNING [path=$path] ".scalar localtime);
+	message("AUTOSCRIPT STARTED [path=$path] ".scalar localtime);
 	setvalue({id=>cmlcalc::id('AUTOMATE'),prm=>'AUTOLOCK',value=>1});
 	setvalue({id=>cmlcalc::id('AUTOMATE'),prm=>'AUTOLOCKTIME',value=>&cmlcalc::now()});
 	&cmlcalc::execute({id=>cmlcalc::id('AUTOMATE'),method=>'AUTOSCRIPT'});
