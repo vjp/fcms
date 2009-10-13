@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.5 2009-09-24 21:38:58 vano Exp $
+# $Id: cmlinstall.pm,v 1.6 2009-10-13 18:42:01 vano Exp $
 
 BEGIN
 {
@@ -580,7 +580,7 @@ for my $cgiprm (keys %$CGIPARAM) {
 		if ($CGIPARAM->{renameprm} eq $prm) {
 			setvalue({id=>$id,prm=>'_NAME',value=>$value});
 		}
-	} elsif ($cgiprm=~/_f(.+)/) {
+	} elsif ($cgiprm=~/_f(.+)/ && $value) {
 		uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
 	}
 }
