@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.3 2009-09-26 21:24:31 vano Exp $
+# $Id: cmlmain.pm,v 1.4 2009-10-24 18:57:14 vano Exp $
 
 BEGIN
 {
@@ -919,6 +919,7 @@ sub init	{
  	$GLOBAL->{DBUSER}=$DBUSER;
 
   	$GLOBAL->{SYNC}=\%SYNC;
+  	$GLOBAL->{DOUBLECONFIRM}=$DOUBLECONFIRM;
  	
  	undef @LOG;
 }

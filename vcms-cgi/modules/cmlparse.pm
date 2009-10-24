@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.3 2009-09-14 22:59:54 vano Exp $
+# $Id: cmlparse.pm,v 1.4 2009-10-24 18:57:14 vano Exp $
 
 BEGIN
 {
@@ -882,6 +882,13 @@ sub tag_actionlink {
 	}
 
 	my $hstr=join('&',@hlist);
+	if ($pl->{action} eq 'DEL') {
+		if ($cmlmain::GLOBAL->{DOUBLECONFIRM}) {
+			$param.=qq(onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")');
+		} else {
+			$param.=qq(onclick='return confirm("Вы уверены что хотите удалить объект")');
+		}	
+	}
 	
 	return "<a href='?$hstr' $param>$title</a>";
 	
@@ -1819,8 +1826,11 @@ sub tag_deletebutton {
 	
   	my $hstr=join('&',@hlist);
   	
-	
-	return "<a href='?$hstr' onclick='return confirm(\"Вы уверены что хотите удалить объект\")'><img border=0 src='$imgsrc' alt='Удалить'></a>";
+	if ($cmlmain::GLOBAL->{DOUBLECONFIRM}) {
+		return qq(<a href='?$hstr' onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")'><img border=0 src='$imgsrc' alt='Удалить'></a>);
+	} else {
+		return qq(<a href='?$hstr' onclick='return confirm("Вы уверены что хотите удалить объект")'><img border=0 src='$imgsrc' alt='Удалить'></a>);		
+	}	
 	
 }	
 
