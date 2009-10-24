@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.4 2009-10-24 18:57:14 vano Exp $
+# $Id: cmlparse.pm,v 1.5 2009-10-24 19:05:38 vano Exp $
 
 BEGIN
 {
@@ -455,7 +455,7 @@ sub tag_select {
 	if ($pl->{'defoptname'}) {
 		$defopt="<option value='$defoptvalue'>$pl->{'defoptname'}</option>"
 	}  elsif (!$multiple)  {
-		$defopt="<option value=''>Не задан</option>"
+		$defopt="<option value='0'>Не задан</option>"
 	}
   	if (defined $sexpr) {
   		undef $inner->{selectedlist};
