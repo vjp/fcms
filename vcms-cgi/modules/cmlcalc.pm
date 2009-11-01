@@ -562,6 +562,27 @@ sub lowelms {
  	return join(';',(@retlist,@xlist));
 }
 
+sub lrnd {
+	my $ind;
+	my $uid;
+	if (($uid)=($_[0]=~/u(\d+)/)) {$ind=$uid} 
+	else {$ind=$OBJID->{ind}}
+	my $v=&cmlmain::retrnd($ind);
+	return $v->{value};
+	
+	
+}
+
+sub urnd {
+	my $ind;
+	my $uid;
+	if (($uid)=($_[0]=~/u(\d+)/)) {$ind=$uid} 
+	else {$ind=$OBJID->{ind}}
+	my $v=&cmlmain::returnd($ind);
+	return $v->{value};
+	
+}
+
 sub lowlevel {
 
 	

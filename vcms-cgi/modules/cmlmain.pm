@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.4 2009-10-24 18:57:14 vano Exp $
+# $Id: cmlmain.pm,v 1.5 2009-11-01 20:19:56 vano Exp $
 
 BEGIN
 {
@@ -472,6 +472,31 @@ sub retbackref {
 }
 
 
+sub retrnd {
+	my ($uid)=@_;
+	$sthRND->execute($uid) || die $dbh->errstr;
+	my $item=$sthRND->fetchrow_hashref();
+	my $v;
+	$v->{value}=$item->{id};
+	$v->{type}='LIST';
+	return $v;
+	
+}
+
+
+sub returnd {
+	my ($uid)=@_;
+	$sthURND->execute($uid) || die $dbh->errstr;
+	my $uitem=$sthURND->fetchrow_hashref();
+	my $v;
+	$v->{value}="u$uitem->{id}";
+	$v->{type}='LIST';
+	return $v;
+	
+}
+
+
+
 sub retubackref {
 	my $objid=$_[0]->{id};
 	my $pkey=$_[0]->{pkey};
@@ -865,6 +890,10 @@ sub init	{
  	$sthUVU=$dbh->prepare("UPDATE ${DBPREFIX}vls SET upobj=? WHERE objid=?") || die $dbh->errstr;
  
  	$sthLTT=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? ORDER BY id") || die $dbh->errstr;
+ 	
+ 	$sthRND=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? ORDER BY RAND() LIMIT 1") || die $dbh->errstr;
+ 	$sthURND=$dbh->prepare("SELECT * FROM ${DBPREFIX}tree WHERE up=? ORDER BY RAND() LIMIT 1") || die $dbh->errstr;
+ 	
  	$sthLTTL=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? ORDER BY indx LIMIT ?") || die $dbh->errstr;
  	$sthLTT1=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? AND id=?") || die $dbh->errstr;
  
