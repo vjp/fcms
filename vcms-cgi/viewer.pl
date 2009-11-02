@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: viewer.pl,v 1.2 2009-11-02 20:21:35 vano Exp $
 
 use lib "./modules/";
 
@@ -16,6 +16,8 @@ use CGI::Carp qw /fatalsToBrowser/;
 my $st=time;
 start('.');
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
+$cmlcalc::ENV->{dev}=cookie('dev');
+
 
 my $v;
 my $subdomain;
