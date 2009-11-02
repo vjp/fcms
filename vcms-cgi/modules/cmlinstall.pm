@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.6 2009-10-13 18:42:01 vano Exp $
+# $Id: cmlinstall.pm,v 1.7 2009-11-02 20:16:35 vano Exp $
 
 BEGIN
 {
@@ -253,7 +253,8 @@ setvalue({key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здес
 
 
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
-setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>'<html>
+setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <style type=text/css>
@@ -270,6 +271,19 @@ small, .small				{font-family: Tahoma, sans-serif; font-size: 9px; color: #565B6
 h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
 -->
 </style>
+
+<SCRIPT LANGUAGE="JavaScript">
+function setCookie (name, value, expires, path, domain, secure) {
+      document.cookie = name + "=" + escape(value) +
+        ((expires) ? "; expires=" + expires : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "");
+}
+</SCRIPT>
+
+
+
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
@@ -280,7 +294,7 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
-'});
+)});
 
 
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMENUFOOTER',name=>'Базовый шаблон подвала меню'});
