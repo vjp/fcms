@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.5 2009-10-24 19:05:38 vano Exp $
+# $Id: cmlparse.pm,v 1.6 2009-11-05 08:33:38 vano Exp $
 
 BEGIN
 {
@@ -735,37 +735,38 @@ sub tag_use
 	my $paramname;
 
 	my $matrix;
-	if      ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)       {
-		$id=$3;     
-		
+	
+	
+	my $pl=fetchparam($param,['id','idcgi','namecgi','uname','key','param','prm','paramtab','idexpr']);
+	
+	if      ($pl->{id})       {
+		$id=$pl->{id};     
 		if (lc $id eq 'matrix') {$id=$inner->{matrix}->{tabkey} }
-	}
-	elsif    ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)    {
-		$id=$cmlcalc::CGIPARAM->{$3};
-	}
-	elsif    ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)  {
-		$key=param($3);
+	} elsif    ($pl->{idcgi})    {
+		$id=$cmlcalc::CGIPARAM->{$pl->{idcgi}};
+	} elsif    ($pl->{namecgi})  {
+		$key=param($pl->{namecgi});
 	  	&cmlmain::checkload({key=>$key});
           	$id=$cmlmain::nobj->{$key}->{ind};
           	unless ($id)  {return "[ Use ERROR! $key NOT FOUND ]"}
-          	
-	}
-	elsif 	($param=~s/(\W)uname=(['"])(.+?)\2/$1/i)  {
-		$key=$3;
+	} elsif  ($pl->{uname})  {
+		$key=$pl->{uname};
           	$id='u'.$cmlmain::nobj->{$key}->{ind};
-          	
-	}
-	elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)  {
-		$key=$3;
+	} elsif ($pl->{key})  {
+		$key=$pl->{key};
 		&cmlmain::checkload({key=>$key});
     		$id=$cmlmain::nobj->{$key}->{id};
+	} elsif ($pl->{idexpr}) {
+		$id=$inner->{objid} unless $id;
+		my $v=&cmlcalc::calculate({id=>$id,expr=>$pl->{idexpr}});
+		$id=$v->{value};
+	} else     {
+		$id=$inner->{objid}
 	}
 	
-	else     {$id=$inner->{objid}}
-	
 
-	if       ($param=~s/(\W)pa?ra?m=(['"])(.+?)\2/$1/i)       {
-		$paramname=$3;
+	if       ($pl->{param} || $pl->{prm})       {
+		$paramname=$pl->{param} || $pl->{prm};
 		if ($cmlmain::prm->{$paramname}->{type} eq 'MATRIX')  {
 			undef $matrix;
 		   	$matrix->{id}=$id;
@@ -780,12 +781,12 @@ sub tag_use
 			$id=$v->{value};
 		}
 			
+	} else {
+		$matrix=$inner->{matrix}
 	}
-	else {$matrix=$inner->{matrix}}
 
-
-        if   ($param=~s/(\W)paramtab=(['"])(.+?)\2/$1/i)       { 
-		my $tabparam=$3;
+        if   ($pl->{paramtab})       { 
+		my $tabparam=$pl->{paramtab};
 		my $tabvalue;
 		if       ($param=~s/(\W)valuetab=(['"])(.+?)\2/$1/i)       { $tabvalue=$3 }
 		elsif    ($param=~s/(\W)valuetabcgi=(['"])(.+?)\2/$1/i)       { $tabvalue=param($3) }
