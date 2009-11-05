@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.7 2009-11-02 20:16:35 vano Exp $
+# $Id: cmlinstall.pm,v 1.8 2009-11-05 07:29:03 vano Exp $
 
 BEGIN
 {
@@ -274,11 +274,11 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 
 <SCRIPT LANGUAGE="JavaScript">
 function setCookie (name, value, expires, path, domain, secure) {
-      document.cookie = name + "=" + escape(value) +
-        ((expires) ? "; expires=" + expires : "") +
-        ((path) ? "; path=" + path : "") +
-        ((domain) ? "; domain=" + domain : "") +
-        ((secure) ? "; secure" : "");
+document.cookie = name + "=" + escape(value) +
+"; expires=+1d" +
+"; path=/" +
+((domain) ? "; domain=" + domain : "") +
+((secure) ? "; secure" : "");
 }
 </SCRIPT>
 
