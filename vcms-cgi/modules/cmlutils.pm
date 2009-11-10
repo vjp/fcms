@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: cmlutils.pm,v 1.2 2009-11-10 20:00:36 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -128,10 +128,14 @@ sub xmlparse {
 }	
 
 sub email {
-  my $to=$_[0]->{to};
-  my $from=$_[0]->{from};
-  my $message=$_[0]->{message};
-  my $subject=$_[0]->{subject};	
+  	my $to=$_[0]->{to};
+  	my $from=$_[0]->{from};
+  	my $message=$_[0]->{message};
+  	my $subject=$_[0]->{subject};	
+  	my $charset=$_[0]->{charset};
+  	my $lmessage=$message;
+  	Encode::from_to( $message, 'windows-1251', $charset) if $charset;
+  
 	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
 		print "no sendmail $!";
 		return undef;
@@ -143,7 +147,7 @@ sub email {
 		close(MAIL) || print "Error closing mail: $!";
 		if ($_[0]->{log}) {
 			my $id=addlowobject({upobj=>&cmlcalc::id(EMAILARC),name=>scalar localtime()});
-			setvalue({id=>$id,param=>EMAILMESSAGE,value=>$message});
+			setvalue({id=>$id,param=>EMAILMESSAGE,value=>$lmessage});
 			setvalue({id=>$id,param=>EMAILSUBJECT,value=>$subject});
 			setvalue({id=>$id,param=>EMAILADDRESS,value=>$to});
 			setvalue({id=>$id,param=>EMAILFROM,value=>$from});
