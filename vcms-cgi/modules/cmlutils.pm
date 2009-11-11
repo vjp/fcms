@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.3 2009-11-11 18:39:37 vano Exp $
+# $Id: cmlutils.pm,v 1.4 2009-11-11 21:32:18 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -142,7 +142,7 @@ sub email {
 		print "no sendmail $!";
 		return undef;
 	}	else{
-		print MAIL "To: $from\n";
+		print MAIL "To: $to\n";
 		print MAIL "From: $from\n";
 		print MAIL "Subject: $subject\n";
 		print MAIL "Content-Type: text/plain; charset=$echarset\n";
