@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.2 2009-11-10 20:00:36 vano Exp $
+# $Id: cmlutils.pm,v 1.3 2009-11-11 18:39:37 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -134,6 +134,8 @@ sub email {
   	my $subject=$_[0]->{subject};	
   	my $charset=$_[0]->{charset};
   	my $lmessage=$message;
+  	my $echarset=$charset || 'windows-1251';
+ 	
   	Encode::from_to( $message, 'windows-1251', $charset) if $charset;
   
 	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
@@ -142,7 +144,9 @@ sub email {
 	}	else{
 		print MAIL "To: $from\n";
 		print MAIL "From: $from\n";
-		print MAIL "Subject: $subject\n\n";
+		print MAIL "Subject: $subject\n";
+		print MAIL "Content-Type: text/plain; charset=$echarset\n";
+		print MAIN "\n";
 		print MAIL $message;
 		close(MAIL) || print "Error closing mail: $!";
 		if ($_[0]->{log}) {
