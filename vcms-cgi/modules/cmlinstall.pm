@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.8 2009-11-05 07:29:03 vano Exp $
+# $Id: cmlinstall.pm,v 1.9 2009-11-12 21:12:43 vano Exp $
 
 BEGIN
 {
@@ -819,6 +819,16 @@ sub install_db ($$) {
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
 		) TYPE=MyISAM
+	") || die $dbh->errstr();
+	
+	$dbh->do("
+		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache` (
+  			`cachekey` varchar(100) NOT NULL default '',
+  			`pagetext` blob,
+  			`ts` datetime default NULL,
+  			`objid` int(11) NOT NULL default '0',
+  			PRIMARY KEY  (`cachekey`,`objid`)
+		) ENGINE=MyISAM
 	") || die $dbh->errstr();
 	
 }
