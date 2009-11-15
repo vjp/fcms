@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.2 2009-11-02 20:21:35 vano Exp $
+# $Id: viewer.pl,v 1.3 2009-11-15 18:25:39 vano Exp $
 
 use lib "./modules/";
 
@@ -169,19 +169,14 @@ my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
 if (!$opensite) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
 }elsif ($cgiparam->{view}) {
- 		
- 		#$key=$cgiparam->{view};
- 		my $prmexpr='PAGETEMPLATE';
- 		
- 		if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
-	 		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
-	 	  unless ($v) {
-	 		 	 $v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p($prmexpr)"});
-	 		} 	 
- 		} else {
- 			$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)"});
- 			
- 		}	
+	if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
+ 		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
+		unless ($v) {
+			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p(PAGETEMPLATE)"});
+	 	} 	 
+ 	} else {
+ 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)"});
+ 	}	
 }elsif ($cgiparam->{tview}) { 		
  		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)"});
 } else {
