@@ -88,7 +88,7 @@ sub calculate 	{
  	undef $DEBUG;
  	my $expr;
 
-  
+
 
 
  	if (ref $_[0] eq 'HASH')   {
@@ -138,25 +138,38 @@ sub calculate 	{
   			$OBJID=$cmlmain::obj->{$indx};
  		}
  		$expr=$_[0]->{expr};
+ 		
+ 		
  	}
- 	
+ 	my $xvalue;
+	my $need_save;
+	my $cache_key;
+	if ($_[0]->{cache}) {
+		$cache_key=$ENV{'REQUEST_URI'};
+		my $cached_value=&cmlmain::fromcache($cache_key);
+		if ($cached_value) {
+			$xvalue->{value}=&cmlparse::cmlparser({data=>$cached_value,objid=>$OBJID,debug=>$DEBUG});
+			$xvalue->{type}='TEXT';
+			return $xvalue;
+		} else {
+			$need_save=1;
+		}		 			
+	}
+	
 	my $value=eval "$expr";
-
-	
-	my $rf=ref($value);
-        my $xvalue;	
-	
-
-	
- 	unless ((ref $value) eq 'HASH') {
- 		$xvalue->{value}=$value; $xvalue->{type}='TEXT';
+	if ($@) {print "Error in expr $_[0]->{expr}:$@"}
+	if (ref $value eq 'HASH') {
+		$xvalue=$value;
+	} else {
+ 		$xvalue->{value}=$value; 
+ 		$xvalue->{type}='TEXT';
  	}
- 	else {$xvalue=$value}
- 	
 
- 	
- 	if ($@) {print "Error in expr $_[0]->{expr}:$@"}
- 	
+        if ($need_save) {
+        	&cmlmain::tocache($cache_key,$xvalue->{value});
+        	$xvalue->{value}=&cmlparse::cmlparser({data=>$xvalue->{value},objid=>$OBJID,debug=>$DEBUG});
+        }   	
+        
  	return $xvalue;
 }
 
