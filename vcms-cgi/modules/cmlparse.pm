@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.6 2009-11-05 08:33:38 vano Exp $
+# $Id: cmlparse.pm,v 1.7 2009-11-23 20:13:54 vano Exp $
 
 BEGIN
 {
@@ -1199,7 +1199,7 @@ sub tag_video 	{
 		</script>		
  		<div id="playerDiv">
 			<h1>Для проигрывания роликов необходим Flash Player версии 8 или выше</h1>
-			<p><a href="http://www.adobe.com/go/getflashplayer"><img border='0' src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Получить Adobe Flash player" /></a></p>
+			<p><a target='_blank' href="http://www.adobe.com/go/getflashplayer"><img border='0' src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Получить Adobe Flash player" /></a></p>
 		</div>
 			);
 
