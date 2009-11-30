@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.6 2009-11-12 21:08:21 vano Exp $
+# $Id: cmlmain.pm,v 1.7 2009-11-30 21:32:16 vano Exp $
 
 BEGIN
 {
@@ -937,6 +937,7 @@ sub init	{
  
  	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=?");
  	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts) VALUES (?,?,NOW())");
+ 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink) VALUES (?,?)");
  
  	$GLOBAL->{FILEPATH}=$FILEPATH;
  	$GLOBAL->{DOCUMENTROOT}=$DOCUMENTROOT;
@@ -2080,7 +2081,12 @@ sub fromcache {
 sub tocache {
 	my $key=$_[0];
 	my $value=$_[1];
+	my $links=$_[2];
+	
 	$sthIC->execute($key,$value) || die $dbh->errstr;
+	for (@$links) {
+		$sthLC->execute($key,$_) || die $dbh->errstr;
+	}
 }	
 
 

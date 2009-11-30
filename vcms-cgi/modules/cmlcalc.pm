@@ -139,6 +139,7 @@ sub calculate 	{
  		}
  		$expr=$_[0]->{expr};
  		
+ 		push (@CACHELINKS,$OBJID->{type}.$OBJID->{id}) if $CACHEING;
  		
  	}
  	my $xvalue;
@@ -153,6 +154,8 @@ sub calculate 	{
 			return $xvalue;
 		} else {
 			$need_save=1;
+			$CACHEING=1;
+			@CACHELINKS = ($OBJID->{type}.$OBJID->{id});
 		}		 			
 	}
 	
@@ -166,7 +169,8 @@ sub calculate 	{
  	}
 
         if ($need_save) {
-        	&cmlmain::tocache($cache_key,$xvalue->{value});
+        	&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS);
+        	$CACHEING=0;
         	$xvalue->{value}=&cmlparse::cmlparser({data=>$xvalue->{value},objid=>$OBJID,debug=>$DEBUG});
         }   	
         
