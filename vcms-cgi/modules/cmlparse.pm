@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.7 2009-11-23 20:13:54 vano Exp $
+# $Id: cmlparse.pm,v 1.8 2009-12-08 19:47:03 vano Exp $
 
 BEGIN
 {
@@ -416,7 +416,7 @@ sub tag_select {
   		'selexpr','selected',
   		'param','prm','prmexpr',
   		'optionid','name','optionparam',
-  		'defoptvalue','defoptname',
+  		'defoptvalue','defoptname','nodefopt'
   		
   	]);
   	my $multiple='multiple' if $pl->{'multiple'};
@@ -454,17 +454,17 @@ sub tag_select {
 	my $defoptvalue=$pl->{'defoptvalue'};
 	if ($pl->{'defoptname'}) {
 		$defopt="<option value='$defoptvalue'>$pl->{'defoptname'}</option>"
-	}  elsif (!$multiple)  {
+	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
 		$defopt="<option value='0'>Не задан</option>"
 	}
+	
+	undef $inner->{selectedlist};
   	if (defined $sexpr) {
-  		undef $inner->{selectedlist};
   		for (split(';',&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value})) {$inner->{selectedlist}->{$_}=1}
-  	}	
-  
-  	if ($cmlcalc::CGIPARAM->{$name}) {
-  		undef $inner->{selectedlist};
+  	} elsif ($cmlcalc::CGIPARAM->{$name}) {
   	 	$inner->{selectedlist}->{$cmlcalc::CGIPARAM->{$name}}=1
+  	} else {
+  		$inner->{selectedlist}->{$id}=1;
   	}	
   
   	unless ($data) {
