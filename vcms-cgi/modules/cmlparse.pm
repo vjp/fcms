@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.8 2009-12-08 19:47:03 vano Exp $
+# $Id: cmlparse.pm,v 1.9 2009-12-08 20:34:04 vano Exp $
 
 BEGIN
 {
@@ -414,7 +414,7 @@ sub tag_select {
   	my $pl=fetchparam(\$param,[
   		'multiple','single','id',
   		'selexpr','selected',
-  		'param','prm','prmexpr',
+  		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt'
   		
@@ -435,6 +435,8 @@ sub tag_select {
 	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  	$inner->{expr}=$expr;
 	  	$multiple='multiple' if $cmlmain::prm->{$prm}->{extra}->{single} ne 'y';
+	} else {
+		$inner->{expr}=$pl->{expr} if $pl->{expr};
 	}
 	undef $multiple if $pl->{'single'};
 	
@@ -466,7 +468,7 @@ sub tag_select {
   	} else {
   		$inner->{selectedlist}->{$id}=1;
   	}	
-  
+        
   	unless ($data) {
   		$data="<cml:option param='$optionid'><cml:text param='$optionparam'/></cml:option>";
   	}
