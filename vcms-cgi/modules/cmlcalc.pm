@@ -395,6 +395,10 @@ sub l {
 sub env {
 	return $cmlcalc::ENV->{$_[0]};
 }
+sub prm {
+	return $cmlcalc::CGIPARAM->{$_[0]};
+}
+
 
 sub p	{
  	my $id=$OBJID;
