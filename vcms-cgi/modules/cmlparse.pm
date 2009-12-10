@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.9 2009-12-08 20:34:04 vano Exp $
+# $Id: cmlparse.pm,v 1.10 2009-12-10 21:52:28 vano Exp $
 
 BEGIN
 {
@@ -1582,10 +1582,21 @@ sub tag_inputpic {
 	my $data=$_[0]->{data};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
 	
-		'param','prm','name'
+	my $pl=fetchparam(\$param,[
 		'param','prm','name','id'
+  	]);
+
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
-	my $name=$pl->{name}||"_f$prm";
+	my $prm=$pl->{param}||$pl->{prm}||'PIC';
+	
+	if ($pl->{name}) {
+		$name=$pl->{name}
+	} elsif ($_[0]->{inner}->{matrix}) {
+		$name="_o${id}_f${prm}";
+	} else {
+		$name="_f$prm";
+	}
+	
 	
   	return tag_img({data=>$data,inner=>$inner,param=>$_[0]->{param}})."<input type='file' $param name='$name'>";
 }
