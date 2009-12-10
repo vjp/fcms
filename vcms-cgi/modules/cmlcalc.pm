@@ -395,7 +395,7 @@ sub l {
 sub env {
 	return $cmlcalc::ENV->{$_[0]};
 }
-sub prm {
+sub cgi {
 	return $cmlcalc::CGIPARAM->{$_[0]};
 }
 
