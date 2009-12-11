@@ -775,6 +775,59 @@ sub uploadfile
  setvalue({id=>$objid,uid=>$objuid,pkey=>$pkey,value=>$fname,tabkey=>$tabkey,tabpkey=>$tabpkey});
 }
 
+sub baselparser
+{
+	my $id;
+	if ($CGIPARAM->{parseid}) {	
+		$id=$CGIPARAM->{parseid}
+	} elsif ($CGIPARAM->{insertinto}) {	
+		my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
+		$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
+		if ($CGIPARAM->{link}) {		
+			setvalue({id=>$id,prm=>$CGIPARAM->{link},value=>$lid}); 	
+		}
+	} else {
+		$id=$CGIPARAM->{id}
+	}
+
+
+	for my $cgiprm (keys %$CGIPARAM) {
+		my $value=$CGIPARAM->{$cgiprm};
+		if ($cgiprm=~/_o(.+?)_p(.+)/) {
+			$id=$1;
+			my $prm=$2;
+			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
+				$value=1;
+			}
+			if (p($prm,$id) ne $value) {
+				setvalue({id=>$id,prm=>$prm,value=>$value});
+			}
+		} elsif ($cgiprm=~/_p(.+)/) {
+			my $prm=$1;
+			if ($CGIPARAM->{"_d$prm"}) {		
+				$value=fetchdate($value,$CGIPARAM->{"_d$prm"});	
+			}	
+			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
+				$value=1;
+			}
+			setvalue({id=>$id,prm=>$prm,value=>$value});
+			if ($CGIPARAM->{renameprm} eq $prm) {
+				setvalue({id=>$id,prm=>'_NAME',value=>$value});
+			}
+		} elsif ($cgiprm=~/_f(.+)/ && $value) {
+			uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
+		} elsif ($cgiprm=~/_o(.+?)_f(.+)/) {
+			$id=$1;
+			my $prm=$2;
+			uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
+		}
+	}
+
+
+	my $alerttext=$CGIPARAM->{alerttext};
+	$alerttext='Значения изменены' unless $alerttext;
+	alert($alerttext);
+}
 
 
 
