@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.10 2009-12-10 21:52:28 vano Exp $
+# $Id: cmlparse.pm,v 1.11 2009-12-11 06:41:41 vano Exp $
 
 BEGIN
 {
@@ -1958,7 +1958,7 @@ sub uploadprmfile
  
  
  $fname=~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
- $fname=~s{[à-ÿÀ-ß]}{}g;
+ $fname=~s{[à-ÿÀ-ß\"\s\'\#]}{}g;
 
  $fh = upload($prmname);
  open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
