@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.10 2009-11-30 21:32:16 vano Exp $
+# $Id: cmlinstall.pm,v 1.11 2009-12-11 06:31:52 vano Exp $
 
 BEGIN
 {
@@ -555,59 +555,9 @@ addmethod ({objkey=>'BASECMS',key=>'BASEPARSER',name=>'Шаблон метода обработки',
 	alert(\'Информация изменена\');
 '});
 
-my $baseltext=qq(
 
-my $id;
-if ($CGIPARAM->{parseid}) {	
-	$id=$CGIPARAM->{parseid}
-} elsif ($CGIPARAM->{insertinto}) {	
-	my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
-	$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
-	if ($CGIPARAM->{link}) {		
-		setvalue({id=>$id,prm=>$CGIPARAM->{link},value=>$lid}); 	
-	}
-} else {
-	$id=$CGIPARAM->{id}
-}
-
-
-for my $cgiprm (keys %$CGIPARAM) {
-	my $value=$CGIPARAM->{$cgiprm};
-	if ($cgiprm=~/_o(.+?)_p(.+)/) {
-		$id=$1;
-		my $prm=$2;
-		if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
-			$value=1;
-		}
-		if (p($prm,$id) ne $value) {
-			setvalue({id=>$id,prm=>$prm,value=>$value});
-		}
-	} elsif ($cgiprm=~/_p(.+)/) {
-		my $prm=$1;
-		if ($CGIPARAM->{"_d$prm"}) {		
-			$value=fetchdate($value,$CGIPARAM->{"_d$prm"});	
-		}	
-		if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
-			$value=1;
-		}
-		setvalue({id=>$id,prm=>$prm,value=>$value});
-		if ($CGIPARAM->{renameprm} eq $prm) {
-			setvalue({id=>$id,prm=>'_NAME',value=>$value});
-		}
-	} elsif ($cgiprm=~/_f(.+)/ && $value) {
-		uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
-	}
-}
-
-
-my $alerttext=$CGIPARAM->{alerttext};
-$alerttext='Значения изменены' unless $alerttext;
-alert($alerttext);
-);
-
-
-addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>$baseltext});
-addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>$baseltext});
+addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>'baselparser()'});
+addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>'baselparser()'});
 
 
 my $sscript='
