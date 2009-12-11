@@ -793,7 +793,7 @@ sub baselparser
 
 	for my $cgiprm (keys %$CGIPARAM) {
 		my $value=$CGIPARAM->{$cgiprm};
-		if ($cgiprm=~/_o(.+?)_p(.+)/) {
+		if ($cgiprm=~/^_o(.+?)_p(.+)/) {
 			$id=$1;
 			my $prm=$2;
 			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
@@ -802,7 +802,7 @@ sub baselparser
 			if (p($prm,$id) ne $value) {
 				setvalue({id=>$id,prm=>$prm,value=>$value});
 			}
-		} elsif ($cgiprm=~/_p(.+)/) {
+		} elsif ($cgiprm=~/^_p(.+)/) {
 			my $prm=$1;
 			if ($CGIPARAM->{"_d$prm"}) {		
 				$value=fetchdate($value,$CGIPARAM->{"_d$prm"});	
@@ -814,12 +814,11 @@ sub baselparser
 			if ($CGIPARAM->{renameprm} eq $prm) {
 				setvalue({id=>$id,prm=>'_NAME',value=>$value});
 			}
-		} elsif ($cgiprm=~/_f(.+)/ && $value) {
+		} elsif ($cgiprm=~/^_f(.+)/ && $value) {
 			uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
-		} elsif ($cgiprm=~/_o(.+?)_f(.+)/) {
+		} elsif ($cgiprm=~/^_o(.+?)_f(.+)/ && $value) {
 			$id=$1;
-			my $prm=$2;
-			uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
+			uploadprmfile({id=>$id,pkey=>$2,cgiparam=>$cgiprm});
 		}
 	}
 
