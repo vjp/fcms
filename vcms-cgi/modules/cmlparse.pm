@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.11 2009-12-11 06:41:41 vano Exp $
+# $Id: cmlparse.pm,v 1.12 2009-12-13 15:21:32 vano Exp $
 
 BEGIN
 {
@@ -218,6 +218,7 @@ sub tagparse {
 
 	
 	$_[0]->{param}=~s/_LISTINDEX/$_[0]->{inner}->{listindex}/igs;
+	$_[0]->{param}=~s/_ITERATOR/$_[0]->{inner}->{iterator}/igs;
 	$_[0]->{param}=~s/_CONTAINERINDEX/$_[0]->{inner}->{containerindex}/igs;
 	$_[0]->{param}=~s/_PARENT/$_[0]->{inner}->{parent}/igs;
 	$_[0]->{param}=~s/_SELF/$_[0]->{inner}->{objid}/igs;
