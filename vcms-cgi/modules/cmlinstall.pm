@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.11 2009-12-11 06:31:52 vano Exp $
+# $Id: cmlinstall.pm,v 1.12 2009-12-16 19:42:19 vano Exp $
 
 BEGIN
 {
@@ -272,17 +272,7 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 -->
 </style>
 
-<SCRIPT LANGUAGE="JavaScript">
-function setCookie (name, value, expires, path, domain, secure) {
-document.cookie = name + "=" + escape(value) +
-"; expires=+1d" +
-"; path=/" +
-((domain) ? "; domain=" + domain : "") +
-((secure) ? "; secure" : "");
-}
-</SCRIPT>
-
-
+<script language="javascript" type="text/javascript" src="/js/base.js"></script>
 
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
@@ -341,6 +331,8 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 
 <script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript" src="/js/base.js"></script>
+
 <script language="javascript" type="text/javascript">
 tinyMCE.init({ mode : "specific_textareas",
 editor_selector : "mceEditor",
