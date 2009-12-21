@@ -21,7 +21,6 @@ function getCookie( name ) {
 }
 
 
-function openWindow(url,w,h,sbars,resize)
-{
+function openWindow(url,w,h,sbars,resize) {
 	window.open(url,"","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars="+sbars+", resizable="+resize+", width=350, height=250");
 }
