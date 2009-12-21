@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.12 2009-12-16 19:42:19 vano Exp $
+# $Id: cmlinstall.pm,v 1.13 2009-12-21 21:43:28 vano Exp $
 
 BEGIN
 {
@@ -106,8 +106,28 @@ setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 addobject({forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
 addlowobject({upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
 addlowobject({upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
-setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>'DEFAULT HEADER<hr>'});
-setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',value=>'<hr>DEFAULT FOOTER'});
+setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+<html>
+<head>
+
+<title>
+</title>
+
+<link rel="stylesheet" href="/css/mce.css" type="text/css" />
+
+<script type="text/javascript" src="/js/base.js"></script>
+<script type="text/javascript" src="/js/swfobject.js"></script>
+
+</head>
+<body>
+DEFAULT HEADER
+<hr/>
+)});
+setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',value=>qq(
+<hr/>DEFAULT FOOTER
+</body>
+</html>
+)});
 
 addlowobject({upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
