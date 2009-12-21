@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: cmlview.pm,v 1.2 2009-12-21 07:04:35 vano Exp $
 
 BEGIN
 {
@@ -917,19 +917,18 @@ sub extranumber {
 sub extramemo {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
- 	my $ss;	if ($extra->{parse} eq 'y') {$ss='checked'} else {$ss=''}
- 	my $sse;	if ($extra->{script} eq 'y') {$sse='checked'} else {$sse=''}
- 	if ($_[0]->{check}) {
-	 	my $flagname=$_[0]->{flag};
- 		my $formname=$_[0]->{form};
- 		my $outp='Разбор'.checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>"document.$formname.$flagname.value=1");		
-		$outp.='Вып'.checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>"document.$formname.$flagname.value=1");		
- 		return $outp;
- 	} else {
- 		my $outp='Разбор'.checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
- 		$outp.='Вып'.checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'');		
- 		return $outp;
-	}		
+ 	my $ss= $extra->{parse} eq 'y'?'checked':'';
+ 	my $sse=$extra->{script} eq 'y'?'checked':'';
+ 	my $ssv=$extra->{visual} eq 'y'?'checked':'';
+ 	
+ 	my $flagname=$_[0]->{flag};
+ 	my $formname=$_[0]->{form};
+ 	
+ 	my $outp='Разбор'.checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');		
+	$outp.='Вып'.checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+	$outp.='Виз'.checkbox(-name=>"exvisual$pkey", -checked=>$ssv, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+			
+	return $outp;
 }
 
 
@@ -1003,10 +1002,9 @@ sub extraflagparse {
 
 sub extramemoparse {
  	my $pkey=$_[0]->{pkey};
- 	my $prs;	if (param("exparse$pkey")) {$prs='y'} else {$prs='n'}
- 	my $scr;	if (param("exscript$pkey")) {$scr='y'} else {$scr='n'}
- 	setprmextra({pkey=>$pkey,extra=>'parse',value=>$prs});
- 	setprmextra({pkey=>$pkey,extra=>'script',value=>$scr});
+ 	setprmextra({pkey=>$pkey,extra=>'parse',value=>param("exparse$pkey")?'y':'n'});
+ 	setprmextra({pkey=>$pkey,extra=>'script',value=>param("exscript$pkey")?'y':'n'});
+ 	setprmextra({pkey=>$pkey,extra=>'visual',value=>param("exvisual$pkey")?'y':'n'});
 }
 
 

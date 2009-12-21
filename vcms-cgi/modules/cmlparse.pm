@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.12 2009-12-13 15:21:32 vano Exp $
+# $Id: cmlparse.pm,v 1.13 2009-12-21 07:08:19 vano Exp $
 
 BEGIN
 {
@@ -1742,10 +1742,10 @@ sub tag_inputtext {
 		 my $sizestr;
 		 if ($cols) {$sizestr="size='$cols'"}
 		 return "<input value='$value' $param $sizestr name='$name' $typestr>";
+	} elsif ($mode eq 'textarea') {
 		my $cls=$cmlmain::prm->{$prm}->{extra}->{visual}?'class="mceEditor"':'';
-	    	my $tidstr;
-	    	$tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
-		return "<textarea rows='$rows' cols='$cols' $param name='$name' $tidstr>$ev</textarea>";
+	    	my $ev=escapeHTML($value);
+	    	my $tidstr=$pl->{textareaid}?"id='$pl->{textareaid}'":'';
 		return "<textarea rows='$rows' cols='$cols' $param name='$name' $tidstr $cls>$ev</textarea>";
 	}	
 }	
