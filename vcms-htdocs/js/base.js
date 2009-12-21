@@ -19,3 +19,9 @@ function getCookie( name ) {
     if ( end == -1 ) end = document.cookie.length;
     return unescape( document.cookie.substring( len, end ) );
 }
+
+
+function openWindow(url,w,h,sbars,resize)
+{
+	window.open(url,"","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars="+sbars+", resizable="+resize+", width=350, height=250");
+}
