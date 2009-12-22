@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.14 2009-12-21 21:54:42 vano Exp $
+# $Id: cmlinstall.pm,v 1.15 2009-12-22 06:24:23 vano Exp $
 
 BEGIN
 {
@@ -350,9 +350,9 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 
-<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 
+<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
 <script language="javascript" type="text/javascript">
 tinyMCE.init({ mode : "specific_textareas",
 editor_selector : "mceEditor",
