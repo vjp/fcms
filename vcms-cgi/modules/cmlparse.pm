@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.14 2009-12-22 20:24:36 vano Exp $
+# $Id: cmlparse.pm,v 1.15 2009-12-22 20:57:12 vano Exp $
 
 BEGIN
 {
@@ -474,7 +474,9 @@ sub tag_select {
   	unless ($data) {
   		$data="<cml:option param='$optionid'><cml:text param='$optionparam'/></cml:option>";
   	}
-  	return "<select name='$name' $param $multiple>$defopt".
+  	
+  	my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
+  	return "$hd<select name='$name' $param $multiple>$defopt".
   		tag_list({data=>$data,inner=>$inner,param=>$param}).
   		cmlparser({data=>$_[0]->{data},inner=>$inner}).
   		"</select>";
