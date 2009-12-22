@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.13 2009-12-21 07:08:19 vano Exp $
+# $Id: cmlparse.pm,v 1.14 2009-12-22 20:24:36 vano Exp $
 
 BEGIN
 {
@@ -57,6 +57,7 @@ sub initparser
     'menuitem'=>1,
     'pagination'=>1,
     'else'=>1,
+    'dev'=>1,
  )
 }
 
@@ -1854,6 +1855,11 @@ sub tag_changebutton {
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
 	return "<input type=image src='$imgsrc' width='119' height='24' value='ÎÊ'>";
 }	
+
+sub tag_dev {
+	return $cmlcalc::ENV->{dev}?cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}):'';
+}
+
 
 sub tag_if {
 	
