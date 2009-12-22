@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.2 2009-12-21 07:04:35 vano Exp $
+# $Id: cmlview.pm,v 1.3 2009-12-22 21:00:48 vano Exp $
 
 BEGIN
 {
@@ -480,7 +480,7 @@ else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($p
 	
 	print start_form(-name=>'mfrm',-method=>'post');
 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()"),br;
-	print textarea(-id=>'codepress2',-class=>'codepress html',-default=>$val->{value},-rows=>100,-cols=>150);
+	print textarea(-id=>'codepress2',-class=>'codepress html',-default=>$val->{value},-rows=>40,-cols=>150);
 	print hidden(-name=>'mvls',-default=>'', -override=>1);
 	
  	print br;
