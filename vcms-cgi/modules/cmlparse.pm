@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.15 2009-12-22 20:57:12 vano Exp $
+# $Id: cmlparse.pm,v 1.16 2009-12-25 20:17:47 vano Exp $
 
 BEGIN
 {
@@ -421,7 +421,7 @@ sub tag_select {
   		'defoptvalue','defoptname','nodefopt'
   		
   	]);
-  	my $multiple='multiple' if $pl->{'multiple'};
+  	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
 	if ($pl->{'selexpr'}) {
 		$sexpr=$pl->{'selexpr'}
