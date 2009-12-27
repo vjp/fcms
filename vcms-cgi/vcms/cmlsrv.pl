@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: cmlsrv.pl,v 1.2 2009-12-27 14:24:01 vano Exp $
 
 use lib "../modules/";
 
@@ -74,13 +74,28 @@ unless (checkdatastruct()) {
 
 buildvparam();
 
-if (param('objid')) { checkload({id=>param('objid')}) }
+my $id;
+my $objid;
+
+my $prm_id=param('objid');
+my $prm_key=param('objkey');
+my $prm_uid=param('id');
+
+if ($prm_id) { checkload({id=>$prm_id}) }
+if ($prm_key) { 
+	checkload({key=>$prm_key});
+	$prm_id=cmlcalc::id(param('objkey')); 
+}
+if ($prm_id=~/^u(\d+)/) {
+	undef $prm_id;
+	$prm_uid=$1;
+	$action='editform';
+}
 
 
+$id=$prm_uid;
+$objid=$prm_id;
 
-
-my $id=param('id');
-my $objid=param('objid');
 if (defined $objid && $objid eq '0') {buildlowtree($id)}
 my $cf;
 if ($action) {
@@ -452,10 +467,14 @@ sub viewleft {
 	
 	print br,a({-href=>'?action=viewleft'},'Обновить');
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
-	print br,'Перейти к объекту по ID ',textfield(-name=>"objid",-size=>5,-override=>1);
+	print br,'Перейти к объекту';
+	print br,' по ID ',textfield(-name=>"objid",-size=>5,-override=>1);
+	print ' или ключу ',textfield(-name=>"objkey",-size=>15,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'editlowform',-override=>1);
 	print endform;
+	
+	
 }	
 
 sub defaultform {
