@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.16 2009-12-25 20:17:47 vano Exp $
+# $Id: cmlparse.pm,v 1.17 2009-12-28 21:22:04 vano Exp $
 
 BEGIN
 {
@@ -1792,15 +1792,11 @@ sub tag_inputdate {
 
 sub tag_checkbox {
 	my $param=$_[0]->{param};
-	my $checked;
-
-	
-	
 	my $id=$_[0]->{inner}->{objid};
 	
 	my $pl=fetchparam($param,['param','prm','name','value','nohidden']);
 	my $prm=$pl->{prm} || $pl->{param};
-	if (&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1 ) {$checked='checked'}
+	my $value=$pl->{value} || 1;	
 	my $checked=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1?'checked':'';
 
 	my $name;
