@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.3 2009-11-15 18:25:39 vano Exp $
+# $Id: viewer.pl,v 1.4 2009-12-28 15:57:37 vano Exp $
 
 use lib "./modules/";
 
@@ -57,7 +57,7 @@ unless($_=~/^\d+$/) {	$cmlcalc::CGIPARAM->{$_} =$pathinfo{$_} }
 
 for (param()) {
 	my @pl=param($_);
-	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',@pl) }
+	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',grep {$_ ne '0'} @pl) }
 	else 		    { $cmlcalc::CGIPARAM->{$_}=$pl[0] }
 }
 $cmlcalc::CGIPARAM->{view}=uc $cmlcalc::CGIPARAM->{view};
@@ -175,24 +175,24 @@ if (!$opensite) {
 			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p(PAGETEMPLATE)"});
 	 	} 	 
  	} else {
- 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)"});
+ 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
  	}	
 }elsif ($cgiparam->{tview}) { 		
  		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)"});
 } else {
 	 if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
-	 		$cmlcalc::CGIPARAM->{view}='PAGE1'; 
-	 		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
-	 	  unless ($v) {
-	 		 	 $v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('PAGETEMPLATE')"});
-	 		} 	 
+	 	$cmlcalc::CGIPARAM->{view}='PAGE1'; 
+	 	$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
+	   	unless ($v) {
+	 		$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('PAGETEMPLATE')"});
+	 	} 	 
 	 } else {	
-	 	 $v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
-	 	 unless ($v->{value}) {
-	 	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE'; 
-     		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)"});
-     }		
-   }  
+	 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
+	 	unless ($v->{value}) {
+	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE'; 
+     			$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+     		}		
+   	}  
 }
 
 my $body=$v->{value};

@@ -18,7 +18,15 @@ start('..');
 
 my $v;
 
-for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
+
+
+
+for (param()) {
+	my @pl=param($_);
+	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',grep {$_ ne '0'} @pl) }
+	else 		    { $cmlcalc::CGIPARAM->{$_}=$pl[0] }
+}
+
 $cmlcalc::CGIPARAM->{_MODE}='ADMIN';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('BENCHMARK',&cmlcalc::id('CMSDESIGN'));
