@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.7 2009-11-30 21:32:16 vano Exp $
+# $Id: cmlmain.pm,v 1.8 2009-12-28 21:41:24 vano Exp $
 
 BEGIN
 {
@@ -637,8 +637,11 @@ sub returnvalue {
      		$lobj->{$objid}->{langcached}->{$lang}=1;
    		}
    		
-   		if ($prm->{$pkey}->{type} eq 'TEXT' || $prm->{$pkey}->{type} eq 'LONGTEXT') { 
-      			unless ($lobj->{$objid}->{langvals}->{$lang}->{$pkey}->{value} ne '')  {
+   		if ($prm->{$pkey}->{type} eq 'TEXT' || $prm->{$pkey}->{type} eq 'LONGTEXT') {
+   			if (
+   			  !$lobj->{$objid}->{langvals}->{$lang}->{$pkey}->{value} ||  
+   			  $lobj->{$objid}->{langvals}->{$lang}->{$pkey}->{value} eq ''
+   			)  {
       				$lobj->{$objid}->{langvals}->{$lang}->{$pkey}=defaultvalue({pkey=>$pkey,id=>$objid});
    			}
    		} else {
