@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.2 2009-12-27 14:24:01 vano Exp $
+# $Id: cmlsrv.pl,v 1.3 2009-12-29 21:06:54 vano Exp $
 
 use lib "../modules/";
 
@@ -298,22 +298,30 @@ if ($action) {
      		my $pkey=param('pname');
      		my $upd=param('prmupd');
      		my $evl=param('prmevl');
-     		editprm({pkey=>$pkey,
-     		         mode=>2,
-     		         id=>param('id'),
-     		         newname=>param('prmname'),
-                 defval=>param('prmdef'),
-                 upd=>$upd,
-                 evl=>$evl});
-        setprmextra  ({pkey=>$pkey,extra=>'onchange',value=>param('onchange')});        
+     		editprm({
+     			pkey=>$pkey,
+     		        mode=>2,
+     		        id=>param('id'),
+     		        newname=>param('prmname'),
+                	defval=>param('prmdef'),
+                 	upd=>$upd,
+                 	evl=>$evl
+     		});
+        	setprmextra  ({pkey=>$pkey,extra=>'onchange',value=>param('onchange')});        
                  
 		&{$ptype{$prm->{$pkey}->{type}}->{extraparse}}({pkey=>$pkey});                         
      		$action='editprmform';
 	}	
+     	if ($action eq 'viewprm') {
+        	viewprmform(param('pkey'));
+          	exit;
+     	}
      	if ($action eq 'editprmform') {
         	editprmform(param('id'),param('pname'));
           	exit;
      	}
+     	
+     	
      	if ($action eq 'deletemethod') {
         	deletemethod(param('id'),param('pname'));
           	$action='editform';
@@ -469,11 +477,16 @@ sub viewleft {
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
 	print br,'Перейти к объекту';
 	print br,' по ID ',textfield(-name=>"objid",-size=>5,-override=>1);
-	print ' или ключу ',textfield(-name=>"objkey",-size=>15,-override=>1);
+	print ' или ключу ',textfield(-name=>"objkey",-size=>10,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'editlowform',-override=>1);
 	print endform;
 	
+	print br,start_form(-method=>'post',-name=>'gotoprm',-target=>'mainbody');
+	print br,'Перейти к парметру',textfield(-name=>"pkey",-size=>15,-override=>1);
+	print submit(-value=>'>'); 
+	print hidden(-name=>'action',value=>'viewprm',-override=>1);
+	print endform;
 	
 }	
 
@@ -1122,7 +1135,36 @@ sub evaluate {
 	print hr;
 }
 
-
+sub viewprmform{
+	my $pkey=$_[0];
+	print_top();
+	my $prm_struct=prminfo($pkey);
+	print "PRM $pkey";
+	print start_table();
+	print Tr(th('Имя'),th('Тип'),th('Объект'),th('Формула'),th('Вып'),th('Изм'),th('Свой'));
+	for my $p (@{$prm_struct->{prm}}) {
+		print Tr(
+			td($p->{pname}),
+			td($p->{ptype}),
+			td($p->{objid}),
+			td($p->{defval}),
+			td($p->{evaluate}),
+			td($p->{upd}),
+			td($p->{self}),
+		); 
+	}
+	print end_table();
+	print br;
+	print start_table();
+	for my $k (keys %{$prm_struct->{extra}}) {
+		print Tr(
+			th($k),
+			td($prm_struct->{extra}->{$k}),
+		); 
+	}
+	print end_table();
+	
+}
 
 sub editprmform {
 	my $id=$_[0];
@@ -1133,8 +1175,8 @@ sub editprmform {
 	print_top();
 	print start_form(-method=>'post');
 	print hidden (-name=>'action',-default=>'editprm',-override=>1);
-  print hidden (-name=>'pname',-default=>$pkey);
-  print hidden (-name=>'id',-default=>$id);
+  	print hidden (-name=>'pname',-default=>$pkey);
+  	print hidden (-name=>'id',-default=>$id);
 	
 	print start_table();
 	print Tr(th('Объект'),td(b($obj->{$id}->{name})));
