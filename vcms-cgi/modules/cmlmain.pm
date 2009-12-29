@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.8 2009-12-28 21:41:24 vano Exp $
+# $Id: cmlmain.pm,v 1.9 2009-12-29 21:07:09 vano Exp $
 
 BEGIN
 {
@@ -43,6 +43,8 @@ BEGIN
               @LOG 
               
               &checkdatastruct &deletelowlist &sync &remote_sync
+              
+              &prminfo
              );
 
 
@@ -1357,7 +1359,24 @@ sub fetchdate {
 	return timegm(@tlist);
 }	
 	
-
+sub prminfo {
+	my ($pkey) = @_;
+	my $r;
+	 
+	my $sth1=$dbh->prepare("SELECT * FROM ${DBPREFIX}prm WHERE pkey=?");
+	$sth1->execute($pkey) || die $dbh->errstr;
+	while (my $st=$sth1->fetchrow_hashref()) {
+		push (@{$r->{prm}},$st)
+	}
+	
+	my $sth2=$dbh->prepare("SELECT * FROM ${DBPREFIX}extraprm WHERE pkey=?");
+	$sth2->execute($pkey) || die $dbh->errstr;
+	while (my $st=$sth2->fetchrow_hashref()) {
+		$r->{extra}->{$st->{extra}}=$st->{value};
+	}	 
+	return $r;
+	
+}
 
 sub buildparam 	{
   	my $sth1=$dbh->prepare("SELECT * FROM ${DBPREFIX}prm ORDER BY id");
