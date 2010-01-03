@@ -399,6 +399,9 @@ sub cgi {
 	return $cmlcalc::CGIPARAM->{$_[0]};
 }
 
+sub dev {
+	return $cmlcalc::ENV->{dev}?1:0;
+}
 
 sub p	{
  	my $id=$OBJID;
