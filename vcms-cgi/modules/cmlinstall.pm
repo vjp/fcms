@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.15 2009-12-22 06:24:23 vano Exp $
+# $Id: cmlinstall.pm,v 1.16 2010-01-04 20:12:15 vano Exp $
 
 BEGIN
 {
@@ -301,6 +301,17 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 <center><a href="/admin/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></a></center>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+
+
+<cml:if expr='dev()'>
+<a href="#" onclick="setCookie('dev','0');window.location.reload();return false">DEV ON->OFF</a>
+</cml:if>
+<cml:else>
+<a href="#" onclick="setCookie('dev','1');window.location.reload();return false">DEV OFF->ON</a>
+</cml:else>
+<a href="/" target="_blank">>></a>
+
+
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
