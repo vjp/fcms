@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.12 2010-01-10 19:47:06 vano Exp $
+# $Id: cmlcalc.pm,v 1.13 2010-01-10 20:26:21 vano Exp $
 
 BEGIN
 {
@@ -409,21 +409,27 @@ sub dev {
 }
 
 sub p	{
+	
+	my ($pkey,$oid)=@_;
  	my $id=$OBJID;
  	my $noparse=$NOPARSE;
- 	my $pkey=$_[0];
  	my $lang=$CALCLANG;
+ 	
+ 	if ($pkey=~/;/) {
+ 		my @r;
+ 		return join(';',grep {$_ && $_ ne 'NULL'} map {p($_,$oid)} split(';',$pkey));
+ 	}
 
- 	if (defined $_[1])  {
+ 	if (defined $oid)  {
 
  		my $ind;
  		
- 		if (ref $_[1] eq 'HASH') {$ind=$_[1]->{value}}
+ 		if (ref $oid eq 'HASH') {$ind=$oid->{value}}
  		else 			 {
- 			if ($_[1]=~/;/) {
- 				return join(';',map {calc($_,"p($pkey)")} split(';',$_[1]) );
+ 			if ($oid=~/;/) {
+ 				return join(';',map {calc($_,"p($pkey)")} split(';',$oid) );
  			}	
- 			return calc($_[1],"p($pkey)");
+ 			return calc($oid,"p($pkey)");
  		}	
  		
  		&cmlmain::checkload({id=>$ind});
