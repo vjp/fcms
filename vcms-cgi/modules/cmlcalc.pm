@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.11 2010-01-04 18:02:23 vano Exp $
+# $Id: cmlcalc.pm,v 1.12 2010-01-10 19:47:06 vano Exp $
 
 BEGIN
 {
@@ -331,6 +331,9 @@ sub ubackref {
 sub prm	{
 	my $id;
 	if ($_[0]) {
+		if ($_[0]=~/;/) {
+			return join(';',map {prm($_)} split (';',$_[0]) );
+		}
 		&cmlmain::checkload({id=>$_[0]});
 		$id=$cmlmain::lobj->{$_[0]};
 	} else {
