@@ -24,3 +24,11 @@ function getCookie( name ) {
 function openWindow(url,w,h,sbars,resize) {
 	window.open(url,"","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars="+sbars+", resizable="+resize+", width=350, height=250");
 }
+
+
+var hasClass = (function (){
+	var reCache = {}
+	return function (element, className){
+		return (reCache[className] ? reCache[className] : (reCache[className] = new RegExp("(?:\\s|^)" + className + "(?:\\s|$)"))).test(element.className)
+	}
+})()
