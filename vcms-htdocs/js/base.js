@@ -32,3 +32,13 @@ var hasClass = (function (){
 		return (reCache[className] ? reCache[className] : (reCache[className] = new RegExp("(?:\\s|^)" + className + "(?:\\s|$)"))).test(element.className)
 	}
 })()
+
+
+function getElementsByTagAndClass (tagName,className) {
+	 var elms = new Array ();
+	 var allTags = document.getElementsByTagName(tagName);
+	 for (var i=0; tag = allTags[i]; i++){
+		 if (hasClass(tag,className)) elms.push(tag);
+	 }	 
+	 return elms;
+}
