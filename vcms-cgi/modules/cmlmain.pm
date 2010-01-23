@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.9 2009-12-29 21:07:09 vano Exp $
+# $Id: cmlmain.pm,v 1.10 2010-01-23 22:27:33 vano Exp $
 
 BEGIN
 {
@@ -784,6 +784,8 @@ sub setvalue  {
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
  			$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
  		}	
+ 		$sthCH->execute("L$objid");
+ 		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		$lobj->{$objid}->{langvals}->{$cl}->{$pkey}->{value}=$value;
   		$lobj->{$objid}->{$pkey}->{value}=$value;
@@ -818,6 +820,7 @@ sub setvalue  {
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
   		$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;	
+  		$sthCH->execute("U$objid");
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
 			#$sthUI->execute($objid,$pkey,$value,'') || die $dbh->errstr;
@@ -887,6 +890,9 @@ sub init	{
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
  	$sthI =$dbh->prepare("INSERT INTO ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
+ 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
+
+ 	
  	$sthH =$dbh->prepare("INSERT INTO ${DBPREFIX}vlshist (objid,pkey,value,ptype,dt,lang) VALUES (?,?,?,?,NOW(),?) ") || die $dbh->errstr;
  
  
