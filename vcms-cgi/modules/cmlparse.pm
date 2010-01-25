@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.19 2010-01-05 20:48:29 vano Exp $
+# $Id: cmlparse.pm,v 1.20 2010-01-25 20:45:10 vano Exp $
 
 BEGIN
 {
@@ -58,6 +58,7 @@ sub initparser
     'pagination'=>1,
     'else'=>1,
     'dev'=>1,
+    'dynamic'=>1,
  )
 }
 
@@ -259,6 +260,9 @@ sub fetchparam {
 
 ############################### Îáğàáîò÷èêè òåãîâ
 
+
+
+
 sub tag_pagination {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
@@ -278,6 +282,15 @@ PITEM
 	
 }
 
+sub tag_dynamic {
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	if ($GLOBAL->{CACHE} || $inner->{dyncalc}) {
+		return cmlparser({data=>$data,inner=>$inner});
+	} else {
+		return $data;
+	}
+}
 
 sub tag_menuitem	{
 	
