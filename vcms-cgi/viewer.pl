@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.4 2009-12-28 15:57:37 vano Exp $
+# $Id: viewer.pl,v 1.5 2010-01-26 22:16:09 vano Exp $
 
 use lib "./modules/";
 
@@ -9,7 +9,7 @@ use strict;
 use CGI  qw/param url header cookie redirect/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
-#use Time::HiRes qw /time/;
+use Time::HiRes;
 #open(STDERR, ">/dev/null"); 
 
 
@@ -166,6 +166,7 @@ if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>"
 my $opensite=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('OPENSITE')"})->{value};
 my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
 
+my $stime=Time::HiRes::time();
 if (!$opensite) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
 }elsif ($cgiparam->{view}) {
@@ -194,10 +195,15 @@ if (!$opensite) {
      		}		
    	}  
 }
+my $mtime=Time::HiRes::time()-$stime;
 
 my $body=$v->{value};
-if ($body) {print $body}
-else       {errorpage()}
+if ($body) {
+	print $body;
+	benchmark($mtime) if cookie('dev');
+} else       {
+	errorpage()
+}
 viewlog();
 $cmlcalc::TIMERS->{MAIN}->{sec}=time-$st;
 
@@ -223,4 +229,11 @@ sub errorpage
  my $body=$v->{value};
  if ($body) {print $body}
  else       {print "Ошибка вывода !!!!"}
+}
+
+
+sub benchmark
+{
+	my ($mtime)=@_;
+	print "<hr/> TIME : $mtime";
 }
