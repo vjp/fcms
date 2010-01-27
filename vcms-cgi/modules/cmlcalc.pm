@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.14 2010-01-25 20:45:00 vano Exp $
+# $Id: cmlcalc.pm,v 1.15 2010-01-27 21:34:44 vano Exp $
 
 BEGIN
 {
@@ -141,7 +141,7 @@ sub calculate 	{
  		}
  		$expr=$_[0]->{expr};
  		
- 		push (@CACHELINKS,$OBJID->{type}.$OBJID->{id}) if $CACHEING;
+ 		push (@CACHELINKS,$OBJID->{id}) if $CACHEING;
  		
  	}
  	my $xvalue;

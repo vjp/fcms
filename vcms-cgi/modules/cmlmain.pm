@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.10 2010-01-23 22:27:33 vano Exp $
+# $Id: cmlmain.pm,v 1.11 2010-01-27 21:34:57 vano Exp $
 
 BEGIN
 {
@@ -784,7 +784,7 @@ sub setvalue  {
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
  			$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
  		}	
- 		$sthCH->execute("L$objid");
+ 		$sthCH->execute("$objid");
  		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		$lobj->{$objid}->{langvals}->{$cl}->{$pkey}->{value}=$value;
@@ -820,7 +820,7 @@ sub setvalue  {
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
   		$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;	
-  		$sthCH->execute("U$objid");
+  		$sthCH->execute("u$objid");
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
 			#$sthUI->execute($objid,$pkey,$value,'') || die $dbh->errstr;
@@ -2113,7 +2113,9 @@ sub tocache {
 	
 	$sthIC->execute($key,$value) || die $dbh->errstr;
 	for (@$links) {
-		$sthLC->execute($key,$_) || die $dbh->errstr;
+		if ($_) {
+			$sthLC->execute($key,$_) || die $dbh->errstr;
+		}	
 	}
 }	
 
