@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.4 2010-01-04 19:06:00 vano Exp $
+# $Id: cmlsrv.pl,v 1.5 2010-01-27 20:59:52 vano Exp $
 
 use lib "../modules/";
 
@@ -46,7 +46,7 @@ if ($action) {
 		} elsif (param('area') eq 'db'){
 			print "Content-Disposition: attachment; filename=db.gz\n";
 			print "Content-type: application/octet-stream\n\n";
-			system("mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c");
+			system("mysqldump -q --default-character-set=cp1251 -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c");
 		}			
 		exit;
 	}	
