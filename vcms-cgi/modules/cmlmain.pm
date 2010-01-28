@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.11 2010-01-27 21:34:57 vano Exp $
+# $Id: cmlmain.pm,v 1.12 2010-01-28 05:43:46 vano Exp $
 
 BEGIN
 {
@@ -889,7 +889,7 @@ sub init	{
 	 
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
- 	$sthI =$dbh->prepare("INSERT INTO ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
+ 	$sthI =$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
  	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
 
  	
