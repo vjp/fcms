@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.20 2010-01-25 20:45:10 vano Exp $
+# $Id: cmlparse.pm,v 1.21 2010-01-28 21:37:34 vano Exp $
 
 BEGIN
 {
@@ -53,7 +53,6 @@ sub initparser
     'radiobutton'=>1,
     'radioselect'=>1,
     'actionlink'=>1,
-    'static'=>1,
     'menuitem'=>1,
     'pagination'=>1,
     'else'=>1,
@@ -1946,22 +1945,7 @@ sub tag_else {
 	}	 
 }
 
-sub tag_static {
-	my $key;
-	my $param=$_[0]->{param};
-	if ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)  {
-		$key=$3;   
-	} else {
-		$key=$cmlcalc::CGIPARAM->{pathinfo};
-  }	
-  my $value=&cmlmain::fromcache($key);
-  if ($value) {return $value	} else {
-  	$value=cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}});
-  	&cmlmain::tocache($key,$value);
-  	return $value;
-	}	
 
-}	
 
 
 
