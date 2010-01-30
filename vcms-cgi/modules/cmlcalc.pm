@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.15 2010-01-27 21:34:44 vano Exp $
+# $Id: cmlcalc.pm,v 1.16 2010-01-30 21:19:08 vano Exp $
 
 BEGIN
 {
@@ -165,7 +165,7 @@ sub calculate 	{
 		} else {
 			$need_save=1;
 			$CACHEING=1;
-			@CACHELINKS = ($OBJID->{type}.$OBJID->{id});
+			@CACHELINKS = ($OBJID->{id});
 		}		 			
 	}
 	
