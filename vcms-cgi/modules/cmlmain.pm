@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.13 2010-01-28 06:05:16 vano Exp $
+# $Id: cmlmain.pm,v 1.14 2010-01-30 21:19:22 vano Exp $
 
 BEGIN
 {
@@ -32,7 +32,7 @@ BEGIN
               &loadcmsmethod &createcmsmethod &rebuildcmsmethod &deletecmsmethod
               &uploadprmfile &loaduserlist &adduser &deluser &edituser
               &createhtaccess &fetchdate &fastsearch &fromcache &tocache
-              &prefetch &prefetchlist &buildlist
+              &prefetch &prefetchlist &buildlist &clearcache
               
               &alert &message &viewlog
               
@@ -714,6 +714,9 @@ sub returnvalue {
 
 sub setvalue  {
 	my $pkey;
+	
+
+	
 	if   (defined $_[0]->{pkey})  {$pkey=$_[0]->{pkey}}
 	elsif(defined $_[0]->{param}) {$pkey=$_[0]->{param}}
 	elsif(defined $_[0]->{prm})   {$pkey=$_[0]->{prm}}	
@@ -784,7 +787,11 @@ sub setvalue  {
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
  			$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
  		}	
+ 		
+
+ 		
  		$sthCH->execute("$objid");
+
  		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		$lobj->{$objid}->{langvals}->{$cl}->{$pkey}->{value}=$value;
@@ -821,6 +828,7 @@ sub setvalue  {
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
   		$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;	
   		$sthCH->execute("u$objid");
+
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
 			#$sthUI->execute($objid,$pkey,$value,'') || die $dbh->errstr;
@@ -890,7 +898,7 @@ sub init	{
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
  	$sthI =$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
- 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
+ 	
 
  	
  	$sthH =$dbh->prepare("INSERT INTO ${DBPREFIX}vlshist (objid,pkey,value,ptype,dt,lang) VALUES (?,?,?,?,NOW(),?) ") || die $dbh->errstr;
@@ -951,6 +959,13 @@ sub init	{
  	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink) VALUES (?,?)");
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=?");
  	
+ 	
+ 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
+
+ 	
+ 	$sthCCP=$dbh->prepare("DELETE FROM pagescache");
+ 	$sthCCL=$dbh->prepare("DELETE FROM linkscache");
+ 	
  	$GLOBAL->{FILEPATH}=$FILEPATH;
  	$GLOBAL->{DOCUMENTROOT}=$DOCUMENTROOT;
  	$GLOBAL->{FILEURL}=$FILEURL;
@@ -966,6 +981,14 @@ sub init	{
  	
  	undef @LOG;
 }
+
+sub clearcache 
+{
+	$sthCCP->execute || die $dbh->errstr();
+	$sthCCL->execute || die $dbh->errstr();
+}
+
+
 
 sub sync ($$$$$) {
 	my ($server,$path, $type,$key,$id)=@_;
