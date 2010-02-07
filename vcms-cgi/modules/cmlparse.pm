@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.21 2010-01-28 21:37:34 vano Exp $
+# $Id: cmlparse.pm,v 1.22 2010-02-07 20:35:47 vano Exp $
 
 BEGIN
 {
@@ -253,6 +253,7 @@ sub fetchparam {
 			if ($pstr=~s/(\W)$_=(['"])(.+?)\2/$1/i)      {$rstr->{$_}=$3 }
 		}	
 	}
+	$$pstr=~s/(\W)html(\w+=)/$1$2/ig if ref $pstr eq 'SCALAR';
 	return $rstr;
 }
 
@@ -1106,37 +1107,43 @@ sub tag_image {
 
 sub tag_img 	{
 	my $param=$_[0]->{param};
+
 	my $id;
 	my $key;
 	my $src;
 	my $alt;
   	my $expr;
-  	my $path='relative';
 	
+	my $pl=fetchparam(\$param,[
+		'id','idcgi','name','key', 'param' ,'prm','expr', 
+		'alt','altparam','altprm', 'path', 'src' 
+	]);
 	
-	
-	if       ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)    {$id=$3    }
-	elsif    ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i) {$id=param($3)}
+
+	if       ($pl->{id})    {$id=$pl->{id}    }
+	elsif    ($pl->{idcgi}) {$id=param($pl->{idcgi})}
 	else     {$id=$_[0]->{inner}->{objid}}
 
-	if ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)  {$key=$3   }
-	if ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)  {$key=$3; undef $id   }
+	if ($pl->{name}) {$key=$pl->{name}   }
+	if ($pl->{key})  {$key=$pl->{key}; undef $id   }
 	
- 	if ($param=~s/(\W)pa?ra?m=(['"])(.+?)\2/$1/i) {$pkey=$3; $expr="p('$pkey')" }		 
-	if ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i) {$expr=$3; }		 
+	$pkey=$pl->{param} || $pl->{prm};
+	$expr="p('$pkey')" if $pkey;
+	$expr=$pl->{'expr'} if $pl->{'expr'};
+
 	
-	if       ($param=~s/(\W)alt=(['"])(.+?)\2/$1/i)    {$alt=$3}
-	elsif    ($param=~s/(\W)altpa?ra?m=(['"])(.+?)\2/$1/i)    {
-			my $av=&cmlcalc::calculate({key=>$key,id=>$id,expr=>"p($3)"});
-			$alt=$av->{value};
+	if       ($pl->{alt})    {$alt=$pl->{alt}}
+	elsif    ($pl->{altparam} || $pl->{altprm})    {
+		my $ap=$pl->{altparam} || $pl->{altprm};
+		my $av=&cmlcalc::calculate({key=>$key,id=>$id,expr=>"p($ap)"});
+		$alt=$av->{value};
 	}
-	
-	if       ($param=~s/(\W)path=(['"])(.+?)\2/$1/i)    {$path=$3}
+	my $path = $pl->{'path'} || 'relative';
 	$path='absolute' if $path=~/abs/i;
 	
 	
 	
-	if       ($param=~s/(\W)src=(['"])(.+?)\2/$1/i)    {$src=$3    }
+	if     ($pl->{src})    {$src=$pl->{src}}
 	else {
 		undef $alt if $alt eq 'NULL'; 
 		unless ($expr) {$expr="p(PIC)"}
@@ -1161,7 +1168,7 @@ sub tag_video 	{
   	my $path='relative';
 	
 	
-	my $pl=fetchparam($param,[
+	my $pl=fetchparam(\$param,[
 		'id','name','key', 'param' ,'prm','expr', 
 		'previewprm','previewparam','path', 'width', 
 		'height'
