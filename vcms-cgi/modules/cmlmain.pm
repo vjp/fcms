@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.15 2010-02-09 09:23:53 vano Exp $
+# $Id: cmlmain.pm,v 1.16 2010-02-09 12:02:19 vano Exp $
 
 BEGIN
 {
@@ -2126,18 +2126,18 @@ sub createhtaccess {
 
 sub fromcache {
 	my ($key,$dev)=@_;
-	$sthSC->execute($key,$dev) || die $dbh->errstr;
+	$sthSC->execute($key,0+$dev) || die $dbh->errstr;
 	return $sthSC->fetchrow();
 }	
 
 sub tocache {
 	my ($key,$value,$links,$dev)=@_;
 	
-	$sthIC->execute($key,$value,$dev) || die $dbh->errstr;
-	$sthDC->execute($key,$dev) ||  die $dbh->errstr;
+	$sthIC->execute($key,$value,0+$dev) || die $dbh->errstr;
+	$sthDC->execute($key,0+$dev) ||  die $dbh->errstr;
 	for (@$links) {
 		if ($_) {
-			$sthLC->execute($key,$_,$dev) || die $dbh->errstr;
+			$sthLC->execute($key,$_,0+$dev) || die $dbh->errstr;
 		}	
 	}
 }	
