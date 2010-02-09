@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.14 2010-01-30 21:19:22 vano Exp $
+# $Id: cmlmain.pm,v 1.15 2010-02-09 09:23:53 vano Exp $
 
 BEGIN
 {
@@ -790,7 +790,7 @@ sub setvalue  {
  		
 
  		
- 		$sthCH->execute("$objid");
+ 		$sthCH->execute("$objid",$cmlcalc::ENV->{dev});
 
  		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
@@ -954,13 +954,13 @@ sub init	{
  
  	$sthFSL=$dbh->prepare("SELECT id FROM ${DBPREFIX}fs WHERE prm=? AND val LIKE ?") || die $dbh->errstr;
  
- 	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=?");
- 	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts) VALUES (?,?,NOW())");
- 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink) VALUES (?,?)");
- 	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=?");
+ 	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=?");
+ 	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev) VALUES (?,?,NOW(),?)");
+ 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink,dev) VALUES (?,?,?)");
+ 	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=?");
  	
  	
- 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
+ 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=? AND dev=?)");
 
  	
  	$sthCCP=$dbh->prepare("DELETE FROM pagescache");
@@ -2125,21 +2125,19 @@ sub createhtaccess {
 }	
 
 sub fromcache {
-	my $key=$_[0];
-	$sthSC->execute($key) || die $dbh->errstr;
+	my ($key,$dev)=@_;
+	$sthSC->execute($key,$dev) || die $dbh->errstr;
 	return $sthSC->fetchrow();
 }	
 
 sub tocache {
-	my $key=$_[0];
-	my $value=$_[1];
-	my $links=$_[2];
+	my ($key,$value,$links,$dev)=@_;
 	
-	$sthIC->execute($key,$value) || die $dbh->errstr;
-	$sthDC->execute($key) ||  die $dbh->errstr;
+	$sthIC->execute($key,$value,$dev) || die $dbh->errstr;
+	$sthDC->execute($key,$dev) ||  die $dbh->errstr;
 	for (@$links) {
 		if ($_) {
-			$sthLC->execute($key,$_) || die $dbh->errstr;
+			$sthLC->execute($key,$_,$dev) || die $dbh->errstr;
 		}	
 	}
 }	

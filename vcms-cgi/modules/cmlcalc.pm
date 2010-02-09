@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.16 2010-01-30 21:19:08 vano Exp $
+# $Id: cmlcalc.pm,v 1.17 2010-02-09 09:23:44 vano Exp $
 
 BEGIN
 {
@@ -149,7 +149,7 @@ sub calculate 	{
 	my $cache_key;
 	if ($_[0]->{cache}) {
 		$cache_key=$ENV{'REQUEST_URI'};
-		my $cached_value=&cmlmain::fromcache($cache_key);
+		my $cached_value=&cmlmain::fromcache($cache_key,$cmlcalc::ENV->{dev});
 		if ($cached_value) {
 			
 			$xvalue->{value}=&cmlparse::cmlparser({
@@ -179,7 +179,7 @@ sub calculate 	{
  	}
 
         if ($need_save) {
-        	&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS);
+        	&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS,$cmlcalc::ENV->{dev});
         	$CACHEING=0;
         	$xvalue->{value}=&cmlparse::cmlparser({data=>$xvalue->{value},objid=>$OBJID,debug=>$DEBUG});
         }   	
