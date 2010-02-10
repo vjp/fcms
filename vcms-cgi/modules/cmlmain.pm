@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.17 2010-02-10 06:39:45 vano Exp $
+# $Id: cmlmain.pm,v 1.18 2010-02-10 19:31:19 vano Exp $
 
 BEGIN
 {
@@ -758,18 +758,24 @@ sub setvalue  {
                 $ind=join('_',($objid,$tabpkey,$tabkey));
 	}	elsif ($id=~/^\d+$/)   {	
   		my $objid=$id;
-		if ($pkey eq '_INDEX') {   update({id=>$objid , indx=>$value}) ; return }	
-		if ($pkey eq '_KEY') {   update({id=>$objid , key=>$value}) ; return }	
+		if ($pkey eq '_INDEX') {   
+			update({id=>$objid , indx=>$value}); 
+			return 1;
+		}	
+		if ($pkey eq '_KEY') {   
+			update({id=>$objid , key=>$value}) ; 
+			return 1; 
+		}	
 		if ($pkey eq '_UP') {   
 			update({id=>$objid , upobj=>$value}) if $value=~/^u/;
-			return;
+			return 1;
 		}	
 		checkload({id=>$objid});
 		if ($pkey eq '_PRMNAME') {
 			my $xk=$lobj->{$objid}->{key}; 
 			$xk=~s/^_PP_//;
 			updateprmname($xk,$value);
-			return; 
+			return 1; 
    	 	}	
   		my $cl;	
   		if    ($_[0]->{lang})      {$cl=$_[0]->{lang}} 
@@ -877,6 +883,7 @@ sub setvalue  {
   	 	if ($uid) {$OBJECT=$lobj->{$uid}}
      		eval "$prm->{$pkey}->{extra}->{onchange}";   	
 	}	
+	return 1;
 }
 
 sub checkdatastruct {
