@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
+
 use strict;
+no strict "refs";
 
 use lib "../modules/";
 use Data::Dumper;
@@ -7,7 +9,8 @@ use Data::Dumper;
 
 use cmlmain;
 use cmlcalc;
-use CGI;
+use CGI  qw/:standard/;     
+
 
 use vars qw ($AJAX_FUNCS);
    
@@ -15,7 +18,7 @@ use vars qw ($AJAX_FUNCS);
 $AJAX_FUNCS={
 	setvalue=>1,
 };   
-
+start('..');
 print "Content-type: text/plain\n\n";
 my @input = param('args');
 my $func= lc param('func');
