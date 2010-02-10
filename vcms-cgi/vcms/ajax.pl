@@ -10,7 +10,8 @@ use Data::Dumper;
 use cmlmain;
 use cmlcalc;
 use CGI  qw/:standard/;     
-
+use CGI::Carp qw /fatalsToBrowser/;
+use Encode;
 
 use vars qw ($AJAX_FUNCS);
    
@@ -19,13 +20,12 @@ $AJAX_FUNCS={
 	setvalue=>1,
 };   
 start('..');
-print "Content-type: text/plain\n\n";
+print "Content-Type: text/html; charset=windows-1251\n\n";
 my @input = param('args');
 my $func= lc param('func');
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="ajax_$func";
-	my $result=&$subname(@input);
-	print "success func : $func ($result)";
+	print &$subname(@input);
 } else {
 	print "incorrect func : $func";
 }	
@@ -33,6 +33,7 @@ if ($AJAX_FUNCS->{$func}) {
 
 sub ajax_setvalue ($$$)
 {
-	my ($objid,$prm,$value)=@_;
-	return setvalue({id=>$objid,prm=>$prm,value=>$value});
+	my ($objid,$objuid,$prm,$value)=@_;
+	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,value=>encode("cp1251",$value)});
+	return $status?'Изменения сохранены':'Ошибка сохранения изменений';
 }
