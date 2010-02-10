@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.16 2010-02-09 12:02:19 vano Exp $
+# $Id: cmlmain.pm,v 1.17 2010-02-10 06:39:45 vano Exp $
 
 BEGIN
 {
@@ -790,7 +790,7 @@ sub setvalue  {
  		
 
  		
- 		$sthCH->execute("$objid",$cmlcalc::ENV->{dev});
+ 		$sthCH->execute("$objid") || die $dbh->errstr;
 
  		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
@@ -827,7 +827,7 @@ sub setvalue  {
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
   		$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;	
-  		$sthCH->execute("u$objid");
+  		$sthCH->execute("u$objid") || die $dbh->errstr;
 
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
@@ -960,7 +960,7 @@ sub init	{
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=?");
  	
  	
- 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=? AND dev=?)");
+ 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
 
  	
  	$sthCCP=$dbh->prepare("DELETE FROM pagescache");
