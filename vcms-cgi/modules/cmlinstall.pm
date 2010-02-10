@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.19 2010-02-09 04:53:26 vano Exp $
+# $Id: cmlinstall.pm,v 1.20 2010-02-10 06:58:50 vano Exp $
 
 BEGIN
 {
@@ -804,7 +804,7 @@ sub install_db ($$) {
 		) ENGINE=MyISAM") || die $dbh->errstr();
 	
 	$dbh->do("
-		 CREATE TABLE IF NOT EXIST ${DBPREFIX}linkscache (
+		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
   			`cachekey` varchar(100) NOT NULL default '',
   			`objlink` varchar(12) NOT NULL default '',
   			`dev` int(11) NOT NULL default '0',
