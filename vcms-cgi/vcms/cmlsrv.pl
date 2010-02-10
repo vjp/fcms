@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.5 2010-01-27 20:59:52 vano Exp $
+# $Id: cmlsrv.pl,v 1.6 2010-02-10 21:14:04 vano Exp $
 
 use lib "../modules/";
 
@@ -10,9 +10,11 @@ use cmlmain;
 use strict;
 
 use CGI  qw/:standard *Tr *table *td code/;
-use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
+
+use Data::Dumper;
 use Time::HiRes qw (time);
+
 use vars qw(%aliases);
 
 
@@ -380,13 +382,6 @@ viewlog();
 ######################################################
 #   INTERFACE SUB
 ######################################################
-sub print_top {
-	my ($title)=@_;
-	$title="<title>$title</title>" if $title;
-	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	print "<html><head>$title<link rel=stylesheet type=text/css href=/css/vcms.css></head><body>";
-	print br;
-}
 
 sub viewusers {
 	 my $ul=loaduserlist();

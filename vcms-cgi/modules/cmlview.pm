@@ -1,21 +1,42 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.3 2009-12-22 21:00:48 vano Exp $
+# $Id: cmlview.pm,v 1.4 2010-02-10 21:13:17 vano Exp $
 
 BEGIN
 {
  use Exporter();
  use Data::Dumper;
  use CGI  qw/:standard upload center/;
+ use CGI::Ajax;
  use Time::Local;
  use POSIX qw(strftime);
  use cmlmain;
  use cmlcalc;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam );
+ @EXPORT = qw( &buildvparam &print_top );
 
 }
 
+sub print_top {
+	my ($title)=@_;
+	my $pjx = new CGI::Ajax( 'setValue' => 'ajax.pl?func=setvalue' );
+        print $pjx->show_javascript();
+        print_ajax_callback_funcs();
+	$title="<title>$title</title>" if $title;
+	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+	print "<html><head>$title<link rel=stylesheet type=text/css href=/css/vcms.css></head><body>";
+	print br;
+}
+
+sub print_ajax_callback_funcs {
+	print qq(
+		<script>
+   			function setValueCallback (result) {
+        			alert(result);
+        		} 
+		</script>
+	);
+}
 
 sub editlist	{
 	my $id=$_[0]->{id};
@@ -479,19 +500,23 @@ else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($p
  
 	
 	print start_form(-name=>'mfrm',-method=>'post');
-	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()"),br;
+	#print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()"),br;
+ 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )"),br;
+ 	
 	print textarea(-id=>'codepress2',-class=>'codepress html',-default=>$val->{value},-rows=>40,-cols=>150);
-	print hidden(-name=>'mvls',-default=>'', -override=>1);
+	print hidden(-name=>'mvls',-id=>'mvls',-default=>'', -override=>1);
 	
  	print br;
   print checkbox(-checked=>1,-override=>1,-onclick=>'codepress2.toggleEditor()'),"Подсветка";
   print br;
 
  	print checkbox(-name=>'compile',-override=>1,-label=>'',-value=>1,checked=>$vvalc),"Компилировать",br;
- 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()");
- 	print hidden(-name=>'objid',-default=>$id);
- 	print hidden(-name=>'objuid',-default=>$uid);
- 	print hidden(-name=>'pkey',-default=>$pkey);
+ 	#print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()");
+ 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )");
+ 	
+ 	print hidden(-name=>'objid',-id=>'objid',-default=>$id);
+ 	print hidden(-name=>'objuid',-id=>'objuid',-default=>$uid);
+ 	print hidden(-name=>'pkey',-id=>'pkey',-default=>$pkey);
  	print hidden(-name=>'tabkey',-default=>$tabkey);
  	print hidden(-name=>'tabpkey',-default=>$tabpkey);
  	print hidden(-name=>'action',-default=>'setmemo', -override=>1);
