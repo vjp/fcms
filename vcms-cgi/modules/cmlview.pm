@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.4 2010-02-10 21:13:17 vano Exp $
+# $Id: cmlview.pm,v 1.5 2010-02-11 09:56:36 vano Exp $
 
 BEGIN
 {
@@ -22,9 +22,10 @@ sub print_top {
 	my $pjx = new CGI::Ajax( 'setValue' => 'ajax.pl?func=setvalue' );
         print $pjx->show_javascript();
         print_ajax_callback_funcs();
+        print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
 	$title="<title>$title</title>" if $title;
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	print "<html><head>$title<link rel=stylesheet type=text/css href=/css/vcms.css></head><body>";
+	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
 	print br;
 }
 
@@ -496,23 +497,31 @@ elsif ($lang) { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($p
 else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> ",br,br; }
  
  
- #print hr(),center('Предварительный просмотр'),hr(),$vval->{value},hr(),hr() if $vval->{value}; 
+  
  
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea"		
+			,language: "ru"
+			,syntax: "html"			
+			,start_highlight: true		
+		});
+		</script>
+	);
 	
 	print start_form(-name=>'mfrm',-method=>'post');
-	#print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()"),br;
- 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )"),br;
- 	
-	print textarea(-id=>'codepress2',-class=>'codepress html',-default=>$val->{value},-rows=>40,-cols=>150);
+ 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )"),br;
+	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150);	
+	
+	
+	
 	print hidden(-name=>'mvls',-id=>'mvls',-default=>'', -override=>1);
 	
  	print br;
-  print checkbox(-checked=>1,-override=>1,-onclick=>'codepress2.toggleEditor()'),"Подсветка";
-  print br;
 
- 	print checkbox(-name=>'compile',-override=>1,-label=>'',-value=>1,checked=>$vvalc),"Компилировать",br;
- 	#print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();document.mfrm.submit()");
- 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = codepress2.getCode();setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )");
+
+ 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )");
  	
  	print hidden(-name=>'objid',-id=>'objid',-default=>$id);
  	print hidden(-name=>'objuid',-id=>'objuid',-default=>$uid);
