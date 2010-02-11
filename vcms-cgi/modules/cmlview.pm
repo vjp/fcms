@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.7 2010-02-11 10:56:59 vano Exp $
+# $Id: cmlview.pm,v 1.8 2010-02-11 19:43:57 vano Exp $
 
 BEGIN
 {
@@ -20,6 +20,8 @@ BEGIN
 sub print_top {
 	my ($title)=@_;
 	my $pjx = new CGI::Ajax( 'setValue' => 'ajax.pl?func=setvalue' );
+	$pjx->js_encode_function('encodeURIComponent');
+	$pjx->JSDEBUG(2);
         print $pjx->show_javascript();
         print_ajax_callback_funcs();
         print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
