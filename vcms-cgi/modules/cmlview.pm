@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.6 2010-02-11 10:14:05 vano Exp $
+# $Id: cmlview.pm,v 1.7 2010-02-11 10:56:59 vano Exp $
 
 BEGIN
 {
@@ -505,9 +505,10 @@ sub editmemofull
 		});
 		</script>
 	);
-	
+
+        my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
 	print start_form(-name=>'mfrm',-method=>'post');
- 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )"),br;
+ 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
 	
 	
@@ -517,17 +518,14 @@ sub editmemofull
  	print br;
 
 
- 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )");
+ 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>$save_js);
  	
  	print hidden(-name=>'objid',-id=>'objid',-default=>$id);
  	print hidden(-name=>'objuid',-id=>'objuid',-default=>$uid);
  	print hidden(-name=>'pkey',-id=>'pkey',-default=>$pkey);
  	print hidden(-name=>'tabkey',-default=>$tabkey);
  	print hidden(-name=>'tabpkey',-default=>$tabpkey);
- 	print hidden(-name=>'action',-default=>'setmemo', -override=>1);
- 	if ($lang) {
- 		print hidden(-name=>'lang',-default=>$lang);
-	}	
+	print hidden(-name=>'lang',-id=>'lang', -default=>$lang);
  	print endform;
 
  	print "</body></html>";

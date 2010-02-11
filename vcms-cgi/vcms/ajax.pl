@@ -31,9 +31,9 @@ if ($AJAX_FUNCS->{$func}) {
 }	
 
 
-sub ajax_setvalue ($$$)
+sub ajax_setvalue ($$$$$)
 {
-	my ($objid,$objuid,$prm,$value)=@_;
-	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,value=>encode("cp1251",$value)});
+	my ($objid,$objuid,$prm,$lang,$value)=@_;
+	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,lang=>$lang,value=>encode("cp1251",$value)});
 	return $status?'Изменения сохранены':'Ошибка сохранения изменений';
 }
