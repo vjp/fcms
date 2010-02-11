@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.18 2010-02-10 19:31:19 vano Exp $
+# $Id: cmlmain.pm,v 1.19 2010-02-11 19:57:04 vano Exp $
 
 BEGIN
 {
@@ -961,10 +961,10 @@ sub init	{
  
  	$sthFSL=$dbh->prepare("SELECT id FROM ${DBPREFIX}fs WHERE prm=? AND val LIKE ?") || die $dbh->errstr;
  
- 	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=?");
- 	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev) VALUES (?,?,NOW(),?)");
- 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink,dev) VALUES (?,?,?)");
- 	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=?");
+ 	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
+ 	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev,lang) VALUES (?,?,NOW(),?,?)");
+ 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
+ 	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=? AND lang=?");
  	
  	
  	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
@@ -2132,19 +2132,19 @@ sub createhtaccess {
 }	
 
 sub fromcache {
-	my ($key,$dev)=@_;
-	$sthSC->execute($key,0+$dev) || die $dbh->errstr;
+	my ($key,$dev,$lang)=@_;
+	$sthSC->execute($key,0+$dev,"$lang") || die $dbh->errstr;
 	return $sthSC->fetchrow();
 }	
 
 sub tocache {
-	my ($key,$value,$links,$dev)=@_;
+	my ($key,$value,$links,$dev,$lang)=@_;
 	
-	$sthIC->execute($key,$value,0+$dev) || die $dbh->errstr;
-	$sthDC->execute($key,0+$dev) ||  die $dbh->errstr;
+	$sthIC->execute($key,$value,0+$dev,"$lang") || die $dbh->errstr;
+	$sthDC->execute($key,0+$dev,"$lang") ||  die $dbh->errstr;
 	for (@$links) {
 		if ($_) {
-			$sthLC->execute($key,$_,0+$dev) || die $dbh->errstr;
+			$sthLC->execute($key,$_,0+$dev,"$lang") || die $dbh->errstr;
 		}	
 	}
 }	
