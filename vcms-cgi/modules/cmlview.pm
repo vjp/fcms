@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.5 2010-02-11 09:56:36 vano Exp $
+# $Id: cmlview.pm,v 1.6 2010-02-11 10:14:05 vano Exp $
 
 BEGIN
 {
@@ -468,33 +468,29 @@ sub editmatrix
 
 sub editmemofull
 {
- my $id=param('objid');
- my $pkey=param('pkey');
- my $uid=param('objuid');
- my $tabkey=param('tabkey');
- my $tabpkey=param('tabpkey');
- my $lang=param('lang');
- # $id="u$id" if $uid; really strange
- 
- 
- #my $vval=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)",lang=>$lang});
- #my $vvalc=iscompiled({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,pkey=>$pkey,lang=>$lang});
- my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)",noparse=>1,lang=>$lang});
+ 	my $id=param('objid');
+ 	my $pkey=param('pkey');
+ 	my $uid=param('objuid');
+ 	my $tabkey=param('tabkey');
+ 	my $tabpkey=param('tabpkey');
+ 	my $lang=param('lang');
+ 	
+ 	my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)",noparse=>1,lang=>$lang});
 
- my $name;
- if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
- elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
+ 	my $name;
+ 	if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
+ 	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
-if ($tabpkey) {
-	print "Табличный объект <b> $name </b> Параметр <b> $prm->{$tabpkey}->{name} ($tabpkey) </b> <br>";
-	my @tablist = map {
-		if ($_=~/^u(\d+)$/) {$_=$obj->{$1}->{name}}
-		else {checkload ({id=>$_}); $_=$lobj->{$_}->{name}}
-	} split(/_/,$tabkey);
-	print "Объект <b>@tablist</b> Параметр <b>$prm->{$pkey}->{name} ($pkey) </b> <br>";
-}
-elsif ($lang) { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> Язык <b>$LANGS{$lang}</b>",br,br; }	
-else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> ",br,br; }
+	if ($tabpkey) {
+		print "Табличный объект <b> $name </b> Параметр <b> $prm->{$tabpkey}->{name} ($tabpkey) </b> <br>";
+		my @tablist = map {
+			if ($_=~/^u(\d+)$/) {$_=$obj->{$1}->{name}}
+			else {checkload ({id=>$_}); $_=$lobj->{$_}->{name}}
+		} split(/_/,$tabkey);
+		print "Объект <b>@tablist</b> Параметр <b>$prm->{$pkey}->{name} ($pkey) </b> <br>";
+	}
+	elsif ($lang) { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> Язык <b>$LANGS{$lang}</b>",br,br; }	
+	else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> ",br,br; }
  
  
   
@@ -512,7 +508,7 @@ else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($p
 	
 	print start_form(-name=>'mfrm',-method=>'post');
  	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>"document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','mvls'], [setValueCallback],'POST' )"),br;
-	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150);	
+	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
 	
 	
 	
@@ -533,7 +529,7 @@ else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($p
  		print hidden(-name=>'lang',-default=>$lang);
 	}	
  	print endform;
- 	print script({src=>'/codepress/codepress.js',type=>'text/javascript',id=>'cp-script',lang=>'en-us'},' '); 	
+
  	print "</body></html>";
  	
  	
