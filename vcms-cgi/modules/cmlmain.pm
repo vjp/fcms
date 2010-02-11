@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.19 2010-02-11 19:57:04 vano Exp $
+# $Id: cmlmain.pm,v 1.20 2010-02-11 21:18:30 vano Exp $
 
 BEGIN
 {
@@ -963,7 +963,7 @@ sub init	{
  
  	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
  	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev,lang) VALUES (?,?,NOW(),?,?)");
- 	$sthLC=$dbh->prepare("REPLACE ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
+ 	$sthLC=$dbh->prepare("INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=? AND lang=?");
  	
  	
@@ -2142,9 +2142,11 @@ sub tocache {
 	
 	$sthIC->execute($key,$value,0+$dev,"$lang") || die $dbh->errstr;
 	$sthDC->execute($key,0+$dev,"$lang") ||  die $dbh->errstr;
+	my %inserted;
 	for (@$links) {
-		if ($_) {
+		if ($_ && !$inserted{$_}) {
 			$sthLC->execute($key,$_,0+$dev,"$lang") || die $dbh->errstr;
+			$inserted{$_}=1;
 		}	
 	}
 }	
