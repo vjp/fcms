@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.21 2010-02-11 19:48:29 vano Exp $
+# $Id: cmlinstall.pm,v 1.22 2010-02-12 20:10:26 vano Exp $
 
 BEGIN
 {
@@ -179,7 +179,7 @@ copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
 addobject({upkey=>'CMSDESIGN',key=>'CMSMENU',name=>'Шаблоны меню'});
 addobject({upkey=>'CMSDESIGN',key=>'CMSFORM',name=>'Шаблоны форм'});
 addobject({upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
-
+addobject({upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
 
 
 
@@ -362,40 +362,7 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 
-<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
-<script language="javascript" type="text/javascript">
-tinyMCE.init({ mode : "specific_textareas",
-editor_selector : "mceEditor",
-convert_urls : false,
-theme : "advanced",
-theme_advanced_styles : "Заголовок 1=mcheader1;Заголовок 2=mcheader2;Заголовок 3=mcheader3",
-theme_advanced_disable : "image",
-theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-theme_advanced_buttons3 : "",
-content_css : "/css/mce.css",
-apply_source_formatting: true,
-language : "ru"
-});
-function insertimage (text){
-tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> ');
-tinyMCE.execCommand('mceInsertContent', false, '');
-};
-function insertlink (src,name){
-tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> ');
-tinyMCE.execCommand('mceInsertContent', false, '');
-};
-
-
-function toggleEditor(id) {
-var elm = document.getElementById(id);
-
-if (tinyMCE.getInstanceById(id) == null)
-tinyMCE.execCommand('mceAddControl', false, id);
-else
-tinyMCE.execCommand('mceRemoveControl', false, id);
-}
-
-</script>
+<cml:include key='MCEINIT'/>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
@@ -405,9 +372,45 @@ tinyMCE.execCommand('mceRemoveControl', false, id);
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>);
+
+
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
 setvalue({key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>$bmv});
 
+addlowobject({upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
+setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
+	<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
+	<script language="javascript" type="text/javascript">
+	tinyMCE.init({	mode : "specific_textareas",
+		editor_selector : "mceEditor",
+		convert_urls : false,
+               	theme : "advanced", 
+		theme_advanced_styles : "Заголовок 1=mcheader1;Заголовок 2=mcheader2;Заголовок 3=mcheader3", 
+		theme_advanced_disable : "image", 
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,fontsizeselect,|,forecolor,backcolor",
+		theme_advanced_buttons3 : "",
+		content_css : "/css/mce.css", 
+		apply_source_formatting: true,
+		language : "ru_CP1251" 
+	});
+	function insertimage (text){ 
+  		tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
+  		tinyMCE.execCommand('mceInsertContent', false, ''); 
+	}; 
+	function insertlink (src,name){ 
+  		tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> '); 
+  		tinyMCE.execCommand('mceInsertContent', false, ''); 
+	}; 
+	function toggleEditor(id) {
+		var elm = document.getElementById(id);
+
+		if (tinyMCE.getInstanceById(id) == null)
+			tinyMCE.execCommand('mceAddControl', false, id);
+		else
+			tinyMCE.execCommand('mceRemoveControl', false, id);
+	}
+</script>
+)});
 
 
 my $bmf=qq(
