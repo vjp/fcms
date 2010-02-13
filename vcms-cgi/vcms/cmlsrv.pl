@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.6 2010-02-10 21:14:04 vano Exp $
+# $Id: cmlsrv.pl,v 1.7 2010-02-13 18:39:51 vano Exp $
 
 use lib "../modules/";
 
@@ -479,7 +479,7 @@ sub viewleft {
 	print endform;
 	
 	print br,start_form(-method=>'post',-name=>'gotoprm',-target=>'mainbody');
-	print br,'Перейти к парметру',textfield(-name=>"pkey",-size=>15,-override=>1);
+	print br,'Перейти к параметру',textfield(-name=>"pkey",-size=>15,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'viewprm',-override=>1);
 	print endform;
@@ -856,11 +856,11 @@ my $tl=template_list();
 
  
  
- print "<tr><td> </td> <td> Копировать парметр </td> <td colspan=7> ";
+ print "<tr><td> </td> <td> Копировать параметр </td> <td colspan=7> ";
  my @plist;
  push(@plist,grep { !$oplist{$_} } sort keys %$prm);
  my %nlist;
- $nlist{0}='Выберите парметр';
+ $nlist{0}='Выберите параметр';
  for (@plist) {$nlist{$_}="$prm->{$_}->{name} ($_)"}
  @plist=(0,@plist);
  print popup_menu(-name=>'copyprmname',-values=>\@plist, -labels=>\%nlist, -override=>1);
@@ -1110,7 +1110,7 @@ sub cmsmethod {
 
 
 		#print start_Tr();
-    #print td('Метод-обработчик формы ввода парметров');
+    #print td('Метод-обработчик формы ввода параметров');
 		#unless($cmsmtd->{parsemethod}) {print td(a({-href=>"?action=editform&id=$id&createmethod=parsemethod"},'Создать метод'))}
 		#else {print td(a({-href=>"?action=editlmethod&id=$id&pname=$cmsmtd->{parsemethod}",-target=>'_blank'},'Исправить метод')),
 		#	td(a({-href=>"?action=editform&id=$id&rebuildmethod=parsemethod"},'Пересоздать метод')),
