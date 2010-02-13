@@ -1,6 +1,6 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.2 2010-02-13 13:39:29 vano Exp $
+# $Id: install.pl,v 1.3 2010-02-13 14:06:00 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -47,6 +47,7 @@ if (param('install')) {
 				chmod (0755, 'user/user.pl');
 				chmod (0755, 'vcms/autorun.pl');
 				chmod (0755, 'vcms/cmlsrv.pl');
+				chmod (0755, 'vcms/ajax.pl');
 				
 			}
 		}
@@ -74,7 +75,7 @@ if (param('install')) {
 			}
 		}
 		if (param('rootpath')) {
-			print "Проверка доступности директории для распаковки шаблонов...",br();
+			print "Проверка доступности директории для распаковки шаблонов ($ROOTPATH)...",br();
 			open (FT,">$ROOTPATH/.test") || print "Open file error :$!",br();
 			print FT 'test';
 			close FT || print "Close file error $!",br();
@@ -144,14 +145,14 @@ if (param('install')) {
 		print "... структура бд создана",br;
 	
 		print "Создаем базовые структуры...",br;
-		start('.');
+		&cmlmain::start('.');
 		&cmlinstall::install_structure();
 	
 		print "Инсталлируем mce...",br;
 		&cmlinstall::install_mce();
 	};
 	if ($@) {
-		print "ошибка создания БД";
+		print "<br/>Ошибка создания БД: $@<br>";
 	}
 	print '<a href="/vcms">Перейти к конфигурированию</a>';
 	exit();
@@ -165,14 +166,14 @@ $path=~s/cgi-bin\s*//s;
 print qq(
 <form method='post'>
 <table>
-  <tr><td>Хост БД</td><td><input name='dbhost'><td></td></tr>
-  <tr><td>Имя БД</td><td><input name='dbname'><td></td></tr>
-  <tr><td>Пользователь БД</td><td><input name='dbuser'><td></td></tr>
-  <tr><td>Пароль БД</td><td><input type='password' name='dbpassword'><td></td></tr>
-  <tr><td>Префикс таблиц БД</td><td><input name='dbprefix'><td></td></tr>
-  <tr><td>Имя домена</td><td><input  name='domainname' value='$ENV{SERVER_NAME}'><td></td></tr>
-  <tr><td>Путь к файлам групп и паролей</td><td><input name='abspath' value='$path'><td></td></tr>
-  <tr><td>Путь к корневой директории</td><td><input name='rootpath' value='${path}www/'><td></td></tr>    
+  <tr><td>Хост БД</td><td><input size='100' name='dbhost'><td></td></tr>
+  <tr><td>Имя БД</td><td><input size='100' name='dbname'><td></td></tr>
+  <tr><td>Пользователь БД</td><td><input size='100' name='dbuser'><td></td></tr>
+  <tr><td>Пароль БД</td><td><input size='100' type='password' name='dbpassword'><td></td></tr>
+  <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'><td></td></tr>
+  <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'><td></td></tr>
+  <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'><td></td></tr>
+  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='${path}www/'><td></td></tr>    
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
