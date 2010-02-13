@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.5 2010-01-26 22:16:09 vano Exp $
+# $Id: viewer.pl,v 1.6 2010-02-13 14:24:20 vano Exp $
 
 use lib "./modules/";
 
@@ -167,7 +167,7 @@ my $opensite=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('OPENSITE')"})->{value
 my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
 
 my $stime=Time::HiRes::time();
-if (!$opensite) {
+if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
 }elsif ($cgiparam->{view}) {
 	if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
