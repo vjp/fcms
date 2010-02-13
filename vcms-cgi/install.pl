@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: install.pl,v 1.1 2009-09-10 20:07:29 vano Exp $
+# $Id: install.pl,v 1.2 2010-02-13 13:39:29 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -132,25 +132,30 @@ if (param('install')) {
 	print hr();
 	exit;
 } elsif (param('createdb')) {
-	use cmlinstall;
-	use cmlmain;
-	do "conf" || die $!;
-	$DBHOST='localhost' unless $DBHOST;
-	$DBPREFIX.='_' if $DBPREFIX;
-	my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD) || die $DBI::errstr;
-	print "Создаем бд ...",br;
-	&cmlinstall::install_db($dbh,$DBPREFIX);
-	print "... структура бд создана",br;
+	eval {
+		require cmlinstall;
+		require cmlmain;
+		do "conf" || die $!;
+		$DBHOST='localhost' unless $DBHOST;
+		$DBPREFIX.='_' if $DBPREFIX;
+		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD) || die $DBI::errstr;
+		print "Создаем бд ...",br;
+		&cmlinstall::install_db($dbh,$DBPREFIX);
+		print "... структура бд создана",br;
 	
-	print "Создаем базовые структуры...",br;
-	start('.');
-	&cmlinstall::install_structure();
+		print "Создаем базовые структуры...",br;
+		start('.');
+		&cmlinstall::install_structure();
 	
-	print "Инсталлируем mce...",br;
-	&cmlinstall::install_mce();
-	
+		print "Инсталлируем mce...",br;
+		&cmlinstall::install_mce();
+	};
+	if ($@) {
+		print "ошибка создания БД";
+	}
 	print '<a href="/vcms">Перейти к конфигурированию</a>';
 	exit();
+		
 }
 
 my $path=`pwd`;
