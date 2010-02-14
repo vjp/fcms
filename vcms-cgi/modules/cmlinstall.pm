@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.24 2010-02-14 20:54:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.25 2010-02-14 22:21:16 vano Exp $
 
 BEGIN
 {
@@ -234,19 +234,15 @@ setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 addlowobject({upobjkey=>'BASECMS',key=>'BASELIST',name=>'Базовый шаблон списка'});
 setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',value=>q(
 <cml:use key='_prm:ukey_'>
-<cml:text param='_NAME'/><br>
-<cml:list  expr='lowlist()'>
-  <cml:actionlink action='DEL' id='_cml:_ID_'><cml:img src='_cml:_delimg_' alt=DELETE border='0'/></cml:actionlink>
-
-
-
-  <cml:a href='?body=EDIT__prm:ukey_&id=_cml:_ID_' target='adminmb'><cml:text param='_NAME'/></cml:a><br>
-
-  </cml:list>
-  <hr>
-  <cml:actionlink action='add'>Добавить новый</cml:actionlink>
-  <hr/>
-  <cml:a href='?menu=BASELIST&ukey=_CML:_KEY_'>Обновить</cml:a>
+	<cml:text param='_NAME'/><br>
+	<cml:list  expr='lowlist()'>
+  		<cml:actionlink action='DEL' id='_cml:_ID_'><cml:img src='_cml:_delimg_' alt=DELETE border='0'/></cml:actionlink>
+  		<cml:a href='?body=EDIT__prm:ukey_&id=_cml:_ID_' target='adminmb'><cml:text param='_NAME'/></cml:a><br>
+  	</cml:list>
+  	<hr>
+  	<cml:actionlink action='add'>Добавить новый</cml:actionlink>
+  	<hr/>
+  	<cml:a href='?menu=BASELIST&ukey=_CML:_KEY_'>Обновить</cml:a>
 </cml:use>
 )});
 
@@ -436,7 +432,7 @@ setvalue({key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 $bm=qq(
 <cml:use key='_prm:ukey_'>
 <cml:text param='_NAME'/><br>
-<cml:form matrix='1'>
+<cml:form matrix='1' ukey='_prm:ukey_'>
 <table>
 <tr><th></th><th>Наименование</th><th>Номер</th></tr>
 <cml:list expr='lowlist()'>
