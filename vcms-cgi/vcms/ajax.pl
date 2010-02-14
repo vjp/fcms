@@ -18,6 +18,8 @@ use vars qw ($AJAX_FUNCS);
    
 $AJAX_FUNCS={
 	setvalue=>1,
+	editmethod=>1,
+	editlmethod=>1,
 };   
 start('..');
 print "Content-Type: text/html; charset=windows-1251\n\n";
@@ -37,4 +39,23 @@ sub ajax_setvalue ($$$$$)
        	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
 	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,lang=>$lang,value=>$evalue});
 	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
+}
+
+
+sub ajax_editmethod ($$$)
+{
+	my ($objid,$mname,$value)=@_;
+       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
+	my $status=editmethod({id=>$objid,pkey=>$mname,script=>$evalue});
+	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
+}
+
+
+sub ajax_editlmethod ($$$)
+{
+	my ($objid,$mname,$value)=@_;
+       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
+	my $status=editmethod({id=>$objid,pkey=>$mname,script=>$evalue,nflag=>1});
+	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
+	
 }

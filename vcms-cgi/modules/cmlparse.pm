@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.23 2010-02-14 19:11:08 vano Exp $
+# $Id: cmlparse.pm,v 1.24 2010-02-14 20:35:38 vano Exp $
 
 BEGIN
 {
@@ -316,7 +316,7 @@ sub tag_menuitem	{
 		my $filelistprm=$pl->{'filelist'} || 'FILELINKS';
 		$pl->{href}="body=BASEARTICLE&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm";
 	} elsif ($pl->{action} eq 'MENULIST') {
-		$pl->{href}="menu=BASELIST";
+		$pl->{href}="menu=BASELIST&ukey=$cmlmain::obj->{$id}->{key}";
 		$targetstr='';
 	}	
 	

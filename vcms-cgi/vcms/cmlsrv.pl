@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.7 2010-02-13 18:39:51 vano Exp $
+# $Id: cmlsrv.pl,v 1.8 2010-02-14 20:36:03 vano Exp $
 
 use lib "../modules/";
 
@@ -200,7 +200,7 @@ if ($action) {
 	}
       	if ($action eq 'editlmethod')  {
       		print_top('VCMS: Редактирование метода нижних объектов: '.param('pname'));    
-      		editlmethodform(param('id'),param('pname'));
+      		editmethodform(param('id'),param('pname'),1);
       		exit;
       	}
 
@@ -1029,49 +1029,6 @@ sub console {
 	print script({src=>'/codepress/codepress.js',type=>'text/javascript'},' '); 	
 }	
 
-sub editmethodform {
-	my $id=$_[0];
-	my $pkey=$_[1];
-	
-	print "Объект ",b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
-	print "Метод ",b($obj->{$id}->{method}->{$pkey}->{name})," ($pkey) ",br;
-	
-	
-	print start_form(-name=>'mfrm',-method=>'post');
-	print textarea(-id=>'codepress2',-class=>'codepress perl',-default=>$obj->{$id}->{method}->{$pkey}->{script},-rows=>30,cols=>100);
-	print br;
-	print hidden(-name=>'script',-default=>$obj->{$id}->{method}->{$pkey}->{script},-override=>1);
-	print hidden(-name=>'action',-default=>'setmethod',-override=>1);
-	print hidden(-name=>'id',-default=>$id);
-	print hidden(-name=>'pname',-default=>$pkey);
-	print submit(-value=>'Исправить',-onclick=>"document.mfrm.script.value = codepress2.getCode()");
-	print endform;
-	print script({src=>'/codepress/codepress.js',type=>'text/javascript'},' '); 	
-	
-	
-	
-}	
-
-
-sub editlmethodform {
-	my $id=$_[0];
-	my $pkey=$_[1];
-
-	print "Объект ",b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
-	print "Метод нижних объектов ",b($obj->{$id}->{lmethod}->{$pkey}->{name})," ($pkey) ",br;
-	
-	
-	print start_form(-name=>'mfrm',-method=>'post');
-	print textarea(-id=>'codepress2',-class=>'codepress perl',-rows=>30,-cols=>100,-default=>$obj->{$id}->{lmethod}->{$pkey}->{script});
-	print br;
-	print hidden(-name=>'script',-default=>$obj->{$id}->{lmethod}->{$pkey}->{script},-override=>1);
-	print hidden(-name=>'action',-default=>'setlmethod',-override=>1);
-	print hidden(-name=>'id',-default=>$id);
-	print hidden(-name=>'pname',-default=>$pkey);
-	print submit(-value=>'Исправить',-onclick=>"document.mfrm.script.value = codepress2.getCode()");
-	print endform;
-	print script({src=>'/codepress/codepress.js',type=>'text/javascript',id=>'cp-script',lang=>'en-us'},' '); 	
-}	
 
 
 sub cmsmethod {

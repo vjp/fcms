@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.20 2010-02-11 21:18:30 vano Exp $
+# $Id: cmlmain.pm,v 1.21 2010-02-14 20:35:30 vano Exp $
 
 BEGIN
 {
@@ -169,9 +169,10 @@ sub editmethod  {
 		if (defined $_[0]->{name})   {$name=$_[0]->{name}}
 		
 		my $sth=$dbh->prepare("UPDATE ${DBPREFIX}lmethod SET script=?, pname=? WHERE objid=? AND pkey=?");
-  	$sth->execute($script,$name,$_[0]->{id},$_[0]->{pkey}) || die $dbh->errstr;
-  	$obj->{$_[0]->{id}}->{lmethod}->{$_[0]->{pkey}}->{script}=$script;
-  	$obj->{$_[0]->{id}}->{lmethod}->{$_[0]->{pkey}}->{name}=$name;
+  		$sth->execute($script,$name,$_[0]->{id},$_[0]->{pkey}) || die $dbh->errstr;
+  		$obj->{$_[0]->{id}}->{lmethod}->{$_[0]->{pkey}}->{script}=$script;
+  		$obj->{$_[0]->{id}}->{lmethod}->{$_[0]->{pkey}}->{name}=$name;
+  		return 1;
   	
 	}	else {
 		my $script=$obj->{$_[0]->{id}}->{method}->{$_[0]->{pkey}}->{script};
@@ -180,11 +181,12 @@ sub editmethod  {
 		if (defined $_[0]->{name})   {$name=$_[0]->{name}}
 		
 		
-  	my $sth=$dbh->prepare("UPDATE ${DBPREFIX}method SET script=?, pname=? WHERE objid=? AND pkey=?");
-  	$sth->execute($script,$name,$_[0]->{id},$_[0]->{pkey}) || die $dbh->errstr;
-  	$obj->{$_[0]->{id}}->{method}->{$_[0]->{pkey}}->{script}=$script;
-  	$obj->{$_[0]->{id}}->{method}->{$_[0]->{pkey}}->{name}=$name;
-  }	
+  		my $sth=$dbh->prepare("UPDATE ${DBPREFIX}method SET script=?, pname=? WHERE objid=? AND pkey=?");
+  		$sth->execute($script,$name,$_[0]->{id},$_[0]->{pkey}) || die $dbh->errstr;
+  		$obj->{$_[0]->{id}}->{method}->{$_[0]->{pkey}}->{script}=$script;
+  		$obj->{$_[0]->{id}}->{method}->{$_[0]->{pkey}}->{name}=$name;
+  		return 1;
+  	}	
 }
 
 sub updateprmname {

@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.8 2010-02-11 19:43:57 vano Exp $
+# $Id: cmlview.pm,v 1.9 2010-02-14 20:35:47 vano Exp $
 
 BEGIN
 {
@@ -13,13 +13,17 @@ BEGIN
  use cmlmain;
  use cmlcalc;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top );
+ @EXPORT = qw( &buildvparam &print_top &editmethodform);
 
 }
 
 sub print_top {
 	my ($title)=@_;
-	my $pjx = new CGI::Ajax( 'setValue' => 'ajax.pl?func=setvalue' );
+	my $pjx = new CGI::Ajax( 
+		'setValue' => 'ajax.pl?func=setvalue',
+		'editMethod' => 'ajax.pl?func=editmethod',
+		'editLMethod' => 'ajax.pl?func=editlmethod',
+	);
 	$pjx->js_encode_function('encodeURIComponent');
 	$pjx->JSDEBUG(2);
         print $pjx->show_javascript();
@@ -39,6 +43,15 @@ sub print_ajax_callback_funcs {
         		} 
 		</script>
 	);
+	
+	print qq(
+		<script>
+   			function editMethodCallback (result) {
+        			alert(result);
+        		} 
+		</script>
+	);
+	
 }
 
 sub editlist	{
@@ -466,6 +479,46 @@ sub editmatrix
  my $outp=a({-href=>"$ENV{SCRIPT_NAME}?action=editmatrix&objid=$id&objuid=$uid&pkey=$pkey",-target=>'_blank'},'Редактировать');
  return $outp;
 }
+
+
+sub editmethodform ($$;$) 
+{
+	my ($id,$pkey,$lflag)=@_;
+
+	my $r=$lflag?'Метод нижних объектов':'Метод';
+	my $ajfunc=$lflag?'editLMethod':'editMethod';
+	my $n=$lflag?'lmethod':'method';
+	
+	print "Объект ",b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
+	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
+	
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea"		
+			,language: "ru"
+			,syntax: "perl"			
+			,start_highlight: true		
+		});
+		</script>
+	);
+	
+	my $save_js="document.mfrm.script.value = editAreaLoader.getValue('editarea');$ajfunc( ['id','pname','script'], [editMethodCallback],'POST' )";
+	print start_form(-name=>'mfrm',-method=>'post');
+	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
+	print br;
+	print hidden(-name=>'script',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-override=>1);
+	print hidden(-name=>'id',-default=>$id);
+	print hidden(-name=>'pname',-default=>$pkey);
+	print button(-value=>'Исправить',-onclick=>$save_js);
+	print endform;
+	
+	
+	
+	
+}	
+
+
 
 
 sub editmemofull
