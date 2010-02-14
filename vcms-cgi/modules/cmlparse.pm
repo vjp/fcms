@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.22 2010-02-07 20:35:47 vano Exp $
+# $Id: cmlparse.pm,v 1.23 2010-02-14 19:11:08 vano Exp $
 
 BEGIN
 {
@@ -301,6 +301,7 @@ sub tag_menuitem	{
 	
 	my $pl=fetchparam($param,['action','key','href','id','prm','param','piclist','filelist','delete']);
 	my $id=$pl->{id} || $inner->{objid};
+	my $targetstr="target='adminmb'";
 	$pl->{action}='EDIT' unless $pl->{action};  
 	if ($pl->{'key'}) {
 		&cmlmain::checkload({key=>$pl->{'key'}});
@@ -314,6 +315,9 @@ sub tag_menuitem	{
 		my $piclistprm=$pl->{'piclist'} || 'PICLINKS';
 		my $filelistprm=$pl->{'filelist'} || 'FILELINKS';
 		$pl->{href}="body=BASEARTICLE&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm";
+	} elsif ($pl->{action} eq 'MENULIST') {
+		$pl->{href}="menu=BASELIST";
+		$targetstr='';
 	}	
 	
 	unless ($pl->{key}) {
@@ -328,13 +332,13 @@ sub tag_menuitem	{
 	$href.="&id=$id";	 
 	$itext='пустой' unless $itext;
 	my $dtxt=$pl->{delete}?'<cml:deletebutton/>':'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
-	my $mtext=<<MENUITEM;
+	my $mtext=qq(
 		<tr>
-		<td bgcolor="#FFFFFF" width="16"><a href="$href" target="adminmb"><img src="/cmsimg/edit.png" alt="Редактировать" border="0"/></a></td>
-		<td bgcolor="#dedede" width="100%" colspan="2"><a href="$href" target="adminmb">$itext</a></td>
+		<td bgcolor="#FFFFFF" width="16"><a href="$href" $targetstr><img src="/cmsimg/edit.png" alt="Редактировать" border="0"/></a></td>
+		<td bgcolor="#dedede" width="100%" colspan="2"><a href="$href" $taregtstr>$itext</a></td>
 		<td bgcolor="#dedede" width="16">$dtxt</td>
 		</tr>
-MENUITEM
+	);
 	return cmlparser({data=>$mtext,inner=>$inner});
 }
 
