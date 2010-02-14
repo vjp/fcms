@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.22 2010-02-12 20:10:26 vano Exp $
+# $Id: cmlinstall.pm,v 1.23 2010-02-14 19:36:33 vano Exp $
 
 BEGIN
 {
@@ -31,6 +31,8 @@ addprm({objkey=>'CONTENT',name=>'Первый ролик',type=>'LIST',key=>'FIRSTVIDEO',up
 addprm({objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>'UVIDLINKS',upd=>'n',defval=>'ubackref(id(VIDEOGALLERY),VIDLINK)'});
 
 
+addobject({upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
+addobject({upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
 
 addobject({upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
 addprm({objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
@@ -536,7 +538,7 @@ setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',value=>'
 </td></tr></table>
 '});
 
-my $addscript=qq(
+my $addscript=q(
 	
 	my $newid;
 	my $name=$CGIPARAM->{name} || 'Новый';
