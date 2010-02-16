@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.2 2010-02-16 20:31:36 vano Exp $
+# $Id: cmlajax.pm,v 1.3 2010-02-16 21:01:02 vano Exp $
 
 BEGIN
 {
@@ -65,7 +65,7 @@ sub ajax_deleteobject ($)
 {
 	my ($objid)=@_;
 	my $status=deletelowobject($objid);
-	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
+	return $status?"Объект удален":"Ошибка удаления объекта";
 }
 
 return 1;
