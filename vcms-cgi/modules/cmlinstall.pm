@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.28 2010-02-16 22:08:18 vano Exp $
+# $Id: cmlinstall.pm,v 1.29 2010-02-16 22:09:44 vano Exp $
 
 BEGIN
 {
@@ -545,17 +545,11 @@ setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble});
 
 
 addlowobject({upobjkey=>'CMSMENU',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
-setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',value=>'
+setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
-<tr><td bgcolor="#FFFFFF" width="16">
-	<a href="#" target="adminmb"><cml:img src="/cmsimg/edit.png" alt="EDIT" border="0"/></a>
-</td>
-<td bgcolor="#dedede" width="100%" colspan="2">
-	<a href="#" target="adminmb">пустой</a>
-</td>
-<td bgcolor="#dedede" width="16"><img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0"></td>
-</td></tr></table>
-'});
+<cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
+</table>
+)});
 
 my $addscript=q(
 	
