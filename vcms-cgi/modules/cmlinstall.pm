@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.26 2010-02-16 06:09:21 vano Exp $
+# $Id: cmlinstall.pm,v 1.27 2010-02-16 22:03:33 vano Exp $
 
 BEGIN
 {
@@ -430,12 +430,12 @@ setvalue({key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 
 
 $bm=qq(
-<cml:use key='_prm:ukey_'>
+<cml:use id='_prm:id_' key='_prm:ukey_'>
 <cml:text param='_NAME'/><br>
-<cml:form matrix='1' ukey='_prm:ukey_'>
+<cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
 <table>
 <tr><th></th><th>Наименование</th><th>Номер</th></tr>
-<cml:list expr='lowlist()'>
+<cml:list expr='p("_prm:listprm_") || lowlist()'>
 <tr>
 <td><cml:deletebutton/></td>
 <td><cml:inputtext param='_NAME'/></td>
@@ -446,7 +446,7 @@ $bm=qq(
 </table>
 </cml:form>
 <hr>
-<cml:actionlink action='add'>Добавить новый</cml:actionlink>
+<cml:actionlink action='add' link='_prm:link_' linkval='_prm:ukey_'>Добавить новый</cml:actionlink>
 </cml:use>
 );
 addlowobject({upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
