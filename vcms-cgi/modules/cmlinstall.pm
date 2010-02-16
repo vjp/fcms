@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.27 2010-02-16 22:03:33 vano Exp $
+# $Id: cmlinstall.pm,v 1.28 2010-02-16 22:08:18 vano Exp $
 
 BEGIN
 {
@@ -451,6 +451,23 @@ $bm=qq(
 );
 addlowobject({upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
 setvalue({key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
+
+
+addlowobject({upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
+setvalue({key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
+<cml:use id='_prm:id_'>
+<table width="100%" border="0" cellspacing="1" cellpadding="2">
+<b><cml:actionlink action='LISTEDIT' ukey='_prm:ukey_' listprm="_prm:listprm_" link="_prm:link_"><cml:text param='_NAME'/></cml:actionlink></b>
+<cml:list  expr='p("_prm:listprm_") || lowlist()'>
+  <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" delete="1"/>
+</cml:list>
+</table>
+<hr>
+<cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
+<hr/>
+<cml:a href='?menu=BASEMENULIST&ukey=_prm:ukey_&listprm=_prm:listprm_&childlistprm=_prm:childlistprm_&childukey=_prm:childukey_&id=_cml:_ID_'>Обновить</cml:a>
+</cml:use>
+)});
 
 
 $ble=qq(
