@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.24 2010-02-14 20:35:38 vano Exp $
+# $Id: cmlparse.pm,v 1.25 2010-02-16 22:01:13 vano Exp $
 
 BEGIN
 {
@@ -299,10 +299,20 @@ sub tag_menuitem	{
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	
 	
-	my $pl=fetchparam($param,['action','key','href','id','prm','param','piclist','filelist','delete']);
+	my $pl=fetchparam($param,[
+		'action','key','href','icohref','id','prm','param',
+		'piclist','filelist','delete','head','listprm',
+		'childlistprm','childukey', 'ukey', 'childlink', 'link'
+	]);
 	my $id=$pl->{id} || $inner->{objid};
+	
 	my $targetstr="target='adminmb'";
-	$pl->{action}='EDIT' unless $pl->{action};  
+	my $targetstr_ico=$targetstr;
+	
+	unless ($pl->{action}) {
+		$pl->{action}=$pl->{head}?'LISTEDIT':'EDIT';
+	}	   
+	
 	if ($pl->{'key'}) {
 		&cmlmain::checkload({key=>$pl->{'key'}});
 		$id=$cmlmain::nobj->{$pl->{'key'}}->{id};
@@ -316,14 +326,36 @@ sub tag_menuitem	{
 		my $filelistprm=$pl->{'filelist'} || 'FILELINKS';
 		$pl->{href}="body=BASEARTICLE&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm";
 	} elsif ($pl->{action} eq 'MENULIST') {
-		$pl->{href}="menu=BASELIST&ukey=$cmlmain::obj->{$id}->{key}";
-		$targetstr='';
-	}	
+		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
+		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
+		if ($ukey && $ukey ne 'NULL') {
+			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
+			for (qw (listprm childlistprm childukey childlink link)) {
+				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
+			}
+			$targetstr='';
+			if ($pl->{'childukey'} && $pl->{'key'}) {
+				$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id" unless $pl->{icohref};
+			} else {
+				$pl->{icohref}="body=EDIT_$upkey&id=$id" unless $pl->{icohref};
+			}	
+		} else {
+			$ukey=&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
+			$pl->{href}="body=EDIT_$ukey";
+			$pl->{icohref}="body=EDIT_$ukey&id=$id" unless $pl->{icohref};
+		}
+			
+	} elsif ($pl->{action} eq 'LISTEDIT') {
+		my $ukey=&cmlcalc::p(_KEY,$id);
+		$pl->{href}="body=LISTEDIT_${ukey}&ukey=$ukey";
+	}
+	
 	
 	unless ($pl->{key}) {
-		$pl->{key}=&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
+		$pl->{key}=&cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
 	}
 	my $href='?'. ($pl->{href} || "body=$pl->{action}_$pl->{key}");
+	my $icohref='?'. ($pl->{icohref} || $pl->{href} || "body=$pl->{action}_$pl->{key}");
 	
 	my $itext=cmlparser({data=>$data,inner=>$inner});
 	unless ($itext) {
@@ -331,12 +363,14 @@ sub tag_menuitem	{
 	}
 	$href.="&id=$id";	 
 	$itext='пустой' unless $itext;
+	$itext="<b>$itext</b>" if $pl->{head};
+	my $hcol=$pl->{head}?'#FFFFFF':'#dedede';
 	my $dtxt=$pl->{delete}?'<cml:deletebutton/>':'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
 	my $mtext=qq(
 		<tr>
-		<td bgcolor="#FFFFFF" width="16"><a href="$href" $targetstr><img src="/cmsimg/edit.png" alt="Редактировать" border="0"/></a></td>
-		<td bgcolor="#dedede" width="100%" colspan="2"><a href="$href" $taregtstr>$itext</a></td>
-		<td bgcolor="#dedede" width="16">$dtxt</td>
+		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="Редактировать" border="0"/></a></td>
+		<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
+		<td bgcolor="$hcol" width="16">$dtxt</td>
 		</tr>
 	);
 	return cmlparser({data=>$mtext,inner=>$inner});
@@ -762,7 +796,7 @@ sub tag_use
 	
 	my $pl=fetchparam($param,['id','idcgi','namecgi','uname','key','param','prm','paramtab','idexpr']);
 	
-	if      ($pl->{id})       {
+	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
 		$id=$pl->{id};     
 		if (lc $id eq 'matrix') {$id=$inner->{matrix}->{tabkey} }
 	} elsif    ($pl->{idcgi})    {
@@ -838,7 +872,8 @@ sub tag_actionlink {
 		'action','id','upobj','up','upkey','link','linkval',
 		'setflag','name','value','prm','param',
 		'piclist','filelist','vidlist',
-		'template', 'editprm'
+		'template', 'editprm', 'ukey', 'listprm' 
+
 	]);
 	
 	$pl->{action}='del' if lc($pl->{action}) eq 'delete';
@@ -870,15 +905,16 @@ sub tag_actionlink {
 	$title=cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}});
 	$title=$pl->{action} unless $title;
 	
+	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
 	if ($pl->{action} eq 'EDIT') {
 		&cmlmain::checkload({id=>$pl->{id}});
 		my $tid=$cmlmain::lobj->{$pl->{id}}->{upobj};
 		my $kn=$cmlmain::obj->{$tid}->{key};
-		if ($cmlcalc::ENV->{NOFRAMES}) {
-		 	return "<a href='?page=EDIT_$kn&id=$pl->{id}' $param>$title</a>";
-		} else {
-			return "<a href='?body=EDIT_$kn&id=$pl->{id}' $param>$title</a>";
-		} 		 
+	 	return "<a href='?$pprm=EDIT_$kn&id=$pl->{id}' $param>$title</a>";
+	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
+		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
+		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
+ 		return "<a href='?$pprm=LISTEDIT_$ukey&ukey=$ukey&id=$pl->{id}&listprm=$pl->{listprm}&link=$pl->{link}' $param $tstr>$title</a>";
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
    	 	$pl->{template}='BASEARTICLE' unless $pl->{template};
@@ -891,12 +927,22 @@ sub tag_actionlink {
 		return "<a href='?body=$pl->{template}&id=$pl->{id}&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm&vidlistprm=$vidlistprm' $param>$title</a>";
 	} 	elsif ($pl->{action} eq 'DEBUG') {
 		return "<a href='/cgi-bin/vcms/cmlsrv.pl?action=editlowform&objid=$pl->{id}' $param>$title</a>";
-	}	
+	} 	elsif ($pl->{action} eq 'ADD') {
+		my $prf="$pl->{up}_$pl->{id}";
+		my ($up,$link,$linkval,$name,$upobj)=@_;
+		return qq(
+		  	<input type='hidden' id='addup$prf' value='$pl->{up}'>
+		  	<input type='hidden' id='addlink$prf' value='$pl->{link}'>
+		  	<input type='hidden' id='addlinkval$prf' value='$pl->{id}'>
+		        <a href='#' onclick='return addObject(["addup$prf","addlink$prf","addlinkval$prf"], [addObjectCallback] )'>$title</a>
+		);
+		
+	}		
 	
 	$method="BASE$pl->{action}METHOD";	
 	my @hlist;
 	push(@hlist,"parsemethod=$method");
-	my @plist=('view','menu','body','ukey','editprm','piclistprm','filelistprm');
+	my @plist=('view','menu','body','ukey','editprm','piclistprm','filelistprm','childlistprm','childukey','listprm');
 	for (@plist) {
 		push(@hlist,"$_=$cmlcalc::CGIPARAM->{$_}") if $cmlcalc::CGIPARAM->{$_};
 	}	
@@ -1489,7 +1535,7 @@ sub tag_form {
   		'postparser','preparser','method','view',
   		'tview','body','page','menu','insertinto',
   		'link','alert','action','prm','param','editprm',
-  		'renameparam','renameprm', 'matrix'  		
+  		'piclistprm','filelistprm','parseprm',
   		'renameparam','renameprm', 'matrix','ukey','listprm'  		
   		]);
 	$param=$pl->{'str'};
@@ -1583,6 +1629,7 @@ sub tag_form {
 	$data.="<input type='hidden' name='param' value='$pkey'>";
 	$data.="<input type='hidden' name='parsemethod' value='$parser'>";
 	$data.="<input type='hidden' name='parseid' value='$parserid'>" if $parserid;
+	$data.="<input type='hidden' name='parseprm' value='$pl->{parseprm}'>" if $pl->{'parseprm'};
 	$data.="<input type='hidden' name='listprm' value='$pl->{listprm}'>" if $pl->{'listprm'};
 	
 	if ($pl->{'postparser'}) {$data.="<input type='hidden' name='postparser' value='$pl->{postparser}'>";}
@@ -1852,7 +1899,7 @@ sub tag_deletebutton {
 		push(@hlist,"parsemethod=$pl->{method}");
 	} else {
 		push(@hlist,"parsemethod=BASEDELMETHOD");
-	my @plist=('view','menu','body','ukey','id','page','orderby','ordertype');
+	}	
 	my @plist=('view','menu','body','ukey','id','page','orderby','ordertype','editprm','piclistprm','filelistprm','childlistprm','childukey','listprm','link');
 	for (@plist) {
 		push(@hlist,"$_=$cmlcalc::CGIPARAM->{$_}") if $cmlcalc::CGIPARAM->{$_};
@@ -1863,11 +1910,12 @@ sub tag_deletebutton {
 	
   	my $hstr=join('&',@hlist);
   	
-	if ($cmlmain::GLOBAL->{DOUBLECONFIRM}) {
-		return qq(<a href='?$hstr' onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")'><img border=0 src='$imgsrc' alt='Удалить'></a>);
-	} else {
-		return qq(<a href='?$hstr' onclick='return confirm("Вы уверены что хотите удалить объект")'><img border=0 src='$imgsrc' alt='Удалить'></a>);		
-	}	
+	my $imgsrc=$cmlmain::DELIMAGEURL;
+	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")';
+	return qq(
+		  <a href='#' onclick='return $confjs && deleteObject(["delb$parseid"], [deleteObjectCallback] )'><img border=0 src='$imgsrc' alt='Удалить'></a>
+		  <a href='#' onclick='$confjs && deleteObject(["delb$parseid"], [deleteObjectCallback] );return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
+	);		
 	
 }	
 
