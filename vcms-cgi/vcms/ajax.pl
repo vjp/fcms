@@ -9,6 +9,7 @@ use Data::Dumper;
 
 use cmlmain;
 use cmlcalc;
+use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
 use Encode;
@@ -20,42 +21,17 @@ $AJAX_FUNCS={
 	setvalue=>1,
 	editmethod=>1,
 	editlmethod=>1,
+	addobject=>1,
+	deleteobject=>1,
 };   
+
 start('..');
 print "Content-Type: text/html; charset=windows-1251\n\n";
 my @input = param('args');
 my $func= lc param('func');
 if ($AJAX_FUNCS->{$func}) {
-	my $subname="ajax_$func";
+	my $subname="cmlajax::ajax_$func";
 	print &$subname(@input);
 } else {
 	print "incorrect func : $func";
 }	
-
-
-sub ajax_setvalue ($$$$$)
-{
-	my ($objid,$objuid,$prm,$lang,$value)=@_;
-       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
-	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,lang=>$lang,value=>$evalue});
-	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
-}
-
-
-sub ajax_editmethod ($$$)
-{
-	my ($objid,$mname,$value)=@_;
-       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
-	my $status=editmethod({id=>$objid,pkey=>$mname,script=>$evalue});
-	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
-}
-
-
-sub ajax_editlmethod ($$$)
-{
-	my ($objid,$mname,$value)=@_;
-       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
-	my $status=editmethod({id=>$objid,pkey=>$mname,script=>$evalue,nflag=>1});
-	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
-	
-}
