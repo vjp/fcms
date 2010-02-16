@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.21 2010-02-14 20:35:30 vano Exp $
+# $Id: cmlmain.pm,v 1.22 2010-02-16 20:57:42 vano Exp $
 
 BEGIN
 {
@@ -1319,27 +1319,25 @@ sub deletelowobject
  			return;
  	}	
  
- my @dlist=split(';',$_[0]);
- my $id=shift @dlist;
+ 	my @dlist=split(';',$_[0]);
+ 	my $id=shift @dlist;
  
- my $sthD=$dbh->prepare("DELETE FROM ${DBPREFIX}objects WHERE id=?");
- my $sthDM=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=?");  $sthDM->execute($id) || die $dbh->errstr;
- my $sthDDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE objid=?");  $sthDDL->execute($id) || die $dbh->errstr;
- my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute($id) || die $dbh->errstr;
- my $sthFSDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fs WHERE id=?");  $sthFSDL->execute($id) || die $dbh->errstr;
- my $sthFSIDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fsint WHERE id=?");  $sthFSIDL->execute($id) || die $dbh->errstr;
- $sthD->execute($id) || die $dbh->errstr;
- checkload({id=>$id});
- my $upobj=$lobj->{$id}->{upobj};
- @{$ltree->{$upobj}->{$lobj->{$id}->{up}}}=grep{$_ ne $id}@{$ltree->{$upobj}->{$lobj->{$id}->{up}}};
+ 	my $sthD=$dbh->prepare("DELETE FROM ${DBPREFIX}objects WHERE id=?");
+ 	my $sthDM=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=?");  $sthDM->execute($id) || die $dbh->errstr;
+ 	my $sthDDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE objid=?");  $sthDDL->execute($id) || die $dbh->errstr;
+ 	my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute($id) || die $dbh->errstr;
+ 	my $sthFSDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fs WHERE id=?");  $sthFSDL->execute($id) || die $dbh->errstr;
+ 	my $sthFSIDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fsint WHERE id=?");  $sthFSIDL->execute($id) || die $dbh->errstr;
+ 	$sthD->execute($id) || die $dbh->errstr;
+ 	checkload({id=>$id});
+ 	my $upobj=$lobj->{$id}->{upobj};
+ 	@{$ltree->{$upobj}->{$lobj->{$id}->{up}}}=grep{$_ ne $id}@{$ltree->{$upobj}->{$lobj->{$id}->{up}}};
  
- map
- {
-  deletelowobject($_);
- }(@{$ltree->{$upobj}->{$id}});
- 	
- if (@dlist) {deletelowobject(\@dlist)}	
- 	
+ 	map {
+  		deletelowobject($_);
+ 	}(@{$ltree->{$upobj}->{$id}});
+ 	if (@dlist) {deletelowobject(\@dlist)}	
+ 	return 1;
 }
 
 
