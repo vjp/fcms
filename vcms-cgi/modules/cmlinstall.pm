@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.25 2010-02-14 22:21:16 vano Exp $
+# $Id: cmlinstall.pm,v 1.26 2010-02-16 06:09:21 vano Exp $
 
 BEGIN
 {
@@ -395,7 +395,7 @@ setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 		theme_advanced_buttons3 : "",
 		content_css : "/css/mce.css", 
 		apply_source_formatting: true,
-		language : "ru_CP1251" 
+		language : "ru" 
 	});
 	function insertimage (text){ 
   		tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
