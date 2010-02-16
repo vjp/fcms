@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.29 2010-02-16 22:09:44 vano Exp $
+# $Id: cmlinstall.pm,v 1.30 2010-02-16 22:20:15 vano Exp $
 
 BEGIN
 {
@@ -32,12 +32,17 @@ addprm({objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>
 
 
 addobject({upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
+addprm({objkey=>'SECTIONS',name=>'Позиции',type=>'LINK',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(SECTION),SECLINK)'});
+
 addobject({upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
+addprm({objkey=>'ITEMS',name=>'Раздел',type=>'LINK',key=>'SECLINK',evl=>'n',upd=>'y'});
+setprmextra({pkey=>'SECLINK',extra=>'formula',value=>'lowlist(id(SECTIONS))'});
+setprmextra({pkey=>'SECLINK',extra=>'single',value=>'y'});
 
 addobject({upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
 addprm({objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
 addprm({objkey=>'GALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'PICLINK',evl=>'n'});
-addprm({objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>qq(
+addprm({objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>q(
 my @v=reverse split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -46,7 +51,7 @@ for (@v) {
    $r=$_;
 }
 )});
-addprm({objkey=>'GALLERY',name=>'Предыдущая картинка',type=>'LIST',key=>'PREVPIC',upd=>'n',defval=>qq(
+addprm({objkey=>'GALLERY',name=>'Предыдущая картинка',type=>'LIST',key=>'PREVPIC',upd=>'n',defval=>q(
 my @v=split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -63,7 +68,7 @@ addobject({upkey=>'CONTENT',key=>'VIDEOGALLERY',name=>'Видеогалерея'});
 addprm({objkey=>'VIDEOGALLERY',name=>'Ролик',type=>'VIDEO',key=>'MOVIE',evl=>'n'});
 addprm({objkey=>'VIDEOGALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'VIDLINK',evl=>'n'});
 addprm({objkey=>'VIDEOGALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
-addprm({objkey=>'VIDEOGALLERY',name=>'Следующий ролик',type=>'LIST',key=>'NEXTVIDEO',upd=>'n',defval=>qq(
+addprm({objkey=>'VIDEOGALLERY',name=>'Следующий ролик',type=>'LIST',key=>'NEXTVIDEO',upd=>'n',defval=>q(
 my @v=reverse split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -72,7 +77,7 @@ for (@v) {
    $r=$_;
 }
 )});
-addprm({objkey=>'VIDEOGALLERY',name=>'Предыдущий ролик',type=>'LIST',key=>'PREVVIDEO',upd=>'n',defval=>qq(
+addprm({objkey=>'VIDEOGALLERY',name=>'Предыдущий ролик',type=>'LIST',key=>'PREVVIDEO',upd=>'n',defval=>q(
 my @v=split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -91,6 +96,8 @@ addprm({objkey=>'FILEARCHIVE',name=>'Ссылка на раздел',type=>'LIST',key=>'FILELI
 addprm({objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT',key=>'ARCHIVEFILEDESCR',evl=>'n'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'rows',value=>'3'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
+
+
 
 
 
