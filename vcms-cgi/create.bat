@@ -19,4 +19,4 @@ del html.tar.gz
 7za a html.tar .htaccess -r
 7za a html.tar.gz html.tar
 del html.tar   
-move html.tar.gz ..\vcms-cgi-bin
+move html.tar.gz ..\vcms-cgi
