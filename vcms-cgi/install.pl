@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.3 2010-02-13 14:06:00 vano Exp $
+# $Id: install.pl,v 1.4 2010-02-21 20:07:26 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -148,8 +148,7 @@ if (param('install')) {
 		&cmlmain::start('.');
 		&cmlinstall::install_structure();
 	
-		print "Инсталлируем mce...",br;
-		&cmlinstall::install_mce();
+	
 	};
 	if ($@) {
 		print "<br/>Ошибка создания БД: $@<br>";

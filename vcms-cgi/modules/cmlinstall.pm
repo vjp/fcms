@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.30 2010-02-16 22:20:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.31 2010-02-21 20:08:14 vano Exp $
 
 BEGIN
 {
@@ -620,11 +620,7 @@ alert('—труктура создана успешно');
 	
 }
 
-sub install_mce {
-	`tar -xzvf $GLOBAL->{FILEPATH}/install/tiny_mce.tgz -C $GLOBAL->{FILEPATH}/install && cd $GLOBAL->{FILEPATH}/install/tinymce/jscripts/ && mv tiny_mce ../../../..`;
-	`rm -rf $GLOBAL->{FILEPATH}/install/tinymce`;
-	alert('tiny_mce установлен успешно');
-}
+
 
 
 sub install_db ($$) {
