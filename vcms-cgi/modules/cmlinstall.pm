@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.31 2010-02-21 20:08:14 vano Exp $
+# $Id: cmlinstall.pm,v 1.32 2010-02-21 21:21:10 vano Exp $
 
 BEGIN
 {
@@ -32,7 +32,7 @@ addprm({objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>
 
 
 addobject({upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
-addprm({objkey=>'SECTIONS',name=>'Позиции',type=>'LINK',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(SECTION),SECLINK)'});
+addprm({objkey=>'SECTIONS',name=>'Позиции',type=>'LINK',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(SECTIONS),SECLINK)'});
 
 addobject({upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
 addprm({objkey=>'ITEMS',name=>'Раздел',type=>'LINK',key=>'SECLINK',evl=>'n',upd=>'y'});
