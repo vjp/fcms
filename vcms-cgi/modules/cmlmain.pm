@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.22 2010-02-16 20:57:42 vano Exp $
+# $Id: cmlmain.pm,v 1.23 2010-02-22 20:12:34 vano Exp $
 
 BEGIN
 {
@@ -735,6 +735,7 @@ sub setvalue  {
 		 checkload({key=>$key});
 		 $id=$nobj->{$key}->{id};
 		 $ind=$nobj->{$key}->{ind};
+		 return 0 unless $id;
   	}	
 
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
