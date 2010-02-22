@@ -133,7 +133,7 @@ sub print_ajax_callback_funcs {
 		<script>
    			function addObjectCallback (result) {
         			alert(result);
-        			window.location.reload();
+        			window.location.href="$ENV{REQUEST_URI}";
         		} 
 		</script>
 	);
@@ -142,7 +142,7 @@ sub print_ajax_callback_funcs {
 		<script>
    			function deleteObjectCallback (result) {
         			alert(result);
-        			window.location.reload();
+        			window.location.href="$ENV{REQUEST_URI}";
         		} 
 		</script>
 	);
