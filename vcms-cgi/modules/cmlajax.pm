@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.3 2010-02-16 21:01:02 vano Exp $
+# $Id: cmlajax.pm,v 1.4 2010-02-22 09:03:00 vano Exp $
 
 BEGIN
 {
@@ -67,6 +67,18 @@ sub ajax_deleteobject ($)
 	my $status=deletelowobject($objid);
 	return $status?"Объект удален":"Ошибка удаления объекта";
 }
+
+sub ajax_evalscript ($)
+{
+	my ($script)=@_;
+	my $error=&cmlcalc::scripteval($script);
+	if ($error) {
+		return "Ошибка выполнения скрипта: <b>$error</b> <hr> Исходный текст: <br> $script";
+	} else {
+		return '<hr/>Выполнено без ошибок';
+	}	
+}
+
 
 return 1;
 
