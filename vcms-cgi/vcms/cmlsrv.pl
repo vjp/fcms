@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.8 2010-02-14 20:36:03 vano Exp $
+# $Id: cmlsrv.pl,v 1.9 2010-02-22 09:15:28 vano Exp $
 
 use lib "../modules/";
 
@@ -1017,17 +1017,6 @@ sub config {
 	
 }
 
-sub console {
-	my $value=$_[0];
-	print start_form(-method=>'post',-name=>'mfrm');
-	print textarea(-id=>'console',-default=>$value,-class=>'codepress perl',override=>1,rows=>15,cols=>100);
-	print hidden(-name=>'script');
-	print br;
-	print hidden(-name=>'action',-value=>'parsequery',-override=>1);
-	print submit(-value=>'Выполнить',-onclick=>"document.mfrm.script.value = console.getCode()");
-	print endform;
-	print script({src=>'/codepress/codepress.js',type=>'text/javascript'},' '); 	
-}	
 
 
 

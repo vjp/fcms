@@ -23,6 +23,7 @@ $AJAX_FUNCS={
 	editlmethod=>1,
 	addobject=>1,
 	deleteobject=>1,
+	evalscript=>1,
 };   
 
 start('..');

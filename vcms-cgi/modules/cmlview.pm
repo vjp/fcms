@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.9 2010-02-14 20:35:47 vano Exp $
+# $Id: cmlview.pm,v 1.10 2010-02-22 09:15:48 vano Exp $
 
 BEGIN
 {
@@ -13,7 +13,7 @@ BEGIN
  use cmlmain;
  use cmlcalc;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top &editmethodform);
+ @EXPORT = qw( &buildvparam &print_top &editmethodform &console);
 
 }
 
@@ -23,6 +23,7 @@ sub print_top {
 		'setValue' => 'ajax.pl?func=setvalue',
 		'editMethod' => 'ajax.pl?func=editmethod',
 		'editLMethod' => 'ajax.pl?func=editlmethod',
+		'evalScript'=>'ajax.pl?func=evalscript',
 	);
 	$pjx->js_encode_function('encodeURIComponent');
 	$pjx->JSDEBUG(2);
@@ -34,6 +35,36 @@ sub print_top {
 	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
 	print br;
 }
+
+sub console {
+	my $value=$_[0];
+	print_top();
+	
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea"		
+			,language: "ru"
+			,syntax: "perl"			
+			,start_highlight: true		
+		});
+		</script>
+	);
+
+        
+    my $save_js="document.mfrm.script.value = editAreaLoader.getValue('editarea');evalScript( ['script'], ['resultDiv'],'POST' )";
+	print start_form(-name=>'mfrm',-method=>'post');
+	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
+	print hidden(-name=>'script');
+	print br;
+	print button(-value=>'Выполнить',-onclick=>$save_js);
+	print endform;
+	print hr,"Результат выполнения скрипта",hr,"<div id='resultDiv'></div>";
+	
+	
+}	
+
+
 
 sub print_ajax_callback_funcs {
 	print qq(
