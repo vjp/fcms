@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.33 2010-02-22 09:33:22 vano Exp $
+# $Id: cmlinstall.pm,v 1.34 2010-02-22 20:12:15 vano Exp $
 
 BEGIN
 {
@@ -20,6 +20,15 @@ sub install_cron ($){
 sub install_structure {
 	
 addobject({forced=>1,up=>0,key=>'CONTENT',name=>'Содержимое сайта'});
+addobject({forced=>1,up=>0,key=>'DESIGN',name=>'Дизайн сайта'});
+addobject({forced=>1,up=>0,key=>'CMSDESIGN',name=>'Дизайн интерфейса администрирования'});
+addobject({forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
+addobject({forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
+addobject({forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
+addobject({forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
+
+
+
 addprm({objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
 addprm({objkey=>'CONTENT',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
 addprm({objkey=>'CONTENT',name=>'Первая картинка',type=>'LIST',key=>'FIRSTPIC',upd=>'n',defval=>'my @v=split(/;/,p(PICLINKS));$v[0]'});
@@ -101,7 +110,7 @@ setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
 
 
 
-addobject({forced=>1,up=>0,key=>'DESIGN',name=>'Дизайн сайта'});
+
 addprm({objkey=>'DESIGN',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
 addprm({objkey=>'DESIGN',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
 addprm({objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'$CGIPARAM->{1}?p(_NAME,$CGIPARAM->{1}):p(_NAME)'});
@@ -148,12 +157,6 @@ setvalue({key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Under construction.
 
 
 
-addobject({forced=>1,up=>0,key=>'CMSDESIGN',name=>'Дизайн интерфейса администрирования'});
-addobject({forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
-addobject({forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
-addobject({forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
-
-addobject({forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
 addprm({objkey=>'AUTOMATE',name=>'Флаг активности',type=>'FLAG',key=>'AUTOLOCK',evl=>'n',self=>1});
 addprm({objkey=>'AUTOMATE',name=>'Время последнего запуска',type=>'DATE',key=>'AUTOLOCKTIME',evl=>'n',self=>1});
 setprmextra({pkey=>'AUTOLOCKTIME',extra=>'format',value=>'%d.%m.%Y %H:%M'});
