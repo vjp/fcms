@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.25 2010-02-16 22:01:13 vano Exp $
+# $Id: cmlparse.pm,v 1.26 2010-02-23 20:58:39 vano Exp $
 
 BEGIN
 {
@@ -973,6 +973,7 @@ sub tag_a	{
 		'extraprm','adminextraprm',
 		'param','prm','expr','id',
 		'ifprm','ifparam','ifexpr',
+		
 	]);
 	
 	my $ql;
@@ -1018,9 +1019,8 @@ sub tag_a	{
   	} elsif ($pl->{'expr'}) {
   		$expr=$pl->{'expr'};
   	}	
-  
+  	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
   	if ($expr) {
-  		my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
  		my $v=&cmlcalc::calculate({id=>$id,expr=>$expr});
  		if ($v->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
  		else {
@@ -1038,7 +1038,6 @@ sub tag_a	{
   	}	
   	$ifval=1;
   	if ($ifexpr) {
-  		my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
  		my $v=&cmlcalc::calculate({id=>$id,expr=>$ifexpr});
  		unless ($v->{'value'}) {
  			$ifval=0;
@@ -1050,11 +1049,13 @@ sub tag_a	{
 
 	my $bstr;
 	my $estr=$ifval?'</a>':'';
+	
+	
 	if ($ifval) {
   		if ($mode eq 'openwindow') {
-  			$bstr="<a href=\"javascript:openwindow('$ql')\" $param>";
+  			$bstr=qq(<a href="javascript:openwindow('$ql')" $param>");
   		}	else {
- 			$bstr="<a href='$ql' $param>";
+ 			$bstr=qq(<a href='$ql' $param>);
  		}
 	}	
  	return $bstr.cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}).$estr;	
@@ -1166,7 +1167,7 @@ sub tag_img 	{
 	
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
-		'alt','altparam','altprm', 'path', 'src' 
+		'alt','altparam','altprm', 'path', 'src', 'hintprm' 
 	]);
 	
 
@@ -1205,7 +1206,22 @@ sub tag_img 	{
 		my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
 		$src="$pstr/$v->{value}";
 	}
- 	return "<img src='$src' $param alt='$alt'>";
+	if ($pl->{hintprm}) {
+		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
+		my $hintinit=qq(<script>
+			var mh$id = new THints (["$imgsrc"], HINTS_CFG);
+		</script>
+		);
+		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
+		return "$hintinit<img src='$src' $param alt='$alt' $hintstr>";	
+
+	} else {
+		return "<img src='$src' $param alt='$alt'>";	
+	}
+	
+	
+	
+ 	
 }	
 
 
@@ -1913,7 +1929,7 @@ sub tag_deletebutton {
 	my $imgsrc=$cmlmain::DELIMAGEURL;
 	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")';
 	return qq(
-		  <a href='#' onclick='return $confjs && deleteObject(["delb$parseid"], [deleteObjectCallback] )'><img border=0 src='$imgsrc' alt='Удалить'></a>
+		  <input type='hidden' id='delb$parseid' value='$parseid'>
 		  <a href='#' onclick='$confjs && deleteObject(["delb$parseid"], [deleteObjectCallback] );return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
 	);		
 	
