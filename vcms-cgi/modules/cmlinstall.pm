@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.39 2010-02-24 21:55:27 vano Exp $
+# $Id: cmlinstall.pm,v 1.40 2010-02-24 22:10:49 vano Exp $
 
 BEGIN
 {
@@ -44,7 +44,7 @@ addobject({upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
 addprm({objkey=>'SECTIONS',name=>'Позиции',type=>'LIST',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(SECTIONS),SECLINK)'});
 
 addobject({upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
-addprm({objkey=>'ITEMS',name=>'Раздел',type=>'LINK',key=>'SECLINK',evl=>'n',upd=>'y'});
+addprm({objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK',evl=>'n',upd=>'y'});
 setprmextra({pkey=>'SECLINK',extra=>'formula',value=>'lowlist(id(SECTIONS))'});
 setprmextra({pkey=>'SECLINK',extra=>'single',value=>'y'});
 
