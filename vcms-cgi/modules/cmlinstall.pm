@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.41 2010-02-24 22:17:50 vano Exp $
+# $Id: cmlinstall.pm,v 1.42 2010-02-24 22:24:07 vano Exp $
 
 BEGIN
 {
@@ -256,8 +256,7 @@ setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',value=>q(
 </cml:use>
 )});
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEEDIT',name=>'Базовый шаблон объекта'});
-setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>"
+my $bestr=qq(  
   <cml:use id='_prm:id_'>
   <cml:form parser='BASELPARSER'>
       <table>
@@ -267,7 +266,19 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>"
       </table>
   </cml:form>
   </cml:use>
-"});
+);
+
+
+
+addlowobject({upobjkey=>'BASECMS',key=>'BASEEDIT',name=>'Базовый шаблон объекта'});
+setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr});
+
+
+addlowobject({upobjkey=>'CMSDESIGN',key=>'EDIT_SECTIONS',name=>'Редактирование раздела каталога'});
+setvalue({key=>'EDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bestr});
+addlowobject({upobjkey=>'CMSDESIGN',key=>'EDIT_ITEMS',name=>'Редактирование товара'});
+setvalue({key=>'EDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bestr});
+
 
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
 setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
@@ -494,6 +505,12 @@ $bm=qq(
 );
 addlowobject({upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
 setvalue({key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
+
+addlowobject({upobjkey=>'CMSDESIGN',key=>'LISTEDIT_SECTIONS',name=>'Редактирование списка разделов'});
+setvalue({key=>'LISTEDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bm});
+addlowobject({upobjkey=>'CMSDESIGN',key=>'LISTEDIT_ITEMS',name=>'Редактирование списка товаров'});
+setvalue({key=>'LISTEDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bm});
+
 
 
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
