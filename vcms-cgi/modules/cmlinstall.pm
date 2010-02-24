@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.34 2010-02-22 20:12:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.35 2010-02-24 21:18:37 vano Exp $
 
 BEGIN
 {
@@ -475,7 +475,7 @@ setvalue({key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 <hr>
 <cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
 <hr/>
-<cml:a href='?menu=BASEMENULIST&ukey=_prm:ukey_&listprm=_prm:listprm_&childlistprm=_prm:childlistprm_&childukey=_prm:childukey_&id=_cml:_ID_'>Обновить</cml:a>
+<cml:a href='#' onclick='window.location.reload()'>Обновить</cml:a>
 </cml:use>
 )});
 
