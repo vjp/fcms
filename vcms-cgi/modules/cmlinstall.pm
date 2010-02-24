@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.35 2010-02-24 21:18:37 vano Exp $
+# $Id: cmlinstall.pm,v 1.36 2010-02-24 21:31:16 vano Exp $
 
 BEGIN
 {
@@ -456,7 +456,7 @@ $bm=qq(
 </table>
 </cml:form>
 <hr>
-<cml:actionlink action='add' link='_prm:link_' linkval='_prm:ukey_'>Добавить новый</cml:actionlink>
+<cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_' linkval='_prm:ukey_'>Добавить новый</cml:actionlink>
 </cml:use>
 );
 addlowobject({upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
