@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.38 2010-02-24 21:52:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.39 2010-02-24 21:55:27 vano Exp $
 
 BEGIN
 {
@@ -378,6 +378,7 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 
 <cml:include key='MCEINIT'/>
+<cml:include key='INITHINTS'/>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
@@ -391,6 +392,36 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
 setvalue({key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>$bmv});
+
+addlowobject({upobjkey=>'CMSINCLUDES',key=>'INITHINTS',name=>'Инициализация всплывающих картинок'});
+setvalue({key=>'INITHINTS',pkey=>'PAGETEMPLATE',value=>qq(
+<script language="JavaScript" src="/js/tigra_hints.js"></script>
+<style>
+.hintsClass {
+	background-color: white;
+	padding: 2px 2px 2px 2px;
+}
+</style>
+
+
+<script language="JavaScript">
+var HINTS_CFG = {
+	'wise' : true,
+	'margin' : 10,
+	'gap' : 20,
+	'align' : 'trbl',
+	'css' : 'hintsClass',
+	'show_delay' : 200,
+	'hide_delay' : 200,
+	'follow' : false,
+	'z-index' : 100,
+	'IEfix' : false,
+	'opacity' :100
+};
+</script>
+)});
+
+
 
 addlowobject({upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
 setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
