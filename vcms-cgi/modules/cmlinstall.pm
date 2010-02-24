@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.37 2010-02-24 21:41:11 vano Exp $
+# $Id: cmlinstall.pm,v 1.38 2010-02-24 21:52:25 vano Exp $
 
 BEGIN
 {
@@ -272,6 +272,7 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>"
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
 setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 <CML:INCLUDE name='BASEMENUHEADER'/>
+<CML:INCLUDE name='CMSHEADMENU'/>
 <CML:INCLUDE name='_prm:menu_'/>
 <CML:INCLUDE name='BASEMENUFOOTER'/>
 "});
@@ -551,15 +552,30 @@ addlowobject({upobjkey=>'BASECMS',key=>'BASEARTICLE',name=>'Базовый шаблон редак
 setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble});
 
 
+addlowobject({upobjkey=>'CMSMENU',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
+setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',value=>qq(
+<table width="100%" border="0" cellspacing="1" cellpadding="2">
+<cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
+</table>
+</td></tr></table>
+<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
+<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
+)});
 
 
 
 
 addlowobject({upobjkey=>'CMSMENU',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
 setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',value=>qq(
+<cml:use key='SECTIONS'>
+<b><cml:actionlink action='LISTEDIT' ukey='SECTIONS'><cml:text param='_NAME'/></cml:actionlink></b>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
-<cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
+<cml:list expr='lowlist()'>
+  <cml:menuitem action="MENULIST" listprm="POSITIONS" ukey="ITEMS" link="SECLINK" delete="1"/>
+</cml:list>
 </table>
+</cml:use>
 )});
 
 my $addscript=q(
