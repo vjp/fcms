@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.26 2010-02-23 20:58:39 vano Exp $
+# $Id: cmlparse.pm,v 1.27 2010-02-25 20:07:38 vano Exp $
 
 BEGIN
 {
@@ -334,11 +334,13 @@ sub tag_menuitem	{
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
-			if ($pl->{'childukey'} && $pl->{'key'}) {
-				$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id" unless $pl->{icohref};
-			} else {
-				$pl->{icohref}="body=EDIT_$upkey&id=$id" unless $pl->{icohref};
-			}	
+			unless ($pl->{icohref}) {
+				if ($pl->{'childukey'} && $pl->{'key'}) {
+					$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id";
+				} else {
+					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$ukey&id=$id":"body=LISTEDIT_$ukey&id=$id"
+				}
+			}		
 		} else {
 			$ukey=&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 			$pl->{href}="body=EDIT_$ukey";
