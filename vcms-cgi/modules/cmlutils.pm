@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.4 2009-11-11 21:32:18 vano Exp $
+# $Id: cmlutils.pm,v 1.5 2010-02-25 22:55:26 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -36,13 +36,13 @@ sub whois {
 
 
 sub yandexsearch {
-	my ($qstr,$deep)=@_;
+	my ($qstr,$deep,$site)=@_;
 	$deep=10 unless $deep;
 	require LWP::UserAgent;
 	require XML::Simple;	    
 	my $ua = LWP::UserAgent->new;
 	$ua->agent("vCMS Yandex Search");
-	my $query = 
+	my $dquery =
 <<DOC;
 <?xml version='1.0' encoding='windows-1251'?>
 <request>    
@@ -55,9 +55,20 @@ sub yandexsearch {
 
 </request>
 DOC
+
+
+	my $squery =
+<<DOC;
+<?xml version='1.0' encoding='windows-1251'?>
+<request>    
+	<query>$qstr site='$site'</query>
+</request>
+DOC
+
+
 	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
 	$req -> content_type ('application/xml');    
-	$req -> content ($query);
+	$req -> content ($site?$squery:$dquery);
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $rf=$xs->XMLin($response->content);
