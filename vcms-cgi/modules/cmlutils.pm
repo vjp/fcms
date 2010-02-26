@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.5 2010-02-25 22:55:26 vano Exp $
+# $Id: cmlutils.pm,v 1.6 2010-02-26 04:33:05 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -13,7 +13,7 @@ BEGIN	{
  	use	URI::Escape;
 
  	@ISA = 'Exporter';
- 	@EXPORT = qw( &getpage &currency &xmlparse &email &yandexsearch &yandextic &googlepr &whois );
+ 	@EXPORT = qw( &getpage &currency &xmlparse &email &yandexsearch &sitesearch &yandextic &googlepr &whois );
 }
 
 sub whois {
@@ -34,9 +34,61 @@ sub whois {
 	return $d;
 }
 
+sub sitesearch ($;$) 
+{
+	my ($query,$opts)=@_;
+	$site=$opts->{'site'} || $ENV{SERVER_NAME};
+	$site="www.$site";
+
+	require LWP::UserAgent;
+	require XML::Simple;	    
+	my $ua = LWP::UserAgent->new;
+	$ua->agent("vCMS Yandex Site Search");
+	my $squery =
+<<DOC;
+<?xml version='1.0' encoding='windows-1251'?>
+<request>    
+	<query>$query site='$site'</query>
+</request>
+DOC
+
+	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
+	$req -> content_type ('application/xml');    
+	$req -> content ($site?$squery:$dquery);
+	my $response = $ua -> request ($req);
+	my $xs = XML::Simple->new();
+	my $rf=$xs->XMLin($response->content);
+	message("XML YANDEX ERROR: $rf->{response}->{error}") if $rf->{response}->{error};
+	return undef unless $rf->{response}->{results}->{grouping}->{group};
+	my @finded=ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY'?
+		@{$rf->{response}->{results}->{grouping}->{group}}:($rf->{response}->{results}->{grouping}->{group});
+	my $r;
+	for (@finded) {
+		my $v;
+   		if ($_->{doc}->{passages}->{passage}->{content}) {
+      			my @w=ref $_->{doc}->{passages}->{passage}->{hlword} eq 'ARRAY'?@{$_->{doc}->{passages}->{passage}->{hlword}}:($_->{doc}->{passages}->{passage}->{hlword});
+      			my @p=@{$_->{doc}->{passages}->{passage}->{content}};
+      			my $v1=shift(@p);
+      			my $ww=shift(@w);
+      			while ($v1) {
+         			$v.="$v1<b>$ww</b>";
+         			$v1=shift(@p);
+         			$ww=shift(@w)
+      			}   
+      			$v = Encode::encode('cp1251',$v);
+   		}
+   		my $cr;
+   		$cr->{string}=$v;
+   		$cr->{url}=$_->{doc}->{url};
+   		push(@{$r->{result}},$cr);	
+   	}
+	$r->{wordstat}=$v = Encode::encode('cp1251',$rf->{response}->{wordstat});
+	return $r;	
+}
+
 
 sub yandexsearch {
-	my ($qstr,$deep,$site)=@_;
+	my ($qstr,$deep)=@_;
 	$deep=10 unless $deep;
 	require LWP::UserAgent;
 	require XML::Simple;	    
@@ -55,20 +107,9 @@ sub yandexsearch {
 
 </request>
 DOC
-
-
-	my $squery =
-<<DOC;
-<?xml version='1.0' encoding='windows-1251'?>
-<request>    
-	<query>$qstr site='$site'</query>
-</request>
-DOC
-
-
 	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
 	$req -> content_type ('application/xml');    
-	$req -> content ($site?$squery:$dquery);
+	$req -> content ($dquery);
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $rf=$xs->XMLin($response->content);
@@ -78,6 +119,9 @@ DOC
 	return @{$rf->{response}->{results}->{grouping}->{group}} if ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY';
 	return ($rf->{response}->{results}->{grouping}->{group});
 }
+
+
+
 
 sub googlepr {
 	require LWP::UserAgent;
