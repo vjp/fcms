@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.23 2010-02-22 20:12:34 vano Exp $
+# $Id: cmlmain.pm,v 1.24 2010-02-26 22:35:18 vano Exp $
 
 BEGIN
 {
@@ -15,7 +15,7 @@ BEGIN
 
  @ISA    = 'Exporter';
  @EXPORT = qw(
-              $lobj $nlobj $obj $nobj $tobj $tree $ltree $prm  $method $lmethod %ptype @ptypes $dbh
+              $lobj $nlobj $obj  $vobj $nobj $tobj $tree $ltree $prm  $method $lmethod %ptype @ptypes $dbh
 
               &checkload	&defaultvalue	&uparamlist &lparamlist
               

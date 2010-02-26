@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.18 2010-02-11 19:56:53 vano Exp $
+# $Id: cmlcalc.pm,v 1.19 2010-02-26 22:35:18 vano Exp $
 
 BEGIN
 {
@@ -118,6 +118,11 @@ sub calculate 	{
   			} elsif ($_[0]->{id}=~s/^u(\d+)$/$1/) {
     				$indx=$_[0]->{id};
     				$OBJID=$cmlmain::obj->{$indx};
+  			} elsif ($_[0]->{id}=~s/^v(\d+)$/$1/) {
+    				$indx=$_[0]->{id};
+    				$cmlmain::vobj->{$indx}->{type}='V';
+    				$cmlmain::vobj->{$indx}->{ind}=$indx;
+    				$OBJID=$cmlmain::vobj->{$indx};
   			} elsif ($_[0]->{id}=~s/^p(.+)$/$1/) {
     				$indx=$_[0]->{id};
     				$OBJID=$cmlmain::prm->{$indx};
@@ -459,6 +464,7 @@ sub p	{
    		if ($skey eq 'id')	 {
     			if   ($id->{type} eq 'U') {  return "u$id->{ind}" }
     			elsif($id->{type} eq 'L') {  return "$id->{ind}" }
+    			elsif($id->{type} eq 'V') {  return "v$id->{ind}" }
    		}
    		if ($skey eq 'index') { 	return $id->{indx} 	}
    		if ($skey eq 'key') 	{		return $id->{key} 	}
