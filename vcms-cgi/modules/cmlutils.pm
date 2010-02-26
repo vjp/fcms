@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.6 2010-02-26 04:33:05 vano Exp $
+# $Id: cmlutils.pm,v 1.7 2010-02-26 06:47:26 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -37,7 +37,8 @@ sub whois {
 sub sitesearch ($;$) 
 {
 	my ($query,$opts)=@_;
-	$site=$opts->{'site'} || $ENV{SERVER_NAME};
+	my $site=$opts->{'site'} || $ENV{SERVER_NAME};
+	my $page=$opts->{'page'} || 0;
 	$site="www.$site";
 
 	require LWP::UserAgent;
@@ -49,6 +50,7 @@ sub sitesearch ($;$)
 <?xml version='1.0' encoding='windows-1251'?>
 <request>    
 	<query>$query site='$site'</query>
+	<page>0</page>
 </request>
 DOC
 
@@ -82,7 +84,11 @@ DOC
    		$cr->{url}=$_->{doc}->{url};
    		push(@{$r->{result}},$cr);	
    	}
-	$r->{wordstat}=$v = Encode::encode('cp1251',$rf->{response}->{wordstat});
+   	for (@{$rf->{response}->{found}}) {
+   		$r->{found}=$_->{content} if $_->{priority} eq 'all';	
+   	}
+   	
+	$r->{wordstat}=Encode::encode('cp1251',$rf->{response}->{wordstat});
 	return $r;	
 }
 
