@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.27 2010-02-25 20:07:38 vano Exp $
+# $Id: cmlparse.pm,v 1.28 2010-02-26 22:07:38 vano Exp $
 
 BEGIN
 {
@@ -931,11 +931,11 @@ sub tag_actionlink {
 		return "<a href='/cgi-bin/vcms/cmlsrv.pl?action=editlowform&objid=$pl->{id}' $param>$title</a>";
 	} 	elsif ($pl->{action} eq 'ADD') {
 		my $prf="$pl->{up}_$pl->{id}";
-		my ($up,$link,$linkval,$name,$upobj)=@_;
+		my $linkval=$pl->{linkval} || $pl->{id};
 		return qq(
 		  	<input type='hidden' id='addup$prf' value='$pl->{up}'>
 		  	<input type='hidden' id='addlink$prf' value='$pl->{link}'>
-		  	<input type='hidden' id='addlinkval$prf' value='$pl->{id}'>
+		  	<input type='hidden' id='addlinkval$prf' value='$linkval'>
 		        <a href='#' onclick='return addObject(["addup$prf","addlink$prf","addlinkval$prf"], [addObjectCallback] )'>$title</a>
 		);
 		
