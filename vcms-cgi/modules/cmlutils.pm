@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.7 2010-02-26 06:47:26 vano Exp $
+# $Id: cmlutils.pm,v 1.8 2010-02-27 21:06:05 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -60,11 +60,17 @@ DOC
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $rf=$xs->XMLin($response->content);
-	message("XML YANDEX ERROR: $rf->{response}->{error}") if $rf->{response}->{error};
-	return undef unless $rf->{response}->{results}->{grouping}->{group};
+	my $r;
+	$r->{found}=0;
+	if ($rf->{response}->{error}) {
+		$r->{error}= Encode::encode('cp1251',$rf->{response}->{error}->{content});
+		$r->{errorcode}=$rf->{response}->{error}->{code};
+		return $r;
+	}
+	return $r unless $rf->{response}->{results}->{grouping}->{group};
 	my @finded=ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY'?
 		@{$rf->{response}->{results}->{grouping}->{group}}:($rf->{response}->{results}->{grouping}->{group});
-	my $r;
+
 	for (@finded) {
 		my $v;
    		if ($_->{doc}->{passages}->{passage}->{content}) {
