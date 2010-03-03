@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.28 2010-02-26 22:07:38 vano Exp $
+# $Id: cmlparse.pm,v 1.29 2010-03-03 21:49:39 vano Exp $
 
 BEGIN
 {
@@ -471,8 +471,7 @@ sub tag_select {
   		'selexpr','selected',
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
-  		'defoptvalue','defoptname','nodefopt'
-  		
+  		'defoptvalue','defoptname','nodefopt',
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -529,10 +528,11 @@ sub tag_select {
   	}
   	
   	my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
-  	return "$hd<select name='$name' $param $multiple>$defopt".
-  		tag_list({data=>$data,inner=>$inner,param=>$param}).
-  		cmlparser({data=>$_[0]->{data},inner=>$inner}).
-  		"</select>";
+  	my $itext=$_[0]->{data}?
+  		cmlparser({data=>$_[0]->{data},inner=>$inner}):
+  		tag_list({data=>$data,inner=>$inner,param=>$param});
+  	return "$hd<select name='$name' $param $multiple>$defopt\n$itext</select>";
+
 }	
 
 
