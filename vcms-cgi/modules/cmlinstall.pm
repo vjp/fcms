@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.43 2010-03-03 22:02:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.44 2010-03-06 19:55:29 vano Exp $
 
 BEGIN
 {
@@ -488,7 +488,7 @@ $bm=qq(
 <cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
 <table>
 <tr><th></th><th>Наименование</th><th>Номер</th><th></th></tr>
-<cml:list expr='p("_prm:listprm_") || lowlist()'>
+<cml:list expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
 <tr>
 <td><cml:deletebutton/></td>
 <td><cml:inputtext param='_NAME'/></td>
@@ -518,7 +518,7 @@ setvalue({key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 <cml:use id='_prm:id_'>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <b><cml:actionlink action='LISTEDIT' ukey='_prm:ukey_' listprm="_prm:listprm_" link="_prm:link_"><cml:text param='_NAME'/></cml:actionlink></b>
-<cml:list  expr='p("_prm:listprm_") || lowlist()'>
+<cml:list  expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
   <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" delete="1"/>
 </cml:list>
 </table>

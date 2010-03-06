@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.29 2010-03-03 21:49:39 vano Exp $
+# $Id: cmlparse.pm,v 1.30 2010-03-06 19:54:13 vano Exp $
 
 BEGIN
 {
@@ -302,7 +302,8 @@ sub tag_menuitem	{
 	my $pl=fetchparam($param,[
 		'action','key','href','icohref','id','prm','param',
 		'piclist','filelist','delete','head','listprm',
-		'childlistprm','childukey', 'ukey', 'childlink', 'link'
+		'childlistprm','childukey', 'ukey', 'childlink', 'link',
+		'orderby','ordertype'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -330,7 +331,7 @@ sub tag_menuitem	{
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
 			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
@@ -339,6 +340,9 @@ sub tag_menuitem	{
 					$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id";
 				} else {
 					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$ukey&id=$id":"body=LISTEDIT_$ukey&id=$id"
+				}
+				for (qw (orderby ordertype)) {
+					$pl->{icohref}.="&$_=$pl->{$_}" if $pl->{$_};
 				}
 			}		
 		} else {
@@ -350,6 +354,9 @@ sub tag_menuitem	{
 	} elsif ($pl->{action} eq 'LISTEDIT') {
 		my $ukey=&cmlcalc::p(_KEY,$id);
 		$pl->{href}="body=LISTEDIT_${ukey}&ukey=$ukey";
+		for (qw (orderby ordertype)) {
+			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
+		}
 	}
 	
 	
@@ -874,7 +881,8 @@ sub tag_actionlink {
 		'action','id','upobj','up','upkey','link','linkval',
 		'setflag','name','value','prm','param',
 		'piclist','filelist','vidlist',
-		'template', 'editprm', 'ukey', 'listprm' 
+		'template', 'editprm', 'ukey', 'listprm', 
+		'orderby','ordertype', 
 
 	]);
 	
@@ -916,7 +924,11 @@ sub tag_actionlink {
 	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
- 		return "<a href='?$pprm=LISTEDIT_$ukey&ukey=$ukey&id=$pl->{id}&listprm=$pl->{listprm}&link=$pl->{link}' $param $tstr>$title</a>";
+		my $hrf="?$pprm=LISTEDIT_$ukey&ukey=$ukey";
+		for (qw (id listprm link orderby ordertype)) {
+				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
+		}
+ 		return "<a href='$hrf' $param $tstr>$title</a>";
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
    	 	$pl->{template}='BASEARTICLE' unless $pl->{template};
