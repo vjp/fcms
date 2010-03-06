@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.44 2010-03-06 19:55:29 vano Exp $
+# $Id: cmlinstall.pm,v 1.45 2010-03-06 20:44:50 vano Exp $
 
 BEGIN
 {
@@ -469,6 +469,20 @@ setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 </script>
 )});
 
+addlowobject({upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вставка фото в визивиг'});
+setvalue({key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
+<table><tr>
+    <cml:list prm='PICLINKS'>
+        <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:img border="0" prm='PIC'/></cml:a></td>
+    </cml:list>
+</tr></table>
+<cml:form insertinto='_id:GALLERY_' link='PICLINK'>
+     <cml:inputfile param='PIC'/>
+     <input type='submit' value='Новая картинка'>
+</cml:form>
+)});
+
+
 
 my $bmf=qq(
 </td></tr></table>
@@ -478,6 +492,10 @@ my $bmf=qq(
 </body>
 </html>
 );
+
+
+
+
 addlowobject({upobjkey=>'BASECMS',key=>'BASEMAINFOOTER',name=>'Базовый шаблон подвала правого фрейма'});
 setvalue({key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 
