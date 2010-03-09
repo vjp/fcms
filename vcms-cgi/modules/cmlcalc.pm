@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.20 2010-03-09 20:40:01 vano Exp $
+# $Id: cmlcalc.pm,v 1.21 2010-03-09 20:49:00 vano Exp $
 
 BEGIN
 {
@@ -425,6 +425,11 @@ sub page {
        return $cmlcalc::CGIPARAM->{'view'} eq $_[0];    	
 }
 
+sub iscurrent {
+	my ($prm,$cgiprmname)=@_;
+	$cgiprmname = '1' unless $cgiprmname;
+	return p($prm) && (p($prm) eq $cmlcalc::CGIPARAM->{$cgiprmname});
+}
 
 sub p	{
 	
