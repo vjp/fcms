@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.6 2010-02-13 14:24:20 vano Exp $
+# $Id: viewer.pl,v 1.7 2010-03-09 21:25:22 vano Exp $
 
 use lib "./modules/";
 
@@ -235,5 +235,5 @@ sub errorpage
 sub benchmark
 {
 	my ($mtime)=@_;
-	print "<hr/> TIME : $mtime";
+	print "<br/>TIME : $mtime";
 }
