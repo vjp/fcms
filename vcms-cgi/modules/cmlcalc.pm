@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.19 2010-02-26 22:35:18 vano Exp $
+# $Id: cmlcalc.pm,v 1.20 2010-03-09 20:40:01 vano Exp $
 
 BEGIN
 {
@@ -420,6 +420,11 @@ sub cgi {
 sub dev {
 	return $cmlcalc::ENV->{dev}?1:0;
 }
+
+sub page {
+       return $cmlcalc::CGIPARAM->{'view'} eq $_[0];    	
+}
+
 
 sub p	{
 	
