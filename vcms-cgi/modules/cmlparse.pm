@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.31 2010-03-09 21:24:52 vano Exp $
+# $Id: cmlparse.pm,v 1.32 2010-03-09 21:35:13 vano Exp $
 
 BEGIN
 {
@@ -1373,16 +1373,20 @@ sub tag_text {
   	my $pkey;
   	my $expr;
   	my $id;
-    my $frmt;
-    my $ptype;
+    	my $frmt;
+    	my $ptype;
+        my $dfrmt;
+        
+    	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
+    	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
     
-    if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
-    elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
     
-    if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3}
+     
   	if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)     {$pkey=$3; $expr="p('$pkey')" }
-    if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i)       {$pkey=$3; $expr="p('$pkey')" }
+    	if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i)       {$pkey=$3; $expr="p('$pkey')" }
+     	$dfrmt=$cmlmain::prm->{$pkey}->{extra}->{format} if $pkey && $cmlmain::prm->{$pkey}->{type} eq 'DATE'; 
   
+    	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3}
   
   	if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
   	elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
@@ -1390,10 +1394,8 @@ sub tag_text {
   	elsif ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)       {$uid=$3   }
   	elsif ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)   {$key=param($3)}
   	elsif ($param=~s/(\W)idexpr=(['"])(.+?)\2/$1/i)    {
-  	    $id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$3})->{value}
-  	    	
-  	}
-  	elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {$id=param($3)}
+  	    	$id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$3})->{value}
+  	} elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {$id=param($3)}
   	elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {$id=$3; 
   		if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
   		if (lc ($id) eq '_parent') {$id=$_[0]->{inner}->{parent}} 
@@ -1423,9 +1425,13 @@ sub tag_text {
         	$rs=&cmlcalc::calculate({id=>$rs->{value},expr=>'p(_NAME)'});
       	}	
         my $result=$rs->{value};
-  			$result=sprintf ($frmt,$result) if $frmt;
+        if ($frmt) {
+  		$result=sprintf ($frmt,$result)
+        } elsif ($dfrmt && $result) {
+        	$result = strftime $dfrmt,gmtime($result);
+        }		 
+  	
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
-			return $result;
 	return $result;
 }
 
