@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.30 2010-03-06 19:54:13 vano Exp $
+# $Id: cmlparse.pm,v 1.31 2010-03-09 21:24:52 vano Exp $
 
 BEGIN
 {
@@ -1498,36 +1498,60 @@ sub tag_date {
   	my $id;
   	my $frmt;
 
-  	if    ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)     {$pkey=$3; $expr="p('$pkey')" }
-  	if    ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i)     {$expr=$3 }
-  	if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
-  	elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
-  	elsif ($param=~s/(\W)ukey=(['"])(.+?)\2/$1/i)      {$ukey=$3  }
-  	elsif ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)       {$uid=$3   }
-  	elsif ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)   {$key=param($3)}
-  	elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {$id=param($3)}
-  	elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {$id=$3; if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} }
-  	else  {$id=$_[0]->{inner}->{objid}} 
+	my $pl=fetchparam(\$param,[
+		'param','prm','expr','name','key',
+		'ukey','uid','namecgi','idcgi','id',
+		'format'
+	]);
+	
+        my $pkey;
+        $pkey=$pl->{param} || $pl->{prm};
+
+
+  	if    ($pkey)     {
+  		$expr="p('$pkey')";
+  		$frmt=$cmlmain::prm->{$pkey}->{extra}->{format}; 
+  	}
+  	
+  	if    ($pl->{'name'})		{
+  		$key=$pl->{'name'}   
+  	} elsif ($pl->{'key'})       	{
+  		$key=$pl->{'key'}   
+  	} elsif ($pl->{'ukey'})     	{
+  		$ukey=$pl->{'ukey'}  
+  	} elsif ($pl->{'uid'})       	{
+  		$uid=$pl->{'uid'}   
+  	}elsif ($pl->{'namecgi'}) 	{
+  		$key=param($pl->{'namecgi'})
+  	} elsif ($pl->{'idcgi'})     	{
+  		$id=param(pl->{'idcgi'})
+  	} elsif ($pl->{'id'})        	{
+  		$id=$pl->{'id'}; 
+  		if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
+  	} else  {
+  		$id=$_[0]->{inner}->{objid}
+  	}
+  	
+  	if ($pl->{'format'})     {
+  		$frmt=$pl->{'format'}
+  	} 
+  	
+  	$frmt='%d.%m.%y %H:%M' unless $frmt;
+  	
   	 
 
         if (lc ($id) eq '_iterator')        {$result=$_[0]->{inner}->{iterator}}
         elsif (lc ($id) eq '_iteratornext') {$result=$_[0]->{inner}->{iteratornext}}
-        elsif ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i)     {
-        	$expr=$3;
+        elsif (lc ($id) eq '_iteratordelta') {$result=$_[0]->{inner}->{iteratornext}}
+        elsif ($pl->{'expr'})     {
         	$expr=$pl->{'expr'};
         	$expr=~s/_iterator(\W)/$_[0]->{inner}->{iterator}$1/ig;
         	$expr=~s/_iteratordelta(\W)/$_[0]->{inner}->{delta}$1/ig;
-        	#$result=eval "$expr";
         	$expr=~s/_iteratornext(\W)/$_[0]->{inner}->{iteratornext}$1/ig;
-        #else { 
-        	$result=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
-        	$result=$result->{value} if ref $result eq 'HASH';
-        #};
+        } 
+        $result=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
+        $result=$result->{value} if ref $result eq 'HASH';
  	
-        
-
-  	
-  	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3} else {$frmt='%d.%m.%y %H:%M'}
 
   	return undef unless $result;
 	return strftime $frmt,gmtime($result);
