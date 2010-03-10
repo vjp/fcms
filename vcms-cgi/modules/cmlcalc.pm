@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.22 2010-03-09 20:51:05 vano Exp $
+# $Id: cmlcalc.pm,v 1.23 2010-03-10 07:02:10 vano Exp $
 
 BEGIN
 {
@@ -422,7 +422,13 @@ sub dev {
 }
 
 sub page {
-       return $cmlcalc::CGIPARAM->{'view'} eq $_[0];    	
+	my ($tname,$cgiparamvalue)=@_;
+	my $iscurpage=$cmlcalc::CGIPARAM->{'view'} eq $tname;
+	if ($cgiparamvalue) {
+		return $iscurpage && ($cmlcalc::CGIPARAM->{'1'} eq $cgiparamvalue);
+	} else {
+       		return $iscurpage;
+	}    	
 }
 
 sub iscurrent {
