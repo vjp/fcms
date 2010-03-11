@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.10 2010-02-22 09:15:48 vano Exp $
+# $Id: cmlview.pm,v 1.11 2010-03-11 20:34:30 vano Exp $
 
 BEGIN
 {
@@ -587,7 +587,8 @@ sub editmemofull
 			id : "editarea"		
 			,language: "ru"
 			,syntax: "html"			
-			,start_highlight: true		
+			,start_highlight: true	
+			,replace_tab_by_spaces : 4	
 		});
 		</script>
 	);
