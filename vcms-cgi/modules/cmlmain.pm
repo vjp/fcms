@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.24 2010-02-26 22:35:18 vano Exp $
+# $Id: cmlmain.pm,v 1.25 2010-03-12 20:57:20 vano Exp $
 
 BEGIN
 {
@@ -858,7 +858,10 @@ sub setvalue  {
  	
  	if ($prm->{$pkey}->{type} eq 'LIST') {
  		$sthDL->execute($ind,$pkey) || die $dbh->errstr;
- 		for (split(/\s*;\s*/,$value)) {$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr}
+ 		for (split(/\s*;\s*/,$value)) {
+ 			$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr;
+ 			$sthCH->execute($_) || die $dbh->errstr;
+ 		}
 	}
 
 	if ($prm->{$pkey}->{extra}->{srch} || $pkey eq '_NAME') {
