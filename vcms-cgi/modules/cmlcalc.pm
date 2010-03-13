@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.25 2010-03-12 20:18:03 vano Exp $
+# $Id: cmlcalc.pm,v 1.26 2010-03-13 12:34:16 vano Exp $
 
 BEGIN
 {
@@ -435,7 +435,8 @@ sub iscurrent {
 	my ($prm,$cgiprmname)=@_;
 	$prm = '_ID' unless $prm;
 	$cgiprmname = '1' unless $cgiprmname;
-	return p($prm) && (p($prm,$cmlcalc::CGIPARAM->{$cgiprmname}) eq p(_ID));
+	$cgiv=$cmlcalc::CGIPARAM->{$cgiprmname};
+	return p($prm) && $cgiv && (p($prm,$cgiv) eq p(_ID));
 }
 
 sub splitprice {
