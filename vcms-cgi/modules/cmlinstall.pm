@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.45 2010-03-06 20:44:50 vano Exp $
+# $Id: cmlinstall.pm,v 1.46 2010-03-13 12:44:15 vano Exp $
 
 BEGIN
 {
@@ -510,7 +510,7 @@ $bm=qq(
 <tr>
 <td><cml:deletebutton/></td>
 <td><cml:inputtext param='_NAME'/></td>
-<td><cml:inputtext param='_INDEX'/></td>
+<td><cml:inputtext param='_INDEX' value='_LISTINDEX'/></td>
 <td><cml:actionlink action='EDIT'>Редактировать</cml:actionlink></td>
 </tr>
 </cml:list>
