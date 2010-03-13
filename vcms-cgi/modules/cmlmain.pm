@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.25 2010-03-12 20:57:20 vano Exp $
+# $Id: cmlmain.pm,v 1.26 2010-03-13 12:35:59 vano Exp $
 
 BEGIN
 {
@@ -762,15 +762,20 @@ sub setvalue  {
 	}	elsif ($id=~/^\d+$/)   {	
   		my $objid=$id;
 		if ($pkey eq '_INDEX') {   
-			update({id=>$objid , indx=>$value}); 
+			update({id=>$objid , indx=>$value});
+			$sthCH->execute($objid) || die $dbh->errstr; 
 			return 1;
 		}	
 		if ($pkey eq '_KEY') {   
 			update({id=>$objid , key=>$value}) ; 
+			$sthCH->execute($objid) || die $dbh->errstr;
 			return 1; 
 		}	
 		if ($pkey eq '_UP') {   
-			update({id=>$objid , upobj=>$value}) if $value=~/^u/;
+			if ($value=~/^u/) {
+				update({id=>$objid , upobj=>$value}); 
+				$sthCH->execute($objid) || die $dbh->errstr;
+			}	
 			return 1;
 		}	
 		checkload({id=>$objid});
@@ -778,6 +783,7 @@ sub setvalue  {
 			my $xk=$lobj->{$objid}->{key}; 
 			$xk=~s/^_PP_//;
 			updateprmname($xk,$value);
+			$sthCH->execute($objid) || die $dbh->errstr;
 			return 1; 
    	 	}	
   		my $cl;	
