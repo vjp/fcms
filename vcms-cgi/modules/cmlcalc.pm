@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.26 2010-03-13 12:34:16 vano Exp $
+# $Id: cmlcalc.pm,v 1.27 2010-03-14 20:08:04 vano Exp $
 
 BEGIN
 {
@@ -50,6 +50,9 @@ sub initcalc
                };
   $gtype{SCRIPT}={
                  retvalue   =>\&retempty
+               };
+  $gtype{FILELINK}={
+                 retvalue   =>\&rettext
                };
                  
 

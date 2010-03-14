@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.26 2010-03-13 12:35:59 vano Exp $
+# $Id: cmlmain.pm,v 1.27 2010-03-14 20:08:13 vano Exp $
 
 BEGIN
 {
@@ -1483,7 +1483,7 @@ sub buildparam 	{
 
   	
   	
-	@ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE'  );
+	@ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK'  );
 	
 }
 

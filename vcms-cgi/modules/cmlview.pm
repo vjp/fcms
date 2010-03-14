@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.11 2010-03-11 20:34:30 vano Exp $
+# $Id: cmlview.pm,v 1.12 2010-03-14 20:08:22 vano Exp $
 
 BEGIN
 {
@@ -475,6 +475,30 @@ sub editfile
 }
 
 
+sub editfilelink {
+ 	my $id=$_[0]->{id};
+ 	my $uid=$_[0]->{uid};
+ 	my $tabkey=$_[0]->{tabkey};
+ 	my $tabpkey=$_[0]->{tabpkey};
+ 	my $pkey=$_[0]->{pkey};
+ 	my $lang=$_[0]->{lang};
+ 
+  	my $checked;
+
+ 	my $prmname;
+ 	if ($tabkey) {$prmname='vk'.$tabkey.'v'.$pkey} else {$prmname="v$pkey"}
+ 
+ 	my $val=calculate({id=>$id,uid=>$uid,pkey=>$pkey,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)"}); 
+	return textfield (
+ 				-name=>$prmname,
+ 				-default=>$val->{value},
+ 				-onChange=>"document.$formname.$flagname.value=1",
+ 				-override=>1,
+	).
+	a({-href=>"?action=editfilecontent&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},">>");			 
+}
+
+
 
 sub editmemo {
  	my $id=$_[0]->{id};
@@ -929,6 +953,8 @@ sub extralist {
  	return \@o;
 }
 
+
+
 sub extradate {
  	my $pkey=$_[0]->{pkey};
  	
@@ -1206,6 +1232,15 @@ sub buildvparam {
                  extraparse =>\&cmlview::emptysub,
         };
 
+	$ptype{FILELINK}={
+                 name       =>'—сылка на файл',
+                 editview   =>\&cmlview::editfilelink,
+                 extra      =>\&cmlview::emptysub,
+                 extraparse =>\&cmlview::emptysub,
+                 extendedit =>\&cmlview::editfilelinkfull,
+                 extendset=>\&cmlview::setfilelinkfull,
+        };
+  
 }
 
 
