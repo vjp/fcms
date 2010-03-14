@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.32 2010-03-09 21:35:13 vano Exp $
+# $Id: cmlparse.pm,v 1.33 2010-03-14 16:15:58 vano Exp $
 
 BEGIN
 {
@@ -1230,7 +1230,7 @@ sub tag_img 	{
 		return "$hintinit<img src='$src' $param alt='$alt' $hintstr>";	
 
 	} else {
-		return "<img src='$src' $param alt='$alt'>";	
+		return "<img src='$src' $param alt='$alt' title='$alt'>";	
 	}
 	
 	
