@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.33 2010-03-14 16:15:58 vano Exp $
+# $Id: cmlparse.pm,v 1.34 2010-03-15 08:20:48 vano Exp $
 
 BEGIN
 {
@@ -339,7 +339,7 @@ sub tag_menuitem	{
 				if ($pl->{'childukey'} && $pl->{'key'}) {
 					$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id";
 				} else {
-					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$ukey&id=$id":"body=LISTEDIT_$ukey&id=$id"
+					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$upkey&id=$id":"body=LISTEDIT_$ukey&id=$id"
 				}
 				for (qw (orderby ordertype)) {
 					$pl->{icohref}.="&$_=$pl->{$_}" if $pl->{$_};
@@ -365,6 +365,7 @@ sub tag_menuitem	{
 	}
 	my $href='?'. ($pl->{href} || "body=$pl->{action}_$pl->{key}");
 	my $icohref='?'. ($pl->{icohref} || $pl->{href} || "body=$pl->{action}_$pl->{key}");
+	
 	
 	my $itext=cmlparser({data=>$data,inner=>$inner});
 	unless ($itext) {
