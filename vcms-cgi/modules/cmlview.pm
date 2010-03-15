@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.12 2010-03-14 20:08:22 vano Exp $
+# $Id: cmlview.pm,v 1.13 2010-03-15 04:22:04 vano Exp $
 
 BEGIN
 {
@@ -482,7 +482,8 @@ sub editfilelink {
  	my $tabpkey=$_[0]->{tabpkey};
  	my $pkey=$_[0]->{pkey};
  	my $lang=$_[0]->{lang};
- 
+ 	my $formname=$_[0]->{form};
+ 	my $flagname=$_[0]->{flag};
   	my $checked;
 
  	my $prmname;
@@ -1237,6 +1238,7 @@ sub buildvparam {
                  editview   =>\&cmlview::editfilelink,
                  extra      =>\&cmlview::emptysub,
                  extraparse =>\&cmlview::emptysub,
+                 setvalue   =>\&cmlview::settext,
                  extendedit =>\&cmlview::editfilelinkfull,
                  extendset=>\&cmlview::setfilelinkfull,
         };
