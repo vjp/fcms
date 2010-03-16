@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.46 2010-03-13 12:44:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.47 2010-03-16 06:39:22 vano Exp $
 
 BEGIN
 {
@@ -261,7 +261,6 @@ my $bestr=qq(
   <cml:form parser='BASELPARSER'>
       <table>
           <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/></td></tr>
-          <tr><td>Номер: </td><td><cml:inputtext param='_INDEX'/></td></tr>
           <tr><td colspan=2><input type=submit value='Зафиксировать изменения'></td></tr>
       </table>
   </cml:form>
