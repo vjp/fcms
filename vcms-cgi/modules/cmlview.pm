@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.13 2010-03-15 04:22:04 vano Exp $
+# $Id: cmlview.pm,v 1.14 2010-03-17 22:02:35 vano Exp $
 
 BEGIN
 {
@@ -57,9 +57,9 @@ sub console {
 	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
 	print hidden(-name=>'script');
 	print br;
-	print button(-value=>'Выполнить',-onclick=>$save_js);
+	print button(-value=>name('Выполнить'),-onclick=>$save_js);
 	print endform;
-	print hr,"Результат выполнения скрипта",hr,"<div id='resultDiv'></div>";
+	print hr,name("Результат выполнения скрипта"),hr,"<div id='resultDiv'></div>";
 	
 	
 }	
