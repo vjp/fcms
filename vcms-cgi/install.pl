@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.4 2010-02-21 20:07:26 vano Exp $
+# $Id: install.pl,v 1.5 2010-03-17 21:49:55 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -10,7 +10,7 @@ use CGI::Carp qw /fatalsToBrowser/;
 use DBI;
 
 
-use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH);
+use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF);
  
 
 print "Content-Type: text/html; charset=windows-1251\n\n";
@@ -30,7 +30,8 @@ if (param('install')) {
 		$DBPASSWORD=param('dbpassword');
 		$DBPREFIX=param('dbprefix');
 		$DOMAINNAME=param('domainname');
-		$ABSPATH=param('abspath');		
+		$ABSPATH=param('abspath');
+		$UTF=0+param('utf');		
 		$ROOTPATH=param('rootpath');
 		if (! -s 'cgi.tar.gz') {
 			print "Файл cgi.tar.gz не найден",br();
@@ -117,6 +118,7 @@ if (param('install')) {
 				$cnf=~s/<domainname>/$DOMAINNAME/g;
 				$cnf=~s/<abspath>/$ABSPATH/g;
 				$cnf=~s/<rootpath>/$ROOTPATH/g;
+				$cnf=~s/<utf>/$UTF/g;
 			}	
 			close CF;
 			open (CFF,'>conf');
@@ -172,7 +174,8 @@ print qq(
   <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'><td></td></tr>
   <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'><td></td></tr>
   <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'><td></td></tr>
-  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='${path}www/'><td></td></tr>    
+  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='${path}www/'><td></td></tr>
+  <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'><td></td></tr>    
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
