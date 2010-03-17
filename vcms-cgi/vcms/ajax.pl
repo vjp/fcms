@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 
+# $Id: ajax.pl,v 1.9 2010-03-17 22:24:27 vano Exp $
+
 use strict;
 no strict "refs";
 
@@ -27,12 +29,12 @@ $AJAX_FUNCS={
 };   
 
 start('..');
-print "Content-Type: text/html; charset=windows-1251\n\n";
+print "Content-Type: text/html; charset: $GLOBAL->{CODEPAGE}\n\n";
 my @input = param('args');
 my $func= lc param('func');
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
-	print &$subname(@input);
+	print "---> $GLOBAL->{CODEPAGE} ".&$subname(@input);
 } else {
 	print "incorrect func : $func";
 }	
