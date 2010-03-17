@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.27 2010-03-14 20:08:13 vano Exp $
+# $Id: cmlmain.pm,v 1.28 2010-03-17 22:01:54 vano Exp $
 
 BEGIN
 {
@@ -11,7 +11,7 @@ BEGIN
  use cmlparse;
  use Time::Local;
  use Time::HiRes qw /time/;
- 
+ use Encode;
 
  @ISA    = 'Exporter';
  @EXPORT = qw(
@@ -44,7 +44,7 @@ BEGIN
               
               &checkdatastruct &deletelowlist &sync &remote_sync
               
-              &prminfo
+              &prminfo &name
              );
 
 
@@ -909,10 +909,10 @@ sub init	{
  	do "$_[0]/conf" || die $!;
 
  	$DBHOST='localhost' unless $DBHOST;
- 	$DBPREFIX=$DBPREFIX?"$DBPREFIX_":'';
+ 	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
  	dbconnect({dbname=>$DBNAME,dbuser=>$DBUSER,dbpassword=>$DBPASSWORD,dbhost=>$DBHOST});
- 	$sthV =$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE objid=?") || die $dbh->errstr;
+ 	
 	 
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
@@ -935,20 +935,13 @@ sub init	{
  	$sthLTTL=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? ORDER BY indx LIMIT ?") || die $dbh->errstr;
  	$sthLTT1=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE upobj=? AND id=?") || die $dbh->errstr;
  
- 	$sthNL=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE pkey='_NAME' AND upobj=?") || die $dbh->errstr;
- 	$sthNL1=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE pkey='_NAME' AND upobj=? AND objid=?")|| die $dbh->errstr;
- 
  
  	$LsthV=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE objid=? AND lang=?")|| die $dbh->errstr;
- 	$LsthUV=$dbh->prepare("SELECT * FROM ${DBPREFIX}uvls WHERE objid=? AND lang=?")|| die $dbh->errstr;
+ 	
  
  	$LsthAV=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE upobj=? AND lang=?")|| die $dbh->errstr;
 
  
- 
- 	$sthVLN=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE pkey='_NAME' AND upobj=?")|| die $dbh->errstr;
- 	$sthVLN1=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE pkey='_NAME' AND upobj=? AND objid=?")|| die $dbh->errstr;
-
  	$LANGS{mul}='Мультиязычный';
  	#$LANGS{''}='Не определен';
 
@@ -968,7 +961,6 @@ sub init	{
  
  	$sthIFS_I=$dbh->prepare("REPLACE ${DBPREFIX}fsint (id,prm,lang,val) VALUES (?,?,?,?)") || die $dbh->errstr;
  	$sthDFS_I=$dbh->prepare("DELETE FROM ${DBPREFIX}fs WHERE id=? AND prm=?") || die $dbh->errstr;
- 	$sthFS_I=$dbh->prepare("SELECT id FROM ${DBPREFIX}fsint WHERE prm=? AND val=?") || die $dbh->errstr;
  
  
  	$sthFSL=$dbh->prepare("SELECT id FROM ${DBPREFIX}fs WHERE prm=? AND val LIKE ?") || die $dbh->errstr;
@@ -997,9 +989,20 @@ sub init	{
   	$GLOBAL->{SYNC}=\%SYNC;
   	$GLOBAL->{DOUBLECONFIRM}=$DOUBLECONFIRM;
   	$GLOBAL->{CACHE}=$CACHE;
+  	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
  	
  	undef @LOG;
 }
+
+sub name 
+{
+	my ($name)=@_;
+	if ($GLOBAL->{CODEPAGE} eq 'utf-8') {
+		$name=Encode::encode('utf-8',Encode::decode('windows-1251',$name));
+	}
+	return $name;
+}
+
 
 sub clearcache 
 {
