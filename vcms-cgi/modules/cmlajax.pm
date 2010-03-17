@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.5 2010-02-22 09:33:07 vano Exp $
+# $Id: cmlajax.pm,v 1.6 2010-03-17 22:28:29 vano Exp $
 
 BEGIN
 {
@@ -71,12 +71,12 @@ sub ajax_deleteobject ($)
 sub ajax_evalscript ($)
 {
 	my ($script)=@_;
-	$script = Encode::encode('cp1251',Encode::decode('utf8',$script));
+	$script = Encode::encode('cp1251',Encode::decode('utf8',$script)) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 	my $error=&cmlcalc::scripteval($script);
 	if ($error) {
-		return "Ошибка выполнения скрипта: <b>$error</b> <hr> Исходный текст: <br> $script";
+		return name("Ошибка выполнения скрипта").": <b>$error</b> <hr> ".name('Исходный текст').": <br> $script";
 	} else {
-		return '<hr/>Выполнено без ошибок';
+		return name('<hr/>Выполнено без ошибок');
 	}	
 }
 
