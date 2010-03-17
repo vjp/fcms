@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.9 2010-02-22 09:15:28 vano Exp $
+# $Id: cmlsrv.pl,v 1.10 2010-03-17 22:02:11 vano Exp $
 
 use lib "../modules/";
 
@@ -54,8 +54,7 @@ if ($action) {
 	}	
 }
 
-
-print "Content-Type: text/html; charset=windows-1251\n\n";
+print header(-type=>'text/html', -charset=>$GLOBAL->{CODEPAGE});
 
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
 $cmlcalc::ENV->{dev}=cookie('dev');
@@ -465,21 +464,21 @@ sub viewusers {
 
 sub viewleft {
 	viewtree(0,0,1);
-	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},'Пользователи и .htaccess');
-	print br,a({-href=>'?action=console',-target=>'mainbody'},'Консоль');
-	print br,a({-href=>'?action=config',-target=>'mainbody'},'Конфигурация');
+	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},name('Пользователи и .htaccess'));
+	print br,a({-href=>'?action=console',-target=>'mainbody'},name('Консоль'));
+	print br,a({-href=>'?action=config',-target=>'mainbody'},name('Конфигурация'));
 	
-	print br,a({-href=>'?action=viewleft'},'Обновить');
+	print br,a({-href=>'?action=viewleft'},name('Обновить'));
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
-	print br,'Перейти к объекту';
-	print br,' по ID ',textfield(-name=>"objid",-size=>5,-override=>1);
-	print ' или ключу ',textfield(-name=>"objkey",-size=>10,-override=>1);
+	print br,name('Перейти к объекту');
+	print br,name(' по ID '),textfield(-name=>"objid",-size=>5,-override=>1);
+	print name(' или ключу '),textfield(-name=>"objkey",-size=>10,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'editlowform',-override=>1);
 	print endform;
 	
 	print br,start_form(-method=>'post',-name=>'gotoprm',-target=>'mainbody');
-	print br,'Перейти к параметру',textfield(-name=>"pkey",-size=>15,-override=>1);
+	print br,name('Перейти к параметру'),textfield(-name=>"pkey",-size=>15,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'viewprm',-override=>1);
 	print endform;
