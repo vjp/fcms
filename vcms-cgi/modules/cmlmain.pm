@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.30 2010-03-18 19:22:29 vano Exp $
+# $Id: cmlmain.pm,v 1.32 2010-03-18 20:05:27 vano Exp $
 
 BEGIN
 {
@@ -44,7 +44,7 @@ BEGIN
               
               &checkdatastruct &deletelowlist &sync &remote_sync
               
-              &prminfo &name
+              &prminfo &enc
              );
 
 
@@ -907,7 +907,7 @@ sub checkdatastruct {
 
 sub init	{
  	do "$_[0]/conf" || die $!;
-
+  	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
  	$DBHOST='localhost' unless $DBHOST;
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
@@ -943,7 +943,9 @@ sub init	{
 
  
  	$LANGS{mul}='Мультиязычный';
- 	#$LANGS{''}='Не определен';
+	for my $lang (keys %LANGS) {
+		$LANGS{$lang}=enc($LANGS{$lang});
+	}	  
 
  
  	$sthTV=$dbh->prepare("SELECT * FROM ${DBPREFIX}tvls WHERE id=? AND ptkey=?") || die $dbh->errstr;
@@ -989,7 +991,7 @@ sub init	{
   	$GLOBAL->{SYNC}=\%SYNC;
   	$GLOBAL->{DOUBLECONFIRM}=$DOUBLECONFIRM;
   	$GLOBAL->{CACHE}=$CACHE;
-  	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
+
  	
  	undef @LOG;
 }
@@ -998,9 +1000,9 @@ sub enc
 {
 	my ($val)=@_;
 	if ($GLOBAL->{CODEPAGE} eq 'utf-8') {
-		$enc=Encode::encode('utf-8',Encode::decode('windows-1251',$val));
+		$val=Encode::encode('utf-8',Encode::decode('windows-1251',$val));
 	}
-	return $enc;
+	return $val;
 }
 
 
