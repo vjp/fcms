@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.32 2010-03-18 20:05:27 vano Exp $
+# $Id: cmlmain.pm,v 1.33 2010-03-18 20:16:53 vano Exp $
 
 BEGIN
 {
@@ -1163,7 +1163,7 @@ sub addobject {
 	
 	$up=~s/u(\d+)/$1/;
 	
- 	unless ($name) {$name='Новый объект'}
+ 	unless ($name) {$name=enc('Новый объект')}
  	
  	unless ($template) {
 
@@ -1248,7 +1248,7 @@ sub addlowobject {
  	if ($upobj=~/u(\d+)/) {$upobj=$1}
   	#checkload({uid=>$upobj});
  	
-	unless ($name) {$name='Новый объект'}
+	unless ($name) {$name=enc('Новый объект')}
  	unless ($template) {
  		if    ( $lobj->{$up} && $lobj->{$up}->{template} && $obj->{$lobj->{$up}->{template}}->{ltemplate})   {$template=$obj->{$lobj->{$up}->{template}}->{ltemplate}}
  		elsif ($obj->{$obj->{$upobj}->{template}}->{ltemplate}) {$template=$obj->{$obj->{$upobj}->{template}}->{ltemplate}}
