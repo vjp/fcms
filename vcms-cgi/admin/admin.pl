@@ -81,7 +81,7 @@ my $pjx = new CGI::Ajax(
 );
 $pjx->js_encode_function('encodeURIComponent');
 $pjx->JSDEBUG(2);
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>'windows-1251');
+print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 print $pjx->show_javascript();
 print_ajax_callback_funcs();
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
