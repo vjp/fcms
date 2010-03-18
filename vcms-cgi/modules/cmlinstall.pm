@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.47 2010-03-16 06:39:22 vano Exp $
+# $Id: cmlinstall.pm,v 1.48 2010-03-18 07:06:47 vano Exp $
 
 BEGIN
 {
@@ -19,39 +19,39 @@ sub install_cron ($){
 
 sub install_structure {
 	
-addobject({forced=>1,up=>0,key=>'CONTENT',name=>'Содержимое сайта'});
-addobject({forced=>1,up=>0,key=>'DESIGN',name=>'Дизайн сайта'});
-addobject({forced=>1,up=>0,key=>'CMSDESIGN',name=>'Дизайн интерфейса администрирования'});
-addobject({forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
-addobject({forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
-addobject({forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
-addobject({forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'CONTENT',name=>'Содержимое сайта'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'DESIGN',name=>'Дизайн сайта'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'CMSDESIGN',name=>'Дизайн интерфейса администрирования'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
 
 
 
-addprm({objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
-addprm({objkey=>'CONTENT',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
-addprm({objkey=>'CONTENT',name=>'Первая картинка',type=>'LIST',key=>'FIRSTPIC',upd=>'n',defval=>'my @v=split(/;/,p(PICLINKS));$v[0]'});
-addprm({objkey=>'CONTENT',name=>'Картинки для верхних объектов',type=>'LIST',key=>'UPICLINKS',upd=>'n',defval=>'ubackref(id(GALLERY),PICLINK)'});
-addprm({objkey=>'CONTENT',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
-addprm({objkey=>'CONTENT',name=>'Файлы для верхних объектов',type=>'LIST',key=>'UFILELINKS',upd=>'n',defval=>'ubackref(id(FILEARCHIVE),FILELINK)'});
-addprm({objkey=>'CONTENT',name=>'Ролики',type=>'LIST',key=>'VIDLINKS',upd=>'n',defval=>'backref(id(VIDEOGALLERY),VIDLINK)'});
-addprm({objkey=>'CONTENT',name=>'Первый ролик',type=>'LIST',key=>'FIRSTVIDEO',upd=>'n',defval=>'my @v=split(/;/,p(VIDLINKS));$v[0]'});
-addprm({objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>'UVIDLINKS',upd=>'n',defval=>'ubackref(id(VIDEOGALLERY),VIDLINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Первая картинка',type=>'LIST',key=>'FIRSTPIC',upd=>'n',defval=>'my @v=split(/;/,p(PICLINKS));$v[0]'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Картинки для верхних объектов',type=>'LIST',key=>'UPICLINKS',upd=>'n',defval=>'ubackref(id(GALLERY),PICLINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Файлы для верхних объектов',type=>'LIST',key=>'UFILELINKS',upd=>'n',defval=>'ubackref(id(FILEARCHIVE),FILELINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Ролики',type=>'LIST',key=>'VIDLINKS',upd=>'n',defval=>'backref(id(VIDEOGALLERY),VIDLINK)'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Первый ролик',type=>'LIST',key=>'FIRSTVIDEO',upd=>'n',defval=>'my @v=split(/;/,p(VIDLINKS));$v[0]'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>'UVIDLINKS',upd=>'n',defval=>'ubackref(id(VIDEOGALLERY),VIDLINK)'});
 
 
-addobject({upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
-addprm({objkey=>'SECTIONS',name=>'Позиции',type=>'LIST',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(ITEMS),SECLINK)'});
+addobject({convertname=>1,upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
+addprm({convertname=>1,objkey=>'SECTIONS',name=>'Позиции',type=>'LIST',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(ITEMS),SECLINK)'});
 
-addobject({upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
-addprm({objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK',evl=>'n',upd=>'y'});
+addobject({convertname=>1,upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
+addprm({convertname=>1,objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK',evl=>'n',upd=>'y'});
 setprmextra({pkey=>'SECLINK',extra=>'formula',value=>'lowlist(id(SECTIONS))'});
 setprmextra({pkey=>'SECLINK',extra=>'single',value=>'y'});
 
-addobject({upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
-addprm({objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
-addprm({objkey=>'GALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'PICLINK',evl=>'n'});
-addprm({objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>q(
+addobject({convertname=>1,upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
+addprm({convertname=>1,objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
+addprm({convertname=>1,objkey=>'GALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'PICLINK',evl=>'n'});
+addprm({convertname=>1,objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>q(
 my @v=reverse split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -60,7 +60,7 @@ for (@v) {
    $r=$_;
 }
 )});
-addprm({objkey=>'GALLERY',name=>'Предыдущая картинка',type=>'LIST',key=>'PREVPIC',upd=>'n',defval=>q(
+addprm({convertname=>1,objkey=>'GALLERY',name=>'Предыдущая картинка',type=>'LIST',key=>'PREVPIC',upd=>'n',defval=>q(
 my @v=split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -73,11 +73,11 @@ for (@v) {
 
 
 
-addobject({upkey=>'CONTENT',key=>'VIDEOGALLERY',name=>'Видеогалерея'});
-addprm({objkey=>'VIDEOGALLERY',name=>'Ролик',type=>'VIDEO',key=>'MOVIE',evl=>'n'});
-addprm({objkey=>'VIDEOGALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'VIDLINK',evl=>'n'});
-addprm({objkey=>'VIDEOGALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
-addprm({objkey=>'VIDEOGALLERY',name=>'Следующий ролик',type=>'LIST',key=>'NEXTVIDEO',upd=>'n',defval=>q(
+addobject({convertname=>1,upkey=>'CONTENT',key=>'VIDEOGALLERY',name=>'Видеогалерея'});
+addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Ролик',type=>'VIDEO',key=>'MOVIE',evl=>'n'});
+addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'VIDLINK',evl=>'n'});
+addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
+addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Следующий ролик',type=>'LIST',key=>'NEXTVIDEO',upd=>'n',defval=>q(
 my @v=reverse split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -86,7 +86,7 @@ for (@v) {
    $r=$_;
 }
 )});
-addprm({objkey=>'VIDEOGALLERY',name=>'Предыдущий ролик',type=>'LIST',key=>'PREVVIDEO',upd=>'n',defval=>q(
+addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Предыдущий ролик',type=>'LIST',key=>'PREVVIDEO',upd=>'n',defval=>q(
 my @v=split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
@@ -99,9 +99,9 @@ for (@v) {
 
 
 
-addobject({upkey=>'CONTENT',key=>'FILEARCHIVE',name=>'Файловый архив'});
-addprm({objkey=>'FILEARCHIVE',name=>'Файл',type=>'FILE',key=>'ARCHIVEFILE',evl=>'n'});
-addprm({objkey=>'FILEARCHIVE',name=>'Ссылка на раздел',type=>'LIST',key=>'FILELINK',evl=>'n'});
+addobject({convertname=>1,upkey=>'CONTENT',key=>'FILEARCHIVE',name=>'Файловый архив'});
+addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Файл',type=>'FILE',key=>'ARCHIVEFILE',evl=>'n'});
+addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Ссылка на раздел',type=>'LIST',key=>'FILELINK',evl=>'n'});
 addprm({objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT',key=>'ARCHIVEFILEDESCR',evl=>'n'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'rows',value=>'3'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
@@ -111,19 +111,19 @@ setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
 
 
 
-addprm({objkey=>'DESIGN',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
-addprm({objkey=>'DESIGN',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
-addprm({objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'$CGIPARAM->{1}?p(_NAME,$CGIPARAM->{1}):p(_NAME)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'$CGIPARAM->{1}?p(_NAME,$CGIPARAM->{1}):p(_NAME)'});
 
 
 
-addprm({objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
-addprm({objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE'});
 setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 
-addobject({forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
-addlowobject({upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
-addlowobject({upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
+addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
 setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
@@ -147,31 +147,31 @@ setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',value=>qq(
 </html>
 )});
 
-addlowobject({upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
 	<cml:include key="SITEHEADER"/> <cml:include name="_prm:view_"/> <cml:include key="SITEFOOTER"/>
 )});
-addlowobject({upobjkey=>'DESIGN',key=>'UNDERCONSTRUCT',name=>'Заглушка'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'UNDERCONSTRUCT',name=>'Заглушка'});
 setvalue({key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Under construction...'});
 
 
 
 
-addprm({objkey=>'AUTOMATE',name=>'Флаг активности',type=>'FLAG',key=>'AUTOLOCK',evl=>'n',self=>1});
-addprm({objkey=>'AUTOMATE',name=>'Время последнего запуска',type=>'DATE',key=>'AUTOLOCKTIME',evl=>'n',self=>1});
+addprm({convertname=>1,objkey=>'AUTOMATE',name=>'Флаг активности',type=>'FLAG',key=>'AUTOLOCK',evl=>'n',self=>1});
+addprm({convertname=>1,objkey=>'AUTOMATE',name=>'Время последнего запуска',type=>'DATE',key=>'AUTOLOCKTIME',evl=>'n',self=>1});
 setprmextra({pkey=>'AUTOLOCKTIME',extra=>'format',value=>'%d.%m.%Y %H:%M'});
-addprm({objkey=>'AUTOMATE',name=>'Максимальный период',type=>'NUMBER',key=>'AUTOLOCKPERIOD',evl=>'n',self=>1});
-addmethod ({objkey=>'AUTOMATE',key=>'AUTOSCRIPT',name=>'Скрипт автозапуска',script=>qq(message ("AUTOSCRIPT STARTED : ".scalar localtime);)});
+addprm({convertname=>1,objkey=>'AUTOMATE',name=>'Максимальный период',type=>'NUMBER',key=>'AUTOLOCKPERIOD',evl=>'n',self=>1});
+addmethod ({convertname=>1,objkey=>'AUTOMATE',key=>'AUTOSCRIPT',name=>'Скрипт автозапуска',script=>qq(message ("AUTOSCRIPT STARTED : ".scalar localtime);)});
 
 
 
-addobject({forced=>1,upkey=>'AUTOMATE',key=>'AUTOLOGS',name=>'Логи автозапуска'});
-addprm({objkey=>'AUTOLOGS',name=>'Время запуска',type=>'DATE',key=>'EXECDATE',evl=>'n',upd=>'n'});
-addprm({objkey=>'AUTOLOGS',name=>'Лог',type=>'LONGTEXT',key=>'LOGBODY',evl=>'n',upd=>'n'});
+addobject({convertname=>1,forced=>1,upkey=>'AUTOMATE',key=>'AUTOLOGS',name=>'Логи автозапуска'});
+addprm({convertname=>1,objkey=>'AUTOLOGS',name=>'Время запуска',type=>'DATE',key=>'EXECDATE',evl=>'n',upd=>'n'});
+addprm({convertname=>1,objkey=>'AUTOLOGS',name=>'Лог',type=>'LONGTEXT',key=>'LOGBODY',evl=>'n',upd=>'n'});
 
 
 
-addobject({upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'});
+addobject({convertname=>1,upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'});
 
 
 
@@ -179,23 +179,23 @@ addobject({upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'
 
 
 
-addlowobject({upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартовая страница'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартовая страница'});
 setvalue({key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>'Here is startpage'});
-addlowobject({upobjkey=>'DESIGN',key=>'ERRORPAGE',name=>'Cтраница ошибки'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERRORPAGE',name=>'Cтраница ошибки'});
 setvalue({key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Here is errorpage'});
 
 copyprm({objkey=>'CMSDESIGN',key=>'PAGETEMPLATE'});
 copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
 
 
-addobject({upkey=>'CMSDESIGN',key=>'CMSMENU',name=>'Шаблоны меню'});
-addobject({upkey=>'CMSDESIGN',key=>'CMSFORM',name=>'Шаблоны форм'});
-addobject({upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
-addobject({upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSMENU',name=>'Шаблоны меню'});
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSFORM',name=>'Шаблоны форм'});
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
 
 
 
-addlowobject({upobjkey=>'CMSFORM', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORM', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
 setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 
 <html>
@@ -218,7 +218,7 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
-addlowobject({upobjkey=>'CMSFORM', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORM', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
 setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 
 <html>
@@ -241,8 +241,8 @@ setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASELIST',name=>'Базовый шаблон списка'});
-setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',value=>q(
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELIST',name=>'Базовый шаблон списка'});
+setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 <cml:use key='_prm:ukey_'>
 	<cml:text param='_NAME'/><br>
 	<cml:list  expr='lowlist()'>
@@ -269,17 +269,17 @@ my $bestr=qq(
 
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEEDIT',name=>'Базовый шаблон объекта'});
-setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEEDIT',name=>'Базовый шаблон объекта'});
+setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 
 
-addlowobject({upobjkey=>'CMSDESIGN',key=>'EDIT_SECTIONS',name=>'Редактирование раздела каталога'});
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'EDIT_SECTIONS',name=>'Редактирование раздела каталога'});
 setvalue({key=>'EDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bestr});
-addlowobject({upobjkey=>'CMSDESIGN',key=>'EDIT_ITEMS',name=>'Редактирование товара'});
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'EDIT_ITEMS',name=>'Редактирование товара'});
 setvalue({key=>'EDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bestr});
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
 setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 <CML:INCLUDE name='BASEMENUHEADER'/>
 <CML:INCLUDE name='CMSHEADMENU'/>
@@ -289,15 +289,15 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 
 
 
-addlowobject({upobjkey=>'CMSMENU',key=>'USERMENU',name=>'Шаблон меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMENU',name=>'Шаблон меню'});
 setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMENU'/>"});
 
-addlowobject({upobjkey=>'CMSMENU',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
-setvalue({key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здесь ..."});
+addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
+setvalue({convert=>1,key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здесь ..."});
 
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
 setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
@@ -342,7 +342,7 @@ DEV OFF <a href="/" target="_top">>></a> <a href="#" onclick="setCookie('dev','1
 )});
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMENUFOOTER',name=>'Базовый шаблон подвала меню'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUFOOTER',name=>'Базовый шаблон подвала меню'});
 setvalue({key=>'BASEMENUFOOTER',pkey=>'PAGETEMPLATE',value=>'
 </td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
@@ -359,10 +359,10 @@ my $bm="
 <CML:INCLUDE name='BASEMAINFOOTER'/>
 ";
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMAIN',name=>'Базовый шаблон правого фрейма'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAIN',name=>'Базовый шаблон правого фрейма'});
 setvalue({key=>'BASEMAIN',pkey=>'PAGETEMPLATE',value=>$bm});
 
-addlowobject({upobjkey=>'CMSFORM',key=>'USERMAIN',name=>'Шаблон страницы'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORM',key=>'USERMAIN',name=>'Шаблон страницы'});
 setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMAIN'/>"});
 
 my $bmv=qq(<html>
@@ -400,10 +400,10 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 <table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>);
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
 setvalue({key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>$bmv});
 
-addlowobject({upobjkey=>'CMSINCLUDES',key=>'INITHINTS',name=>'Инициализация всплывающих картинок'});
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'INITHINTS',name=>'Инициализация всплывающих картинок'});
 setvalue({key=>'INITHINTS',pkey=>'PAGETEMPLATE',value=>qq(
 <script language="JavaScript" src="/js/tigra_hints.js"></script>
 <style>
@@ -433,7 +433,7 @@ var HINTS_CFG = {
 
 
 
-addlowobject({upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
 setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 	<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
 	<script language="javascript" type="text/javascript">
@@ -468,8 +468,8 @@ setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 </script>
 )});
 
-addlowobject({upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вставка фото в визивиг'});
-setvalue({key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вставка фото в визивиг'});
+setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
 <table><tr>
     <cml:list prm='PICLINKS'>
         <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:img border="0" prm='PIC'/></cml:a></td>
@@ -495,8 +495,8 @@ my $bmf=qq(
 
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMAINFOOTER',name=>'Базовый шаблон подвала правого фрейма'});
-setvalue({key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINFOOTER',name=>'Базовый шаблон подвала правого фрейма'});
+setvalue({convert=>1,key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 
 
 $bm=qq(
@@ -520,18 +520,18 @@ $bm=qq(
 <cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
 </cml:use>
 );
-addlowobject({upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
-setvalue({key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
+setvalue({convert=>1,key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
 
-addlowobject({upobjkey=>'CMSDESIGN',key=>'LISTEDIT_SECTIONS',name=>'Редактирование списка разделов'});
-setvalue({key=>'LISTEDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bm});
-addlowobject({upobjkey=>'CMSDESIGN',key=>'LISTEDIT_ITEMS',name=>'Редактирование списка товаров'});
-setvalue({key=>'LISTEDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bm});
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'LISTEDIT_SECTIONS',name=>'Редактирование списка разделов'});
+setvalue({convert=>1,key=>'LISTEDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bm});
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'LISTEDIT_ITEMS',name=>'Редактирование списка товаров'});
+setvalue({convert=>1,key=>'LISTEDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bm});
 
 
 
-addlowobject({upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
-setvalue({key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
+setvalue({convert=>1,key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 <cml:use id='_prm:id_'>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <b><cml:actionlink action='LISTEDIT' ukey='_prm:ukey_' listprm="_prm:listprm_" link="_prm:link_"><cml:text param='_NAME'/></cml:actionlink></b>
@@ -613,12 +613,12 @@ WYSIWIG<input type='checkbox' checked onClick="javascript:toggleEditor('MCEDITOR
 
 
 );
-addlowobject({upobjkey=>'BASECMS',key=>'BASEARTICLE',name=>'Базовый шаблон редактирвания статьи с фотографиями'});
-setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEARTICLE',name=>'Базовый шаблон редактирвания статьи с фотографиями'});
+setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble,convert=>1});
 
 
-addlowobject({upobjkey=>'CMSMENU',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
-setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',value=>qq(
+addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
+setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
 </table>
@@ -631,8 +631,8 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',value=>qq(
 
 
 
-addlowobject({upobjkey=>'CMSMENU',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
-setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',value=>qq(
+addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
+setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:use key='SECTIONS'>
 <b><cml:actionlink action='LISTEDIT' ukey='SECTIONS'><cml:text param='_NAME'/></cml:actionlink></b>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
@@ -658,38 +658,38 @@ my $addscript=q(
 	}alert("Новый объект создан");
 	
 );
-addmethod ({objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',lflag=>1,script=>$addscript});
-addmethod ({objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',script=>$addscript});
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',lflag=>1,script=>$addscript});
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',script=>$addscript});
 
 
-addmethod ({objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',script=>'
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',script=>q(
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
-	alert(\'Объект удален\');
-'});
-addmethod ({objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',lflag=>1,script=>'
+	alert('Объект удален');
+)});
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',lflag=>1,script=>q(
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
-	alert(\'Объект удален\');
-'});
+	alert('Объект удален');
+)});
 
-addmethod ({objkey=>'BASECMS',key=>'BASEDELPARAMMETHOD',name=>'Базовый метод очистки параметра',lflag=>1,script=>'
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELPARAMMETHOD',name=>'Базовый метод очистки параметра',lflag=>1,script=>q(
 my $id=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};
 setvalue({id=>$id,param=>$CGIPARAM->{prm},value=>\'\'});
-alert(\'Удален\');
-'});
+alert('Удален');
+)});
 
 
 
-addmethod ({objkey=>'BASECMS',key=>'BASEPARSER',name=>'Шаблон метода обработки',script=>'
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEPARSER',name=>'Шаблон метода обработки',script=>q(
 	my $id=$CGIPARAM->{id};
 	update({id=>$id,name=>$CGIPARAM->{name},indx=>$CGIPARAM->{indx}});
-	alert(\'Информация изменена\');
-'});
+	alert('Информация изменена');
+)});
 
 
-addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>'baselparser()'});
-addmethod ({objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>'baselparser()'});
+addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>'baselparser()'});
+addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>'baselparser()'});
 
 
 my $sscript='
@@ -697,10 +697,10 @@ my $name=$CGIPARAM->{name};
 my $value=$CGIPARAM->{value};
 $SETSITEVARS->{$name}=$value;
 ';
-addmethod ({objkey=>'BASECMS',key=>'BASESETVARMETHOD',name=>'Установка сессионной переменной',lflag=>1,script=>$sscript});
+addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASESETVARMETHOD',name=>'Установка сессионной переменной',lflag=>1,script=>$sscript});
 
 
-alert('Структура создана успешно');
+alert(name('Структура создана успешно'));
 
 	
 }
