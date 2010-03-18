@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.18 2010-03-18 21:25:03 vano Exp $
+# $Id: cmlview.pm,v 1.19 2010-03-18 21:27:39 vano Exp $
 
 BEGIN
 {
@@ -541,11 +541,11 @@ sub editmethodform ($$;$)
 {
 	my ($id,$pkey,$lflag)=@_;
 
-	my $r=$lflag?'Метод нижних объектов':'Метод';
+	my $r=enc($lflag?'Метод нижних объектов ':'Метод ');
 	my $ajfunc=$lflag?'editLMethod':'editMethod';
 	my $n=$lflag?'lmethod':'method';
 	
-	print "Объект ",b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
+	print enc("Объект "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
 	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
 	
 	print qq(
@@ -566,7 +566,7 @@ sub editmethodform ($$;$)
 	print hidden(-name=>'script',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-override=>1);
 	print hidden(-name=>'id',-default=>$id);
 	print hidden(-name=>'pname',-default=>$pkey);
-	print button(-value=>'Исправить',-onclick=>$save_js);
+	print button(-value=>enc('Исправить'),-onclick=>$save_js);
 	print endform;
 	
 	
