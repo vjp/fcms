@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.49 2010-03-18 19:22:30 vano Exp $
+# $Id: cmlinstall.pm,v 1.50 2010-03-18 20:32:04 vano Exp $
 
 BEGIN
 {
@@ -102,7 +102,7 @@ for (@v) {
 addobject({convertname=>1,upkey=>'CONTENT',key=>'FILEARCHIVE',name=>'Файловый архив'});
 addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Файл',type=>'FILE',key=>'ARCHIVEFILE',evl=>'n'});
 addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Ссылка на раздел',type=>'LIST',key=>'FILELINK',evl=>'n'});
-addprm({objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT',key=>'ARCHIVEFILEDESCR',evl=>'n'});
+addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT',key=>'ARCHIVEFILEDESCR',evl=>'n'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'rows',value=>'3'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
 
