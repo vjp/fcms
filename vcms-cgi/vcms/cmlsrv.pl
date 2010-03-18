@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.11 2010-03-18 19:22:58 vano Exp $
+# $Id: cmlsrv.pl,v 1.12 2010-03-18 20:41:56 vano Exp $
 
 use lib "../modules/";
 
@@ -584,27 +584,14 @@ sub viewlowtree
 
 sub editform
 {
- my $id=$_[0];
- #checkload({uid=>$id});
- print "<form method='post' name='mfrm' enctype='multipart/form-data'>";
-
-
-
- print "<hr>";
- print "<table>";
- print "<tr><th colspan=7>Изменение объекта <b>$obj->{$id}->{name}</b>($id)</th></tr>";
-
- 
- 
- 
-my $tl=template_list();
- 
-
-
- 
- 
- my %lhash=%LANGS;
- my @llist=('mul',@LANGS);
+ 	my $id=$_[0];
+	print "<form method='post' name='mfrm' enctype='multipart/form-data'>";
+ 	print "<hr>";
+ 	print "<table>";
+ 	print Tr(th({-colspan=>7},enc('Изменение объекта ').b($obj->{$id}->{name})." ($id)"));
+	my $tl=template_list();
+ 	my %lhash=%LANGS;
+ 	my @llist=('mul',@LANGS);
 
  
  
@@ -615,7 +602,7 @@ my $tl=template_list();
 			my $name=$obj->{$id}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$obj->{$id}->{name}}
 		 	print Tr(td(),
-		 			td("Имя ($LANGS{$lang})"),
+		 			td(enc("Имя ($LANGS{$lang})")),
 		 			td({-colspan=>2},textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 		}	
 	} elsif ($obj->{$id}->{lang}) {
@@ -623,28 +610,28 @@ my $tl=template_list();
 			my $name=$obj->{$id}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$obj->{$id}->{name}}
 		 	print Tr(td(),
-		 			td("Имя ($LANGS{$lang})"),
+		 			td(enc("Имя ").$LANGS{$lang}),
 		 			td({-colspan=>2},textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 	} else {	
- 		print Tr(td(),
- 					td("Имя"),td({-colspan=>2},textfield(-name=>'name',-default=>$obj->{$id}->{name},-override=>1,-size=>40)));
+ 			print Tr(td(),
+ 					td(enc("Имя")),td({-colspan=>2},textfield(-name=>'name',-default=>$obj->{$id}->{name},-override=>1,-size=>40)));
  	}				
  print Tr(td(),
-          td('Номер/Ключ'),
+          td(enc('Номер/Ключ')),
           td({-colspan=>2},
              textfield(-name=>'indx',-default=>$obj->{$id}->{indx},-override=>1,-size=>5),
              textfield(-name=>'key',-default=>$obj->{$id}->{key},-override=>1,-size=>20)
           ),
         );
  print Tr(td(),
- 					td('Язык'),td({-colspan=>2},
+ 					td(enc('Язык')),td({-colspan=>2},
  					           popup_menu(-name=>'lang',-default=>$obj->{$id}->{lang},-override=>1,-values=>\@llist,-labels=>\%lhash))
  				);
         
- print Tr(td(),td('Шаблон'),td({-colspan=>2},popup_menu(-name=>'template',-default=>$obj->{$id}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- print Tr(td(),td('Шаблон наследования'),td({-colspan=>2},popup_menu(-name=>'ltemplate',-default=>$obj->{$id}->{ltemplate},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- print Tr(td(),td('Установить у нижних объектов'),td({-colspan=>2},checkbox(-name=>'lowtempl',-value=>1,-checked=>0,-override=>1,-label=>'')));
- print Tr(td(),td('Не хранить историю значений'),td({-colspan=>2},checkbox(-name=>'nolog',-value=>1,-checked=>$obj->{$id}->{nolog},-override=>1,-label=>'')));
+ print Tr(td(),td(enc('Шаблон')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$obj->{$id}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ print Tr(td(),td(enc('Шаблон наследования')),td({-colspan=>2},popup_menu(-name=>'ltemplate',-default=>$obj->{$id}->{ltemplate},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ print Tr(td(),td(enc('Установить у нижних объектов')),td({-colspan=>2},checkbox(-name=>'lowtempl',-value=>1,-checked=>0,-override=>1,-label=>'')));
+ print Tr(td(),td(enc('Не хранить историю значений')),td({-colspan=>2},checkbox(-name=>'nolog',-value=>1,-checked=>$obj->{$id}->{nolog},-override=>1,-label=>'')));
  
                
 
@@ -670,8 +657,8 @@ my $tl=template_list();
  print "<input type='hidden' name='action' value='edit'>";
  my %oplist;
  if ($#{$obj->{$id}->{sprm}}>-1) {
- 	print Tr(th({-colspan=>8},'Свои параметры')); 
- 	print Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра '));
+ 	print Tr(th({-colspan=>8},enc('Свои параметры'))); 
+ 	print enc(Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра ')));
  }
  buildlowtree($nobj->{MAINPRM}->{ind});
  
@@ -725,8 +712,8 @@ my $tl=template_list();
   }
  }
  if ($#{$obj->{$id}->{prm}}>-1) {
- 	print Tr(th({-colspan=>8},'Параметры нижних объектов')); 
-  print Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра '));
+ 	print Tr(th({-colspan=>8},enc('Параметры нижних объектов'))); 
+  	print enc(Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра ')));
  }
  for (@{$obj->{$id}->{prm}})
  {
@@ -792,8 +779,8 @@ my $tl=template_list();
  
  
  if ($obj->{$id}->{method}) {
- 	print Tr(th({-colspan=>7},'Методы'));
-  	print Tr(th(),th('Имя'),th('Ключ'),th('Экстра'),th('Экспорт'));
+ 	print Tr(th({-colspan=>7},enc('Методы')));
+  	print enc(Tr(th(),th('Имя'),th('Ключ'),th('Экстра'),th('Экспорт')));
  }
  
  my %mtlist;
@@ -805,7 +792,7 @@ my $tl=template_list();
    	print td(a({-href=>"$ENV{SCRIPT_NAME}?action=deletemethod&id=$id&pname=$mname"},'X'));
    	print td("<input name='prmname$mname' value='$obj->{$id}->{method}->{$mname}->{name}' onchange='document.mfrm.mprm$mname.value=1'>");
    	print td($mname);
-   	print td("<a href='$ENV{SCRIPT_NAME}?action=editmethod&id=$id&pname=$mname' target='_blank'>Редактировать</a>");
+   	print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editmethod&id=$id&pname=$mname",-target=>'_blank'},enc('Редактировать')));
    	print start_td();
 	my $path=join('/',map {$_=$obj->{$_}->{key}} reverse treelist($id));
    	print a({-href=>"?action=sync&type=method&key=$mname&id=$id&path=$path&target=$_"},$_),'&nbsp;' for @SYNC;
@@ -815,102 +802,97 @@ my $tl=template_list();
  }
  
 
- if ($obj->{$id}->{lmethod}) {
- 		print Tr(th({-colspan=>7},'Методы нижних объектов'));
-  	print Tr(th(),th('Имя'),th('Ключ'),th('Экстра'));
- }
+	if ($obj->{$id}->{lmethod}) {
+		print Tr(th({-colspan=>7},enc('Методы нижних объектов')));
+  		print enc(Tr(th(),th('Имя'),th('Ключ'),th('Экстра')));
+	}
  
  my %lmtlist;
  
- for (sort keys %{$obj->{$id}->{lmethod}})  {
- 	 $lmtlist{$_}=1;
-   print "<input type=hidden name='lmprm$_' value=0>";
-   print "<tr><td><a href='$ENV{SCRIPT_NAME}?action=deletelmethod&id=$id&pname=$_'>X</a></td>";
-   print td("<input name='prmname$_' value='$obj->{$id}->{lmethod}->{$_}->{name}' onchange='document.mfrm.lmprm$_.value=1'>");
-   print td($_);
-   print td("<a href='$ENV{SCRIPT_NAME}?action=editlmethod&id=$id&pname=$_' target='_blank'>Редактировать</a>");
-   print"</tr>";
- }
+ 	for (sort keys %{$obj->{$id}->{lmethod}})  {
+ 		$lmtlist{$_}=1;
+   		print "<input type=hidden name='lmprm$_' value=0>";
+   		print "<tr><td><a href='$ENV{SCRIPT_NAME}?action=deletelmethod&id=$id&pname=$_'>X</a></td>";
+   		print td("<input name='prmname$_' value='$obj->{$id}->{lmethod}->{$_}->{name}' onchange='document.mfrm.lmprm$_.value=1'>");
+   		print td($_);
+   		print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editlmethod&id=$id&pname=$_",-target=>'_blank'},enc('Редактировать')));
+   		print"</tr>";
+ 	}
 
-
+	print Tr(th({-colspan=>7},enc('Добавить параметр')));
+	print enc(Tr(th(),th('Имя'),th('Ключ'),th('Тип')));
  
- print "<tr><th colspan=7>Добавить параметр</th></tr>"; 
- print "<tr><th></th><th>Имя</th><th>Ключ</th><th>Тип</th></tr>"; 
+	print "<tr><td></td><td><input name=addprmname></td><td><input name=addprmkey></td>";
+ 	print "<td><select name=addprmtype>";
+ 	for (@ptypes) {print "<option value='$_'>$ptype{$_}->{name}</option>"}
+ 	print "</select></td>\n";
  
- print "<tr><td></td><td><input name=addprmname></td><td><input name=addprmkey></td>";
- print "<td><select name=addprmtype>";
- for (@ptypes) {print "<option value='$_'>$ptype{$_}->{name}</option>"}
- print "</select></td>\n";
- 
- print start_td({-colspan=>5});
+ 	print start_td({-colspan=>5});
 
 
- print radio_group(-name=>'addprmself',
+ 	print radio_group(-name=>'addprmself',
                    -values=>[0,1,2,3],
                    -default=>0,
-                   -labels=>{0=>'Для нижних',1=>'Свой',2=>'Метод',3=>'Н.метод'}
+                   -labels=>{0=>enc('Для нижних'),1=>enc('Свой'),2=>enc('Метод'),3=>enc('Н.метод')}
                    );
- print end_td();
- print end_Tr();
+ 	print end_td();
+ 	print end_Tr();
+
+ 	print start_Tr();
+  	print td(),td(enc('Копировать параметр')),start_td({-colspan=>7});
+ 	my @plist;
+ 	push(@plist,grep { !$oplist{$_} } sort keys %$prm);
+ 	my %nlist;
+ 	$nlist{0}=enc('Выберите параметр');
+ 	for (@plist) {$nlist{$_}="$prm->{$_}->{name} ($_)"}
+ 	@plist=(0,@plist);
+ 	print popup_menu(-name=>'copyprmname',-values=>\@plist, -labels=>\%nlist, -override=>1);
+ 	print end_td();
+ 	print end_Tr();
 
  
  
- print "<tr><td> </td> <td> Копировать параметр </td> <td colspan=7> ";
- my @plist;
- push(@plist,grep { !$oplist{$_} } sort keys %$prm);
- my %nlist;
- $nlist{0}='Выберите параметр';
- for (@plist) {$nlist{$_}="$prm->{$_}->{name} ($_)"}
- @plist=(0,@plist);
- print popup_menu(-name=>'copyprmname',-values=>\@plist, -labels=>\%nlist, -override=>1);
- print "</td></tr>";
- 
- 
- my @mlist;
- print "<tr><td> </td> <td> Копировать метод </td> <td colspan=7> ";
- push(@mlist,grep { !$mtlist{$_} } sort keys %$method);
- my %mnlist;
- $mnlist{0}='Выберите метод';
- for (@mlist) {$mnlist{$_}="$method->{$_}->{name} ($_)"}
- @mlist=(0,@mlist);
- print popup_menu(-name=>'copymethodname',-values=>\@mlist, -labels=>\%mnlist, -override=>1);
- print "</td></tr>";
+ 	my @mlist;
+ 	print start_Tr();
+  	print td(),td(enc('Копировать метод')),start_td({-colspan=>7});
+ 	push(@mlist,grep { !$mtlist{$_} } sort keys %$method);
+ 	my %mnlist;
+ 	$mnlist{0}=enc('Выберите метод');
+ 	for (@mlist) {$mnlist{$_}="$method->{$_}->{name} ($_)"}
+ 	@mlist=(0,@mlist);
+ 	print popup_menu(-name=>'copymethodname',-values=>\@mlist, -labels=>\%mnlist, -override=>1);
+ 	print end_td();
+ 	print end_Tr();
 
  
+ 	print end_table();
+  	print hr;
+  	
+  	print start_table();
+ 	print Tr(th({-colspan=>3},enc('Исправить значения ')."$obj->{$id}->{name} ($id)"));
+    print enc(Tr(th('Имя'),th('Параметр'),th('Значение')));
+ 	for (uparamlist($id)){
+   		if ($_){ 	 
+    		my $vstr;
+    		eval { $vstr=&{$ptype{$prm->{$_}->{type}}->{editview}}({uid=>$id,pkey=>$_,flag=>"lnk$_",form=>'mfrm'}) };
+    		if ($@) {$vstr="ERROR: $@"}
+    		print "<input type=hidden name='lnk$_' value=0>\n";
+    		print "<tr><td>$prm->{$_}->{name}</td><td>$_ ($ptype{$prm->{$_}->{type}}->{name})</td><td>$vstr</td></tr>\n";
+   		} 
+ 	}
  
- print "</table>";
+ 	for (umethodlist($id)) {
+ 		print start_Tr;
+ 	  	print td($method->{$_}->{name});
+ 	  	print td($_);
+ 	  	print td(a({-href=>"?action=execmethod&id=$id&method=$_&uid=u$id"},enc('Выполнить')));
+ 	  	print end_Tr();
+ 	}
  
- print "<hr>";
- print "<table><tr><th colspan=3>Исправить значения $obj->{$id}->{name} ($id) </th></tr>\n";
- print "<tr><th>Name</th><th>Key</th><th>Value</th></tr>\n";
- for (uparamlist($id))
- {
-   if ($_)
-   { 	 
-    my $vstr;
-    eval { $vstr=&{$ptype{$prm->{$_}->{type}}->{editview}}({uid=>$id,pkey=>$_,flag=>"lnk$_",form=>'mfrm'}) };
-    if ($@) {$vstr="ERROR: $@"}
-    print "<input type=hidden name='lnk$_' value=0>\n";
-    print "<tr><td>$prm->{$_}->{name}</td><td>$_ ($ptype{$prm->{$_}->{type}}->{name})</td><td>$vstr</td></tr>\n";
-   } 
- }
- 
- for (umethodlist($id)) {
- 	  print start_Tr;
- 	  print td($method->{$_}->{name});
- 	  print td($_);
- 	  print td(a({-href=>"?action=execmethod&id=$id&method=$_&uid=u$id"},'Выполнить'));
- 	  print end_Tr();
- }
- 
- print "</table>\n";
-
- print "<input type='submit' value='Зафиксировать изменения'>"; 
- 
- print "</form>";
-
-
- viewlow($id);
+ 	print end_table();
+ 	print submit(-value=>enc('Зафиксировать изменения'));
+ 	print end_form();
+ 	viewlow($id);
 
 }
 
@@ -1028,42 +1010,31 @@ sub cmsmethod {
 	
 	print start_table();
 	
-		print start_Tr();
-   	print td('Шаблон формы ввода параметров объекта');
-		unless($cmsmtd->{edittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=edittemplate"},'Создать шаблон'))}
-		else {
+	print start_Tr();
+   	print td(enc('Шаблон формы ввода параметров объекта'));
+	unless($cmsmtd->{edittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=edittemplate"},enc('Создать шаблон')))}
+	else {
 			checkload({key=>$cmsmtd->{edittemplate}});
 			my $objid=$nobj->{$cmsmtd->{edittemplate}}->{id};
-			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},'Исправить шаблон')),
-			td(a({-href=>"?action=editform&id=$id&rebuildmethod=edittemplate"},'Пересоздать шаблон')),
-			td(a({-href=>"?action=editform&id=$id&deletemethod=edittemplate"},'Удалить шаблон'))
-		}
-		print end_Tr();
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=edittemplate"},enc('Пересоздать шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=edittemplate"},enc('Удалить шаблон')))
+	}
+	print end_Tr();
 
   	print start_Tr();
-   	print td('Шаблон формы ввода параметров списка объектов');
-		unless($cmsmtd->{listedittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listedittemplate"},'Создать шаблон'))}
-		else {
+   	print td(enc('Шаблон формы ввода параметров списка объектов'));
+	unless($cmsmtd->{listedittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listedittemplate"},enc('Создать шаблон')))}
+	else {
 			checkload({key=>$cmsmtd->{listedittemplate}});
 			my $objid=$nobj->{$cmsmtd->{listedittemplate}}->{id};
-			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},'Исправить шаблон')),
-			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listedittemplate"},'Пересоздать шаблон')),
-			td(a({-href=>"?action=editform&id=$id&deletemethod=listedittemplate"},'Удалить шаблон'))
-		}
-		print end_Tr();
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listedittemplate"},enc('Пересоздать шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=listedittemplate"},enc('Удалить шаблон')))
+	}
+	print end_Tr();
 
-
-
-		#print start_Tr();
-    #print td('Метод-обработчик формы ввода параметров');
-		#unless($cmsmtd->{parsemethod}) {print td(a({-href=>"?action=editform&id=$id&createmethod=parsemethod"},'Создать метод'))}
-		#else {print td(a({-href=>"?action=editlmethod&id=$id&pname=$cmsmtd->{parsemethod}",-target=>'_blank'},'Исправить метод')),
-		#	td(a({-href=>"?action=editform&id=$id&rebuildmethod=parsemethod"},'Пересоздать метод')),
-		#	td(a({-href=>"?action=editform&id=$id&deletemethod=parsemethod"},'Удалить метод'))}
-		#print end_Tr();
-		
-		
-   print end_table();
+	print end_table();
 }
 
 
@@ -1163,21 +1134,21 @@ sub editprmform {
 }
 
 
-sub template_list {
-	
- my $tl;	
- my $v=&cmlcalc::calc($nobj->{TEMPLATES},'lowlevel()');	
- my @tkeys=('0',split(';',$v));
- my @tvals=map { $obj->{$_}->{ind} } @tkeys;
- $tvals[0]=0;
- my $tlbls;
- for (@tvals) { $tlbls->{$_}="$obj->{$_}->{name} ($obj->{$_}->{key})" } 
- $tlbls->{0}='Не определен';
+sub template_list 
+{
+	my $tl;	
+ 	my $v=&cmlcalc::calc($nobj->{TEMPLATES},'lowlevel()');	
+ 	my @tkeys=('0',split(';',$v));
+ 	my @tvals=map { $obj->{$_}->{ind} } @tkeys;
+ 	$tvals[0]=0;
+ 	my $tlbls;
+ 	for (@tvals) { $tlbls->{$_}="$obj->{$_}->{name} ($obj->{$_}->{key})" } 
+ 	$tlbls->{0}=enc('Не определен');
  
- $tl->{vals}=\@tvals;
- $tl->{lbls}=$tlbls;
+ 	$tl->{vals}=\@tvals;
+ 	$tl->{lbls}=$tlbls;
  
- return $tl;
+ 	return $tl;
 }	
 
 
