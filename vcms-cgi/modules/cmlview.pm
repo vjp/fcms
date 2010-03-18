@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.17 2010-03-18 20:56:51 vano Exp $
+# $Id: cmlview.pm,v 1.18 2010-03-18 21:25:03 vano Exp $
 
 BEGIN
 {
@@ -593,18 +593,18 @@ sub editmemofull
  	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
 	if ($tabpkey) {
-		print "Табличный объект <b> $name </b> Параметр <b> $prm->{$tabpkey}->{name} ($tabpkey) </b> <br>";
+		print enc("Табличный объект "),b($name),enc(" Параметр "),b("$prm->{$tabpkey}->{name} ($tabpkey)"),br;
 		my @tablist = map {
 			if ($_=~/^u(\d+)$/) {$_=$obj->{$1}->{name}}
 			else {checkload ({id=>$_}); $_=$lobj->{$_}->{name}}
 		} split(/_/,$tabkey);
-		print "Объект <b>@tablist</b> Параметр <b>$prm->{$pkey}->{name} ($pkey) </b> <br>";
+		print enc("Объект "),b(@tablist),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)"),br();
 	}
-	elsif ($lang) { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> Язык <b>$LANGS{$lang}</b>",br,br; }	
-	else          { print "Объект <b>$name</b> Параметр <b>$prm->{$pkey}->{name} ($pkey)</b> ",br,br; }
- 
- 
-  
+	else {
+		print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)");
+		print enc(" Язык "),b($LANGS{$lang}) if $lang;
+		print br(),br();  
+	}
  
 	print qq(
 		<script language="javascript" type="text/javascript">
@@ -618,9 +618,9 @@ sub editmemofull
 		</script>
 	);
 
-        my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
+    my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
 	print start_form(-name=>'mfrm',-method=>'post');
- 	print button(-name=>'bt2',-value=>'Сохранить',-onclick=>$save_js),br;
+ 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
 	
 	
@@ -630,7 +630,7 @@ sub editmemofull
  	print br;
 
 
- 	print button(-name=>'bt',-value=>'Сохранить',-onclick=>$save_js);
+ 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
  	
  	print hidden(-name=>'objid',-id=>'objid',-default=>$id);
  	print hidden(-name=>'objuid',-id=>'objuid',-default=>$uid);
