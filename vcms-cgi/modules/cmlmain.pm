@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.28 2010-03-17 22:01:54 vano Exp $
+# $Id: cmlmain.pm,v 1.29 2010-03-18 06:57:47 vano Exp $
 
 BEGIN
 {
@@ -737,7 +737,7 @@ sub setvalue  {
 		 $ind=$nobj->{$key}->{ind};
 		 return 0 unless $id;
   	}	
-
+    $value=name($value) if $_[0]->{convert};
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
 		my $objid;
 		if ($uid) {$objid="u$uid"}	else {$objid=$id} 
@@ -1151,6 +1151,7 @@ sub addobject {
 		$indx=$_[0]->{indx};
 		$forced=$_[0]->{forced};
 		if ($_[0]->{upkey}) {	$up=$nobj->{$_[0]->{upkey}}->{ind} }
+		$name=name($name) if $_[0]->{convertname};
 	
 	}
 	else { $up=$_[0] }
@@ -1226,7 +1227,7 @@ sub addlowobject {
 				checkload({key=>$_[0]->{upkey}});
 				$upobj=$nobj->{$_[0]->{upkey}}->{id};
 		}		
-		
+		$name=name($name) if $_[0]->{convertname};
 		
 		
 	}	 
@@ -1496,7 +1497,8 @@ sub addmethod {
 	my $key=$_[0]->{key};
 	my $script=$_[0]->{script};
 	my $lflag=$_[0]->{lflag};
-	
+	$name=name($name) if $_[0]->{convertname};
+	$script=name($script) if $_[0]->{convertscript};
 	if ($_[0]->{objkey}) { $id=$nobj->{$_[0]->{objkey}}->{ind} }
 	
 	
@@ -1525,6 +1527,7 @@ sub addprm {
  		my $key=$_[0]->{key};
  		my $defval=$_[0]->{defval};
  		my $upd=$_[0]->{upd} || 'y';
+ 		$name=name($name) if $_[0]->{convertname};
  		my $self;
  		my $evl;
  		if ($id=~/u(\d+)/) {$id=$1}
