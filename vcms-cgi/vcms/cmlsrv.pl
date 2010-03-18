@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.14 2010-03-18 20:54:08 vano Exp $
+# $Id: cmlsrv.pl,v 1.15 2010-03-18 21:15:43 vano Exp $
 
 use lib "../modules/";
 
@@ -181,24 +181,27 @@ if ($action) {
      	}
      	if ($action eq 'setmatrix' )  {  &{$ptype{$prm->{param('pkey')}->{type}}->{extendset}}();  $action='editmatrix' }
      	if ($action eq 'editmemo'|| $action eq 'editmatrix') {
-     		print_top('VCMS: Редактирование текста'); 
-     		&{$ptype{$prm->{param('pkey')}->{type}}->{extendedit}}();  
+     		my $nprm=param('pkey');
+     		my $oid=param('objid');
+     		my $name="$lobj->{$oid}->{key} $lobj->{$oid}->{name} ";
+ 	   		print_top("O: $name $oid $nprm"); 
+     		&{$ptype{$prm->{$nprm}->{type}}->{extendedit}}();  
      		exit; 
      	}
-			if ($action eq 'setmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script')});  $action='editmethod'; }     	
-			if ($action eq 'setlmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script'),nflag=>1});  
+		if ($action eq 'setmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script')});  $action='editmethod'; }     	
+		if ($action eq 'setlmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script'),nflag=>1});  
 				my $id=param('id');
 				my $pname=param('pname');
 				meta_redirect("?action=editlmethod&id=$id&pname=$pname");
 				exit;
-			}     	
-	if ($action eq 'editmethod')  {
-		print_top('VCMS: Редактирование метода: '.param('pname'));   
-		editmethodform(param('id'),param('pname'));
-		exit;
-	}
+		}     	
+		if ($action eq 'editmethod')  {
+			print_top('M: '.param('pname'));   
+			editmethodform(param('id'),param('pname'));
+			exit;
+		}
       	if ($action eq 'editlmethod')  {
-      		print_top('VCMS: Редактирование метода нижних объектов: '.param('pname'));    
+      		print_top('ML: '.param('pname'));
       		editmethodform(param('id'),param('pname'),1);
       		exit;
       	}
