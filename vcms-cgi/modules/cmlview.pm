@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.16 2010-03-18 20:25:03 vano Exp $
+# $Id: cmlview.pm,v 1.17 2010-03-18 20:56:51 vano Exp $
 
 BEGIN
 {
@@ -512,16 +512,16 @@ sub editmemo {
  
  	if ($lang eq 'mul') {
  		for (@LANGS) {
- 		   push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},"Редактировать ($LANGS{$_})"));			 
+ 		   push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},enc("Редактировать ")."($LANGS{$_})"));			 
  		}	 
 	} elsif ($lang) {
-		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang", -target=>'_blank'},"Редактировать ($LANGS{$lang})"));			 
+		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang", -target=>'_blank'},enc("Редактировать ")."($LANGS{$lang})"));			 
 	}	else {	
-		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},"Редактировать"));			 
+		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},enc("Редактировать")));			 
   } 	
   
   if ($prm->{$pkey}->{extra}->{script} eq 'y') {
-  	push(@outp,a({-href=>"?action=execscript&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},"Выполнить"));			 
+  	push(@outp,a({-href=>"?action=execscript&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},enc("Выполнить")));			 
 	}	
   
   return join('<br>',@outp);
@@ -532,7 +532,7 @@ sub editmatrix
  my $id=$_[0]->{id};
  my $uid=$_[0]->{uid};
  my $pkey=$_[0]->{pkey};
- my $outp=a({-href=>"$ENV{SCRIPT_NAME}?action=editmatrix&objid=$id&objuid=$uid&pkey=$pkey",-target=>'_blank'},'Редактировать');
+ my $outp=a({-href=>"$ENV{SCRIPT_NAME}?action=editmatrix&objid=$id&objuid=$uid&pkey=$pkey",-target=>'_blank'},enc('Редактировать'));
  return $outp;
 }
 
