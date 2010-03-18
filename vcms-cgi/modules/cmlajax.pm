@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.6 2010-03-17 22:28:29 vano Exp $
+# $Id: cmlajax.pm,v 1.7 2010-03-18 07:07:06 vano Exp $
 
 BEGIN
 {
@@ -16,10 +16,10 @@ BEGIN
 
 sub ajax_setvalue ($$$$$)
 {
-	my ($objid,$objuid,$prm,$lang,$value)=@_;
-       	my $evalue = Encode::encode('cp1251',Encode::decode('utf8',$value));
-	my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,lang=>$lang,value=>$evalue});
-	return $status?"Изменения сохранены":'Ошибка сохранения изменений';
+		my ($objid,$objuid,$prm,$lang,$value)=@_;
+       	$value = Encode::encode('cp1251',Encode::decode('utf8',$value)) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+		my $status=setvalue({id=>$objid,uid=>$objuid,prm=>$prm,lang=>$lang,value=>$value});
+		return $status?name("Изменения сохранены"):name('Ошибка сохранения изменений');
 }
 
 
