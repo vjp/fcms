@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.12 2010-03-18 20:41:56 vano Exp $
+# $Id: cmlsrv.pl,v 1.13 2010-03-18 20:45:02 vano Exp $
 
 use lib "../modules/";
 
@@ -506,7 +506,7 @@ sub viewlow
  my $id=$_[0];
  my $all=$_[1];
  
- print "Дерево объекта ",a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
+ print enc('Дерево объекта '),a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
  print "<a href='$ENV{SCRIPT_NAME}?action=addlow&id=$id&objid=0'>(+) </a> <br>";
  if ($all) {
  	checkload({uid=>$id});
