@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.48 2010-03-18 07:06:47 vano Exp $
+# $Id: cmlinstall.pm,v 1.49 2010-03-18 19:22:30 vano Exp $
 
 BEGIN
 {
@@ -700,7 +700,7 @@ $SETSITEVARS->{$name}=$value;
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASESETVARMETHOD',name=>'Установка сессионной переменной',lflag=>1,script=>$sscript});
 
 
-alert(name('Структура создана успешно'));
+alert(enc('Структура создана успешно'));
 
 	
 }

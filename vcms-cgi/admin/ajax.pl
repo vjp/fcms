@@ -1,5 +1,8 @@
 #!/usr/bin/perl -w
 
+# $Id: ajax.pl,v 1.2 2010-03-18 19:22:06 vano Exp $
+
+
 use strict;
 no strict "refs";
 
@@ -23,7 +26,7 @@ $AJAX_FUNCS={
 	deleteobject=>1,
 };   
 start('..');
-print "Content-Type: text/html; charset=windows-1251\n\n";
+print "Content-Type: text/html; charset=$GLOBAL->{CODEPAGE}\n\n";
 my @input = param('args');
 my $func= lc param('func');
 if ($AJAX_FUNCS->{$func}) {

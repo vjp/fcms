@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.29 2010-03-18 06:57:47 vano Exp $
+# $Id: cmlmain.pm,v 1.31 2010-03-18 19:26:46 vano Exp $
 
 BEGIN
 {
@@ -44,7 +44,7 @@ BEGIN
               
               &checkdatastruct &deletelowlist &sync &remote_sync
               
-              &prminfo &name
+              &prminfo &enc
              );
 
 
@@ -737,7 +737,7 @@ sub setvalue  {
 		 $ind=$nobj->{$key}->{ind};
 		 return 0 unless $id;
   	}	
-    $value=name($value) if $_[0]->{convert};
+    $value=enc($value) if $_[0]->{convert};
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
 		my $objid;
 		if ($uid) {$objid="u$uid"}	else {$objid=$id} 
@@ -994,13 +994,13 @@ sub init	{
  	undef @LOG;
 }
 
-sub name 
+sub enc 
 {
-	my ($name)=@_;
+	my ($val)=@_;
 	if ($GLOBAL->{CODEPAGE} eq 'utf-8') {
-		$name=Encode::encode('utf-8',Encode::decode('windows-1251',$name));
+		$enc=Encode::encode('utf-8',Encode::decode('windows-1251',$val));
 	}
-	return $name;
+	return $enc;
 }
 
 
@@ -1151,7 +1151,7 @@ sub addobject {
 		$indx=$_[0]->{indx};
 		$forced=$_[0]->{forced};
 		if ($_[0]->{upkey}) {	$up=$nobj->{$_[0]->{upkey}}->{ind} }
-		$name=name($name) if $_[0]->{convertname};
+		$name=enc($name) if $_[0]->{convertname};
 	
 	}
 	else { $up=$_[0] }
@@ -1227,7 +1227,7 @@ sub addlowobject {
 				checkload({key=>$_[0]->{upkey}});
 				$upobj=$nobj->{$_[0]->{upkey}}->{id};
 		}		
-		$name=name($name) if $_[0]->{convertname};
+		$name=enc($name) if $_[0]->{convertname};
 		
 		
 	}	 
@@ -1497,8 +1497,8 @@ sub addmethod {
 	my $key=$_[0]->{key};
 	my $script=$_[0]->{script};
 	my $lflag=$_[0]->{lflag};
-	$name=name($name) if $_[0]->{convertname};
-	$script=name($script) if $_[0]->{convertscript};
+	$name=enc($name) if $_[0]->{convertname};
+	$script=enc($script) if $_[0]->{convertscript};
 	if ($_[0]->{objkey}) { $id=$nobj->{$_[0]->{objkey}}->{ind} }
 	
 	
@@ -1527,7 +1527,7 @@ sub addprm {
  		my $key=$_[0]->{key};
  		my $defval=$_[0]->{defval};
  		my $upd=$_[0]->{upd} || 'y';
- 		$name=name($name) if $_[0]->{convertname};
+ 		$name=enc($name) if $_[0]->{convertname};
  		my $self;
  		my $evl;
  		if ($id=~/u(\d+)/) {$id=$1}

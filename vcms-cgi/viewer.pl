@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.7 2010-03-09 21:25:22 vano Exp $
+# $Id: viewer.pl,v 1.8 2010-03-18 19:22:43 vano Exp $
 
 use lib "./modules/";
 
@@ -158,7 +158,7 @@ if ($cmlcalc::SITEVARS->{BENCHMARK}) {
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
 
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>'windows-1251');
+print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
