@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.15 2010-03-18 19:23:32 vano Exp $
+# $Id: cmlview.pm,v 1.16 2010-03-18 20:25:03 vano Exp $
 
 BEGIN
 {
@@ -946,11 +946,11 @@ sub extralist {
  	if ($_[0]->{check}) { $onc="document.$formname.$flagname.value=1" } 
 	my @o;
 	if ($_[0]->{check}) {
-		push (@o,['Формула',textfield(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1)]);
+		push (@o,[enc('Формула'),textfield(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1)]);
 	} else {
-		push (@o,['Формула',textarea(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1, -cols=>130,-rows=>15)])
+		push (@o,[enc('Формула'),textarea(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1, -cols=>130,-rows=>15)])
 	}
-  push (@o,['Одиночное',checkbox(-name=>"exsingle$pkey", -value=>1, -checked=>$ss, -label=>'', -onchange=>"document.$formname.$flagname.value=1", -override=>1)]);
+  	push (@o,[enc('Одиночное'),checkbox(-name=>"exsingle$pkey", -value=>1, -checked=>$ss, -label=>'', -onchange=>"document.$formname.$flagname.value=1", -override=>1)]);
  	return \@o;
 }
 
@@ -970,14 +970,14 @@ sub extradate {
  	if ($_[0]->{check}) {
 	 	my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
- 		my $outp='Формат '.textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1).br;
- 		$outp.='Фикс '.checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -onchange=>"document.$formname.$flagname.value=1", -override=>1, -label=>'');
- 		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
+ 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1).br;
+ 		$outp.=enc('Фикс ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -onchange=>"document.$formname.$flagname.value=1", -override=>1, -label=>'');
+ 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
 		return $outp;
 	} else {
- 		my $outp='Формат '.textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1).br;
- 		$outp.='Фикс '.checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -override=>1, -label=>'');
- 		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -label=>'');
+ 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1).br;
+ 		$outp.=enc('Фикс ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -override=>1, -label=>'');
+ 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -label=>'');
 		return $outp;
 	}			
 }
@@ -991,21 +991,18 @@ sub extratext {
  		my $formname=$_[0]->{form};
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
- 		$outp='Длина'.textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
- 		$outp.='Строк'.textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
-		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
+ 		$outp=enc('Длина').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
+ 		$outp.=enc('Строк').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
+		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
 
 	} else {
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-	
-		$outp='Длина'.textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -override=>1);
-		$outp.='Строк'.textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -override=>1);
-
-		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
+		$outp=enc('Длина').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -override=>1);
+		$outp.=enc('Строк').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -override=>1);
+		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
 	}	
-  return $outp;	
-	
+  	return $outp;	
 }
 
 sub extraflag {
@@ -1017,12 +1014,12 @@ sub extraflag {
  		my $formname=$_[0]->{form};
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
+		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
 
 	} else {
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
+		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
 	}	
   return $outp;	
 	
@@ -1036,16 +1033,16 @@ sub extranumber {
  	if ($_[0]->{check}) {
 	 	my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
- 		my $outp='Формат '.textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
+ 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
- 		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
+ 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
 		return $outp;
 	} else {
-		my $outp='Формат '.textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1);
+		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1);
 		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.='Поиск'.checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');
+		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');
 		return $outp;
 	}			
 	
@@ -1066,9 +1063,9 @@ sub extramemo {
  	my $flagname=$_[0]->{flag};
  	my $formname=$_[0]->{form};
  	
- 	my $outp='Разбор'.checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');		
-	$outp.='Вып'.checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
-	$outp.='Виз'.checkbox(-name=>"exvisual$pkey", -checked=>$ssv, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+ 	my $outp=enc('Разбор').checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');		
+	$outp.=enc('Вып').checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+	$outp.=enc('Виз').checkbox(-name=>"exvisual$pkey", -checked=>$ssv, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
 			
 	return $outp;
 }
@@ -1080,16 +1077,15 @@ sub extramatrix {
  	my $extra=$prm->{$pkey}->{extra};
  	
  	if ($_[0]->{check}) {
-	 	my $flagname=$_[0]->{flag};
+		my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
- 	   	my $outp="Параметры     <input name='exparam$pkey'  value='$extra->{param}' onchange='document.$formname.$flagname.value=1'><br>";
-           	$outp.="Шаблон ячейки <input name='excell$pkey'   value='$extra->{cell}' onchange='document.$formname.$flagname.value=1'>";   
-           	return $outp;
-        }   
-	else {
- 	   	my $outp="Параметры    <input name='exparam$pkey'  value='$extra->{param}'><br>";
-           	$outp.="Шаблон ячейки  <input name='excell$pkey'   value='$extra->{cell}'>";   
-           	return $outp;
+ 	   	my $outp=enc('Параметры').  " <input name='exparam$pkey'  value='$extra->{param}' onchange='document.$formname.$flagname.value=1'><br>";
+        $outp.=enc('Шаблон ячейки')." <input name='excell$pkey'   value='$extra->{cell}' onchange='document.$formname.$flagname.value=1'>";   
+        return $outp;
+    } else {
+ 	   	my $outp=enc('Параметры')." <input name='exparam$pkey'  value='$extra->{param}'><br>";
+        $outp.=enc('Шаблон ячейки')." <input name='excell$pkey'   value='$extra->{cell}'>";   
+        return $outp;
 	}	
 }
 
@@ -1159,21 +1155,21 @@ sub extramatrixparse {
 
 sub buildvparam {
   	$ptype{TEXT}={
-        	 name       =>'Строка',
+        	 name       =>enc('Строка'),
                  editview   =>\&cmlview::edittext,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extratext,
                  extraparse =>\&cmlview::extratextparse,
         };
  	$ptype{NUMBER}={
-                 name       =>'Число',
+                 name       =>enc('Число'),
                  editview   =>\&cmlview::editnumber,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extranumber,
                  extraparse =>\&cmlview::extranumberparse,
         };
   	$ptype{LONGTEXT}={
-                 name       =>'Текст',
+                 name       =>enc('Текст'),
                  editview   =>\&cmlview::editmemo,
                  extra      =>\&cmlview::extramemo,
                  extraparse =>\&cmlview::extramemoparse,
@@ -1181,28 +1177,28 @@ sub buildvparam {
                  extendset=>\&cmlview::setmemofull,
         };
   	$ptype{FLAG}={
-                 name       =>'Флаг',
+                 name       =>enc('Флаг'),
                  editview   =>\&cmlview::editflag,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extraflag,
                  extraparse =>\&cmlview::extraflagparse,
         };
   	$ptype{DATE}={
-                 name       =>'Дата',
+                 name       =>enc('Дата'),
                  editview   =>\&cmlview::editdate,
                  setvalue   =>\&cmlview::setdate,
                  extra      =>\&cmlview::extradate,
                  extraparse =>\&cmlview::extradateparse,
         };
   	$ptype{LIST}={
-                 name       =>'Список',
+                 name       =>enc('Список'),
                  editview   =>\&cmlview::editlist,
                  setvalue   =>\&cmlview::setlist,
                  extra      =>\&cmlview::extralist,
                  extraparse =>\&cmlview::extralistparse,
         };
   	$ptype{MATRIX}={
-                 name       =>'Матрица',
+                 name       =>enc('Матрица'),
                  editview   =>\&cmlview::editmatrix,
                  extra      =>\&cmlview::extramatrix,
                  extraparse =>\&cmlview::extramatrixparse,
@@ -1210,14 +1206,14 @@ sub buildvparam {
                  extendset=>\&cmlview::setmatrixfull,
         };
  	$ptype{PICTURE}={
-                 name       =>'Картинка',
+                 name       =>enc('Картинка'),
                  editview   =>\&cmlview::editpicture,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
                  extraparse =>\&cmlview::emptysub,
         };
         $ptype{VIDEO}={
-                 name       =>'Видеоролик',        	
+                 name       =>enc('Видеоролик'),        	
                  editview   =>\&cmlview::editvideo,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
@@ -1226,7 +1222,7 @@ sub buildvparam {
         
         
  	$ptype{FILE}={
-                 name       =>'Файл',
+                 name       =>enc('Файл'),
                  editview   =>\&cmlview::editfile,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
@@ -1234,7 +1230,7 @@ sub buildvparam {
         };
 
 	$ptype{FILELINK}={
-                 name       =>'Ссылка на файл',
+                 name       =>enc('Ссылка на файл'),
                  editview   =>\&cmlview::editfilelink,
                  extra      =>\&cmlview::emptysub,
                  extraparse =>\&cmlview::emptysub,
