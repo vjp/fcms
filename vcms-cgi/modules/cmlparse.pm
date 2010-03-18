@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.34 2010-03-15 08:20:48 vano Exp $
+# $Id: cmlparse.pm,v 1.35 2010-03-18 19:29:32 vano Exp $
 
 BEGIN
 {
@@ -1972,7 +1972,7 @@ sub tag_deletebutton {
   	my $hstr=join('&',@hlist);
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
-	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")';
+	my $confjs=&cmlmain::enc($cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")');
 	return qq(
 		  <input type='hidden' id='delb$parseid' value='$parseid'>
 		  <a href='#' onclick='$confjs && deleteObject(["delb$parseid"], [deleteObjectCallback] );return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
