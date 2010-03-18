@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.13 2010-03-18 20:45:02 vano Exp $
+# $Id: cmlsrv.pl,v 1.14 2010-03-18 20:54:08 vano Exp $
 
 use lib "../modules/";
 
@@ -901,16 +901,14 @@ sub editform
 
 sub editlowform
 {
- my $objid=$_[0];
- my $id=$lobj->{$objid}->{upobj};
-
- print hr;
+ 	my $objid=$_[0];
+ 	my $id=$lobj->{$objid}->{upobj};
+ 	print hr;
+	my $tl=template_list();
  
- 
- my $tl=template_list();
- 
- print "\n<form method='post' name='frm' enctype='multipart/form-data'>\n";
- print "<table><tr><th colspan=3>Объект: $lobj->{$objid}->{name} ($objid) </th></tr>\n";
+ 	print "\n<form method='post' name='frm' enctype='multipart/form-data'>\n";
+ 	print start_table();
+ 	print Tr(th({-colspan=>3},enc('Объект:')." $lobj->{$objid}->{name} ($objid)"));
 
 
 	if ($obj->{$id}->{lang} eq 'mul') { 
@@ -919,65 +917,57 @@ sub editlowform
 			my $name=$lobj->{$objid}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$lobj->{$objid}->{name}}
 		 	print Tr(
-		 			td("Имя ($LANGS{$lang})"),
+		 			td(enc("Имя")."($LANGS{$lang})"),
 		 			td(textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 		}	
 	} else {	
- 			print Tr(th('Имя'),td(textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60))); 	
+ 			print Tr(th(enc('Имя')),td(textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60))); 	
  	}				
 
 
 
 
- print Tr(th('Номер/Ключ'),
+ 	print Tr(th(enc('Номер/Ключ')),
           td({-colspan=>2},
           		textfield(-name=>'indx',-default=>$lobj->{$objid}->{indx},-override=>1,-size=>5),
               textfield(-name=>'key',-default=>$lobj->{$objid}->{key},-override=>1),
               ));
- print Tr(th('Шаблон'),td({-colspan=>2},popup_menu(-name=>'template',-default=>$lobj->{$objid}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- print Tr(th('Язык'),td({-colspan=>2},$LANGS{$lobj->{$objid}->{lang}}));
+ 	print Tr(th(enc('Шаблон')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$lobj->{$objid}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ 	print Tr(th(enc('Язык')),td({-colspan=>2},$LANGS{$lobj->{$objid}->{lang}}));
 
- print "<input type='hidden' name='id' value='$id'>\n";
- print "<input type='hidden' name='objid' value='$objid'>\n";
- print "<input type='hidden' name='action' value='editlow'>\n";
- print Tr(th({-colspan=>3},'Значения'));
- print Tr(th('Имя'),th('Ключ'),th('Значение'),th('Время'));;
- for (paramlist($objid))
- {
-   if ($_)
-   { 	
-    my $vstr;
-    my $tstr=time();
-    eval { $vstr=&{$ptype{$prm->{$_}->{type}}->{editview}}({id=>$objid,pkey=>$_,flag=>"lnk$_",form=>'frm',lang=>$lobj->{$objid}->{lang}}) };
-    if ($@) {$vstr="ERROR: $@"}
-   
-
-    
-    my $fixv=0;
-    if ($prm->{$_}->{extra}->{fix} eq 'y') {$fixv=1}
-    
-    print "<input type=hidden name='lnk$_' value='$fixv'>\n";
-    print Tr(td($prm->{$_}->{name}),td("$_ ($ptype{$prm->{$_}->{type}}->{name})"),td($vstr),td(sprintf("%.3f",time()-$tstr)))."\n";
-   } 
- }
+ 	print "<input type='hidden' name='id' value='$id'>\n";
+ 	print "<input type='hidden' name='objid' value='$objid'>\n";
+ 	print "<input type='hidden' name='action' value='editlow'>\n";
+ 	print Tr(th({-colspan=>3},enc('Значения')));
+ 	print enc(Tr(th('Имя'),th('Ключ'),th('Значение'),th('Время')));
+ 	for (paramlist($objid)) {
+   		if ($_) { 	
+    		my $vstr;
+    		my $tstr=time();
+    		eval { $vstr=&{$ptype{$prm->{$_}->{type}}->{editview}}({id=>$objid,pkey=>$_,flag=>"lnk$_",form=>'frm',lang=>$lobj->{$objid}->{lang}}) };
+    		if ($@) {$vstr="ERROR: $@"}
+       		my $fixv=0;
+    		if ($prm->{$_}->{extra}->{fix} eq 'y') {$fixv=1}
+    		print "<input type=hidden name='lnk$_' value='$fixv'>\n";
+    		print Tr(td($prm->{$_}->{name}),td("$_ ($ptype{$prm->{$_}->{type}}->{name})"),td($vstr),td(sprintf("%.3f",time()-$tstr)))."\n";
+   		} 
+ 	}
  
-  for (methodlist($objid)) {
- 	  print start_Tr;
- 	  print td($lmethod->{$_}->{name});
- 	  print td($_);
- 	  print td(a({-href=>"?action=execlmethod&objid=$objid&id=$id&method=$_"},'Выполнить'));
- 	  print end_Tr();
- }
+  	for (methodlist($objid)) {
+ 		print start_Tr;
+ 	  	print td($lmethod->{$_}->{name});
+ 	  	print td($_);
+ 	  	print td(a({-href=>"?action=execlmethod&objid=$objid&id=$id&method=$_"},enc('Выполнить')));
+ 	  	print end_Tr();
+ 	}
 
  
- 
- 
- print "<tr><td colspan=3><input type='submit' value='Редактировать'></td></tr>\n";
+ 	print Tr(td({-colspan=>3},submit(-value=>enc('Редактировать'))));
 
- print "</table>\n";
- print "</form>\n";
- print hr;
- viewlow($id);
+ 	print "</table>\n";
+ 	print "</form>\n";
+ 	print hr;
+ 	viewlow($id);
 }
 
 sub config {
