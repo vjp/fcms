@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.31 2010-03-18 19:26:46 vano Exp $
+# $Id: cmlmain.pm,v 1.30 2010-03-18 19:22:29 vano Exp $
 
 BEGIN
 {
@@ -44,7 +44,7 @@ BEGIN
               
               &checkdatastruct &deletelowlist &sync &remote_sync
               
-              &prminfo &enc
+              &prminfo &name
              );
 
 
