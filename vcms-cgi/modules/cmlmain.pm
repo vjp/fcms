@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.35 2010-03-19 05:50:12 vano Exp $
+# $Id: cmlmain.pm,v 1.36 2010-03-19 06:58:30 vano Exp $
 
 BEGIN
 {
@@ -973,11 +973,11 @@ sub init	{
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=? AND lang=?");
  	
  	
- 	$sthCH=$dbh->prepare("DELETE FROM pagescache WHERE cachekey IN (SELECT cachekey FROM linkscache WHERE objlink=?)");
+ 	$sthCH=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN (SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?)");
 
  	
- 	$sthCCP=$dbh->prepare("DELETE FROM pagescache");
- 	$sthCCL=$dbh->prepare("DELETE FROM linkscache");
+ 	$sthCCP=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache");
+ 	$sthCCL=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache");
  	
  	$GLOBAL->{FILEPATH}=$FILEPATH;
  	$GLOBAL->{DOCUMENTROOT}=$DOCUMENTROOT;
