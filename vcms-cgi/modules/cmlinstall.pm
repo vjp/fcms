@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.50 2010-03-18 20:32:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.51 2010-03-19 05:46:52 vano Exp $
 
 BEGIN
 {
@@ -859,15 +859,6 @@ sub install_db ($$) {
   			KEY `lang` (`lang`)
 		) TYPE=MyISAM
 	") || die $dbh->errstr();
-
-	$dbh->do("create table IF NOT EXISTS ${DBPREFIX}cmsprm (
- 			id varchar(10) not null,
- 			prm varchar(50) not null,
- 			value text,
- 			primary key (id,prm)
-		) TYPE=MyISAM
-	") || die $dbh->errstr();
-
 
 	$dbh->do("create table IF NOT EXISTS ${DBPREFIX}users (
  			`login` varchar(50) unique key,
