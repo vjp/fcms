@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.34 2010-03-19 05:46:01 vano Exp $
+# $Id: cmlmain.pm,v 1.35 2010-03-19 05:50:12 vano Exp $
 
 BEGIN
 {
@@ -1952,11 +1952,11 @@ sub createcmsmethod {
 	
 	if ($prm eq 'listedittemplate') {
 		$method="LISTEDIT_$key";
-		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>"Шаблон редактирования списка '$name'"});
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон редактирования списка")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}	elsif ($prm eq 'edittemplate') {
 		$method="EDIT_$key";
-		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>"Шаблон объекта '$name'"});
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон объекта")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}
 
