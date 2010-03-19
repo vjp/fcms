@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.51 2010-03-19 05:46:52 vano Exp $
+# $Id: cmlinstall.pm,v 1.52 2010-03-19 05:54:38 vano Exp $
 
 BEGIN
 {
@@ -523,10 +523,6 @@ $bm=qq(
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
 setvalue({convert=>1,key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
 
-addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'LISTEDIT_SECTIONS',name=>'Редактирование списка разделов'});
-setvalue({convert=>1,key=>'LISTEDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bm});
-addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'LISTEDIT_ITEMS',name=>'Редактирование списка товаров'});
-setvalue({convert=>1,key=>'LISTEDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bm});
 
 
 
@@ -698,6 +694,12 @@ my $value=$CGIPARAM->{value};
 $SETSITEVARS->{$name}=$value;
 ';
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASESETVARMETHOD',name=>'Установка сессионной переменной',lflag=>1,script=>$sscript});
+
+
+createcmsmethod(id(SECTIONS),'listedittemplate');
+createcmsmethod(id(ITEMS),'listedittemplate');
+createcmsmethod(id(SECTIONS),'edittemplate');
+createcmsmethod(id(ITEMS),'edittemplate');
 
 
 alert(enc('Структура создана успешно'));
