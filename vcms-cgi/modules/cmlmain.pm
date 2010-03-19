@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.33 2010-03-18 20:16:53 vano Exp $
+# $Id: cmlmain.pm,v 1.34 2010-03-19 05:46:01 vano Exp $
 
 BEGIN
 {
@@ -1348,7 +1348,7 @@ sub deletelowobject
  	checkload({id=>$id});
  	my $upobj=$lobj->{$id}->{upobj};
  	@{$ltree->{$upobj}->{$lobj->{$id}->{up}}}=grep{$_ ne $id}@{$ltree->{$upobj}->{$lobj->{$id}->{up}}};
- 
+ 	undef $nobj->{$lobj->{$id}->{key}} if $lobj->{$id}->{key}; 
  	map {
   		deletelowobject($_);
  	}(@{$ltree->{$upobj}->{$id}});
@@ -1928,11 +1928,16 @@ sub methodlist {
 sub loadcmsmethod {
 	 my $mlist;
 	 my $id=$_[0];
-	 my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}cmsprm WHERE id=?");
-	 $sth->execute($id) || die $dbh->errstr;
-	 while (my $item=$sth->fetchrow_hashref) {
-	 	 $mlist->{$item->{prm}}=$item->{value};
-	 }	
+	 
+	 
+	 my $lekey="LISTEDIT_".$obj->{$id}->{key};
+	 checkload({key=>$lekey});
+	 $mlist->{listedittemplate}=$lekey if $nobj->{$lekey}->{id};
+	 
+	 my $ekey ="EDIT_".$obj->{$id}->{key};
+	 checkload({key=>$ekey});
+	 $mlist->{edittemplate}=$ekey if $nobj->{$ekey}->{id};
+	 
 	 return $mlist;
 }	
 
@@ -1942,7 +1947,7 @@ sub createcmsmethod {
 	my $key=$obj->{$id}->{key};
 	my $name=$obj->{$id}->{name};
 	my $method;
-  my $template=createtemplate($id,$prm);
+    my $template=createtemplate($id,$prm);
 
 	
 	if ($prm eq 'listedittemplate') {
@@ -1953,14 +1958,8 @@ sub createcmsmethod {
 		$method="EDIT_$key";
 		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>"Шаблон объекта '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
-	}	elsif ($prm eq 'parsemethod') {
-		$method="PARSER_$key";
-		addmethod({id=>$id,name=>'Обработчик объекта',key=>$method,script=>$template,lflag=>1});
-	}	
+	}
 
-	my $sth=$dbh->prepare("REPLACE ${DBPREFIX}cmsprm (id,prm,value) VALUES (?,?,?)");
-	$sth->execute($id,$prm,$method) || die $dbh->errstr;
-	
 }	
 
 
@@ -1970,56 +1969,27 @@ sub rebuildcmsmethod {
 	my $key=$obj->{$id}->{key};
 
 	my $template=createtemplate($id,$prm);
-	
-	my $sth=$dbh->prepare("SELECT value FROM ${DBPREFIX}cmsprm WHERE id=? AND prm=?");
-	$sth->execute($id,$prm) || die $dbh->errstr;
-	my $method=$sth->fetchrow;
-
-	if ($prm eq 'listtemplate') {
-		setvalue({key=>$method,param=>'PAGETEMPLATE',value=>$template});
-	}	elsif ($prm eq 'edittemplate') {
-		setvalue({key=>$method,param=>'PAGETEMPLATE',value=>$template});
+	if ($prm eq 'edittemplate') {
+		setvalue({key=>"EDIT_$key",param=>'PAGETEMPLATE',value=>$template});
 	} elsif ($prm eq 'listedittemplate') {
-		setvalue({key=>$method,param=>'PAGETEMPLATE',value=>$template});
-	}	elsif ($prm eq 'deletemethod') {
-		editmethod({id=>$id,pkey=>$method,script=>$template});
-	}	elsif ($prm eq 'addmethod') {
-		editmethod({id=>$id,pkey=>$method,script=>$template});
-	}	elsif ($prm eq 'parsemethod') {
-		editmethod({id=>$id,pkey=>$method,script=>$template});
+		setvalue({key=>"LISTEDIT_$key",param=>'PAGETEMPLATE',value=>$template});
 	}
-
-	
-	
-	
 }	
 
 
 sub deletecmsmethod {
 	my $id=$_[0];
 	my $prm=$_[1];
-
-
-	
-	my $sth=$dbh->prepare("SELECT value FROM ${DBPREFIX}cmsprm WHERE id=? AND prm=?");
-	$sth->execute($id,$prm) || die $dbh->errstr;
-	my $method=$sth->fetchrow;
-
-	
-	my $sth2=$dbh->prepare("DELETE FROM ${DBPREFIX}cmsprm WHERE id=? AND prm=?");
-	$sth2->execute($id,$prm) || die $dbh->errstr;
-	
-
+	my $key=$obj->{$id}->{key};
 	if ($prm eq 'edittemplate') {
-		checkload({key=>$method});
-		deletelowobject($nobj->{$method}->{id});
+		my $k="EDIT_$key";
+		checkload({key=>$k});
+		deletelowobject($nobj->{$k}->{id});
 	}	elsif ($prm eq 'listedittemplate') {
-		checkload({key=>$method});
-		deletelowobject($nobj->{$method}->{id});
-	}	elsif ($prm eq 'parsemethod') {
-		deletemethod($id,$method);
+		my $k="LISTEDIT_$key";
+		checkload({key=>$k});
+		deletelowobject($nobj->{$k}->{id});
 	}
-
 	
 }	
 
@@ -2028,27 +1998,16 @@ sub createtemplate {
 	my $id=$_[0];
 	my $prm=$_[1];
 	my $key=$obj->{$id}->{key};	
-  
-  if ($prm eq 'edittemplate') {
-  	 my $tmpl=calculate({key=>'BASEEDIT',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
-  	 $tmpl=~s/\$key/$key/igs;
-  	 return $tmpl;
-  }	
-  
-	if ($prm eq 'listedittemplate') {
-		
-  	 my $tmpl=calculate({key=>'BASELISTEDIT',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
-  	 $tmpl=~s/\$key/$key/igs;
-  	 return $tmpl;
-  }	
-
-  
-  if ($prm eq 'parsemethod') {
-  	return $method->{BASEPARSER}->{script};
-  }
-  
-  
-  
+    if ($prm eq 'edittemplate') {
+  		my $tmpl=calculate({key=>'BASEEDIT',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
+  	 	$tmpl=~s/\$key/$key/igs;
+  	 	return $tmpl;
+  	}	
+  	if ($prm eq 'listedittemplate') {
+	  	my $tmpl=calculate({key=>'BASELISTEDIT',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
+  	 	$tmpl=~s/\$key/$key/igs;
+  	 	return $tmpl;
+  	}	
 }	
 
 
