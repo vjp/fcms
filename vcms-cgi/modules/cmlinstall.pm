@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.52 2010-03-19 05:54:38 vano Exp $
+# $Id: cmlinstall.pm,v 1.53 2010-03-19 07:03:44 vano Exp $
 
 BEGIN
 {
@@ -273,10 +273,6 @@ addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEEDIT',name=>'Базовый 
 setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'EDIT_SECTIONS',name=>'Редактирование раздела каталога'});
-setvalue({key=>'EDIT_SECTIONS',pkey=>'PAGETEMPLATE',value=>$bestr});
-addlowobject({convertname=>1,upobjkey=>'CMSDESIGN',key=>'EDIT_ITEMS',name=>'Редактирование товара'});
-setvalue({key=>'EDIT_ITEMS',pkey=>'PAGETEMPLATE',value=>$bestr});
 
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
@@ -696,10 +692,10 @@ $SETSITEVARS->{$name}=$value;
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASESETVARMETHOD',name=>'Установка сессионной переменной',lflag=>1,script=>$sscript});
 
 
-createcmsmethod(id(SECTIONS),'listedittemplate');
-createcmsmethod(id(ITEMS),'listedittemplate');
-createcmsmethod(id(SECTIONS),'edittemplate');
-createcmsmethod(id(ITEMS),'edittemplate');
+createcmsmethod({key=>'SECTIONS'},'listedittemplate');
+createcmsmethod({key=>'ITEMS'},'listedittemplate');
+createcmsmethod({key=>'SECTIONS'},'edittemplate');
+createcmsmethod({key=>'ITEMS'},'edittemplate');
 
 
 alert(enc('Структура создана успешно'));

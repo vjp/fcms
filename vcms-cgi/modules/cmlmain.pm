@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.36 2010-03-19 06:58:30 vano Exp $
+# $Id: cmlmain.pm,v 1.37 2010-03-19 07:03:34 vano Exp $
 
 BEGIN
 {
@@ -1942,7 +1942,13 @@ sub loadcmsmethod {
 }	
 
 sub createcmsmethod {
-	my $id=$_[0];
+	my $id;
+	if (ref $_[0] eq 'HASH') {
+		$id=$nobj->{$_[0]->{key}}->{id};
+	} else {
+		$id=$_[0];
+	}
+	
 	my $prm=$_[1];
 	my $key=$obj->{$id}->{key};
 	my $name=$obj->{$id}->{name};
