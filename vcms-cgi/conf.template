@@ -1,5 +1,5 @@
 
-# $Id: conf.template,v 1.4 2010-03-17 21:50:09 vano Exp $
+# $Id: conf.template,v 1.5 2010-03-19 06:48:36 vano Exp $
 
 $DBNAME='<dbname>';
 $DBUSER='<dbuser>';
@@ -18,7 +18,7 @@ $INSIMAGEURL='/cmsimg/insert.png';
 $EDTIMAGEURL='/cmsimg/edit.png';
 $POSTBUTTONURL='/cmsimg/ok_post.jpg';
 $DOUBLECONFIRM=0;
-$CACHE=0;
+$CACHE=<cache>;
 $UTF=<utf>;
 
 @LANGS=('rus','eng');
