@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.35 2010-03-18 19:29:32 vano Exp $
+# $Id: cmlparse.pm,v 1.36 2010-03-20 00:22:57 vano Exp $
 
 BEGIN
 {
@@ -1362,6 +1362,7 @@ sub tag_include {
 	if ($body) {
 		return  cmlparser({data=>$body, inner=>$inner}); 
 	}	else       {
+		$cmlcalc::STOPCACHE=1;
 		return "[ Include ERROR! (id:$id key:$key expr:$expr) ]"
 	}
 }

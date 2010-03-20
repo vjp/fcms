@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.27 2010-03-14 20:08:04 vano Exp $
+# $Id: cmlcalc.pm,v 1.28 2010-03-20 00:22:04 vano Exp $
 
 BEGIN
 {
@@ -12,7 +12,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE);
 }
 
 sub initcalc
@@ -173,6 +173,7 @@ sub calculate 	{
 		} else {
 			$need_save=1;
 			$CACHEING=1;
+			$STOPCACHE=0;
 			@CACHELINKS = ($OBJID->{id});
 		}		 			
 	}
@@ -187,7 +188,11 @@ sub calculate 	{
  	}
 
         if ($need_save) {
-        	&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS,$cmlcalc::ENV->{dev},$CALCLANG);
+        	if ($STOPCACHE){
+        	    &cmlmain::dropcache($cache_key,$cmlcalc::ENV->{dev},$CALCLANG);
+        	} else {
+        		&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS,$cmlcalc::ENV->{dev},$CALCLANG);
+        	}	
         	$CACHEING=0;
         	$xvalue->{value}=&cmlparse::cmlparser({data=>$xvalue->{value},objid=>$OBJID,debug=>$DEBUG});
         }   	
