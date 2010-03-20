@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.15 2010-03-18 21:15:43 vano Exp $
+# $Id: cmlsrv.pl,v 1.16 2010-03-20 19:21:05 vano Exp $
 
 use lib "../modules/";
 
@@ -577,7 +577,7 @@ sub viewlowtree
           a({-href=>"#", -onclick=>"var target=prompt(\"Скопировать в\",\"\");location.href=\"$ENV{SCRIPT_NAME}?action=copylow&id=$upobj&objid=$_&to=\"+target", -class=>'ladd'},'(C)'),
           a({-href=>"?action=editlowform&objid=$_&id=$upobj"},"($_) $name"),br;
     if ($limit>0) {$limit--}      
-    if ($limit ne 'no' && $limit == 0) {print a({-href=>"?action=viewlow&id=$upobj&all=1"},"Просмотреть все ..."),br;}
+    if ($limit ne 'no' && $limit == 0) {print a({-href=>"?action=viewlow&id=$upobj&all=1"},enc("Просмотреть все ...")),br;}
     viewlowtree($upobj,$_,$level+1,$limit);
    }
  }
