@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.16 2010-03-20 19:21:05 vano Exp $
+# $Id: cmlsrv.pl,v 1.17 2010-03-20 20:00:06 vano Exp $
 
 use lib "../modules/";
 
@@ -844,7 +844,7 @@ sub editform
  	print start_Tr();
   	print td(),td(enc('Копировать параметр')),start_td({-colspan=>7});
  	my @plist;
- 	push(@plist,grep { !$oplist{$_} } sort keys %$prm);
+ 	push(@plist,grep { !$oplist{$_} && $_!~/^_/} sort keys %$prm);
  	my %nlist;
  	$nlist{0}=enc('Выберите параметр');
  	for (@plist) {$nlist{$_}="$prm->{$_}->{name} ($_)"}
