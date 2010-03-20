@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.53 2010-03-19 07:03:44 vano Exp $
+# $Id: cmlinstall.pm,v 1.54 2010-03-20 20:26:37 vano Exp $
 
 BEGIN
 {
@@ -500,12 +500,12 @@ $bm=qq(
 <cml:text param='_NAME'/><br>
 <cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
 <table>
-<tr><th></th><th>Наименование</th><th>Номер</th><th></th></tr>
+<tr><th></th><th>№</th><th>Наименование</th><th></th></tr>
 <cml:list expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
 <tr>
 <td><cml:deletebutton/></td>
-<td><cml:inputtext param='_NAME'/></td>
 <td><cml:inputtext param='_INDEX' value='_LISTINDEX'/></td>
+<td><cml:inputtext param='_NAME'/></td>
 <td><cml:actionlink action='EDIT'>Редактировать</cml:actionlink></td>
 </tr>
 </cml:list>
