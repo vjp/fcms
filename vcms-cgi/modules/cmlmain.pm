@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.39 2010-03-20 00:27:04 vano Exp $
+# $Id: cmlmain.pm,v 1.40 2010-03-21 20:44:29 vano Exp $
 
 BEGIN
 {
@@ -748,6 +748,19 @@ sub setvalue  {
 		setvalue({id=>$id,uid=>$uid,pkey=>$pkey,value=>$fname});
 		return 1;
  	}
+ 	if ($append && $prm->{$pkey}->{type} eq 'LIST') {
+ 		my $old_value=&cmlcalc::p($pkey,$id);
+ 		if ($old_value) {
+ 		    my @v=split(';',$old_value);
+ 		    my @av=split(';',$value);
+ 		    for my $add_v (@av) {
+ 		    	unless (grep{$_ eq $add_v}@v) {
+ 		    		push(@v,$add_v);
+ 		    	}	
+ 		    }	
+ 		    $value=join(';',@v);
+ 		}
+ 	}
  	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
@@ -863,6 +876,9 @@ sub setvalue  {
  	
  	
  	if ($prm->{$pkey}->{type} eq 'LIST') {
+ 		if ($append) {
+ 			my @oldvalue=split()
+ 		}
  		$sthDL->execute($ind,$pkey) || die $dbh->errstr;
  		for (split(/\s*;\s*/,$value)) {
  			$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr;
