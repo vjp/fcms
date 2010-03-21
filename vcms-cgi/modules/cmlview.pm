@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.19 2010-03-18 21:27:39 vano Exp $
+# $Id: cmlview.pm,v 1.20 2010-03-21 13:45:36 vano Exp $
 
 BEGIN
 {
@@ -124,7 +124,7 @@ sub editlist	{
         	}	
         	if ($prm->{$pkey}->{extra}->{single} eq 'y') {
         		@overall=('',@overall);
-        	  $lhash->{''}='Ничего';
+        	  $lhash->{''}=enc('Ничего');
 						$outp=popup_menu(-name=>$prmname,
                                      -values=>\@overall,
                                      -default=>$val->{value},
