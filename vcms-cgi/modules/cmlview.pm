@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.20 2010-03-21 13:45:36 vano Exp $
+# $Id: cmlview.pm,v 1.21 2010-03-22 22:26:06 vano Exp $
 
 BEGIN
 {
@@ -26,10 +26,26 @@ sub print_top {
 		'evalScript'=>'ajax.pl?func=evalscript',
 	);
 	$pjx->js_encode_function('encodeURIComponent');
-	$pjx->JSDEBUG(2);
-        print $pjx->show_javascript();
-        print_ajax_callback_funcs();
-        print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
+    print $pjx->show_javascript();
+    print_ajax_callback_funcs();
+    print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
+    print q(
+    <script src='/js/prototype.js'> </script>
+	<script>
+		function ajax_call(func,data,callback) {
+       		new Ajax.Request('ajax-json.pl', {
+  				method:'post',	
+              	parameters: {func: func, data: Object.toJSON(data)},
+				onSuccess: function(transport) {
+                    var json = transport.responseText.evalJSON();
+                    callback(json)
+				}
+			});
+		}
+	</script>
+    ); 
+        
+        
 	$title="<title>$title</title>" if $title;
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
@@ -40,25 +56,30 @@ sub console {
 	my $value=$_[0];
 	print_top();
 	
-	print qq(
+	print q(
 		<script language="javascript" type="text/javascript">
 			editAreaLoader.init({
-			id : "editarea"		
-			,language: "ru"
-			,syntax: "perl"			
-			,start_highlight: true		
-		});
+				id : "editarea"		
+				,language: "ru"
+				,syntax: "perl"			
+				,start_highlight: true		
+			});
+		
+			function console (script) {
+				$('resultDiv').update('...');
+          		var dt={script: script};
+          		ajax_call('console', dt, console_callback);
+  			}
+			
+			function console_callback(json){
+				     $('resultDiv').update(json.result);
+            }
 		</script>
 	);
-
-        
-    my $save_js="document.mfrm.script.value = editAreaLoader.getValue('editarea');evalScript( ['script'], ['resultDiv'],'POST' )";
-	print start_form(-name=>'mfrm',-method=>'post');
+    my $save_js="console(editAreaLoader.getValue('editarea'))";
 	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
-	print hidden(-name=>'script');
 	print br;
 	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
-	print endform;
 	print hr,enc("Результат выполнения скрипта"),hr,"<div id='resultDiv'></div>";
 	
 	
