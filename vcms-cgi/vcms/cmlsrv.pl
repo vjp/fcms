@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.18 2010-03-22 22:25:38 vano Exp $
+# $Id: cmlsrv.pl,v 1.19 2010-03-22 23:18:26 vano Exp $
 
 use lib "../modules/";
 
@@ -1036,7 +1036,7 @@ sub evaluate {
 	print "Выполнение скрипта <hr>"; 
 	my ($output,$error)=&cmlcalc::scripteval($_[0]);
 	if ($error) {print "Ошибка выполнения скрипта: <b>$error</b> <hr> Исходный текст: <br> $_[0]"}
-	else {print $output,hr,'Выполнено без ошибок'}
+	else {print $output,hr,enc('Выполнено без ошибок')}
 	print hr;
 }
 

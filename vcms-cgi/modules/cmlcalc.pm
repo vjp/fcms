@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.29 2010-03-22 22:25:55 vano Exp $
+# $Id: cmlcalc.pm,v 1.30 2010-03-22 23:18:08 vano Exp $
 
 BEGIN
 {
@@ -61,7 +61,7 @@ sub initcalc
 
 
 sub scripteval {
-		my $r=eval  "use cmlmain;\n$_[0]";
+		my $r=eval "use cmlmain;$_[0]";
 		return ($r,$@);
 }	
 

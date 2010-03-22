@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.9 2010-03-22 22:25:55 vano Exp $
+# $Id: cmlajax.pm,v 1.10 2010-03-22 23:18:08 vano Exp $
 
 BEGIN
 {
@@ -75,9 +75,9 @@ sub ajax_console ($)
 	$script=Encode::encode('cp1251',$script) unless $GLOBAL->{CODEPAGE} eq 'utf-8';;
 	my ($result,$error)=&cmlcalc::scripteval($script);
 	if ($error) {
-		return enc("Ошибка выполнения скрипта").": <b>$error</b> <hr> ".enc('Исходный текст').": <br> $script";
+		return "CONSOLE ERROR: <b>$error</b> <hr> SOURCE:<br> $script";
 	} else {
-		return $result.enc("<hr/>Выполнено без ошибок");
+		return "$result<hr/>SUCCESS";
 	}	
 }
 
@@ -88,9 +88,10 @@ sub ajax_evalscript ($)
 	$script = Encode::encode('cp1251',Encode::decode('utf8',$script)) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 	my $error=&cmlcalc::scripteval($script);
 	if ($error) {
-		return enc("Ошибка выполнения скрипта").": <b>$error</b> <hr> ".enc('Исходный текст').": <br> $script";
+		return ": <b>$error</b> <hr> <br> $script";
+		#return enc("Ошибка выполнения скрипта").": <b>$error</b> <hr> ".enc('Исходный текст').": <br> $script";
 	} else {
-		return enc('<hr/>Выполнено без ошибок');
+		return '<hr/> SUCCESS Выполнено без ошибок' ;
 	}	
 }
 
