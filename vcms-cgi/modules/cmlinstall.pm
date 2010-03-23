@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.57 2010-03-23 23:24:03 vano Exp $
+# $Id: cmlinstall.pm,v 1.58 2010-03-23 23:29:54 vano Exp $
 
 BEGIN
 {
@@ -159,6 +159,14 @@ setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'UNDERCONSTRUCT',name=>'Заглушка'});
 setvalue({key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Under construction...'});
 
+
+
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ARTICLE',name=>'Статья'});
+setvalue({key=>'ARTICLE',pkey=>'PAGETEMPLATE',value=>q(
+<cml:use key='ART__cgi:1_'>
+<cml:text param='ARTICLETEXT'/>
+</cml:use>
+)});
 
 
 
