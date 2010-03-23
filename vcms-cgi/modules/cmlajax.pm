@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.14 2010-03-23 19:17:12 vano Exp $
+# $Id: cmlajax.pm,v 1.15 2010-03-23 20:27:20 vano Exp $
 
 BEGIN
 {
@@ -55,9 +55,9 @@ sub ajax_addobject ($;$$$$)
 
 sub ajax_deleteobject ($)
 {
-	my ($objid)=@_;
-	my $status=deletelowobject($objid);
-	return enc($status?"Объект удален":"Ошибка удаления объекта");
+	my ($r)=@_;
+	my $status=deletelowobject($r->{id});
+	return ({status=>enc($status?'Объект удален':'Ошибка удаления объекта')});
 }
 
 sub ajax_console ($)
