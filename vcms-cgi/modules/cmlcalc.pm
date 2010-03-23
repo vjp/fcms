@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.30 2010-03-22 23:18:08 vano Exp $
+# $Id: cmlcalc.pm,v 1.31 2010-03-23 22:45:30 vano Exp $
 
 BEGIN
 {
@@ -437,6 +437,10 @@ sub page {
 	} else {
        		return $iscurpage;
 	}    	
+}
+
+sub equal {
+	return $_[0] eq $_[1];
 }
 
 sub iscurrent {
