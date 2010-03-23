@@ -6,7 +6,6 @@ use lib "../modules/";
 use cmlmain;
 
 use CGI  qw/param url header cookie/;
-use CGI::Ajax;
 use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
@@ -75,15 +74,7 @@ if ($cmlcalc::SETSITEVARS) {
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
-my $pjx = new CGI::Ajax( 
-	'addObject' => 'ajax.pl?func=addobject',
-	'deleteObject' => 'ajax.pl?func=deleteobject',
-);
-$pjx->js_encode_function('encodeURIComponent');
-$pjx->JSDEBUG(2);
 print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
-print $pjx->show_javascript();
-print_ajax_callback_funcs();
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $key;
@@ -127,26 +118,5 @@ sub errorpage
  else       {print "Ошибка вывода !!!!"}
 }
 
-
-sub print_ajax_callback_funcs {
-	print qq(
-		<script>
-   			function addObjectCallback (result) {
-        			alert(result);
-        			window.location.href="$ENV{REQUEST_URI}";
-        		} 
-		</script>
-	);
-	
-	print qq(
-		<script>
-   			function deleteObjectCallback (result) {
-        			alert(result);
-        			window.location.href="$ENV{REQUEST_URI}";
-        		} 
-		</script>
-	);
-	
-}
 
 
