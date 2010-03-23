@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.55 2010-03-23 20:38:22 vano Exp $
+# $Id: cmlinstall.pm,v 1.56 2010-03-23 21:18:50 vano Exp $
 
 BEGIN
 {
@@ -436,7 +436,7 @@ setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>qq(
 <script>
             function alertreload_callback(json){
                     alert(json.status); 
-                    window.location.href=window.location.href;
+                    window.location.href=window.location.href.sub(/\#$/,'');
             }    
     
             function deleteobject (id) {

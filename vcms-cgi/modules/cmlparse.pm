@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.37 2010-03-23 20:27:30 vano Exp $
+# $Id: cmlparse.pm,v 1.38 2010-03-23 21:18:58 vano Exp $
 
 BEGIN
 {
@@ -946,10 +946,7 @@ sub tag_actionlink {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
 		return qq(
-		  	<input type='hidden' id='addup$prf' value='$pl->{up}'>
-		  	<input type='hidden' id='addlink$prf' value='$pl->{link}'>
-		  	<input type='hidden' id='addlinkval$prf' value='$linkval'>
-		        <a href='#' onclick='return addObject(["addup$prf","addlink$prf","addlinkval$prf"], [addObjectCallback] )'>$title</a>
+		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","","")'>$title</a>
 		);
 		
 	}		

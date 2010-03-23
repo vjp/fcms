@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.15 2010-03-23 20:27:20 vano Exp $
+# $Id: cmlajax.pm,v 1.16 2010-03-23 21:18:33 vano Exp $
 
 BEGIN
 {
@@ -34,20 +34,20 @@ sub ajax_editmethod ($)
 }
 
 
-sub ajax_addobject ($;$$$$)
+sub ajax_addobject ($)
 {
-	my ($up,$link,$linkval,$name,$upobj)=@_;
+	my ($r)=@_;
 	my $newid;
-	$name ||= enc('Новый');
-	if ($upobj) {   
-			$newid=addlowobject({name=>$name,upobj=>$upobj,up=>$up});
+	$r->{name} ||= enc('Новый');
+	if ($r->{upobj}) {   
+			$newid=addlowobject({name=>$r->{name},upobj=>$r->{upobj},up=>$r->{up}});
 	} else {   
-			$newid=addlowobject({name=>$name,upobj=>$up});
+			$newid=addlowobject({name=>$r->{name},upobj=>$r->{up}});
 	}
-	if ($link) {    
-		setvalue ({id=>$newid,prm=>$link,value=>$linkval});
+	if ($r->{link}) {    
+		setvalue ({id=>$newid,prm=>$r->{link},value=>$r->{linkval}});
 	}
-	return enc("Новый объект создан");
+	return ({status=>enc("Новый объект создан")});
 
 	
 }
