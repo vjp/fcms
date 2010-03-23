@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.54 2010-03-20 20:26:37 vano Exp $
+# $Id: cmlinstall.pm,v 1.55 2010-03-23 20:38:22 vano Exp $
 
 BEGIN
 {
@@ -314,6 +314,9 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 </style>
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
+<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+
+<CML:INCLUDE name='INITAJAX'/>
 
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
@@ -385,6 +388,7 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 
 <cml:include key='MCEINIT'/>
 <cml:include key='INITHINTS'/>
+<cml:include key='INITAJAX'/>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
@@ -427,6 +431,32 @@ var HINTS_CFG = {
 </script>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'INITAJAX',name=>'Аякс'});
+setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>qq(
+<script>
+            function alertreload_callback(json){
+                    alert(json.status); 
+                    window.location.href=window.location.href;
+            }    
+    
+            function deleteobject (id) {
+                var dt={
+                    id: id,
+                };
+                ajax_call('deleteobject', dt, alertreload_callback);
+            }
+
+            function addobject (up,link,linkval,name,upobj) {
+                var dt={
+                    up: up,
+                    link: link,
+                    linkval: linkval,
+                    upobj: upobj
+                };
+                ajax_call('addobject', dt, alertreload_callback);
+            }
+</script>
+)});
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
