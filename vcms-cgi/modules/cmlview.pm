@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.21 2010-03-22 22:26:06 vano Exp $
+# $Id: cmlview.pm,v 1.22 2010-03-23 06:14:11 vano Exp $
 
 BEGIN
 {
@@ -73,6 +73,8 @@ sub console {
 			
 			function console_callback(json){
 				     $('resultDiv').update(json.result);
+				     $('statusDiv').update(json.status);
+				     $('sourceDiv').update(json.source);
             }
 		</script>
 	);
@@ -80,7 +82,10 @@ sub console {
 	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
 	print br;
 	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
-	print hr,enc("Результат выполнения скрипта"),hr,"<div id='resultDiv'></div>";
+	print hr,enc("Результат выполнения скрипта");
+	print hr,"<div id='resultDiv'></div>";
+	print hr,"<div id='statusDiv'></div>";
+	print hr,"<div id='sourceDiv'></div>";
 	
 	
 }	

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.1 2010-03-22 22:25:19 vano Exp $
+# $Id: ajax-json.pl,v 1.2 2010-03-23 06:14:20 vano Exp $
 
 use strict;
 no strict "refs";
@@ -67,7 +67,7 @@ if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
 	my $result=&$subname($r);
-	print $json->encode ({result=>$result});
+	print $json->encode ($result);
 } else {
 	my $rstr="Íåïğàâèëüíàÿ ôóíêöèÿ $func";
 	print $json->encode ({result=>$rstr});
