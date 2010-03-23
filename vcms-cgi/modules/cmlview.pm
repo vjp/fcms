@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.23 2010-03-23 06:43:01 vano Exp $
+# $Id: cmlview.pm,v 1.24 2010-03-23 18:50:45 vano Exp $
 
 BEGIN
 {
@@ -33,8 +33,23 @@ sub print_top {
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
     ); 
-        
-        
+    print q(<script>
+    		function setvalue (id,uid,prm,lang,value) {
+          		var dt={
+          			id: id,
+          			uid: uid,
+          			prm: prm,
+          			lang: lang,
+          			value: value,
+          		};
+          		ajax_call('setvalue', dt, setvalue_callback);
+  			}
+			
+			function setvalue_callback(json){
+					 alert(json.status); 	
+            }    
+            </script>
+    );    
 	$title="<title>$title</title>" if $title;
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
@@ -599,9 +614,9 @@ sub editmethodform ($$;$)
 
 sub editmemofull
 {
- 	my $id=param('objid');
+ 	my $id=0+param('objid');
  	my $pkey=param('pkey');
- 	my $uid=param('objuid');
+ 	my $uid=0+param('objuid');
  	my $tabkey=param('tabkey');
  	my $tabpkey=param('tabpkey');
  	my $lang=param('lang');
@@ -637,8 +652,8 @@ sub editmemofull
 		});
 		</script>
 	);
-
-    my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
+    my $save_js="setvalue('$id','$uid','$pkey','$lang',editAreaLoader.getValue('editarea'))";
+    #my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
 	print start_form(-name=>'mfrm',-method=>'post');
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	

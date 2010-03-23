@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.2 2010-03-23 06:14:20 vano Exp $
+# $Id: ajax-json.pl,v 1.3 2010-03-23 18:51:19 vano Exp $
 
 use strict;
 no strict "refs";
@@ -54,6 +54,7 @@ use vars qw ($AJAX_FUNCS);
    
 $AJAX_FUNCS={
 	console=>1,
+	setvalue=>1,
 };   
 
 
