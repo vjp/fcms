@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.10 2010-03-22 23:18:08 vano Exp $
+# $Id: cmlajax.pm,v 1.11 2010-03-23 06:13:55 vano Exp $
 
 BEGIN
 {
@@ -75,9 +75,9 @@ sub ajax_console ($)
 	$script=Encode::encode('cp1251',$script) unless $GLOBAL->{CODEPAGE} eq 'utf-8';;
 	my ($result,$error)=&cmlcalc::scripteval($script);
 	if ($error) {
-		return "CONSOLE ERROR: <b>$error</b> <hr> SOURCE:<br> $script";
+		return ({result=>$error,status=>enc('Ошибка'),source=>$script});
 	} else {
-		return "$result<hr/>SUCCESS";
+		return ({result=>$result,status=>enc('Успех'),source=>$script});
 	}	
 }
 
