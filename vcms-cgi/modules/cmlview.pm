@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.22 2010-03-23 06:14:11 vano Exp $
+# $Id: cmlview.pm,v 1.23 2010-03-23 06:43:01 vano Exp $
 
 BEGIN
 {
@@ -31,18 +31,7 @@ sub print_top {
     print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
     print q(
     <script src='/js/prototype.js'> </script>
-	<script>
-		function ajax_call(func,data,callback) {
-       		new Ajax.Request('ajax-json.pl', {
-  				method:'post',	
-              	parameters: {func: func, data: Object.toJSON(data)},
-				onSuccess: function(transport) {
-                    var json = transport.responseText.evalJSON();
-                    callback(json)
-				}
-			});
-		}
-	</script>
+    <script src='/js/base.js'> </script>
     ); 
         
         
@@ -56,7 +45,7 @@ sub console {
 	my $value=$_[0];
 	print_top();
 	
-	print q(
+	print enc(q(
 		<script language="javascript" type="text/javascript">
 			editAreaLoader.init({
 				id : "editarea"		
@@ -67,25 +56,30 @@ sub console {
 		
 			function console (script) {
 				$('resultDiv').update('...');
+				$('statusDiv').update('ВЫПОЛНЕНИЕ');
           		var dt={script: script};
           		ajax_call('console', dt, console_callback);
   			}
 			
 			function console_callback(json){
 				     $('resultDiv').update(json.result);
-				     $('statusDiv').update(json.status);
-				     $('sourceDiv').update(json.source);
+				     var statusstr;
+				     if (json.status=='SUCCESS') {
+				     	statusstr='УСПЕХ';
+				     } else {
+				     	statusstr='ОШИБКА';
+				     }		
+				     $('statusDiv').update(statusstr);
+				     
             }
 		</script>
-	);
+	));
     my $save_js="console(editAreaLoader.getValue('editarea'))";
 	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
 	print br;
 	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
-	print hr,enc("Результат выполнения скрипта");
+	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
 	print hr,"<div id='resultDiv'></div>";
-	print hr,"<div id='statusDiv'></div>";
-	print hr,"<div id='sourceDiv'></div>";
 	
 	
 }	

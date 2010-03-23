@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.11 2010-03-23 06:13:55 vano Exp $
+# $Id: cmlajax.pm,v 1.12 2010-03-23 06:42:43 vano Exp $
 
 BEGIN
 {
@@ -75,25 +75,13 @@ sub ajax_console ($)
 	$script=Encode::encode('cp1251',$script) unless $GLOBAL->{CODEPAGE} eq 'utf-8';;
 	my ($result,$error)=&cmlcalc::scripteval($script);
 	if ($error) {
-		return ({result=>$error,status=>enc('Ошибка'),source=>$script});
+		return ({result=>$error,status=>'ERROR',source=>$script});
 	} else {
-		return ({result=>$result,status=>enc('Успех'),source=>$script});
+		return ({result=>$result,status=>'SUCCESS',source=>$script});
 	}	
 }
 
 
-sub ajax_evalscript ($)
-{
-	my ($script)=@_;
-	$script = Encode::encode('cp1251',Encode::decode('utf8',$script)) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
-	my $error=&cmlcalc::scripteval($script);
-	if ($error) {
-		return ": <b>$error</b> <hr> <br> $script";
-		#return enc("Ошибка выполнения скрипта").": <b>$error</b> <hr> ".enc('Исходный текст').": <br> $script";
-	} else {
-		return '<hr/> SUCCESS Выполнено без ошибок' ;
-	}	
-}
 
 
 return 1;
