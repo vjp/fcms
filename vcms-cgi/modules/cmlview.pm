@@ -1,13 +1,12 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.25 2010-03-23 19:17:51 vano Exp $
+# $Id: cmlview.pm,v 1.26 2010-03-23 19:25:36 vano Exp $
 
 BEGIN
 {
  use Exporter();
  use Data::Dumper;
  use CGI  qw/:standard upload center/;
- use CGI::Ajax;
  use Time::Local;
  use POSIX qw(strftime);
  use cmlmain;
@@ -19,15 +18,6 @@ BEGIN
 
 sub print_top {
 	my ($title)=@_;
-	my $pjx = new CGI::Ajax( 
-		'setValue' => 'ajax.pl?func=setvalue',
-		'editMethod' => 'ajax.pl?func=editmethod',
-		'editLMethod' => 'ajax.pl?func=editlmethod',
-		'evalScript'=>'ajax.pl?func=evalscript',
-	);
-	$pjx->js_encode_function('encodeURIComponent');
-    print $pjx->show_javascript();
-    print_ajax_callback_funcs();
     print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
     print q(
     <script src='/js/prototype.js'> </script>
@@ -110,25 +100,6 @@ sub console {
 }	
 
 
-
-sub print_ajax_callback_funcs {
-	print qq(
-		<script>
-   			function setValueCallback (result) {
-        			alert(result);
-        		} 
-		</script>
-	);
-	
-	print qq(
-		<script>
-   			function editMethodCallback (result) {
-        			alert(result);
-        		} 
-		</script>
-	);
-	
-}
 
 sub editlist	{
 	my $id=$_[0]->{id};
