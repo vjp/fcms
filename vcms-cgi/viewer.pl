@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.8 2010-03-18 19:22:43 vano Exp $
+# $Id: viewer.pl,v 1.9 2010-03-23 23:01:22 vano Exp $
 
 use lib "./modules/";
 
@@ -179,7 +179,7 @@ if (!$opensite && !cookie('dev')) {
  		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
  	}	
 }elsif ($cgiparam->{tview}) { 		
- 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)"});
+ 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
 } else {
 	 if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
 	 	$cmlcalc::CGIPARAM->{view}='PAGE1'; 
