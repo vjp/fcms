@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.56 2010-03-23 21:18:50 vano Exp $
+# $Id: cmlinstall.pm,v 1.57 2010-03-23 23:24:03 vano Exp $
 
 BEGIN
 {
@@ -47,6 +47,11 @@ addobject({convertname=>1,upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'
 addprm({convertname=>1,objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK',evl=>'n',upd=>'y'});
 setprmextra({pkey=>'SECLINK',extra=>'formula',value=>'lowlist(id(SECTIONS))'});
 setprmextra({pkey=>'SECLINK',extra=>'single',value=>'y'});
+
+addobject({convertname=>1,upkey=>'CONTENT',key=>'ARTICLES',name=>'Статьи'});
+addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',key=>'ARTICLETEXT',evl=>'n'});
+setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
+setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
