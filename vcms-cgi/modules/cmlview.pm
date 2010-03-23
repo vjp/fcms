@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.24 2010-03-23 18:50:45 vano Exp $
+# $Id: cmlview.pm,v 1.25 2010-03-23 19:17:51 vano Exp $
 
 BEGIN
 {
@@ -34,6 +34,10 @@ sub print_top {
     <script src='/js/base.js'> </script>
     ); 
     print q(<script>
+    		function alert_callback(json){
+					 alert(json.status); 	
+            }    
+    
     		function setvalue (id,uid,prm,lang,value) {
           		var dt={
           			id: id,
@@ -42,12 +46,18 @@ sub print_top {
           			lang: lang,
           			value: value,
           		};
-          		ajax_call('setvalue', dt, setvalue_callback);
+          		ajax_call('setvalue', dt, alert_callback);
   			}
 			
-			function setvalue_callback(json){
-					 alert(json.status); 	
-            }    
+			function editmethod (id,pkey,nflag,script) {
+          		var dt={
+          			id: id,
+          			pkey: pkey,
+          			script: script,
+          			nflag: nflag
+          		};
+          		ajax_call('editmethod', dt, alert_callback);
+  			}
             </script>
     );    
 	$title="<title>$title</title>" if $title;
@@ -577,7 +587,7 @@ sub editmethodform ($$;$)
 	my ($id,$pkey,$lflag)=@_;
 
 	my $r=enc($lflag?'Метод нижних объектов ':'Метод ');
-	my $ajfunc=$lflag?'editLMethod':'editMethod';
+	
 	my $n=$lflag?'lmethod':'method';
 	
 	print enc("Объект "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
@@ -594,18 +604,11 @@ sub editmethodform ($$;$)
 		</script>
 	);
 	
-	my $save_js="document.mfrm.script.value = editAreaLoader.getValue('editarea');$ajfunc( ['id','pname','script'], [editMethodCallback],'POST' )";
-	print start_form(-name=>'mfrm',-method=>'post');
+	my $save_js="editmethod('$id','$pkey','$lflag',editAreaLoader.getValue('editarea'))";
 	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
 	print br;
-	print hidden(-name=>'script',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-override=>1);
-	print hidden(-name=>'id',-default=>$id);
-	print hidden(-name=>'pname',-default=>$pkey);
 	print button(-value=>enc('Исправить'),-onclick=>$save_js);
-	print endform;
-	
-	
-	
+
 	
 }	
 
@@ -653,27 +656,13 @@ sub editmemofull
 		</script>
 	);
     my $save_js="setvalue('$id','$uid','$pkey','$lang',editAreaLoader.getValue('editarea'))";
-    #my $save_js="document.mfrm.mvls.value = editAreaLoader.getValue('editarea');setValue( ['objid','objuid','pkey','lang','mvls'], [setValueCallback],'POST' )";
-	print start_form(-name=>'mfrm',-method=>'post');
+
+
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
-	
-	
-	
-	print hidden(-name=>'mvls',-id=>'mvls',-default=>'', -override=>1);
-	
  	print br;
-
-
- 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
+	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
  	
- 	print hidden(-name=>'objid',-id=>'objid',-default=>$id);
- 	print hidden(-name=>'objuid',-id=>'objuid',-default=>$uid);
- 	print hidden(-name=>'pkey',-id=>'pkey',-default=>$pkey);
- 	print hidden(-name=>'tabkey',-default=>$tabkey);
- 	print hidden(-name=>'tabpkey',-default=>$tabpkey);
-	print hidden(-name=>'lang',-id=>'lang', -default=>$lang);
- 	print endform;
 
  	print "</body></html>";
  	

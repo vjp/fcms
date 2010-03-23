@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.13 2010-03-23 18:50:25 vano Exp $
+# $Id: cmlajax.pm,v 1.14 2010-03-23 19:17:12 vano Exp $
 
 BEGIN
 {
@@ -23,23 +23,14 @@ sub ajax_setvalue ($$$$$)
 }
 
 
-sub ajax_editmethod ($$$)
-{
-		my ($objid,$mname,$value)=@_;
-       	$value = Encode::encode('cp1251',Encode::decode('utf8',$value))  unless $GLOBAL->{CODEPAGE} eq 'utf-8';
-		my $status=editmethod({id=>$objid,pkey=>$mname,script=>$value});
-		return enc($status?'Изменения сохранены':'Ошибка сохранения изменений');
-}
 
-
-sub ajax_editlmethod ($$$)
+sub ajax_editmethod ($)
 {
-		my ($objid,$mname,$value)=@_;
-       	$value = Encode::encode('cp1251',Encode::decode('utf8',$value)) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
-		my $status=editmethod({id=>$objid,pkey=>$mname,script=>$value,nflag=>1});
-		return enc($status?'Изменения сохранены':'Ошибка сохранения изменений');
-		#return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
-	
+		my ($r)=@_;
+       	$r->{value} = Encode::encode('cp1251',Encode::decode('utf8',$r->{value})) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+		my $status=editmethod($r);
+		return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
+
 }
 
 
