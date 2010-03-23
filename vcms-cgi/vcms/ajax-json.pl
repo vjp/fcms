@@ -1,43 +1,10 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.4 2010-03-23 19:18:01 vano Exp $
 
 use strict;
 no strict "refs";
 
 use lib "../modules/";
-use Data::Dumper;
-
-
-use cmlmain;
-use cmlcalc;
-use cmlajax;
-use CGI  qw/:standard/;     
-use CGI::Carp qw /fatalsToBrowser/;
-use Encode;
-use JSON::PP;
-
-use vars qw ($AJAX_FUNCS);
-   
-   
-$AJAX_FUNCS={
-	setvalue=>1,
-	editmethod=>1,
-	editlmethod=>1,
-	addobject=>1,
-	deleteobject=>1,
-	evalscript=>1,
-};   
-
-start('..');
-
-
-#!/usr/bin/perl -w
-
-use strict;
-no strict "refs";
-
-use lib "./modules";
 use Data::Dumper;
 use JSON::PP;
 
