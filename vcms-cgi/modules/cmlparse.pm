@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.38 2010-03-23 21:18:58 vano Exp $
+# $Id: cmlparse.pm,v 1.39 2010-03-24 20:54:55 vano Exp $
 
 BEGIN
 {
@@ -1215,8 +1215,12 @@ sub tag_img 	{
 			if ($alt) {return $alt}
 			return undef
 		}
-		my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
-		$src="$pstr/$v->{value}";
+		if ($cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
+			$src=$v->{value};
+		} else {
+			my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
+			$src="$pstr/$v->{value}";
+		}	
 	}
 	if ($pl->{hintprm}) {
 		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
