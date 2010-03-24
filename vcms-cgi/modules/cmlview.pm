@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.26 2010-03-23 19:25:36 vano Exp $
+# $Id: cmlview.pm,v 1.27 2010-03-24 20:45:26 vano Exp $
 
 BEGIN
 {
@@ -505,8 +505,13 @@ sub editfilelink {
  	my $prmname;
  	if ($tabkey) {$prmname='vk'.$tabkey.'v'.$pkey} else {$prmname="v$pkey"}
  
- 	my $val=calculate({id=>$id,uid=>$uid,pkey=>$pkey,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)"}); 
-	return textfield (
+ 	my $val=calculate({id=>$id,uid=>$uid,pkey=>$pkey,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)"});
+ 	my $viewstr;
+ 	if ($val->{value}=~/\.(jpe?g|png|gif)$/){
+ 		$viewstr = "<img src='$val->{value}'/><br/>";
+ 	}
+ 	 
+	return $viewstr.textfield (
  				-name=>$prmname,
  				-default=>$val->{value},
  				-onChange=>"document.$formname.$flagname.value=1",
