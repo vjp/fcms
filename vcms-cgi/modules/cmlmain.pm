@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.40 2010-03-21 20:44:29 vano Exp $
+# $Id: cmlmain.pm,v 1.41 2010-03-24 20:07:25 vano Exp $
 
 BEGIN
 {
@@ -1102,6 +1102,17 @@ sub viewlog {
 		return;
 	}
 	
+	if ($cmlcalc::CGIPARAM->{_MODE} eq 'CONSOLE') {
+		my $logstr;
+		for my $mes (@LOG) {
+			if ($mes->{type} eq 'alert') {
+				$logstr.="<b>$mes->{message}</b><br/>\n";
+			} elsif ($mes->{type} eq 'message') {
+				$logstr.="$mes->{message}<br/>\n";
+			}		
+		}
+		return $logstr;
+	}
 	
 	if (@LOG) {	
 		for (@LOG) {

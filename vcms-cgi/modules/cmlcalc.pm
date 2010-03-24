@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.31 2010-03-23 22:45:30 vano Exp $
+# $Id: cmlcalc.pm,v 1.32 2010-03-24 20:07:25 vano Exp $
 
 BEGIN
 {
@@ -61,8 +61,9 @@ sub initcalc
 
 
 sub scripteval {
+		$cmlcalc::CGIPARAM->{_MODE}='CONSOLE';
 		my $r=eval "use cmlmain;$_[0]";
-		return ($r,$@);
+		return (@LOG?viewlog():$r,$@);
 }	
 
 
