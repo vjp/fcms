@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.27 2010-03-24 20:45:26 vano Exp $
+# $Id: cmlview.pm,v 1.28 2010-03-25 22:44:50 vano Exp $
 
 BEGIN
 {
@@ -517,7 +517,7 @@ sub editfilelink {
  				-onChange=>"document.$formname.$flagname.value=1",
  				-override=>1,
 	).
-	a({-href=>"?action=editfilecontent&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},">>");			 
+	a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},">>");			 
 }
 
 
@@ -587,6 +587,60 @@ sub editmethodform ($$;$)
 
 	
 }	
+
+sub editfilelinkfull
+{
+ 	my $id=0+param('objid');
+ 	my $pkey=param('pkey');
+ 	my $uid=0+param('objuid');
+ 	my $lang=param('lang');
+ 	
+ 	my $val=calculate({id=>$id,uid=>$uid,expr=>"p($pkey)",noparse=>1,lang=>$lang});
+    my $filename=$val->{value};
+    my $fcontent;
+    
+    open (FC, "<$GLOBAL->{FILEPATH}/../$filename");
+	read (FC,$fcontent,-s FC);
+	close(FC); 
+	
+ 	my $name;
+ 	if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
+ 	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
+
+	print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)");
+	print enc(" Язык "),b($LANGS{$lang}) if $lang;
+	print br(),br();  
+
+    my $syn;
+ 	$syn='css' if $filename=~/\.css/;
+ 
+    my $h_on=$syn?'true':'false';
+    
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea"		
+			,language: "ru"
+			,syntax: "$syn"			
+			,start_highlight: $h_on	
+			,replace_tab_by_spaces : 4	
+		});
+		</script>
+	);
+    my $save_js="setvalue('$id','$uid','$pkey','$lang',editAreaLoader.getValue('editarea'))";
+
+
+ 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
+	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>40,-cols=>150,-override=>1);	
+ 	print br;
+	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
+ 	
+
+ 	print "</body></html>";
+ 	
+ 	
+ 	
+}
 
 
 
