@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.16 2010-03-23 21:18:33 vano Exp $
+# $Id: cmlajax.pm,v 1.17 2010-03-25 21:44:52 vano Exp $
 
 BEGIN
 {
@@ -17,7 +17,7 @@ BEGIN
 sub ajax_setvalue ($$$$$)
 {
 		my ($r)=@_;
-       	$r->{value} = Encode::encode('cp1251',Encode::decode('utf8',$r->{value})) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+       	$r->{value} = Encode::encode('cp1251',$r->{value}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 		my $status=setvalue($r);
 		return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
 }
@@ -27,7 +27,7 @@ sub ajax_setvalue ($$$$$)
 sub ajax_editmethod ($)
 {
 		my ($r)=@_;
-       	$r->{value} = Encode::encode('cp1251',Encode::decode('utf8',$r->{value})) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+       	$r->{value} = Encode::encode('cp1251',$r->{value}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 		my $status=editmethod($r);
 		return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
 
@@ -36,20 +36,18 @@ sub ajax_editmethod ($)
 
 sub ajax_addobject ($)
 {
-	my ($r)=@_;
-	my $newid;
-	$r->{name} ||= enc('Новый');
-	if ($r->{upobj}) {   
-			$newid=addlowobject({name=>$r->{name},upobj=>$r->{upobj},up=>$r->{up}});
-	} else {   
-			$newid=addlowobject({name=>$r->{name},upobj=>$r->{up}});
-	}
-	if ($r->{link}) {    
-		setvalue ({id=>$newid,prm=>$r->{link},value=>$r->{linkval}});
-	}
-	return ({status=>enc("Новый объект создан")});
-
-	
+		my ($r)=@_;
+		my $newid;
+		$r->{name} ||= enc('Новый');
+		if ($r->{upobj}) {   
+				$newid=addlowobject({name=>$r->{name},upobj=>$r->{upobj},up=>$r->{up}});
+		} else {   
+				$newid=addlowobject({name=>$r->{name},upobj=>$r->{up}});
+		}
+		if ($r->{link}) {    
+			setvalue ({id=>$newid,prm=>$r->{link},value=>$r->{linkval}});
+		}
+		return ({status=>enc("Новый объект создан")});
 }
 
 
