@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.39 2010-03-24 20:54:55 vano Exp $
+# $Id: cmlparse.pm,v 1.40 2010-03-25 21:58:10 vano Exp $
 
 BEGIN
 {
@@ -595,7 +595,7 @@ sub tag_list  	{
   	my $key;
   	my $container;
 		my $body;  	
-		my $orderby='_INDEX';
+		my $orderby;
 		my $ordertype;
 		my $limit;
 		my $start;
@@ -609,7 +609,8 @@ sub tag_list  	{
   	if ($param=~s/(\W)orderby=(['"])(.+?)\2/$1/i)        {$orderby=$3 } 
   	if ($param=~s/(\W)ordertype=(['"])(.+?)\2/$1/i)      {$ordertype=$3 } 
   	if ($param=~s/(\W)limit=(['"])(.+?)\2/$1/i)          {$limit=$3 } 
-	if ($param=~s/(\W)start=(['"])(.+?)\2/$1/i)          {$start=$3 }  else {$start=0} 	
+	if ($param=~s/(\W)start=(['"])(.+?)\2/$1/i)          {$start=$3 }  else {$start=0}
+	$orderby='_INDEX' if !$orderby || $orderby eq 'NULL'; 	
   	my $pl=fetchparam($param,['selected','selexpr']);
   	
 
