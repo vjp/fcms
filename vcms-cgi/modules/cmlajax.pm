@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.18 2010-03-25 22:44:42 vano Exp $
+# $Id: cmlajax.pm,v 1.19 2010-03-25 23:00:05 vano Exp $
 
 BEGIN
 {
@@ -21,11 +21,8 @@ sub ajax_setvalue ($$$$$)
        	if ($cmlmain::prm->{$r->{prm}}->{type} eq 'FILELINK') {
        		my $val=calculate({id=>$r->{id},uid=>$r->{uid},expr=>"p($r->{prm})",noparse=>1,lang=>$r->{lang}});
        		my $fn=">$GLOBAL->{FILEPATH}/../$val->{value}";
-       		open (FH,$fn);
-       		print FH $r->{value};
-       		close FH; 
-       		my $status=1;
-       		return ({status=>enc($status?"Содержимое файла изменено $fn":'Ошибка сохранения изменений')});
+       		my $status=(open (FH,$fn))&&(print FH $r->{value})&&(close FH); 
+       		return ({status=>enc($status?"Содержимое файла изменено":'Ошибка сохранения изменений')});
        	} else {
 			my $status=setvalue($r);
 			return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
