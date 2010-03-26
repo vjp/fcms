@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.59 2010-03-25 21:45:57 vano Exp $
+# $Id: cmlinstall.pm,v 1.60 2010-03-26 21:18:22 vano Exp $
 
 BEGIN
 {
@@ -474,36 +474,41 @@ setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
 setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
-	<script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
-	<script language="javascript" type="text/javascript">
-	tinyMCE.init({	mode : "specific_textareas",
-		editor_selector : "mceEditor",
-		convert_urls : false,
-               	theme : "advanced", 
-		theme_advanced_styles : "Заголовок 1=mcheader1;Заголовок 2=mcheader2;Заголовок 3=mcheader3", 
-		theme_advanced_disable : "image", 
-		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,fontsizeselect,|,forecolor,backcolor,|,removeformat",
-		theme_advanced_buttons3 : "",
-		content_css : "/css/mce.css", 
-		apply_source_formatting: true,
-		language : "ru" 
-	});
-	function insertimage (text){ 
-  		tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
-  		tinyMCE.execCommand('mceInsertContent', false, ''); 
-	}; 
-	function insertlink (src,name){ 
-  		tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> '); 
-  		tinyMCE.execCommand('mceInsertContent', false, ''); 
-	}; 
-	function toggleEditor(id) {
-		var elm = document.getElementById(id);
+	    <script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
+    <script language="javascript" type="text/javascript">
+    tinyMCE.init({  mode : "specific_textareas",
+        editor_selector : "mceEditor",
+        convert_urls : false,
+        theme : "advanced", 
+        theme_advanced_styles : "Заголовок 1=mcheader1;Заголовок 2=mcheader2;Заголовок 3=mcheader3", 
+        theme_advanced_disable : "image", 
+        plugins : "paste,fullscreen",
+        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,fontsizeselect,|,forecolor,backcolor,|,sub,sup",
+        theme_advanced_buttons2 : ",removeformat,visualaid,|,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,fullscreen",
+        theme_advanced_buttons3 : "",
+        content_css : "/css/mce.css", 
+        apply_source_formatting: true,
+        language : "ru" 
+    
+    });
+    function insertimage (text){ 
+        tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
+        tinyMCE.execCommand('mceInsertContent', false, ''); 
+    }; 
+    function insertlink (src,name){ 
+        tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> '); 
+        tinyMCE.execCommand('mceInsertContent', false, ''); 
+    }; 
+    function toggleEditor(id) {
+        var elm = document.getElementById(id);
 
-		if (tinyMCE.getInstanceById(id) == null)
-			tinyMCE.execCommand('mceAddControl', false, id);
-		else
-			tinyMCE.execCommand('mceRemoveControl', false, id);
-	}
+        if (tinyMCE.getInstanceById(id) == null)
+            tinyMCE.execCommand('mceAddControl', false, id);
+        else
+            tinyMCE.execCommand('mceRemoveControl', false, id);
+    }
+</script>
+
 </script>
 )});
 
