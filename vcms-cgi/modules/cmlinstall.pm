@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.60 2010-03-26 21:18:22 vano Exp $
+# $Id: cmlinstall.pm,v 1.61 2010-03-27 14:20:55 vano Exp $
 
 BEGIN
 {
@@ -917,7 +917,7 @@ sub install_db ($$) {
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}fs (
   			`id` varchar(20) NOT NULL default '',
   			`prm` varchar(50) NOT NULL default '',
-  			`val` varchar(255) default NULL,
+  			`val` varchar(500) default NULL,
   			`lang` varchar(5) NOT NULL default '',
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
