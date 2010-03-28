@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.40 2010-03-25 21:58:10 vano Exp $
+# $Id: cmlparse.pm,v 1.41 2010-03-28 20:55:51 vano Exp $
 
 BEGIN
 {
@@ -58,6 +58,7 @@ sub initparser
     'else'=>1,
     'dev'=>1,
     'dynamic'=>1,
+    'lightbox'=>1,
  )
 }
 
@@ -1168,6 +1169,32 @@ sub tag_container {
 sub tag_image {
 	return tag_img(@_);
 }	
+
+sub tag_lightbox {
+	my $param=$_[0]->{param};
+	my $pl=fetchparam(\$param,[
+		'id','param' ,'prm','expr', 'href', 'key' 
+	]);
+	my $id;
+	my $key;
+	if       ($pl->{id})    {$id=$pl->{id}    }
+	elsif 	 ($pl->{key})  {$key=$pl->{key}  }
+	else     {$id=$_[0]->{inner}->{objid}}
+	
+	
+	my $pkey=$pl->{param} || $pl->{prm};
+	my $expr="p('$pkey')" if $pkey;
+	$expr=$pl->{'expr'} if $pl->{'expr'};
+	
+	my $href=$pl->{href};
+	
+	unless ($href) {
+		my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>$expr});
+		$href=$v->{value}
+	}	
+	return "<a href='$href' rel='lightbox[1]'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>" 
+	
+}
 
 sub tag_img 	{
 	my $param=$_[0]->{param};
