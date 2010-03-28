@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.19 2010-03-22 23:18:26 vano Exp $
+# $Id: cmlsrv.pl,v 1.20 2010-03-28 13:30:47 vano Exp $
 
 use lib "../modules/";
 
@@ -215,9 +215,14 @@ if ($action) {
      	}
      	if ($action eq 'copylow')   { copyobject({from=>param('objid'),to=>param('to')}); $action='viewlow' }
      	if ($action eq 'addlow')   { 
-					$objid=addlowobject(param('objid'),param('id'));
+				$objid=addlowobject(param('objid'),param('id'));
      			$action='editlowform';
-			}
+		}
+     	if ($action eq 'clearlow')   { 
+				deletealllowobjects(param('id'));
+     			$action='editform';
+		}
+			
      	if ($action eq 'delete')   { deleteobject(param('id')); $action='viewtree';}
      	if ($action eq 'deletelow'){ deletelowobject(param('objid'));$action='viewlow'}
 
@@ -510,7 +515,9 @@ sub viewlow
  my $all=$_[1];
  
  print enc('Дерево объекта '),a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
- print "<a href='$ENV{SCRIPT_NAME}?action=addlow&id=$id&objid=0'>(+) </a> <br>";
+ print a({-href=>"?action=addlow&id=$id&objid=0"},'(+)');
+ print a({-href=>"?action=clearlow&id=$id&objid=0"},'(X)');
+ print br;
  if ($all) {
  	checkload({uid=>$id});
  	viewlowtree($id,0,0,'no')

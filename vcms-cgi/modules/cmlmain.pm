@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.41 2010-03-24 20:07:25 vano Exp $
+# $Id: cmlmain.pm,v 1.42 2010-03-28 13:30:57 vano Exp $
 
 BEGIN
 {
@@ -22,7 +22,7 @@ BEGIN
               &edit		&editlow	&update
               
               &returnvalue    &init
-              &addobject	&addlowobject	&deleteobject   &deletelowobject
+              &addobject	&addlowobject	&deleteobject   &deletelowobject &deletealllowobjects
               &buildtree	&buildlowtree	&buildparam     &treelist
               &addprm		&deleteprm	&paramlist      &dbconnect
               &setvalue     	&editprm	&setprmextra    &cmlparser
@@ -1330,7 +1330,8 @@ sub deleteobject
  if ($_[0]=~/u(\d+)/) {$id=$1}
  if ($obj->{$id}->{up}==0 && !$force) {print "cant delete root object"; return}
  $sthCH->execute("u$id") || die $dbh->errstr; 
- for (@{$cmlmain::ltree->{$id}->{0}}) {
+ my @dellist=@{$cmlmain::ltree->{$id}->{0}};
+ for (@dellist) {
  	deletelowobject($_);
  }
  
@@ -1356,16 +1357,24 @@ sub deleteobject
  }(@{$tree->{$id}});
 }
 
+sub deletealllowobjects
+{
+	my ($id)=@_;
+	buildlowtree($id);
+	my @dellist=@{$cmlmain::ltree->{$id}->{0}};
+	for my $oid (@dellist) {
+ 		deletelowobject($oid);
+ 	}
+}
+
 sub deletelowobject
 {
  	if (ref $_[0] eq 'ARRAY') {
  			for (@{$_[0]}) {deletelowobject($_)}
  			return;
  	}	
- 
  	my @dlist=split(';',$_[0]);
  	my $id=shift @dlist;
- 
  	my $sthD=$dbh->prepare("DELETE FROM ${DBPREFIX}objects WHERE id=?");
  	my $sthDM=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=?");  $sthDM->execute($id) || die $dbh->errstr;
  	my $sthDDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE objid=?");  $sthDDL->execute($id) || die $dbh->errstr;
