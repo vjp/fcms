@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.62 2010-03-28 20:07:11 vano Exp $
+# $Id: cmlinstall.pm,v 1.63 2010-03-28 21:11:20 vano Exp $
 
 BEGIN
 {
@@ -128,20 +128,30 @@ addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TIT
 setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 
 addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'INITSCRIPTS',name=>'Инициализационная секция'});
+setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<link rel="stylesheet" href="/css/mce.css" type="text/css" />
+<link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
+
+<script type="text/javascript" src="/js/base.js"></script>
+<script type="text/javascript" src="/js/swfobject.js"></script>
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script src="/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
+<script>
+  var lbLabelImage="Фото";
+  var lbLabelOf="из";
+</script>
+<script src="/js/lightbox.js" type="text/javascript"></script>
+)});
+
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
 setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
-
 <title>
 </title>
-
-<link rel="stylesheet" href="/css/mce.css" type="text/css" />
-
-<script type="text/javascript" src="/js/base.js"></script>
-<script type="text/javascript" src="/js/swfobject.js"></script>
-
+<cml:include key='INITSCRIPTS'/>
 </head>
 <body>
 DEFAULT HEADER
