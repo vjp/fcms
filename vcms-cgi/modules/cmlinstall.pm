@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.61 2010-03-27 14:20:55 vano Exp $
+# $Id: cmlinstall.pm,v 1.62 2010-03-28 20:07:11 vano Exp $
 
 BEGIN
 {
@@ -55,6 +55,7 @@ setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
+addprm({convertname=>1,objkey=>'GALLERY',name=>'Превью',type=>'PICTURE',key=>'SMALLPIC',evl=>'n'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'PICLINK',evl=>'n'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>q(
 my @v=reverse split(/;/,p(PICLINKS,p(PICLINK)));
