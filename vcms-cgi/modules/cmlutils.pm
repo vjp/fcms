@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.8 2010-02-27 21:06:05 vano Exp $
+# $Id: cmlutils.pm,v 1.9 2010-03-28 19:51:48 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -56,7 +56,7 @@ DOC
 
 	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
 	$req -> content_type ('application/xml');    
-	$req -> content ($site?$squery:$dquery);
+	$req -> content ($squery);
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $rf=$xs->XMLin($response->content);
@@ -70,10 +70,14 @@ DOC
 	return $r unless $rf->{response}->{results}->{grouping}->{group};
 	my @finded=ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY'?
 		@{$rf->{response}->{results}->{grouping}->{group}}:($rf->{response}->{results}->{grouping}->{group});
+    
 
 	for (@finded) {
 		my $v;
-   		if ($_->{doc}->{passages}->{passage}->{content}) {
+		if (ref $_->{doc}->{passages}->{passage} eq 'ARRAY') {
+			$v=$_->{doc}->{passages}->{passage}->[0];
+		} else {
+   			if ($_->{doc}->{passages}->{passage}->{content}) {
       			my @w=ref $_->{doc}->{passages}->{passage}->{hlword} eq 'ARRAY'?@{$_->{doc}->{passages}->{passage}->{hlword}}:($_->{doc}->{passages}->{passage}->{hlword});
       			my @p=@{$_->{doc}->{passages}->{passage}->{content}};
       			my $v1=shift(@p);
@@ -83,10 +87,11 @@ DOC
          			$v1=shift(@p);
          			$ww=shift(@w)
       			}   
-      			$v = Encode::encode('cp1251',$v);
-   		}
+   			}
+		}
+		
    		my $cr;
-   		$cr->{string}=$v;
+   		$cr->{string} = Encode::encode('cp1251',$v);
    		$cr->{url}=$_->{doc}->{url};
    		push(@{$r->{result}},$cr);	
    	}
