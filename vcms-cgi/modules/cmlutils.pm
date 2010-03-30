@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.9 2010-03-28 19:51:48 vano Exp $
+# $Id: cmlutils.pm,v 1.10 2010-03-30 22:35:51 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -75,11 +75,29 @@ DOC
 	for (@finded) {
 		my $v;
 		if (ref $_->{doc}->{passages}->{passage} eq 'ARRAY') {
-			$v=$_->{doc}->{passages}->{passage}->[0];
+			if (ref $_->{doc}->{passages}->{passage}->[0] eq 'HASH') {
+      			my @w=ref $_->{doc}->{passages}->{passage}->[0]->{hlword} eq 'ARRAY'?@{$_->{doc}->{passages}->{passage}->[0]->{hlword}}:($_->{doc}->{passages}->{passage}->[0]->{hlword});
+      			my @p=@{$_->{doc}->{passages}->{passage}->[0]->{content}};
+      			if (scalar @p==scalar @w) {
+      				$v='<b>'.shift(@w).'</b>';
+      			}
+      			my $v1=shift(@p);
+      			my $ww=shift(@w);
+      			while ($v1) {
+         			$v.="$v1<b>$ww</b>";
+         			$v1=shift(@p);
+         			$ww=shift(@w)
+      			}   
+			} else {
+				$v=$_->{doc}->{passages}->{passage}->[0];
+			}	
 		} else {
    			if ($_->{doc}->{passages}->{passage}->{content}) {
       			my @w=ref $_->{doc}->{passages}->{passage}->{hlword} eq 'ARRAY'?@{$_->{doc}->{passages}->{passage}->{hlword}}:($_->{doc}->{passages}->{passage}->{hlword});
       			my @p=@{$_->{doc}->{passages}->{passage}->{content}};
+      			if (scalar @p==scalar @w) {
+      				$v='<b>'.shift(@w).'</b>';
+      			}
       			my $v1=shift(@p);
       			my $ww=shift(@w);
       			while ($v1) {
@@ -93,6 +111,30 @@ DOC
    		my $cr;
    		$cr->{string} = Encode::encode('cp1251',$v);
    		$cr->{url}=$_->{doc}->{url};
+   		
+   		
+   		if (ref $_->{doc}->{title} eq 'HASH') {
+   			if (ref $_->{doc}->{title}->{content} eq 'ARRAY') {
+   				my $v;
+   				my @w=ref $_->{doc}->{title}->{hlword} eq 'ARRAY'?@{$_->{doc}->{title}->{hlword}}:($_->{doc}->{title}->{hlword});
+      			my @p=@{$_->{doc}->{title}->{content}};
+      			if (scalar @p==scalar @w) {
+      				$v=shift(@w);
+      			}
+      			my $v1=shift(@p);
+      			my $ww=shift(@w);
+      			while ($v1) {
+         			$v.="$v1$ww";
+         			$v1=shift(@p);
+         			$ww=shift(@w)
+      			}   
+   				$cr->{title}=Encode::encode('cp1251',$v);;
+   			} else {	
+   				$cr->{title}=Encode::encode('cp1251',$_->{doc}->{title}->{hlword}.$_->{doc}->{title}->{content});
+   			}	
+   		} else {
+   			$cr->{title}=Encode::encode('cp1251',$_->{doc}->{title});
+   		}	
    		push(@{$r->{result}},$cr);	
    	}
    	for (@{$rf->{response}->{found}}) {
