@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.19 2010-03-25 23:00:05 vano Exp $
+# $Id: cmlajax.pm,v 1.20 2010-03-30 22:15:49 vano Exp $
 
 BEGIN
 {
@@ -34,7 +34,7 @@ sub ajax_setvalue ($$$$$)
 sub ajax_editmethod ($)
 {
 		my ($r)=@_;
-       	$r->{value} = Encode::encode('cp1251',$r->{value}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+       	$r->{script} = Encode::encode('cp1251',$r->{script}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 		my $status=editmethod($r);
 		return ({status=>enc($status?'Изменения сохранены':'Ошибка сохранения изменений')});
 
