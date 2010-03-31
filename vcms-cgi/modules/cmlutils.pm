@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.11 2010-03-31 20:41:27 vano Exp $
+# $Id: cmlutils.pm,v 1.12 2010-03-31 21:18:31 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -76,8 +76,15 @@ DOC
 
 	for (@finded) {
    		my $cr;
-   		$_->{doc}->{passages}->{passage}=~s/\[\[(\/)?hlword\]\]/<$1b>/g;
-   		$cr->{string} = Encode::encode('cp1251',$_->{doc}->{passages}->{passage});
+   		my $str;
+   		if (ref $_->{doc}->{passages}->{passage} eq 'ARRAY') {
+   			$str=join(', ',@{$_->{doc}->{passages}->{passage}})
+   		} else {
+   			$str=$_->{doc}->{passages}->{passage};
+   		}
+   		
+   		$str=~s/\[\[(\/)?hlword\]\]/<$1b>/g;
+   		$cr->{string} = Encode::encode('cp1251',$str);
    		$cr->{url}=$_->{doc}->{url};
    		
    		
