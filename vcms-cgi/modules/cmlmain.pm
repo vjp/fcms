@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.43 2010-04-01 21:11:14 vano Exp $
+# $Id: cmlmain.pm,v 1.44 2010-04-01 21:57:26 vano Exp $
 
 BEGIN
 {
@@ -926,6 +926,7 @@ sub checkdatastruct {
 sub init	{
  	do "$_[0]/conf" || die $!;
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
+  	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
  	$DBHOST='localhost' unless $DBHOST;
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   

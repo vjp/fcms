@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.12 2010-03-31 21:18:31 vano Exp $
+# $Id: cmlutils.pm,v 1.13 2010-04-01 21:57:36 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -47,7 +47,7 @@ sub sitesearch ($;$)
 	$ua->agent("vCMS Yandex Site Search");
 	my $squery =
 <<DOC;
-<?xml version='1.0' encoding='windows-1251'?>
+<?xml version='1.0' encoding='$GLOBAL->{CODEPAGE}'?>
 <request>    
 	<query>$query site='$site'</query>
 	<page>0</page>
@@ -65,7 +65,8 @@ DOC
 	my $r;
 	$r->{found}=0;
 	if ($rf->{response}->{error}) {
-		$r->{error}= Encode::encode('cp1251',$rf->{response}->{error}->{content});
+		$r->{error}=$rf->{response}->{error}->{content};
+		$r->{error}= Encode::encode($GLOBAL->{ENCODING},$r->{error});
 		$r->{errorcode}=$rf->{response}->{error}->{code};
 		return $r;
 	}
@@ -84,19 +85,23 @@ DOC
    		}
    		
    		$str=~s/\[\[(\/)?hlword\]\]/<$1b>/g;
-   		$cr->{string} = Encode::encode('cp1251',$str);
+   		$str = Encode::encode($GLOBAL->{ENCODING},$str);
+   		$cr->{string} = $str;
    		$cr->{url}=$_->{doc}->{url};
    		
    		
-		$cr->{title}=Encode::encode('cp1251',$_->{doc}->{title});
+		$cr->{title}=Encode::encode($GLOBAL->{ENCODING},$_->{doc}->{title});
 		$cr->{title}=~s/\[\[\/?hlword\]\]//g;
+		
+		
    		push(@{$r->{result}},$cr);	
    	}
    	for (@{$rf->{response}->{found}}) {
    		$r->{found}=$_->{content} if $_->{priority} eq 'all';	
    	}
    	
-	$r->{wordstat}=Encode::encode('cp1251',$rf->{response}->{wordstat});
+   	$r->{wordstat}=$rf->{response}->{wordstat};
+	$r->{wordstat}=Encode::encode($GLOBAL->{ENCODING},$r->{wordstat});
 	return $r;	
 }
 
