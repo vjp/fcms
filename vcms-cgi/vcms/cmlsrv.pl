@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.21 2010-04-01 19:47:13 vano Exp $
+# $Id: cmlsrv.pl,v 1.22 2010-04-01 21:37:04 vano Exp $
 
 use lib "../modules/";
 
@@ -116,20 +116,20 @@ if ($action) {
 	}
 	if ($action eq 'clearcache') {
 		clearcache();
-		alert('Кеш очищен');
+		alert(enc('Кеш очищен'));
 		$action='viewleft';
 	}
 	
 	if ($action eq 'addnewuser') {
 	    	$action='viewusers';$cf=0;
 	    	if (!param('password')) {alert ('Пароль не задан')}
-	    	elsif (param('password') ne param('retpassword')) {alert('Пароль не совпадает')}
+	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
 				else {
 					if (adduser(param('nusername'),param('password'),param('group'))) {
-						alert('Пользователь добавлен');
+						alert(enc('Пользователь добавлен'));
 						$cf=1;
 					} else {
-						alert('Ошибка')
+						alert(enc('Ошибка'));
 					}		
 				}	    	
 	    }
@@ -141,12 +141,12 @@ if ($action) {
 	    	$action='viewusers';
 	    	unless (param('password') ne '') {
 	    		edituser(param('username'),undef,param('group'));
-	    		alert('Данные изменены');
+	    		alert(enc('Данные изменены'));
 	    	}
 	    	elsif (param('password') ne param('retpassword')) {alert('Пароль не совпадает')}
 				else {
 					edituser(param('username'),param('password'),param('group'));
-					alert('Данные изменены');
+					alert(enc('Данные изменены'));
 				}
 	    }
 	    
