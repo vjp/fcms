@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.20 2010-03-28 13:30:47 vano Exp $
+# $Id: cmlsrv.pl,v 1.21 2010-04-01 19:47:13 vano Exp $
 
 use lib "../modules/";
 
@@ -114,6 +114,12 @@ if ($action) {
 		);
 		$action='editform'
 	}
+	if ($action eq 'clearcache') {
+		clearcache();
+		alert('Кеш очищен');
+		$action='viewleft';
+	}
+	
 	if ($action eq 'addnewuser') {
 	    	$action='viewusers';$cf=0;
 	    	if (!param('password')) {alert ('Пароль не задан')}
@@ -475,6 +481,7 @@ sub viewleft {
 	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},enc('Пользователи и .htaccess'));
 	print br,a({-href=>'?action=console',-target=>'mainbody'},enc('Консоль'));
 	print br,a({-href=>'?action=config',-target=>'mainbody'},enc('Конфигурация'));
+	print br,a({-href=>'?action=clearcache'},enc('Очистить кеш'));
 	
 	print br,a({-href=>'?action=viewleft'},enc('Обновить'));
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
