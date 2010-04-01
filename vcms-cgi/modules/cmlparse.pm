@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.41 2010-03-28 20:55:51 vano Exp $
+# $Id: cmlparse.pm,v 1.42 2010-04-01 18:25:25 vano Exp $
 
 BEGIN
 {
@@ -1344,18 +1344,20 @@ sub tag_video 	{
 
 sub tag_execute {
 	my $param=$_[0]->{param};
-	my $id;
-	my $method;
+
 	my $key;
+	my $pl=fetchparam(\$param,[
+		'id','method','key',
+	]);
 	
-	if    	($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {$id=$3    }
-	if    	($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3    }
-	else    {$id=$_[0]->{inner}->{objid}}
-	
-	if    	($param=~s/(\W)method=(['"])(.+?)\2/$1/i)    {$method=$3    }
-	my $res=&cmlcalc::execute({key=>$key,id=>$id,method=>$method});
-	if ($res) {return undef} 
-	else { return "[ Execute ERROR! (id:$id key:$key) ]" }
+	$id=$pl->{id} || $_[0]->{inner}->{objid};
+
+	my $res=&cmlcalc::execute({key=>$pl->{key},id=>$id,method=>$pl->{method}});
+	if ($res) {
+		return  cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}); 
+	}	else { 
+		return "[ Execute ERROR! (id:$id key:$key) ]" 
+	}
 }
 
 
