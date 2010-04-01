@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.9 2010-03-23 23:01:22 vano Exp $
+# $Id: viewer.pl,v 1.10 2010-04-01 18:34:51 vano Exp $
 
 use lib "./modules/";
 
@@ -49,13 +49,18 @@ unless ($pathinfo{view}) {
 	 elsif ($firstparam=~/^_(.+)$/) {$cmlcalc::CGIPARAM->{view}=$1}
 	 %pathinfo=@pi;
 }	
-for (my $i=0;$i<=$#pi;$i++) {$cmlcalc::CGIPARAM->{$i+1}=$pi[$i]}
+for (my $i=0;$i<=$#pi;$i++) {
+	$cmlcalc::CGIPARAM->{$i+1}=$pi[$i]
+}
 for (keys %pathinfo) {
-unless($_=~/^\d+$/) {	$cmlcalc::CGIPARAM->{$_} =$pathinfo{$_} }
+	unless($_=~/^\d+$/) {	$
+		cmlcalc::CGIPARAM->{$_} =$pathinfo{$_} 
+	}
 }	
 
 
 for (param()) {
+	next if $cmlcalc::CGIPARAM->{$_};
 	my @pl=param($_);
 	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',grep {$_ ne '0'} @pl) }
 	else 		    { $cmlcalc::CGIPARAM->{$_}=$pl[0] }
