@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.64 2010-03-28 21:32:40 vano Exp $
+# $Id: cmlinstall.pm,v 1.65 2010-04-01 21:10:15 vano Exp $
 
 BEGIN
 {
@@ -177,6 +177,29 @@ setvalue({key=>'ARTICLE',pkey=>'PAGETEMPLATE',value=>q(
 <cml:use key='ART__cgi:1_'>
 <cml:text param='ARTICLETEXT'/>
 </cml:use>
+)});
+
+
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'SEARCH',name=>'Поиск'});
+setvalue({key=>'SEARCH',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
+<cml:execute method='YSEARCH'>
+<br/>
+
+<table width="100%" bgcolor="#CCCCCC" border="0" cellpadding="4" cellspacing="1">
+<tr><td valign="middle" align="left" bgcolor="#666666">
+<font color="#FFFFFF">Мы искали: "<b><cml:text value='_prm:query_'/></b>". И нашли для вас <b><cml:text value="_env:FOUND_" /></b> страниц</font>
+</td></tr>
+
+<cml:list value="_env:LIST_">
+<tr><td valign="middle" align="left" bgcolor="#FFFFFF"><b><cml:a expr="env(p(_ID).url)"><cml:text expr="env(p(_ID).title)"/></cml:a></b><br/>
+<cml:text expr="env(p(_ID).str)"/><br/>
+<small><cml:a expr="env(p(_ID).url)"><font color="#999999"><cml:text expr="env(p(_ID).url)"/></font></cml:a></small></td></tr>
+</cml:list>
+
+<tr><td valign="middle" align="left" bgcolor="#666666"><font color="#FFFFFF">Результаты поиска: <b><cml:text value='_prm:query_'/></b></font></td></tr>
+</table>
+<br/>
+</cml:execute>
 )});
 
 
