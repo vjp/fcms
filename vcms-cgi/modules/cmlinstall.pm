@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.67 2010-04-01 21:30:43 vano Exp $
+# $Id: cmlinstall.pm,v 1.68 2010-04-01 21:44:41 vano Exp $
 
 BEGIN
 {
@@ -123,6 +123,23 @@ addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TIT
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Хост для поиска',type=>'TEXT',key=>'SEARCHSITE',upd=>'y',evl=>'n',self=>1});
 setvalue({key=>'DESIGN',pkey=>'SEARCHSITE',value=>$ENV{SERVER_NAME}});
+addmethod ({convertname=>1,objkey=>'DESIGN',key=>'YSEARCH',name=>'Поииск яндекса по сайту',lflag=>1,script=>q(
+use cmlutils;
+my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{site=>p(SEARCHSITE,id(DESIGN))});
+$cmlcalc::ENV->{FOUND}=scalar @{$r->{result}};
+$cmlcalc::ENV->{DUMP}=$r;
+my $i=0;
+my @objs;
+for (@{$r->{result}}) {
+   $i++;
+   push(@objs,"v$i");
+   $cmlcalc::ENV->{'v'.$i.'str'}=$_->{string}  || 'Найден по ссылке';
+   $cmlcalc::ENV->{'v'.$i.'url'}=$_->{url};
+   $cmlcalc::ENV->{'v'.$i.'title'}=$_->{title};
+}
+$cmlcalc::ENV->{LIST}=join(';',@objs);
+)});
+
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE'});
