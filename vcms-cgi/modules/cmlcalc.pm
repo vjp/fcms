@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.34 2010-04-01 18:02:44 vano Exp $
+# $Id: cmlcalc.pm,v 1.35 2010-04-01 20:04:07 vano Exp $
 
 BEGIN
 {
@@ -196,7 +196,14 @@ sub calculate 	{
         		&cmlmain::tocache($cache_key,$xvalue->{value},\@CACHELINKS,$cmlcalc::ENV->{dev},$CALCLANG);
         	}	
         	$CACHEING=0;
-        	$xvalue->{value}=&cmlparse::cmlparser({data=>$xvalue->{value},objid=>$OBJID,debug=>$DEBUG});
+        	$xvalue->{value}=&cmlparse::cmlparser({
+        		data=>$xvalue->{value},
+        		objid=>$OBJID,
+        		debug=>$DEBUG,
+        		inner=>{
+					dyncalc=>1
+				},
+        	});
         }   	
         
  	return $xvalue;
