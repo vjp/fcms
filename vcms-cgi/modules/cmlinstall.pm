@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.65 2010-04-01 21:10:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.66 2010-04-01 21:20:30 vano Exp $
 
 BEGIN
 {
@@ -145,8 +145,8 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 )});
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
-addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
-setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+
+setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <html>
 <head>
 <title>
@@ -157,11 +157,21 @@ setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 DEFAULT HEADER
 <hr/>
 )});
-setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',value=>qq(
+
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
+setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <hr/>DEFAULT FOOTER
 </body>
 </html>
 )});
+
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SEARCHBLOCK',name=>'Поиск'});
+setvalue({key=>'SEARCHBLOCK',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<form action='/_SEARCH' method='GET'>
+<input name='query'><br><input type='submit' value='Найти'>
+</form>
+)});
+
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
