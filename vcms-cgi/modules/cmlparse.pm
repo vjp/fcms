@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.43 2010-04-01 19:40:35 vano Exp $
+# $Id: cmlparse.pm,v 1.44 2010-04-01 20:06:40 vano Exp $
 
 BEGIN
 {
@@ -12,54 +12,58 @@ BEGIN
 
  
  @ISA = 'Exporter';
- @EXPORT = qw( &cmlparser &initparser %CMLTAG &uploadprmfile);
+ @EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
 }
 
 sub initparser
 {
- %CMLTAG=
- (
-    'lowlevel'=>1,
-    'a'=>1,
-    'include'=>1,
-    'text'=>1,
-    'list'=>1,
-    'img'=>1,
-    'image'=>1,
-    'video'=>1,
-    'use'=>1,
-    'container'=>1,
-    'tree'=>1,
-    'repeat'=>1,
-    'form'=>1,
-    'if'=>1,
-    'execute'=>1,
-    'date'=>1,
-    'for'=>1,
-    'loop'=>1,
-    'var'=>1,
-    'setvar'=>1,
-    'option'=>1,
-    'inputtext'=>1,
-    'inputdate'=>1,
-    'inputfile'=>1,
-    'inputflag'=>1,
-    'inputpic'=>1,
-    'inputparam'=>1,
-    'checkbox'=>1,
-    'select'=>1,
-    'deletebutton'=>1,
-    'changebutton'=>1,
-    'radiobutton'=>1,
-    'radioselect'=>1,
-    'actionlink'=>1,
-    'menuitem'=>1,
-    'pagination'=>1,
-    'else'=>1,
-    'dev'=>1,
-    'dynamic'=>1,
-    'lightbox'=>1,
- )
+	%DYNTAG=(
+    	'execute'=>1,
+ 	);
+	
+	
+ 	%CMLTAG= (
+    	'lowlevel'=>1,
+    	'a'=>1,
+    	'include'=>1,
+    	'text'=>1,
+    	'list'=>1,
+    	'img'=>1,
+    	'image'=>1,
+    	'video'=>1,
+    	'use'=>1,
+    	'container'=>1,
+    	'tree'=>1,
+    	'repeat'=>1,
+    	'form'=>1,
+    	'if'=>1,
+    	'execute'=>1,
+    	'date'=>1,
+    	'for'=>1,
+    	'loop'=>1,
+    	'var'=>1,
+    	'setvar'=>1,
+    	'option'=>1,
+    	'inputtext'=>1,
+    	'inputdate'=>1,
+    	'inputfile'=>1,
+    	'inputflag'=>1,
+    	'inputpic'=>1,
+    	'inputparam'=>1,
+    	'checkbox'=>1,
+    	'select'=>1,
+    	'deletebutton'=>1,
+    	'changebutton'=>1,
+    	'radiobutton'=>1,
+    	'radioselect'=>1,
+    	'actionlink'=>1,
+    	'menuitem'=>1,
+    	'pagination'=>1,
+    	'else'=>1,
+    	'dev'=>1,
+    	'dynamic'=>1,
+    	'lightbox'=>1,
+ 	);
 }
 
 
@@ -153,14 +157,12 @@ sub tagparse {
   	my $inner; %{$inner}=%{$_[0]->{inner}};	
   	my $uinner=$_[0]->{inner};
   	
-#  	if ($_[0]->{name} eq 'execute') {
-#    	if ($GLOBAL->{CACHE} || $inner->{dyncalc}) {
-#    		
-#    	} else {
-#			return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
-#		}
-#  	}	
-#
+  	if ($DYNTAG{$_[0]->{name}}) {
+    	unless ($GLOBAL->{CACHE} || $inner->{dyncalc}) {
+			return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
+		}
+  	}	
+
     
 
   	
