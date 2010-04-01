@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.66 2010-04-01 21:20:30 vano Exp $
+# $Id: cmlinstall.pm,v 1.67 2010-04-01 21:30:43 vano Exp $
 
 BEGIN
 {
@@ -121,7 +121,8 @@ addprm({convertname=>1,objkey=>'DESIGN',name=>'Картинки',type=>'LIST',key=>'PICL
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'$CGIPARAM->{1}?p(_NAME,$CGIPARAM->{1}):p(_NAME)'});
 
-
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Хост для поиска',type=>'TEXT',key=>'SEARCHSITE',upd=>'y',evl=>'n',self=>1});
+setvalue({key=>'DESIGN',pkey=>'SEARCHSITE',value=>$ENV{SERVER_NAME}});
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE'});
