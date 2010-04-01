@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.42 2010-03-28 13:30:57 vano Exp $
+# $Id: cmlmain.pm,v 1.43 2010-04-01 21:11:14 vano Exp $
 
 BEGIN
 {
@@ -11,6 +11,8 @@ BEGIN
  use cmlparse;
  use Time::Local;
  use Time::HiRes qw /time/;
+
+ 
  use Encode;
 
  @ISA    = 'Exporter';
@@ -737,7 +739,7 @@ sub setvalue  {
 		 $ind=$nobj->{$key}->{ind};
 		 return 0 unless $id;
   	}	
-    $value=enc($value) if $_[0]->{convert};
+    $value=enc($value) if $_[0]->{convert}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
 		my $objid;
 		if ($uid) {$objid="u$uid"}	else {$objid=$id} 
@@ -1181,7 +1183,7 @@ sub addobject {
 		$indx=$_[0]->{indx};
 		$forced=$_[0]->{forced};
 		if ($_[0]->{upkey}) {	$up=$nobj->{$_[0]->{upkey}}->{ind} }
-		$name=enc($name) if $_[0]->{convertname};
+		$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 	
 	}
 	else { $up=$_[0] }
@@ -1257,7 +1259,7 @@ sub addlowobject {
 				checkload({key=>$_[0]->{upkey}});
 				$upobj=$nobj->{$_[0]->{upkey}}->{id};
 		}		
-		$name=enc($name) if $_[0]->{convertname};
+		$name=enc($name) if $_[0]->{convertname} && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 		
 		
 	}	 
@@ -1537,8 +1539,8 @@ sub addmethod {
 	my $key=$_[0]->{key};
 	my $script=$_[0]->{script};
 	my $lflag=$_[0]->{lflag};
-	$name=enc($name) if $_[0]->{convertname};
-	$script=enc($script) if $_[0]->{convertscript};
+	$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+	$script=enc($script) if $_[0]->{convertscript}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 	if ($_[0]->{objkey}) { $id=$nobj->{$_[0]->{objkey}}->{ind} }
 	
 	
@@ -1567,7 +1569,7 @@ sub addprm {
  		my $key=$_[0]->{key};
  		my $defval=$_[0]->{defval};
  		my $upd=$_[0]->{upd} || 'y';
- 		$name=enc($name) if $_[0]->{convertname};
+ 		$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
  		my $self;
  		my $evl;
  		if ($id=~/u(\d+)/) {$id=$1}
