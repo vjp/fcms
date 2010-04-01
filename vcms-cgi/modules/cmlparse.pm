@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.42 2010-04-01 18:25:25 vano Exp $
+# $Id: cmlparse.pm,v 1.43 2010-04-01 19:40:35 vano Exp $
 
 BEGIN
 {
@@ -152,6 +152,17 @@ sub cmlparser
 sub tagparse {
   	my $inner; %{$inner}=%{$_[0]->{inner}};	
   	my $uinner=$_[0]->{inner};
+  	
+#  	if ($_[0]->{name} eq 'execute') {
+#    	if ($GLOBAL->{CACHE} || $inner->{dyncalc}) {
+#    		
+#    	} else {
+#			return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
+#		}
+#  	}	
+#
+    
+
   	
   	$_[0]->{param}=~s{_id:(.+?)_} {
   		$v=&cmlcalc::id($1);
@@ -1344,7 +1355,7 @@ sub tag_video 	{
 
 sub tag_execute {
 	my $param=$_[0]->{param};
-
+    my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $key;
 	my $pl=fetchparam(\$param,[
 		'id','method','key',
@@ -1354,7 +1365,7 @@ sub tag_execute {
 
 	my $res=&cmlcalc::execute({key=>$pl->{key},id=>$id,method=>$pl->{method}});
 	if ($res) {
-		return  cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}); 
+		return  cmlparser({data=>$_[0]->{data},inner=>$inner}); 
 	}	else { 
 		return "[ Execute ERROR! (id:$id key:$key) ]" 
 	}
