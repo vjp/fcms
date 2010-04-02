@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.68 2010-04-01 21:44:41 vano Exp $
+# $Id: cmlinstall.pm,v 1.69 2010-04-02 22:24:39 vano Exp $
 
 BEGIN
 {
@@ -1018,7 +1018,15 @@ sub install_db ($$) {
   			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`)
 		) ENGINE=MyISAM") || die $dbh->errstr();
 	
-	
+	$dbh->do("
+		CREATE TABLE IF NOT EXISTS ${DBPREFIX}captcha (
+  			`id` int(11) NOT NULL AUTO_INCREMENT,
+  			`ckey` int(11) NOT NULL,
+  			`tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  			PRIMARY KEY (`id`),
+  			KEY `ck` (`ckey`)
+		) ENGINE=MyISAM") || die $dbh->errstr();
+
 	
 	
 }
