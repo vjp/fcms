@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.44 2010-04-01 21:57:26 vano Exp $
+# $Id: cmlmain.pm,v 1.45 2010-04-02 22:23:15 vano Exp $
 
 BEGIN
 {
@@ -10,7 +10,7 @@ BEGIN
  use cmlcalc;
  use cmlparse;
  use Time::Local;
- use Time::HiRes qw /time/;
+ use Time::HiRes qw (time);
 
  
  use Encode;
@@ -47,6 +47,8 @@ BEGIN
               &checkdatastruct &deletelowlist &sync &remote_sync
               
               &prminfo &enc
+              
+              &get_sec_id
              );
 
 
@@ -55,7 +57,15 @@ BEGIN
 
 
 
-
+sub get_sec_id {
+	my $ckey=int(rand(100000));
+	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}captcha (ckey) VALUES (?)");
+	$sth1->execute($ckey) || die $dbh->errstr();
+	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}captcha WHERE ckey=?");
+	$sth2->execute($ckey) || die $dbh->errstr();
+	my ($sid)=$sth2->fetchrow();
+	return $sid;
+}	
 
 sub returnobject {
 	my $id=$_[0];
