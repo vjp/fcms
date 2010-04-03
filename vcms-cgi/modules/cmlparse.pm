@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.45 2010-04-03 11:38:23 vano Exp $
+# $Id: cmlparse.pm,v 1.46 2010-04-03 11:40:15 vano Exp $
 
 BEGIN
 {
@@ -1545,7 +1545,6 @@ sub tag_for {
 sub tag_date {
   	my $param=$_[0]->{param};
   	my $key;
-  	my $pkey;
   	my $expr;
   	my $id;
   	my $frmt;
@@ -1556,8 +1555,7 @@ sub tag_date {
 		'format'
 	]);
 	
-        my $pkey;
-        $pkey=$pl->{param} || $pl->{prm};
+    my   $pkey=$pl->{param} || $pl->{prm};
 
 
   	if    ($pkey)     {
