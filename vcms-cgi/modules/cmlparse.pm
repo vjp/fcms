@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.46 2010-04-03 11:40:15 vano Exp $
+# $Id: cmlparse.pm,v 1.47 2010-04-03 11:50:56 vano Exp $
 
 BEGIN
 {
@@ -19,6 +19,7 @@ sub initparser
 {
 	%DYNTAG=(
     	'execute'=>1,
+    	'captcha'=>1,
  	);
 	
 	
@@ -63,6 +64,7 @@ sub initparser
     	'dev'=>1,
     	'dynamic'=>1,
     	'lightbox'=>1,
+    	'captcha'=>1,
  	);
 }
 
@@ -990,6 +992,15 @@ sub tag_actionlink {
 	return "<a href='?$hstr' $param>$title</a>";
 	
 }	
+
+sub tag_captcha {
+	my $sec_id=&cmlmain::get_sec_id();
+	return qq(
+	    <img src='/cgi-bin/captcha.pl?id=$sec_id'/>
+	    <input type='hidden' name='sec_id' value='$sec_id'/>
+	)
+}
+
 
 sub tag_a	{
 	my $param=$_[0]->{param};
