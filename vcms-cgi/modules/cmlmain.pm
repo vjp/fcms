@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.45 2010-04-02 22:23:15 vano Exp $
+# $Id: cmlmain.pm,v 1.46 2010-04-03 11:36:55 vano Exp $
 
 BEGIN
 {
@@ -48,7 +48,7 @@ BEGIN
               
               &prminfo &enc
               
-              &get_sec_id
+              &get_sec_id &check_sec_id
              );
 
 
@@ -66,6 +66,17 @@ sub get_sec_id {
 	my ($sid)=$sth2->fetchrow();
 	return $sid;
 }	
+
+sub check_sec_id {
+	my ($id,$ckey)=@_;
+	my $sth1=$dbh->prepare("SELECT tm>NOW()-INTERVAL 5 MINUTE FROM ${DBPREFIX}captcha WHERE id=? AND ckey=?");
+	$sth1->execute($id,$ckey) || die $dbh->errstr();
+	my ($sid)=$sth1->fetchrow();
+	my $sth2=$dbh->prepare("DELETE FROM ${DBPREFIX}captcha WHERE id=?");
+	$sth2->execute($id) || die $dbh->errstr();
+	return $sid;
+}
+
 
 sub returnobject {
 	my $id=$_[0];
