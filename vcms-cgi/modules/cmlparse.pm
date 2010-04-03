@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.44 2010-04-01 20:06:40 vano Exp $
+# $Id: cmlparse.pm,v 1.45 2010-04-03 11:38:23 vano Exp $
 
 BEGIN
 {
@@ -1576,7 +1576,7 @@ sub tag_date {
   	}elsif ($pl->{'namecgi'}) 	{
   		$key=param($pl->{'namecgi'})
   	} elsif ($pl->{'idcgi'})     	{
-  		$id=param(pl->{'idcgi'})
+  		$id=param($pl->{'idcgi'})
   	} elsif ($pl->{'id'})        	{
   		$id=$pl->{'id'}; 
   		if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
