@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.13 2010-04-01 21:57:36 vano Exp $
+# $Id: cmlutils.pm,v 1.14 2010-04-05 18:38:23 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -39,6 +39,7 @@ sub sitesearch ($;$)
 	my ($query,$opts)=@_;
 	my $site=$opts->{'site'} || $ENV{SERVER_NAME};
 	my $page=$opts->{'page'} || 0;
+	my $positions=$opts->{'positions'} || 10;
 	$site="www.$site";
 
 	require LWP::UserAgent;
@@ -51,6 +52,9 @@ sub sitesearch ($;$)
 <request>    
 	<query>$query site='$site'</query>
 	<page>0</page>
+	<groupings>
+        <groupby attr='' mode='flat' groups-on-page='$positions' docs-in-group='1'/>
+    </groupings>
 </request>
 DOC
 
