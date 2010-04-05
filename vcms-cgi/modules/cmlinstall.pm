@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.69 2010-04-02 22:24:39 vano Exp $
+# $Id: cmlinstall.pm,v 1.70 2010-04-05 19:05:17 vano Exp $
 
 BEGIN
 {
@@ -123,9 +123,15 @@ addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TIT
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Хост для поиска',type=>'TEXT',key=>'SEARCHSITE',upd=>'y',evl=>'n',self=>1});
 setvalue({key=>'DESIGN',pkey=>'SEARCHSITE',value=>$ENV{SERVER_NAME}});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Объем поисковой выдачи',type=>'NUMBER',key=>'SEARCHITEMS',upd=>'y',evl=>'n',self=>1});
+setvalue({key=>'DESIGN',pkey=>'SEARCHITEMS',value=>10});
+
 addmethod ({convertname=>1,objkey=>'DESIGN',key=>'YSEARCH',name=>'Поииск яндекса по сайту',lflag=>1,script=>q(
 use cmlutils;
-my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{site=>p(SEARCHSITE,id(DESIGN))});
+my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{
+	site=>p(SEARCHSITE,id(DESIGN)),
+	positions=>p(SEARCHITEMS,id(DESIGN)),
+});
 $cmlcalc::ENV->{FOUND}=scalar @{$r->{result}};
 $cmlcalc::ENV->{DUMP}=$r;
 my $i=0;
