@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.35 2010-04-01 20:04:07 vano Exp $
+# $Id: cmlcalc.pm,v 1.36 2010-04-05 19:33:12 vano Exp $
 
 BEGIN
 {
@@ -8,7 +8,6 @@ BEGIN
  use Data::Dumper;
  use Time::Local;
  eval {require Time::HiRes };
- use CGI;
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
@@ -157,8 +156,8 @@ sub calculate 	{
 	my $need_save;
 	my $cache_key;
 	if ($_[0]->{cache}) {
-		#$cache_key=$ENV{'REQUEST_URI'};
-		$cache_key=CGI::url(-path_info=>1);
+		$cache_key=$ENV{'REQUEST_URI'};
+		$cache_key=~s/\?.+$//;
 		my $cached_value=&cmlmain::fromcache($cache_key,$cmlcalc::ENV->{dev},$CALCLANG);
 		if ($cached_value) {
 			
