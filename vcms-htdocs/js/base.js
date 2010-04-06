@@ -44,6 +44,18 @@ function getElementsByTagAndClass (tagName,className) {
 }
 
 
+function execute(func,data,callback) {
+	new Ajax.Request('/cgi-bin/ajax-json.pl', {
+		method:'post',	
+		parameters: {func: func, data: Object.toJSON(data)},
+		onSuccess: function(transport) {
+			var json = transport.responseText.evalJSON();
+			callback(json)
+		}
+	});
+}
+
+
 
 function ajax_call(func,data,callback) {
 		new Ajax.Request('ajax-json.pl', {
