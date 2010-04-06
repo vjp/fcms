@@ -69,3 +69,10 @@ function ajax_call(func,data,callback) {
 }
 
 
+function validEmail (email) {
+	var emailRegEx = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	return email.match(emailRegEx);
+
+}
+
+
