@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.38 2010-04-06 12:48:00 vano Exp $
+# $Id: cmlcalc.pm,v 1.39 2010-04-06 19:59:13 vano Exp $
 
 BEGIN
 {
@@ -70,6 +70,20 @@ sub set {
 	my ($id,$prm,$val)=@_;
 	setvalue({id=>$id,prm=>$prm,value=>$val});
 }
+
+
+sub add ($;$){
+	my ($up,$prms)=@_;
+	return undef unless $up;
+	my $newid=addlowobject({upobj=>$up});
+	if ($prms) {
+		for my $prm (keys %$prms) {
+			setvalue({id=>$newid,prm=>$prm,value=>$prms->{$prm}});
+		}
+	}	
+	return $newid;
+}
+
 
 sub clear {
 	my ($prm,$id)=@_;
