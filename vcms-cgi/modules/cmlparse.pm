@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.47 2010-04-03 11:50:56 vano Exp $
+# $Id: cmlparse.pm,v 1.48 2010-04-06 12:38:05 vano Exp $
 
 BEGIN
 {
@@ -997,7 +997,7 @@ sub tag_captcha {
 	my $sec_id=&cmlmain::get_sec_id();
 	return qq(
 	    <img src='/cgi-bin/captcha.pl?id=$sec_id'/>
-	    <input type='hidden' name='sec_id' value='$sec_id'/>
+	    <input type='hidden' name='sec_id' id='sec_id' value='$sec_id'/>
 	)
 }
 
