@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.36 2010-04-05 19:33:12 vano Exp $
+# $Id: cmlcalc.pm,v 1.37 2010-04-06 05:58:19 vano Exp $
 
 BEGIN
 {
@@ -267,15 +267,15 @@ sub execute 	{
  	}
  	my $res=0;
  	
-  if ($low) {
-  	$METHODID=$cmlmain::lmethod->{$method};
-  	#unless ($METHODID) {$METHODID=$cmlmain::method->{$method}}
+  	if ($low) {
+  		$METHODID=$cmlmain::lmethod->{$method};
+  		#	unless ($METHODID) {$METHODID=$cmlmain::method->{$method}}
 	}	else {
-  	$METHODID=$cmlmain::method->{$method};
-  	#unless ($METHODID) {$METHODID=$cmlmain::lmethod->{$method}}
-  }	
- 	eval "use cmlmain; $METHODID->{script}";
- 	if ($@) {&cmlmain::alert("Ошибка выполнения метода $method : $@") } else {$res=1}
+  		$METHODID=$cmlmain::method->{$method};
+  		#	unless ($METHODID) {$METHODID=$cmlmain::lmethod->{$method}}
+  	}	
+ 	my $ev=eval "use cmlmain; $METHODID->{script}";
+ 	if ($@) {&cmlmain::alert("Ошибка выполнения метода $method : $@") } else {$res=$ev}
 
  	
  	
