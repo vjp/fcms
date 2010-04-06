@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.20 2010-03-30 22:15:49 vano Exp $
+# $Id: cmlajax.pm,v 1.21 2010-04-06 07:33:53 vano Exp $
 
 BEGIN
 {
@@ -14,7 +14,7 @@ BEGIN
 
 
 
-sub ajax_setvalue ($$$$$)
+sub ajax_setvalue ($)
 {
 		my ($r)=@_;
        	$r->{value} = Encode::encode('cp1251',$r->{value}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
