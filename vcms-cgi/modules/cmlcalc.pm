@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.37 2010-04-06 05:58:19 vano Exp $
+# $Id: cmlcalc.pm,v 1.38 2010-04-06 12:48:00 vano Exp $
 
 BEGIN
 {
@@ -275,7 +275,15 @@ sub execute 	{
   		#	unless ($METHODID) {$METHODID=$cmlmain::lmethod->{$method}}
   	}	
  	my $ev=eval "use cmlmain; $METHODID->{script}";
- 	if ($@) {&cmlmain::alert("Ошибка выполнения метода $method : $@") } else {$res=$ev}
+ 	if ($@) {
+ 		if ($cmlcalc::CGIPARAM->{_MODE}='USERAJAX') {
+ 			$res=$@;
+ 		} else {
+ 			&cmlmain::alert("Ошибка выполнения метода $method : $@");
+ 		}	 
+ 	} else {
+ 		$res=$ev
+ 	}
 
  	
  	
