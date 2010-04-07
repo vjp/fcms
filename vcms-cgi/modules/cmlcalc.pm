@@ -1,12 +1,13 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.39 2010-04-06 19:59:13 vano Exp $
+# $Id: cmlcalc.pm,v 1.40 2010-04-07 20:47:23 vano Exp $
 
 BEGIN
 {
  use Exporter();
  use Data::Dumper;
  use Time::Local;
+ use JSON::PP;
  eval {require Time::HiRes };
 
  @ISA = 'Exporter';
