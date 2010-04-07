@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.70 2010-04-05 19:05:17 vano Exp $
+# $Id: cmlinstall.pm,v 1.71 2010-04-07 19:52:06 vano Exp $
 
 BEGIN
 {
@@ -157,9 +157,12 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <link rel="stylesheet" href="/css/mce.css" type="text/css" />
 <link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
 
-<script type="text/javascript" src="/js/base.js"></script>
+
 <script type="text/javascript" src="/js/swfobject.js"></script>
+<script type="text/javascript" src="/js/cookiejar.js"></script>
 <script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
+
 <script src="/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
 <script>
   var lbLabelImage="Фото";
