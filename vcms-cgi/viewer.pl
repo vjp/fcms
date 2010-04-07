@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.10 2010-04-01 18:34:51 vano Exp $
+# $Id: viewer.pl,v 1.11 2010-04-07 20:43:39 vano Exp $
 
 use lib "./modules/";
 
@@ -10,7 +10,8 @@ use CGI  qw/param url header cookie redirect/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes;
-#open(STDERR, ">/dev/null"); 
+use JSON::PP;
+ 
 
 
 my $st=time;
