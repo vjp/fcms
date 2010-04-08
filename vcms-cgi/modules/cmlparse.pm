@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.49 2010-04-08 05:03:00 vano Exp $
+# $Id: cmlparse.pm,v 1.50 2010-04-08 14:15:03 vano Exp $
 
 BEGIN
 {
@@ -1200,7 +1200,7 @@ sub tag_image {
 sub tag_lightbox {
 	my $param=$_[0]->{param};
 	my $pl=fetchparam(\$param,[
-		'id','param' ,'prm','expr', 'href', 'key' 
+		'id','param' ,'prm','expr', 'href', 'key', 'single' 
 	]);
 	my $id;
 	my $key;
@@ -1208,7 +1208,7 @@ sub tag_lightbox {
 	elsif 	 ($pl->{key})  {$key=$pl->{key}  }
 	else     {$id=$_[0]->{inner}->{objid}}
 	
-	
+	my $rel=$pl->{'single'}?'lightbox':'lightbox[1]';
 	my $pkey=$pl->{param} || $pl->{prm};
 	my $expr="p('$pkey')" if $pkey;
 	$expr=$pl->{'expr'} if $pl->{'expr'};
@@ -1219,7 +1219,11 @@ sub tag_lightbox {
 		my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>$expr});
 		$href=$v->{value}
 	}	
-	return "<a href='$href' rel='lightbox[1]'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>" 
+	if ($href) {
+		return "<a href='$href' rel='$rel'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>"
+	} else {
+		return cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})
+	}	 
 	
 }
 
