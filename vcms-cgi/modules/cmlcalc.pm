@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.40 2010-04-07 20:47:23 vano Exp $
+# $Id: cmlcalc.pm,v 1.41 2010-04-08 05:03:28 vano Exp $
 
 BEGIN
 {
@@ -12,7 +12,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM);
 }
 
 sub initcalc
@@ -71,6 +71,12 @@ sub set {
 	my ($id,$prm,$val)=@_;
 	setvalue({id=>$id,prm=>$prm,value=>$val});
 }
+
+sub setv {
+	my ($id,$prm,$val)=@_;
+	$VPARAM->{$id}->{$prm}=$val;
+}
+
 
 
 sub add ($;$){
