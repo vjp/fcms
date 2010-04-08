@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.41 2010-04-08 05:03:28 vano Exp $
+# $Id: cmlcalc.pm,v 1.42 2010-04-08 14:52:41 vano Exp $
 
 BEGIN
 {
@@ -474,6 +474,11 @@ sub page {
 	} else {
        		return $iscurpage;
 	}    	
+}
+
+sub inlist {
+	my ($list,$elm)=@_;
+	return grep {$_ eq $elm} split (';',$list);
 }
 
 sub equal {
