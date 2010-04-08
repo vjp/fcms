@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.72 2010-04-08 11:33:48 vano Exp $
+# $Id: cmlinstall.pm,v 1.73 2010-04-08 11:37:27 vano Exp $
 
 BEGIN
 {
@@ -128,6 +128,7 @@ setvalue({key=>'DESIGN',pkey=>'SEARCHITEMS',value=>10});
 
 addmethod ({convertname=>1,objkey=>'DESIGN',key=>'YSEARCH',name=>'Поииск яндекса по сайту',lflag=>1,script=>q(
 use cmlutils;
+return 1 unless $cmlcalc::CGIPARAM->{'query'};
 my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{
 	site=>p(SEARCHSITE,id(DESIGN)),
 	positions=>p(SEARCHITEMS,id(DESIGN)),
