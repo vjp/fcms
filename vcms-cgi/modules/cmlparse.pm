@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.50 2010-04-08 14:15:03 vano Exp $
+# $Id: cmlparse.pm,v 1.51 2010-04-08 22:12:52 vano Exp $
 
 BEGIN
 {
@@ -159,7 +159,7 @@ sub tagparse {
   	my $inner; %{$inner}=%{$_[0]->{inner}};	
   	my $uinner=$_[0]->{inner};
   	
-  	if ($DYNTAG{$_[0]->{name}}) {
+  	if ($DYNTAG{$_[0]->{name}}  &&  $GLOBAL->{CACHE}) {
     	unless ($GLOBAL->{CACHE} || $inner->{dyncalc}) {
 			return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
 		}
