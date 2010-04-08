@@ -105,7 +105,7 @@ CookieJar.prototype = {
 	 * Return a particular cookie by name;
 	 */
 	get: function(name) {
-		name = this.appendString + name;
+		if (!name.match('^'+this.appendString)) name = this.appendString + name;
 		var cookies = document.cookie.match(name + '=(.*?)(;|$)');
 		if (cookies) {
 			return (unescape(cookies[1])).evalJSON();
