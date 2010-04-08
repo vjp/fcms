@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.73 2010-04-08 11:37:27 vano Exp $
+# $Id: cmlinstall.pm,v 1.74 2010-04-08 20:37:57 vano Exp $
 
 BEGIN
 {
@@ -524,7 +524,7 @@ var HINTS_CFG = {
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'INITAJAX',name=>'Àÿêñ'});
-setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>q(
 <script>
             function alertreload_callback(json){
                     alert(json.status); 
