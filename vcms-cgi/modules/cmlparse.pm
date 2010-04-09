@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.51 2010-04-08 22:12:52 vano Exp $
+# $Id: cmlparse.pm,v 1.52 2010-04-09 04:37:44 vano Exp $
 
 BEGIN
 {
@@ -1094,7 +1094,7 @@ sub tag_a	{
 	
 	if ($ifval) {
   		if ($mode eq 'openwindow') {
-  			$bstr=qq(<a href="javascript:openwindow('$ql')" $param>");
+  			$bstr=qq(<a href="javascript:openwindow('$ql')" $param>);
   		}	else {
  			$bstr=qq(<a href='$ql' $param>);
  		}
