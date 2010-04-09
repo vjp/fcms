@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.14 2010-04-05 18:38:23 vano Exp $
+# $Id: cmlutils.pm,v 1.15 2010-04-09 05:09:46 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -68,6 +68,7 @@ DOC
 	my $rf=$xs->XMLin($cnt);
 	my $r;
 	$r->{found}=0;
+	$r->{foundhuman}=Encode::encode($GLOBAL->{ENCODING},$rf->{response}->{"found-human"});
 	if ($rf->{response}->{error}) {
 		$r->{error}=$rf->{response}->{error}->{content};
 		$r->{error}= Encode::encode($GLOBAL->{ENCODING},$r->{error});
