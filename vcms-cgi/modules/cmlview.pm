@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.28 2010-03-25 22:44:50 vano Exp $
+# $Id: cmlview.pm,v 1.29 2010-04-09 16:09:23 vano Exp $
 
 BEGIN
 {
@@ -34,7 +34,7 @@ sub print_top {
           			uid: uid,
           			prm: prm,
           			lang: lang,
-          			value: value,
+          			value: value
           		};
           		ajax_call('setvalue', dt, alert_callback);
   			}
