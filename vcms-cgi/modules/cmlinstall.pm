@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.75 2010-04-08 20:49:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.76 2010-04-09 05:22:25 vano Exp $
 
 BEGIN
 {
@@ -134,6 +134,7 @@ my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{
 	positions=>p(SEARCHITEMS,id(DESIGN)),
 });
 $cmlcalc::ENV->{FOUND}=scalar @{$r->{result}};
+$cmlcalc::ENV->{FOUNDHUMAN}=$r->{foundhuman};
 if ($r->{errorcode}) {
     $cmlcalc::ENV->{ERRORCODE}=$r->{errorcode};
     $cmlcalc::ENV->{ERROR}=$r->{error};
@@ -146,7 +147,7 @@ my @objs;
 for (@{$r->{result}}) {
    $i++;
    push(@objs,"v$i");
-   $cmlcalc::ENV->{'v'.$i.'str'}=$_->{string}  || 'Найден по ссылке';
+   $cmlcalc::ENV->{'v'.$i.'str'}=$_->{string};
    $cmlcalc::ENV->{'v'.$i.'url'}=$_->{url};
    $cmlcalc::ENV->{'v'.$i.'title'}=$_->{title};
 }
