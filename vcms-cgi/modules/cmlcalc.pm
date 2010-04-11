@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.43 2010-04-09 11:32:11 vano Exp $
+# $Id: cmlcalc.pm,v 1.44 2010-04-11 20:58:03 vano Exp $
 
 BEGIN
 {
@@ -69,7 +69,7 @@ sub scripteval {
 
 sub set {
 	my ($id,$prm,$val)=@_;
-	setvalue({id=>$id,prm=>$prm,value=>$val});
+	return setvalue({id=>$id,prm=>$prm,value=>$val});
 }
 
 sub setv {
