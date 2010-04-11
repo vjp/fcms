@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.77 2010-04-09 16:04:07 vano Exp $
+# $Id: cmlinstall.pm,v 1.78 2010-04-11 20:58:20 vano Exp $
 
 BEGIN
 {
@@ -533,12 +533,16 @@ setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>q(
                     window.location.href=window.location.href.sub(/\#$/,'');
             }    
     
-            function deleteobject (id) {
+            function deleteobject (parseid,id,parseprm,deleteid) {
                 var dt={
-                    id: id
+                    parseid: parseid,
+                    id: id,
+                    parseprm: parseprm,                 
+                    deleteid: deleteid  
                 };
                 ajax_call('deleteobject', dt, alertreload_callback);
-            }
+            }    
+
 
             function addobject (up,link,linkval,name,upobj) {
                 var dt={
