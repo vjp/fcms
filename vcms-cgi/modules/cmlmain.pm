@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.49 2010-04-13 06:06:59 vano Exp $
+# $Id: cmlmain.pm,v 1.50 2010-04-13 19:46:55 vano Exp $
 
 BEGIN
 {
@@ -1348,6 +1348,8 @@ sub addlowobject {
  	my $sthUX=$dbh->prepare("UPDATE ${DBPREFIX}objects SET indx=? WHERE id=?");
  	$sthUX->execute($indx,$newid) || die $dbh->errstr;
 
+ 	$sthCH->execute("u$upobj") || die $dbh->errstr; 
+ 	
  	
  	push (@{$ltree->{$upobj}->{$up}},$newid);
  	$lobj->{$newid}->{name}=$name;
