@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.48 2010-04-03 17:32:26 vano Exp $
+# $Id: cmlmain.pm,v 1.49 2010-04-13 06:06:59 vano Exp $
 
 BEGIN
 {
@@ -49,10 +49,34 @@ BEGIN
               &prminfo &enc
               
               &get_sec_id &check_sec_id &get_sec_key
+              
+              &add_user &check_user
              );
 
 
 }
+
+
+sub add_user ($$$) 
+{
+	my ($login,$password,$objid)=@_;
+	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,password(?),?)");
+	$sth1->execute($login,$password,$objid) || die $dbh->errstr();
+	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=?");
+	$sth2->execute($login) || die $dbh->errstr();
+	my ($uid)=$sth2->fetchrow();
+	return $uid;
+}	
+
+
+sub check_user ($) 
+{
+	my ($login)=@_;
+	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=?");
+	$sth2->execute($login) || die $dbh->errstr();
+	my ($uid)=$sth2->fetchrow();
+	return $uid;
+}	
 
 
 
