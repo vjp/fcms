@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.45 2010-04-12 05:41:14 vano Exp $
+# $Id: cmlcalc.pm,v 1.46 2010-04-14 18:42:33 vano Exp $
 
 BEGIN
 {
@@ -642,18 +642,17 @@ sub lowlist {
 	elsif ($_[0]) 		      {$tobj=$cmlmain::lobj->{$_[0]}}
 	else			      {$tobj=$OBJID}
 	my $ind=$tobj->{ind};
-  if ($tobj->{type} eq 'U')  {
+  	if ($tobj->{type} eq 'U')  {
  		&cmlmain::checkload({uid=>$ind}); 
  		@list=sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$ind}->{0}} ;
- 	}
- 	elsif ($tobj->{type} eq 'L')  {
+ 	}	elsif ($tobj->{type} eq 'L')  {
  		my $uobj=&cmlmain::checkload({id=>$ind,buildtree=>1});
-  	@list=sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$uobj}->{$ind}};
+  		@list=sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$uobj}->{$ind}};
  	} 
- 	
+ 	push (@CACHELINKS,$tobj->{id}) if $CACHEING; 	
  	if ($_[1]) {
  		 @list=grep(calc($_,$_[1]),@list);
- 	 }
+ 	}
  	return join(';',@list);
 }	
 
