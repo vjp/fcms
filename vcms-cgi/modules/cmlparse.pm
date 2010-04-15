@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.55 2010-04-11 20:59:24 vano Exp $
+# $Id: cmlparse.pm,v 1.56 2010-04-15 19:51:58 vano Exp $
 
 BEGIN
 {
@@ -174,6 +174,7 @@ sub tagparse {
 	$_[0]->{param}=~s{_cml:(.+?)_} {
  		$v=&cmlmain::calculate({id=>$_[0]->{inner}->{objid},expr=>"p($1)"});
  		if ($v->{value} eq '') {$v->{value}='NULL'}
+ 		$v->{value}=~s/"/&quot/g;
  		"$v->{value}";
 	}iges;
 	
