@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.50 2010-04-13 19:46:55 vano Exp $
+# $Id: cmlmain.pm,v 1.51 2010-04-15 05:49:42 vano Exp $
 
 BEGIN
 {
@@ -827,7 +827,7 @@ sub setvalue  {
                 $tobj->{$objid}->{$tabpkey}->{vals}->{$tabkey}->{vals}->{$pkey}->{value}=$value;
                 $tobj->{$objid}->{$tabpkey}->{vals}->{$tabkey}->{vals}->{$pkey}->{type}=$prm->{$pkey}->{type};
                 $ind=join('_',($objid,$tabpkey,$tabkey));
-	}	elsif ($id=~/^\d+$/)   {	
+	}	elsif ($id && $id=~/^\d+$/)   {	
   		my $objid=$id;
 		if ($pkey eq '_INDEX') {   
 			update({id=>$objid , indx=>$value});
