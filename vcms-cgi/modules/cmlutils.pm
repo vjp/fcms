@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.15 2010-04-09 05:09:46 vano Exp $
+# $Id: cmlutils.pm,v 1.16 2010-04-16 19:00:44 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -212,6 +212,7 @@ sub email {
   	my $message=$_[0]->{message};
   	my $subject=$_[0]->{subject};	
   	my $charset=$_[0]->{charset};
+  	my $contenttype=$_[0]->{html}?'text/html':'text/plain';
   	my $lmessage=$message;
   	my $echarset=$charset || 'windows-1251';
  	
@@ -224,7 +225,7 @@ sub email {
 		print MAIL "To: $to\n";
 		print MAIL "From: $from\n";
 		print MAIL "Subject: $subject\n";
-		print MAIL "Content-Type: text/plain; charset=$echarset\n";
+		print MAIL "Content-Type: $contenttype; charset=$echarset\n";
 		print MAIN "\n";
 		print MAIL $message;
 		close(MAIL) || print "Error closing mail: $!";
