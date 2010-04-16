@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.23 2010-04-07 20:46:44 vano Exp $
+# $Id: cmlsrv.pl,v 1.24 2010-04-16 18:33:27 vano Exp $
 
 use lib "../modules/";
 
@@ -1099,45 +1099,30 @@ sub editprmform {
   	print hidden (-name=>'id',-default=>$id);
 	
 	print start_table();
-	print Tr(th('Îáúåêò'),td(b($obj->{$id}->{name})));
-	print Tr(th('Íàèìåíîâàíèå ïàğàìåòğà'),td(b(textfield(-name=>'prmname',-default=>$prm->{$pkey}->{name},override=>1,size=>130))));
-	print Tr(th('Êëş÷'),td(b($pkey)));
-	print Tr(th('Òèï'),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
+	print Tr(th(enc('Îáúåêò')),td(b($obj->{$id}->{name})));
+	print Tr(th(enc('Íàèìåíîâàíèå ïàğàìåòğà')),td(b(textfield(-name=>'prmname',-default=>$prm->{$pkey}->{name},override=>1,size=>130))));
+	print Tr(th(enc('Êëş÷')),td(b($pkey)));
+	print Tr(th(enc('Òèï')),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
 	
 	my $tl=method_list();
-	print Tr(th('Îáğàáîò÷èê OnChange'),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
+	print Tr(th(enc('Îáğàáîò÷èê OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
 	if ($prm->{$pkey}->{upd}->{$id} eq 'y') {$ss=1} else {$ss=''}
-	print Tr(th('Èñïğàâëÿåìûé'),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
+	print Tr(th(enc('Èñïğàâëÿåìûé')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
 	if ($prm->{$pkey}->{evaluate} eq 'y') {$ss=1} else {$ss=''}
-	print Tr(th('Âûïîëíÿåìûé'),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
-  print Tr(th('Óìîë÷àíèå'),td(textarea(-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
+	print Tr(th(enc('Âûïîëíÿåìûé')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
+  	print Tr(th(enc('Óìîë÷àíèå')),td(textarea(-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
   
-  if (ref $extra eq 'ARRAY') {
-    	print Tr(th({-colspan=>2},"Äîïîëíèòåëüíûå àòğèáóòû"));
+  	if (ref $extra eq 'ARRAY') {
+    	print Tr(th({-colspan=>2},enc("Äîïîëíèòåëüíûå àòğèáóòû")));
     	for (@$extra) {
     		print Tr(th($_->[0]),td($_->[1]));
     	}	
-  }	
-
-
-
-	print Tr(th(),td(submit(-value=>'Èñïğàâèòü')));
+  	}	
+	print Tr(th(),td(submit(-value=>enc('Èñïğàâèòü'))));
 	print end_table();
-	
-
-	
-
-	
-  if (ref $extra ne 'ARRAY') {  print $extra,br }
-
-
-	
-  
-	
-  
-
-  
-  
+  	if (ref $extra ne 'ARRAY') {  
+  		print $extra,br 
+  	}
 	print endform;
 }
 
@@ -1168,7 +1153,7 @@ sub method_list {
  my @tvals=('');
  push (@tvals,keys %$method);
  for (@tvals) { $tlbls->{$_}="$method->{$_}->{name} ($_)" } 
- $tlbls->{''}='Íå îïğåäåëåí';
+ $tlbls->{''}=enc('Íå îïğåäåëåí');
  
  $tl->{vals}=\@tvals;
  $tl->{lbls}=$tlbls;
