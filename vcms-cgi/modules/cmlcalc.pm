@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.46 2010-04-14 18:42:33 vano Exp $
+# $Id: cmlcalc.pm,v 1.47 2010-04-16 18:39:43 vano Exp $
 
 BEGIN
 {
@@ -307,7 +307,7 @@ sub execute 	{
  		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX') {
  			$res=$@;
  		} else {
- 			&cmlmain::alert("Ошибка выполнения метода $method : $@");
+ 			&cmlmain::alert(enc("Ошибка выполнения метода $method : $@"));
  		}	 
  	} else {
  		$res=$ev
