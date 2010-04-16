@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.16 2010-04-16 19:00:44 vano Exp $
+# $Id: cmlutils.pm,v 1.17 2010-04-16 19:13:54 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -214,9 +214,10 @@ sub email {
   	my $charset=$_[0]->{charset};
   	my $contenttype=$_[0]->{html}?'text/html':'text/plain';
   	my $lmessage=$message;
-  	my $echarset=$charset || 'windows-1251';
+  	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf8':'windows-1251';
+  	my $echarset=$charset || $defcharset;
  	
-  	Encode::from_to( $message, 'windows-1251', $charset) if $charset;
+  	Encode::from_to( $message, $defcharset, $charset) if $charset;
   
 	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
 		print "no sendmail $!";
