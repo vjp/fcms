@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.47 2010-04-16 18:39:43 vano Exp $
+# $Id: cmlcalc.pm,v 1.48 2010-04-17 11:32:18 vano Exp $
 
 BEGIN
 {
@@ -75,6 +75,13 @@ sub set {
 sub setv {
 	my ($id,$prm,$val)=@_;
 	$VPARAM->{$id}->{$prm}=$val;
+}
+
+
+sub setenv ($$)
+{
+	my ($prm,$val)=@_;
+	$cmlcalc::ENV->{$prm}=$val;
 }
 
 
