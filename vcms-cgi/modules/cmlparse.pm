@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.56 2010-04-15 19:51:58 vano Exp $
+# $Id: cmlparse.pm,v 1.57 2010-04-17 13:23:19 vano Exp $
 
 BEGIN
 {
@@ -1377,13 +1377,19 @@ sub tag_execute {
     my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $key;
 	my $pl=fetchparam(\$param,[
-		'id','method','key',
+		'id','method','key','lmethod',
 	]);
 	
 	$id=$pl->{id} || $_[0]->{inner}->{objid};
 
-	my $res=&cmlcalc::execute({key=>$pl->{key},id=>$id,method=>$pl->{method}});
+	my $res=&cmlcalc::execute({
+		key=>$pl->{key},
+		id=>$id,
+		method=>$pl->{method},
+		lmethod=>$pl->{lmethod}
+	});
 	if ($res) {
+		$inner->{objid}=$id;
 		return  cmlparser({data=>$_[0]->{data},inner=>$inner}); 
 	}	else { 
 		return "[ Execute ERROR! (id:$id key:$key) ]" 
