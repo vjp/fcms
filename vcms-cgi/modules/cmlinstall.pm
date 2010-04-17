@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.78 2010-04-11 20:58:20 vano Exp $
+# $Id: cmlinstall.pm,v 1.79 2010-04-17 12:34:08 vano Exp $
 
 BEGIN
 {
@@ -1049,7 +1049,16 @@ sub install_db ($$) {
   			PRIMARY KEY (`id`),
   			KEY `ck` (`ckey`)
 		) ENGINE=MyISAM") || die $dbh->errstr();
-
+    $dbh->do("
+		CREATE TABLE ${DBPREFIX}auth (
+  			`id` int(11) NOT NULL auto_increment,
+  			`login` varchar(50) collate utf8_unicode_ci NOT NULL,
+  			`pwd` char(32) collate utf8_unicode_ci NOT NULL,
+  			`flag` int(11) NOT NULL default '0',
+  			`objid` int(11) NOT NULL,
+  			PRIMARY KEY  (`id`),
+  			UNIQUE KEY `login` (`login`)
+		) ENGINE=MyISAM") || die $dbh->errstr();
 	
 	
 }
