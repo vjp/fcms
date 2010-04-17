@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.17 2010-04-16 19:13:54 vano Exp $
+# $Id: cmlutils.pm,v 1.18 2010-04-17 18:56:50 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -11,6 +11,7 @@ BEGIN	{
  	eval {require Time::HiRes };
  	use Encode;
  	use	URI::Escape;
+    use MIME::Base64;
 
  	@ISA = 'Exporter';
  	@EXPORT = qw( &getpage &currency &xmlparse &email &yandexsearch &sitesearch &yandextic &googlepr &whois );
@@ -214,9 +215,9 @@ sub email {
   	my $charset=$_[0]->{charset};
   	my $contenttype=$_[0]->{html}?'text/html':'text/plain';
   	my $lmessage=$message;
-  	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf8':'windows-1251';
+  	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf-8':'windows-1251';
   	my $echarset=$charset || $defcharset;
- 	
+	$subject = '=?'.$echarset.'?b?'.encode_base64($subject,'').'?=';
   	Encode::from_to( $message, $defcharset, $charset) if $charset;
   
 	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
