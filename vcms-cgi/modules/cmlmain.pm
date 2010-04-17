@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.52 2010-04-17 13:08:11 vano Exp $
+# $Id: cmlmain.pm,v 1.53 2010-04-17 13:37:45 vano Exp $
 
 BEGIN
 {
@@ -50,7 +50,7 @@ BEGIN
               
               &get_sec_id &check_sec_id &get_sec_key
               
-              &add_user &check_user &del_user
+              &add_user &check_user &del_user &activate_user
              );
 
 
@@ -67,6 +67,14 @@ sub add_user ($$$)
 	my ($uid)=$sth2->fetchrow();
 	return $uid;
 }	
+
+sub activate_user ($) 
+{
+	my ($login)=@_;
+	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET flag=flag|1 where login=?");
+	$sth1->execute($login) || die $dbh->errstr();
+}	
+
 
 
 sub del_user ($) 
