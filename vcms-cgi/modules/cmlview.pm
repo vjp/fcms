@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.29 2010-04-09 16:09:23 vano Exp $
+# $Id: cmlview.pm,v 1.30 2010-04-19 19:39:23 vano Exp $
 
 BEGIN
 {
@@ -267,6 +267,10 @@ sub editdate	{
  				-override=>1
  				  );
 		}ges; 	
+		
+		$format=~s{\%c}{
+			strftime ('%c',gmtime($val->{value}));
+		}ges;	
 		return $format;
  	}
 }
