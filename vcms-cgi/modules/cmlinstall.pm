@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.81 2010-04-18 20:38:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.82 2010-04-20 21:20:58 vano Exp $
 
 BEGIN
 {
@@ -1056,6 +1056,8 @@ sub install_db ($$) {
   			`pwd` char(32) collate utf8_unicode_ci NOT NULL,
   			`flag` int(11) NOT NULL default '0',
   			`objid` int(11) NOT NULL,
+  			`scookie` varchar(50),
+  			`authtime` datetime,
   			PRIMARY KEY  (`id`),
   			UNIQUE KEY `login` (`login`),
   			UNIQUE KEY `objid` (`objid`)
