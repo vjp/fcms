@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.53 2010-04-17 13:37:45 vano Exp $
+# $Id: cmlmain.pm,v 1.54 2010-04-20 21:19:35 vano Exp $
 
 BEGIN
 {
@@ -50,7 +50,7 @@ BEGIN
               
               &get_sec_id &check_sec_id &get_sec_key
               
-              &add_user &check_user &del_user &activate_user
+              &add_user &check_user &del_user &activate_user &check_auth
              );
 
 
@@ -95,7 +95,22 @@ sub check_user ($)
 	return $uid;
 }	
 
-
+sub check_auth ($$)
+{
+	my ($login,$password)=@_;
+	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
+	$sth1->execute($login,$password) || die $dbh->errstr();
+	my ($sid)=$sth1->fetchrow();
+	if ($sid) {
+		my $ck=int(rand(1000000000));
+		my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
+		$sth2->execute($ck,$sid) || die $dbh->errstr();
+		return $ck;
+	} else {
+		return undef;
+	}
+	
+}
 
 
 sub get_sec_id {
