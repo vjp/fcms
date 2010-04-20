@@ -21,7 +21,10 @@ my $func=param('func');
 $cmlcalc::CGIPARAM=decode_json($data);
 my $result=execute({method=>$func});
 if (ref $result ne 'HASH') {
-	$result=({status=>"execute error. method:$func error:$result"});
+	$result=({
+		status=>0,
+		message=>"execute error. method:$func error:$result",
+	});
 }
 print $json->encode ($result);
 
