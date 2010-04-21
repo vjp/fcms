@@ -76,3 +76,26 @@ function validEmail (email) {
 }
 
 
+var auth_callback_func;
+function auth_callback (json) {
+      if (json.status) {
+           var jar = new CookieJar({
+              path: '/',
+           })
+           jar.put('auth',json);
+           if (auth_callback_func) auth_callback_func();
+      } else {
+          alert(lbError+': '+json.message);
+      }   
+}
+
+function auth(login,password,callback_func) {
+        var dt={
+            login      : login,
+            password   : password,  
+        };
+        auth_callback_func=callback_func;
+        execute('AUTH',dt,auth_callback);
+}
+
+
