@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.12 2010-04-07 20:47:06 vano Exp $
+# $Id: viewer.pl,v 1.13 2010-04-21 21:01:33 vano Exp $
 
 use lib "./modules/";
 
@@ -18,6 +18,10 @@ my $st=time;
 start('.');
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
+
+
+check_session();
+
 
 
 my $v;
