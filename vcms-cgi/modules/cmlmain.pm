@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.54 2010-04-20 21:19:35 vano Exp $
+# $Id: cmlmain.pm,v 1.55 2010-04-21 21:01:52 vano Exp $
 
 BEGIN
 {
@@ -11,7 +11,7 @@ BEGIN
  use cmlparse;
  use Time::Local;
  use Time::HiRes qw (time);
-
+ use JSON::PP;
  
  use Encode;
 
@@ -51,10 +51,14 @@ BEGIN
               &get_sec_id &check_sec_id &get_sec_key
               
               &add_user &check_user &del_user &activate_user &check_auth
+              
+              &check_session
              );
 
 
 }
+
+
 
 
 sub add_user ($$$) 
@@ -111,6 +115,23 @@ sub check_auth ($$)
 	}
 	
 }
+
+sub check_session ()
+{ 
+	return 0 unless CGI::cookie('__CJ_auth'); 
+	my $auth_data=decode_json(CGI::cookie('__CJ_auth'));
+	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and scookie=?");	
+	$sth1->execute($auth_data->{'login'},$auth_data->{'scookie'}) || die $dbh->errstr();
+	my ($sid)=$sth1->fetchrow();
+	if ($sid) {
+		$cmlcalc::ENV->{'LOGIN'}=$auth_data->{'login'};
+		$cmlcalc::ENV->{'USERID'}=$sid;
+		return 1;
+	} else {
+		return 0;
+	}	
+}
+
 
 
 sub get_sec_id {
