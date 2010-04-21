@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.55 2010-04-21 21:01:52 vano Exp $
+# $Id: cmlmain.pm,v 1.56 2010-04-21 21:08:06 vano Exp $
 
 BEGIN
 {
@@ -93,7 +93,7 @@ sub del_user ($)
 sub check_user ($) 
 {
 	my ($login)=@_;
-	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=?");
+	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? AND flag&1");
 	$sth2->execute($login) || die $dbh->errstr();
 	my ($uid)=$sth2->fetchrow();
 	return $uid;
@@ -102,7 +102,7 @@ sub check_user ($)
 sub check_auth ($$)
 {
 	my ($login,$password)=@_;
-	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
+	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?) AND flag&1");
 	$sth1->execute($login,$password) || die $dbh->errstr();
 	my ($sid)=$sth1->fetchrow();
 	if ($sid) {
@@ -120,7 +120,7 @@ sub check_session ()
 { 
 	return 0 unless CGI::cookie('__CJ_auth'); 
 	my $auth_data=decode_json(CGI::cookie('__CJ_auth'));
-	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and scookie=?");	
+	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and scookie=? and flag&1");	
 	$sth1->execute($auth_data->{'login'},$auth_data->{'scookie'}) || die $dbh->errstr();
 	my ($sid)=$sth1->fetchrow();
 	if ($sid) {
