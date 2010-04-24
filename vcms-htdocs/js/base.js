@@ -76,25 +76,25 @@ function validEmail (email) {
 }
 
 
-var auth_callback_func;
+var auth_success_func;
 function auth_callback (json) {
       if (json.status) {
            var jar = new CookieJar({
               path: '/',
            })
            jar.put('auth',json);
-           if (auth_callback_func) auth_callback_func();
+           if (auth_success_func) auth_success_func();
       } else {
           alert(lbError+': '+json.message);
       }   
 }
 
-function auth(login,password,callback_func) {
+function auth(login,password,success_func) {
         var dt={
             login      : login,
             password   : password,  
         };
-        auth_callback_func=callback_func;
+        auth_success_func=success_func;
         execute('AUTH',dt,auth_callback);
 }
 
