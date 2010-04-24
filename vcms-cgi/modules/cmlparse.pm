@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.57 2010-04-17 13:23:19 vano Exp $
+# $Id: cmlparse.pm,v 1.58 2010-04-24 16:00:46 vano Exp $
 
 BEGIN
 {
@@ -1216,7 +1216,15 @@ sub tag_lightbox {
 	
 	unless ($href) {
 		my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>$expr});
-		$href=$v->{value}
+		if ($cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
+			$href=$v->{value};
+		} else {
+			my $pstr=$cmlmain::GLOBAL->{FILEURL};
+			$href="$pstr/$v->{value}";
+		}	
+		
+		
+		
 	}	
 	if ($href) {
 		return "<a href='$href' rel='$rel'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>"
