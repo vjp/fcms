@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.57 2010-04-25 19:33:23 vano Exp $
+# $Id: cmlmain.pm,v 1.58 2010-04-25 19:53:59 vano Exp $
 
 BEGIN
 {
@@ -122,7 +122,7 @@ sub check_session ()
 { 
 	return 0 unless CGI::cookie('__CJ_auth'); 
 	my $auth_data=decode_json(CGI::cookie('__CJ_auth'));
-	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and scookie=? and flag&1");	
+	my $sth1=$dbh->prepare("SELECT objid FROM ${DBPREFIX}auth WHERE login=? and scookie=? and flag&1");	
 	$sth1->execute($auth_data->{'login'},$auth_data->{'scookie'}) || die $dbh->errstr();
 	my ($sid)=$sth1->fetchrow();
 	if ($sid) {
