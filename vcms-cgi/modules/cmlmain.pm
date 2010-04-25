@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.56 2010-04-21 21:08:06 vano Exp $
+# $Id: cmlmain.pm,v 1.57 2010-04-25 19:33:23 vano Exp $
 
 BEGIN
 {
@@ -102,16 +102,18 @@ sub check_user ($)
 sub check_auth ($$)
 {
 	my ($login,$password)=@_;
-	my $sth1=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?) AND flag&1");
+	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
 	$sth1->execute($login,$password) || die $dbh->errstr();
-	my ($sid)=$sth1->fetchrow();
-	if ($sid) {
+	my ($sid,$flag)=$sth1->fetchrow();
+	if ($sid && ($flag & 1)) {
 		my $ck=int(rand(1000000000));
 		my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
 		$sth2->execute($ck,$sid) || die $dbh->errstr();
-		return $ck;
+		return (1,$ck);
+	} elsif ($sid && ! ($flag & 1)) {
+		return (0,1); 	
 	} else {
-		return undef;
+		return (0,0);
 	}
 	
 }
