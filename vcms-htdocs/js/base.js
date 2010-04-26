@@ -98,4 +98,23 @@ function auth(login,password,success_func) {
         execute('AUTH',dt,auth_callback);
 }
 
+function logout_callback (json) {
+    if (json.status) {
+         var jar = new CookieJar({
+            path: '/',
+         })
+         jar.put('auth',json);
+         location.href='/';
+    } else {
+        alert(lbError+': '+json.message);
+    }   
+}
+
+
+function logout () {
+		var dt={};
+        execute('LOGOUT',dt,logout_callback);
+}	
+
+
 

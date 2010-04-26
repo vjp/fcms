@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.58 2010-04-25 19:53:59 vano Exp $
+# $Id: cmlmain.pm,v 1.59 2010-04-26 20:40:16 vano Exp $
 
 BEGIN
 {
@@ -52,7 +52,7 @@ BEGIN
               
               &add_user &check_user &del_user &activate_user &check_auth
               
-              &check_session
+              &check_session &end_session
              );
 
 
@@ -132,6 +132,16 @@ sub check_session ()
 	} else {
 		return 0;
 	}	
+}
+
+
+sub end_session ()
+{ 
+	return 0 unless CGI::cookie('__CJ_auth'); 
+	my $auth_data=decode_json(CGI::cookie('__CJ_auth'));
+	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=NULL,authtime=NULL WHERE scookie=?");	
+	$sth1->execute($auth_data->{'scookie'}) || die $dbh->errstr();
+	return 1;
 }
 
 
