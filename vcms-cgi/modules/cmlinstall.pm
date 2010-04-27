@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.83 2010-04-27 19:33:11 vano Exp $
+# $Id: cmlinstall.pm,v 1.84 2010-04-27 20:24:48 vano Exp $
 
 BEGIN
 {
@@ -529,11 +529,15 @@ addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'INITAJAX',name=>'Àÿêñ
 setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>q(
 <script>
             function alertreload_callback(json){
-                    alert(json.status); 
-                    window.location.href=window.location.href.sub(/\#$/,'');
-            }    
+                    if (json.status) {
+                        alert(json.status); 
+                        window.location.href=window.location.href.sub(/\#$/,'');
+                    } else {
+                        alert(json.message);
+                    }    
+            }   
     
-            function deleteobject (parseid,id,parseprm,deleteid) {
+           function deleteobject (parseid,id,parseprm,deleteid) {
                 var dt={
                     parseid: parseid,
                     id: id,
@@ -553,6 +557,24 @@ setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>q(
                 };
                 ajax_call('addobject', dt, alertreload_callback);
             }
+            
+            function execute (id,method) {
+                var dt={
+                    id: id,
+                    method: method,
+                };
+                ajax_call('execute', dt, alertreload_callback);
+            }
+
+            function lexecute (id,lmethod) {
+                var dt={
+                    id: id,
+                    lmethod: lmethod,
+                };
+                ajax_call('execute', dt, alertreload_callback);
+            }
+
+            
 </script>
 )});
 
