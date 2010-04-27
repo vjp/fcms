@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.58 2010-04-24 16:00:46 vano Exp $
+# $Id: cmlparse.pm,v 1.59 2010-04-27 19:32:14 vano Exp $
 
 BEGIN
 {
@@ -321,7 +321,7 @@ sub tag_menuitem	{
 		'action','key','href','icohref','id','prm','param',
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
-		'orderby','ordertype'
+		'orderby','ordertype','noadd'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -349,7 +349,7 @@ sub tag_menuitem	{
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
 			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link orderby ordertype)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype noadd)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
