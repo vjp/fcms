@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.84 2010-04-27 20:24:48 vano Exp $
+# $Id: cmlinstall.pm,v 1.85 2010-04-27 20:29:20 vano Exp $
 
 BEGIN
 {
@@ -580,7 +580,7 @@ setvalue({key=>'INITAJAX',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
-setvalue({key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 	    <script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
     <script language="javascript" type="text/javascript">
     tinyMCE.init({  mode : "specific_textareas",
