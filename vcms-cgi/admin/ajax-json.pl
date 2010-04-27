@@ -23,6 +23,7 @@ $AJAX_FUNCS={
 	setvalue=>1,
 	addobject=>1,
 	deleteobject=>1,
+	execute=>1,
 };   
 
 

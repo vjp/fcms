@@ -1,6 +1,6 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.22 2010-04-11 20:57:49 vano Exp $
+# $Id: cmlajax.pm,v 1.23 2010-04-27 20:22:36 vano Exp $
 
 BEGIN
 {
@@ -91,7 +91,30 @@ sub ajax_console ($)
 	}	
 }
 
-
+sub ajax_execute ($)
+{
+	my ($r)=@_;
+	my $result=execute($r);
+	if (ref $result ne 'HASH') {
+		if ($r->{method}) {
+			$result=({
+				status=>0,
+				message=>enc("Ошибка выполнения. Объект:$r->{id} Метод:$r->{method} : ").$result,
+			});
+		} elsif ($r->{lmethod}) {
+			$result=({
+				status=>0,
+				message=>enc("Ошибка выполнения. Объект:$r->{id} Метод нижних объектов:$r->{lmethod} : ").$result,
+			});
+		} else {
+			$result=({
+				status=>0,
+				message=>enc("Ошибка выполнения. Метод не определен"),
+			});
+		}
+	}
+	return $result;
+}
 
 
 return 1;
