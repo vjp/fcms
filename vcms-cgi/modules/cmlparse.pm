@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.60 2010-04-28 04:03:17 vano Exp $
+# $Id: cmlparse.pm,v 1.61 2010-04-28 04:24:48 vano Exp $
 
 BEGIN
 {
@@ -2020,6 +2020,7 @@ sub tag_checkbox {
 
 sub tag_deletebutton {
 	my $param=$_[0]->{param};
+	my $id=$_[0]->{inner}->{objid};
   	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid']);
   	$pl->{prm}=$pl->{param} if $pl->{param};
     	$pl->{method}=$pl->{parser} if $pl->{parser};
@@ -2047,8 +2048,14 @@ sub tag_deletebutton {
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
 	my $confjs=&cmlmain::enc($cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")');
+	my $scriptjs;
+	if ($pl->{method}) {
+		$scriptjs=qq(lexecute("$id","$pl->{method}")) if $pl->{method};	
+	} else {
+		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
+	}
 	return qq(
-		  <a href='#' onclick='$confjs && deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}");return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
+		  <a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
 	);		
 	
 }	
