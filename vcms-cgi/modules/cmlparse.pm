@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.59 2010-04-27 19:32:14 vano Exp $
+# $Id: cmlparse.pm,v 1.60 2010-04-28 04:03:17 vano Exp $
 
 BEGIN
 {
@@ -2056,7 +2056,7 @@ sub tag_deletebutton {
 
 sub tag_changebutton {
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-	return "<input type=image src='$imgsrc' width='119' height='24' value='ÎÊ'>";
+	return "<input type=image src='$imgsrc' width='119' height='24' value='OK'/>";
 }	
 
 sub tag_dev {
