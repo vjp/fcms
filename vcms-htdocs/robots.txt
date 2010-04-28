@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /admin
+Disallow: /cgi-bin/
+Disallow: /vcms/
+Disallow: /vcms
+Allow: /
