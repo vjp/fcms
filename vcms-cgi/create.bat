@@ -18,6 +18,7 @@ del html.tar.gz
 ..\vcms-cgi\7za a html.tar *.swf -r
 ..\vcms-cgi\7za a html.tar *.js -r
 ..\vcms-cgi\7za a html.tar .htaccess -r
+..\vcms-cgi\7za a html.tar robots.txt -r
 ..\vcms-cgi\7za a ..\vcms-cgi\html.tar.gz html.tar
 del html.tar   
 
