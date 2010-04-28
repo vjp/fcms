@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.61 2010-04-28 04:24:48 vano Exp $
+# $Id: cmlparse.pm,v 1.62 2010-04-28 04:44:18 vano Exp $
 
 BEGIN
 {
@@ -321,7 +321,7 @@ sub tag_menuitem	{
 		'action','key','href','icohref','id','prm','param',
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
-		'orderby','ordertype','noadd'
+		'orderby','ordertype','noadd','delmethod'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -349,7 +349,7 @@ sub tag_menuitem	{
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
 			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link orderby ordertype noadd)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype noadd delmethod)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
@@ -393,10 +393,12 @@ sub tag_menuitem	{
 	$itext='пустой' unless $itext;
 	$itext="<b>$itext</b>" if $pl->{head};
 	my $hcol=$pl->{head}?'#FFFFFF':'#dedede';
-	my $dtxt=$pl->{delete}?'<cml:deletebutton/>':'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
+	my $mstr=$pl->{delmethod}?"method='$pl->{delmethod}'":'';
+	my $dtxt=$pl->{delete}?"<cml:deletebutton $mstr/>":'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
+	my $estr=&cmlmain::enc('Редактировать');
 	my $mtext=qq(
 		<tr>
-		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="Редактировать" border="0"/></a></td>
+		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
 		<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
 		<td bgcolor="$hcol" width="16">$dtxt</td>
 		</tr>
@@ -2047,6 +2049,7 @@ sub tag_deletebutton {
   	my $hstr=join('&',@hlist);
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
+	my $deltext=&cmlmain::enc('Удалить');
 	my $confjs=&cmlmain::enc($cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")');
 	my $scriptjs;
 	if ($pl->{method}) {
@@ -2055,7 +2058,7 @@ sub tag_deletebutton {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
 	return qq(
-		  <a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='Удалить'></a>
+		  <a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='$deltext'></a>
 	);		
 	
 }	
