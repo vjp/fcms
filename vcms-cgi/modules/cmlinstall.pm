@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.85 2010-04-27 20:29:20 vano Exp $
+# $Id: cmlinstall.pm,v 1.86 2010-04-29 19:35:04 vano Exp $
 
 BEGIN
 {
@@ -293,44 +293,29 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 
 <html>
 <head>
-
-<TITLE>VCMS</TITLE>
-
-
+<TITLE>VCMS : Интерфейс администратора</TITLE>
 <link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
-
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
-<frame src="/cgi-bin/admin/admin.pl?menu=CMSMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-<frame src="/admin/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
+	<frame src="/cgi-bin/admin/admin.pl?menu=CMSMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
+	<frame src="/admin/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
 </frameset>
-
 </html>
-
-
 )});
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORM', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
 setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
-
 <html>
 <head>
-
-<TITLE>VCMS</TITLE>
-
-
+<TITLE>VCMS : Интерфейс администратора</TITLE>
 <link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
-
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
-<frame src="/cgi-bin/user/user.pl?menu=USERMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-<frame src="/user/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
+	<frame src="/cgi-bin/user/user.pl?menu=USERMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
+	<frame src="/user/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
 </frameset>
-
 </html>
-
-
 )});
 
 
