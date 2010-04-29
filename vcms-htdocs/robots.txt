@@ -4,4 +4,6 @@ Disallow: /admin
 Disallow: /cgi-bin/
 Disallow: /vcms/
 Disallow: /vcms
+Disallow: /user/
+Disallow: /user
 Allow: /
