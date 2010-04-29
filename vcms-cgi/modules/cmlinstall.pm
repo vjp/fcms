@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.86 2010-04-29 19:35:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.87 2010-04-29 19:47:47 vano Exp $
 
 BEGIN
 {
@@ -364,10 +364,49 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMENU',name=>'Шаблон меню'});
-setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMENU'/>"});
+setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
+<CML:INCLUDE name='USERMENUHEADER'/>
+<CML:INCLUDE name='_prm:menu_'/>
+<CML:INCLUDE name='BASEMENUFOOTER'/>)
+});
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
 setvalue({convert=>1,key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здесь ..."});
+
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'USERMENUHEADER',name=>'Базовый шаблон заголовка меню'});
+setvalue({key=>'USERMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+<html>
+<head>
+<style type=text/css>
+<!--
+td, body                {font-family: Tahoma,  Arial; font-size: 11px; color: #000000;}
+body                    {scrollbar-base-color: #000066; scrollbar-arrow-color: #ffffff; scrollbar-highlight-color: #FFFFFF; scrollbar-shadow-color: #FFFFFF; scrollbar-face-color: #909090; scrollbar-track-color: #f0f0f0; }
+a:,a:link, a:visited            {font-family: Tahoma, sans-serif; font-size: 11px; color: #1E609C; text-decoration: underline;}
+a:active, a:hover           {font-family: Tahoma, sans-serif; font-size: 11px; color: #9C1E1E; text-decoration: none;}
+hr          {border: 0; width: 100%; color: #770000; background-color: #D96926; height: 2px;}
+li          {font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}
+ul          {font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
+input, select       {font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
+small, .small               {font-family: Tahoma, sans-serif; font-size: 9px; color: #565B64; font-weight : normal;}
+h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
+-->
+</style>
+
+<script type="text/javascript" src="/js/base.js"></script>
+<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
+<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+
+<center><a href="/admin/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></a></center>
+
+<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
+<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
+)});
 
 
 
@@ -375,7 +414,6 @@ addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUHEADER',name=>'Ба
 setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <style type=text/css>
 <!--
 td, body				{font-family: Tahoma,  Arial; font-size: 11px; color: #000000;}
