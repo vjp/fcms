@@ -65,7 +65,7 @@ if ($cmlcalc::SETSITEVARS) {
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>'windows-1251');
+print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
