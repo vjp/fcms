@@ -8,7 +8,7 @@ use cmlmain;
 use CGI  qw/param url header cookie/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
-use Time::HiRes qw /time/;
+use Time::HiRes qw (time);
 
 open(STDERR, ">/dev/null"); 
 
