@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.62 2010-04-28 04:44:18 vano Exp $
+# $Id: cmlparse.pm,v 1.63 2010-05-01 15:44:33 vano Exp $
 
 BEGIN
 {
@@ -1222,7 +1222,7 @@ sub tag_lightbox {
 			$href=$v->{value};
 		} else {
 			my $pstr=$cmlmain::GLOBAL->{FILEURL};
-			$href="$pstr/$v->{value}";
+			$href="$pstr/$v->{value}" if $v->{value};
 		}	
 		
 		
