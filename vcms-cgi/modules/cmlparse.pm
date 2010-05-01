@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.63 2010-05-01 15:44:33 vano Exp $
+# $Id: cmlparse.pm,v 1.64 2010-05-01 20:44:00 vano Exp $
 
 BEGIN
 {
@@ -181,17 +181,23 @@ sub tagparse {
 	$_[0]->{param}=~s/_vcml:(.+?)_/$cmlcalc::VPARAM->{$_[0]->{inner}->{objid}}->{$1}/igs;
 	
 	
-	$_[0]->{param}=~s{_prm:(.+?)_} {
- 		$v=$cmlcalc::CGIPARAM->{$1};
- 		if ($v eq '') {$v='NULL'}
- 		"$v";
+	$_[0]->{param}=~s{_(prm|cgi):(.+?)_} {
+		my $cgiparam=$2;
+		if ($cgiparam=~/^\!(.+)$/) {
+			$v=$cmlcalc::CGIPARAM->{$1};
+ 			$v?0:1;
+		} else {	
+ 			$v=$cmlcalc::CGIPARAM->{$cgiparam};
+ 			if ($v eq '') {$v='NULL'}
+ 			"$v";
+		}	
 	}iges;
 	
-	$_[0]->{param}=~s{_cgi:(.+?)_} {
- 		$v=$cmlcalc::CGIPARAM->{$1};
- 		if ($v eq '') {$v='NULL'}
- 		"$v";
-	}iges;
+#	$_[0]->{param}=~s{_cgi:(.+?)_} {
+# 		$v=$cmlcalc::CGIPARAM->{$1};
+# 		if ($v eq '') {$v='NULL'}
+# 		"$v";
+#	}iges;
 	
 	
 	$_[0]->{param}=~s{_var:(.+?)_} {
@@ -321,7 +327,7 @@ sub tag_menuitem	{
 		'action','key','href','icohref','id','prm','param',
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
-		'orderby','ordertype','noadd','delmethod'
+		'orderby','ordertype','readonly','delmethod'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -349,7 +355,7 @@ sub tag_menuitem	{
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
 			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link orderby ordertype noadd delmethod)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
