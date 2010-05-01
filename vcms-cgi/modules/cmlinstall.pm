@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.87 2010-04-29 19:47:47 vano Exp $
+# $Id: cmlinstall.pm,v 1.88 2010-05-01 20:15:45 vano Exp $
 
 BEGIN
 {
@@ -366,9 +366,10 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMENU',name=>'Шаблон меню'});
 setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
 <CML:INCLUDE name='USERMENUHEADER'/>
+<CML:INCLUDE name='USERHEADMENU'/>
 <CML:INCLUDE name='_prm:menu_'/>
-<CML:INCLUDE name='BASEMENUFOOTER'/>)
-});
+<CML:INCLUDE name='BASEMENUFOOTER'/>
+)});
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
 setvalue({convert=>1,key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здесь ..."});
@@ -800,6 +801,17 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
 )});
 
+
+addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERHEADMENU',name=>'Статическая часть главного меню пользовательского интерфейса'});
+setvalue({key=>'USERHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<table width="100%" border="0" cellspacing="1" cellpadding="2">
+<tr><td>...</td></tr>
+</table>
+</td></tr></table>
+<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
+<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
+<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
+)});
 
 
 
