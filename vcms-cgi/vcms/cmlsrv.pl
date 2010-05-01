@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.24 2010-04-16 18:33:27 vano Exp $
+# $Id: cmlsrv.pl,v 1.25 2010-05-01 13:51:50 vano Exp $
 
 use lib "../modules/";
 
@@ -399,9 +399,9 @@ viewlog();
 
 sub viewusers {
 	 my $ul=loaduserlist();
-	 print "Список пользователей";
+	 print enc("Список пользователей");
 	 print start_table();
-	 print Tr(th,th('Логин'),th('Группа'),th('Новый пароль'),th('Повторить пароль'),th());
+	 print Tr(th,th(enc('Логин')),th(enc('Группа')),th(enc('Новый пароль')),th(enc('Повторить пароль')),th());
 	 for (@$ul) {
 	 	print start_form(-action=>'');
 	 	print Tr(	td(a({-href=>"?action=deluser&username=$_->{login}"},'X')),
@@ -410,11 +410,16 @@ sub viewusers {
 	 								-default=>$_->{group},
 	 								-override=>1,
 	 								-values=>['','admin','user'],
-	 								-labels=>{''=>'Не определена','admin'=>'Администраторы','user'=>'Пользователи'}
+	 								-labels=>{
+	 										''=>enc('Не определена'),
+	 										'admin'=>enc('Администраторы'),
+	 										'user'=>enc('Пользователи')
+	 								}
 	 				)),		
 	 	         	td(password_field({-name=>'password',override=>1})), 
 	 	         	td(password_field({-name=>'retpassword',override=>1})),
-	 	         	td (submit(-value=>'Изменить')) );
+	 	         	td (submit(-value=>enc('Изменить'))), 
+	 	);
 	 	print hidden(-name=>'action',-value=>'edituser',override=>1);
 	 	print hidden(-name=>'username',-value=>$_->{login},override=>1);
 	 	print end_form();
@@ -425,11 +430,16 @@ sub viewusers {
 	 						td(popup_menu(	-name=>'group',
 	 								-override=>1,
 	 								-values=>['','admin','user'],
-	 								-labels=>{''=>'Не определена','admin'=>'Администраторы','user'=>'Пользователи'}
+	 								-labels=>{
+	 									''=>enc('Не определена'),
+	 									'admin'=>enc('Администраторы'),
+	 									'user'=>enc('Пользователи')
+	 								}
 	 						)),	
 	 						td(password_field({-name=>'password',override=>1})),
 	 						td(password_field({-name=>'retpassword',override=>1})),
-	 						td (submit(-value=>'Создать нового')) );
+	 						td (submit(-value=>enc('Создать нового'))) 
+	);
 	print hidden({-name=>'action',-value=>'addnewuser',-override=>1});
 	print end_form;
 	print end_table;
@@ -437,9 +447,9 @@ sub viewusers {
 	
 	print hr;
 
-	print "Ограничение доступа через .htaccess",br;		
+	print enc("Ограничение доступа через .htaccess"),br;		
    	print start_table;
-   	print Tr(th('Интерфейс'),th('Доступ'),th('Действие'));
+   	print Tr(th(enc('Интерфейс')),th(enc('Доступ')),th(enc('Действие')));
    
    	for my $alias (keys %aliases) {
    		print start_Tr;
@@ -461,9 +471,13 @@ sub viewusers {
    						-default=>$df,
 	 					-override=>1,
 	 					-values=>['','admin','user'],
-	 					-labels=>{''=>'Открыт','admin'=>'Администраторы','user'=>'Администраторы и пользователи'}
+	 					-labels=>{
+	 						''=>enc('Открыт'),
+	 						'admin'=>enc('Администраторы'),
+	 						'user'=>enc('Администраторы и пользователи')
+	 					}
 	 	));
-   		print td(submit(-value=>'Сохранить уровень доступа'));
+   		print td(submit(-value=>enc('Сохранить уровень доступа')));
  	  	print hidden({-name=>'action',-value=>"rewriteht$alias",-override=>1});
    		print end_form();
    		print end_Tr;
