@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.49 2010-04-20 21:17:18 vano Exp $
+# $Id: cmlcalc.pm,v 1.50 2010-05-01 13:50:29 vano Exp $
 
 BEGIN
 {
@@ -186,7 +186,7 @@ sub calculate 	{
 	if ($_[0]->{cache}) {
 		$cache_key=$ENV{'REQUEST_URI'};
 		$cache_key=~s/\?.+$//;
-		my $cached_value=&cmlmain::fromcache($cache_key,$cmlcalc::ENV->{dev},$CALCLANG);
+		my ($cached_value,$cached_time)=&cmlmain::fromcache($cache_key,$cmlcalc::ENV->{dev},$CALCLANG);
 		if ($cached_value) {
 			
 			$xvalue->{value}=&cmlparse::cmlparser({
@@ -197,6 +197,9 @@ sub calculate 	{
 					dyncalc=>1
 				},
 			});
+			if ($cached_value eq $xvalue->{value}) {
+				$xvalue->{lmtime}=$cached_time
+			}
 			$xvalue->{type}='TEXT';
 			return $xvalue;
 		} else {

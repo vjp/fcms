@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.13 2010-04-21 21:01:33 vano Exp $
+# $Id: viewer.pl,v 1.14 2010-05-01 13:50:59 vano Exp $
 
 use lib "./modules/";
 
@@ -168,10 +168,6 @@ if ($cmlcalc::SITEVARS->{BENCHMARK}) {
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
 
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
-
-
-if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $opensite=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('OPENSITE')"})->{value};
 my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
@@ -206,6 +202,14 @@ if (!$opensite && !cookie('dev')) {
    	}  
 }
 my $mtime=Time::HiRes::time()-$stime;
+my $lmtime=scalar gmtime($v->{lmtime} || time());
+print header(
+	-type=>'text/html',
+	-cookie=>\@cookies, 
+	-charset=>$GLOBAL->{CODEPAGE},
+	-last_modified=>$lmtime,
+);
+if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $body=$v->{value};
 if ($body) {

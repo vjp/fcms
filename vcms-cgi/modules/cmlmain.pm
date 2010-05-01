@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.59 2010-04-26 20:40:16 vano Exp $
+# $Id: cmlmain.pm,v 1.60 2010-05-01 13:50:39 vano Exp $
 
 BEGIN
 {
@@ -1104,7 +1104,7 @@ sub init	{
  
  	$sthFSL=$dbh->prepare("SELECT id FROM ${DBPREFIX}fs WHERE prm=? AND val LIKE ?") || die $dbh->errstr;
  
- 	$sthSC=$dbh->prepare("SELECT pagetext FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
+ 	$sthSC=$dbh->prepare("SELECT pagetext,unix_timestamp(ts) FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
  	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev,lang) VALUES (?,?,NOW(),?,?)");
  	$sthDDC=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
  	$sthLC=$dbh->prepare("INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
