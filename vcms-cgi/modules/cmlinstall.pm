@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.88 2010-05-01 20:15:45 vano Exp $
+# $Id: cmlinstall.pm,v 1.89 2010-05-02 11:45:39 vano Exp $
 
 BEGIN
 {
@@ -265,7 +265,8 @@ addprm({convertname=>1,objkey=>'AUTOLOGS',name=>'Лог',type=>'LONGTEXT',key=>'LOG
 
 
 addobject({convertname=>1,upkey=>'RESTRICTIONS',key=>'SYSTEMUSERS',name=>'Пользователи системы'});
-
+addobject({convertname=>1,upkey=>'SYSTEMUSERS',key=>'SYSTEMUSERS_admin',name=>'Администраторы'});
+addobject({convertname=>1,upkey=>'SYSTEMUSERS',key=>'SYSTEMUSERS_user',name=>'Менеджеры'});
 
 
 
@@ -707,10 +708,10 @@ setvalue({convert=>1,key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <b><cml:actionlink action='LISTEDIT' ukey='_prm:ukey_' listprm="_prm:listprm_" link="_prm:link_"><cml:text param='_NAME'/></cml:actionlink></b>
 <cml:list  expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
-  <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" delete="1"/>
+  <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" delete="_cgi:!readonly_"/>
 </cml:list>
 </table>
-<cml:if not='1' expr='cgi(noadd)'>
+<cml:if not='1' expr='cgi(readonly)'>
 <hr/><cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
 </cml:if>
 
@@ -1053,7 +1054,8 @@ sub install_db ($$) {
 	$dbh->do("create table IF NOT EXISTS ${DBPREFIX}users (
  			`login` varchar(50) unique key,
  			`password` varchar(255),
- 			`group` varchar(50)
+ 			`group` varchar(50),
+ 			`objid` int
 		) TYPE=MyISAM
 	") || die $dbh->errstr();
 
