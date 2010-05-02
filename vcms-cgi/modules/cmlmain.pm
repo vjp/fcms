@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.60 2010-05-01 13:50:39 vano Exp $
+# $Id: cmlmain.pm,v 1.61 2010-05-02 11:58:38 vano Exp $
 
 BEGIN
 {
@@ -2198,8 +2198,15 @@ sub adduser {
 		message('Неправильные символы в логине');
 		return undef;
 	}
-	my $sth=$dbh->prepare("INSERT INTO ${DBPREFIX}users (login,password,`group`) VALUES (?,ENCRYPT(?),?)");
-	$sth->execute ($login,$password,$group) || die $dbh->errstr;
+	my $upkey='SYSTEMUSERS';
+	$upkey.="_$group" if $group;
+	my $oid=&cmlcalc::add(&cmlcalc::id($upkey),{
+		_NAME=>$login,
+		_KEY=>"SU_$login",
+	});
+	
+	my $sth=$dbh->prepare("INSERT INTO ${DBPREFIX}users (login,password,`group`,objid) VALUES (?,ENCRYPT(?),?,?)");
+	$sth->execute ($login,$password,$group,$oid) || die $dbh->errstr;
 	if ($PASSFILE) {writepassfile()}
 }	
 
@@ -2216,6 +2223,9 @@ sub edituser {
 		my $sth=$dbh->prepare("UPDATE ${DBPREFIX}users SET `group`=? WHERE login=?");
 		$sth->execute ($group,$login) || die $dbh->errstr;
 	}	
+	my $ugrp='SYSTEMUSERS';
+	$ugrp.="_$group" if $group;
+	&cmlcalc::set(&cmlcalc::id("SU_$login"),'_UP',&cmlcalc::id($ugrp));
 }	
 
 
@@ -2225,6 +2235,7 @@ sub deluser {
 	my $sth=$dbh->prepare("DELETE FROM ${DBPREFIX}users WHERE login=?");
 	$sth->execute ($login) || die $dbh->errstr;
 	if ($PASSFILE) {writepassfile()}
+	deletelowobject(&cmlcalc::id("SU_$login"));
 }	
 
 sub writepassfile {
