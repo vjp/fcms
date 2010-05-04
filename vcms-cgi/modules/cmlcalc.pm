@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.52 2010-05-02 11:58:27 vano Exp $
+# $Id: cmlcalc.pm,v 1.53 2010-05-04 20:06:47 vano Exp $
 
 BEGIN
 {
@@ -309,13 +309,19 @@ sub execute 	{
  	unless($METHODID->{script}) {
  		
  		$res="method $method not found";
- 		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX') {
+ 		if (
+ 			$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
+ 			$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 
+ 		) {
  			return $res;	
  		}
 		&cmlmain::alert($res);
  	}
  	if ($@) {
- 		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX') {
+ 		if (
+ 			$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
+ 			$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX'
+ 		) {
  			$res=$@;
  		} else {
  			&cmlmain::alert(enc("Ошибка выполнения метода $method : $@"));
