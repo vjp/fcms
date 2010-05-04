@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.64 2010-05-01 20:44:00 vano Exp $
+# $Id: cmlparse.pm,v 1.65 2010-05-04 19:18:50 vano Exp $
 
 BEGIN
 {
@@ -2059,7 +2059,7 @@ sub tag_deletebutton {
 	my $confjs=&cmlmain::enc($cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")');
 	my $scriptjs;
 	if ($pl->{method}) {
-		$scriptjs=qq(lexecute("$id","$pl->{method}")) if $pl->{method};	
+		$scriptjs=qq(lexec("$id","$pl->{method}")) if $pl->{method};	
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
