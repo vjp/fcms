@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 
+# $Id: ajax-json.pl,v 1.7 2010-05-04 20:01:46 vano Exp $
 
 use strict;
 use lib "./modules/";

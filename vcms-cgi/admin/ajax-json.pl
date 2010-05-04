@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 
+# $Id: ajax-json.pl,v 1.3 2010-05-04 20:00:36 vano Exp $
 
 use strict;
 no strict "refs";

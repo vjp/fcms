@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 
+# $Id: user.pl,v 1.4 2010-05-04 20:00:15 vano Exp $
 
 use lib "../modules/";
 
