@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.91 2010-05-04 20:46:43 vano Exp $
+# $Id: cmlinstall.pm,v 1.92 2010-05-04 20:58:37 vano Exp $
 
 BEGIN
 {
@@ -286,6 +286,72 @@ addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSMENU',name=>'Шаблоны меню'
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSFORM',name=>'Шаблоны форм'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
+
+
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'LISTEDIT_SYSTEMUSERS_user', name=>'Доступ менеджеров'});
+setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value=>q(
+<script>
+  function managerCreated(json) {
+
+      if (json.status) {
+          alert('Пользователь создан');
+          window.location.href=window.location.href.sub(/\#$/,'');
+      } else {
+          alert('Ошибка: '+json.message);
+      }   
+  }
+ 
+  function createManager() {
+     if (!$('login').value) {
+         alert('Логин не может быть пустым');
+         return;
+     }
+     if (!$('pswn').value || $('pswn').value!=$('rpswn').value) {
+         alert('Пароли не совпадают');
+         return;
+     }
+     var dt = {
+       login : $('login').value,
+       pwd : $('pswn').value
+     };
+     execute('CREATEMANAGER',dt,managerCreated);
+  }
+
+  function changePass(id) {
+     if (!$('psw'+id).value || $('psw'+id).value!=$('rpsw'+id).value) {
+         alert('Пароли не совпадают');
+         return;
+     }
+     var dt = {
+         pwd : $('psw'+id).value
+     };
+     lexec(id,'CHPASSMAN',dt);
+  } 
+</script>
+
+<cml:use key='_prm:ukey_'>
+<cml:text param='_NAME'/><br>
+<table>
+<tr><th></th><th>Логин</th><th>Новый пароль</th><th>Повторить новый пароль</th><th></th></tr>
+<cml:list expr='lowlist()'>
+<tr>
+<td><cml:deletebutton method='DELETEMANAGER'/></td>
+<td><cml:text param='_NAME'/></td>
+<td><cml:input id='psw_cml:_ID_' type='password'/></td>
+<td><cml:input id='rpsw_cml:_ID_' type='password'/></td>
+<td><cml:input type='button' value='Поменять пароль' onclick='changePass(_cml:_ID_)'/></td>
+</tr>
+</cml:list>
+<tr>
+<td></td>
+<td><input id='login'/></td>
+<td><input id='pswn' type='password'/></td>
+<td><input id='rpswn' type='password'/></td>
+<td><input type='button' value='Создать нового' onclick='createManager()'/></td>
+</tr>
+</table>
+</cml:use>
+)});
 
 
 
