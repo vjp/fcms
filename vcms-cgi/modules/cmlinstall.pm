@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.90 2010-05-04 19:13:45 vano Exp $
+# $Id: cmlinstall.pm,v 1.91 2010-05-04 20:46:43 vano Exp $
 
 BEGIN
 {
@@ -744,6 +744,7 @@ addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'CMSHEADMENU',name=>'Стати
 setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
+<cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'>Управление доступом менеджеров</cml:menuitem>
 </table>
 </td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
