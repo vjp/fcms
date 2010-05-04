@@ -1,3 +1,6 @@
+//$Id: ajax.js,v 1.2 2010-05-04 20:26:32 vano Exp $
+
+
 function alertreload_callback(json){
                     if (json.status) {
                         alert(json.status); 
@@ -36,10 +39,17 @@ function alertreload_callback(json){
                 ajax_call('execute', dt, alertreload_callback);
             }
 
-            function lexec (id,lmethod) {
-                var dt={
-                    id: id,
-                    lmethod: lmethod,
-                };
-                ajax_call('execute', dt, alertreload_callback);
+            function lexec (id,lmethod,data) {
+            	if (data) {
+            		data.id=id;
+            		data.lmethod=lmethod;
+            		alert(data.pwd);
+            		ajax_call('execute', data, alertreload_callback);
+            	} else {
+            		var dt={
+            				id: id,
+            				lmethod: lmethod,
+            		};
+            		ajax_call('execute', dt, alertreload_callback);
+            	}	
             }
