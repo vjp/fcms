@@ -1,8 +1,10 @@
 Options +Includes +FollowSymLinks -Indexes
-AddDefaultCharset windows-1251
 DirectoryIndex index.htm
 RewriteBase /
 RewriteEngine on
+
+RewriteRule ^data/?$ /_DATAFILES
+
 RewriteRule ^(.*view/.*)$ /cgi-bin/viewer.pl/$1
 RewriteRule ^(_.*)$ /cgi-bin/viewer.pl/$1
 RewriteRule ^$ /cgi-bin/viewer.pl
