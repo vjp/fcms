@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.92 2010-05-04 20:58:37 vano Exp $
+# $Id: cmlinstall.pm,v 1.93 2010-05-05 04:49:25 vano Exp $
 
 BEGIN
 {
@@ -126,7 +126,7 @@ setvalue({key=>'DESIGN',pkey=>'SEARCHSITE',value=>$ENV{SERVER_NAME}});
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Объем поисковой выдачи',type=>'NUMBER',key=>'SEARCHITEMS',upd=>'y',evl=>'n',self=>1});
 setvalue({key=>'DESIGN',pkey=>'SEARCHITEMS',value=>10});
 
-addmethod ({convertname=>1,objkey=>'DESIGN',key=>'YSEARCH',name=>'Поииск яндекса по сайту',lflag=>1,script=>q(
+addmethod ({convertname=>1,objkey=>'DESIGN',key=>'YSEARCH',name=>'Поиск яндекса по сайту',lflag=>1,script=>q(
 use cmlutils;
 return 1 unless $cmlcalc::CGIPARAM->{'query'};
 my $r=sitesearch($cmlcalc::CGIPARAM->{'query'},{
@@ -271,6 +271,27 @@ addobject({convertname=>1,upkey=>'SYSTEMUSERS',key=>'SYSTEMUSERS_user',name=>'Ме
 
 
 
+
+addmethod ({convertname=>1,objkey=>'SYSTEMUSERS_user',key=>'CREATEMANAGER',name=>'Новый менеджер',script=>q(
+my $mid=adduser($CGIPARAM->{'login'},$CGIPARAM->{'pwd'},'user');
+$result->{'status'}=1;
+$result->{'mr_id'}=$mid;
+return $result;
+)});
+
+addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'SYSTEMUSERS_user',key=>'DELETEMANAGER',name=>'Удалить менеджера',script=>q(
+my $login=p(_NAME);
+deluser($login);
+$result->{'status'}='Пользователь удален';
+return $result;
+)});
+
+addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'SYSTEMUSERS_user',key=>'CHPASSMAN',name=>'Сменить пароль',script=>q(
+my $login=p(_NAME);
+edituser($login,$CGIPARAM->{'pwd'},'user');
+$result->{'status'}="Пароль пользователя $login изменен";
+return $result;
+)});
 
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартовая страница'});
