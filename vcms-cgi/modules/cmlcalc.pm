@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.53 2010-05-04 20:06:47 vano Exp $
+# $Id: cmlcalc.pm,v 1.54 2010-05-05 03:28:56 vano Exp $
 
 BEGIN
 {
@@ -308,7 +308,7 @@ sub execute 	{
  	my $ev=eval "use cmlmain; $METHODID->{script}";
  	unless($METHODID->{script}) {
  		
- 		$res="method $method not found";
+ 		$res=enc("Метод $method не найден");
  		if (
  			$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
  			$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 

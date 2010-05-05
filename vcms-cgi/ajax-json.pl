@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.7 2010-05-04 20:01:46 vano Exp $
+# $Id: ajax-json.pl,v 1.8 2010-05-05 03:33:06 vano Exp $
 
 use strict;
 use lib "./modules/";
@@ -26,7 +26,7 @@ my $result=execute({method=>$func});
 if (ref $result ne 'HASH') {
 	$result=({
 		status=>0,
-		message=>"execute error. method:$func error:$result",
+		message=>enc("Ошибка выполнения. Метод: $func Ошибка: ").$result,
 	});
 }
 print $json->encode ($result);
