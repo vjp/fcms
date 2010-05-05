@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.61 2010-05-02 11:58:38 vano Exp $
+# $Id: cmlmain.pm,v 1.62 2010-05-05 04:41:34 vano Exp $
 
 BEGIN
 {
@@ -2208,6 +2208,7 @@ sub adduser {
 	my $sth=$dbh->prepare("INSERT INTO ${DBPREFIX}users (login,password,`group`,objid) VALUES (?,ENCRYPT(?),?,?)");
 	$sth->execute ($login,$password,$group,$oid) || die $dbh->errstr;
 	if ($PASSFILE) {writepassfile()}
+	return $oid;
 }	
 
 
