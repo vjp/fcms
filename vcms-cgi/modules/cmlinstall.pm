@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.93 2010-05-05 04:49:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.94 2010-05-05 04:58:18 vano Exp $
 
 BEGIN
 {
@@ -571,7 +571,6 @@ setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMA
 
 my $bmv=qq(<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <style type=text/css>
 <!--
 td, body {font-family: Tahoma, Arial; font-size: 11px; color: #000000;}
