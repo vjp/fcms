@@ -1,4 +1,4 @@
-//$Id: ajax.js,v 1.2 2010-05-04 20:26:32 vano Exp $
+//$Id: ajax.js,v 1.3 2010-05-05 04:45:04 vano Exp $
 
 
 function alertreload_callback(json){
@@ -43,7 +43,6 @@ function alertreload_callback(json){
             	if (data) {
             		data.id=id;
             		data.lmethod=lmethod;
-            		alert(data.pwd);
             		ajax_call('execute', data, alertreload_callback);
             	} else {
             		var dt={
