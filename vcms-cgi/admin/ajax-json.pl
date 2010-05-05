@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.4 2010-05-04 20:06:30 vano Exp $
+# $Id: ajax-json.pl,v 1.5 2010-05-05 05:29:18 vano Exp $
 
 use strict;
 no strict "refs";
@@ -37,6 +37,7 @@ my $json = new JSON::PP;
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
+	$cmlcalc::CGIPARAM=decode_json($data);
 	$cmlcalc::CGIPARAM->{_MODE}='ADMINAJAX';
 	my $result=&$subname($r);
 	print $json->encode ($result);
