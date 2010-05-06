@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.9 2010-05-04 19:59:52 vano Exp $
+# $Id: admin.pl,v 1.10 2010-05-06 05:01:37 vano Exp $
 
 use lib "../modules/";
 
@@ -74,8 +74,11 @@ if ($cmlcalc::SETSITEVARS) {
 	push (@cookies,$cc);
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
-
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+if (param('csv')) {
+	print header(-type=>'text/csv', -charset=>$GLOBAL->{CODEPAGE});
+} else {
+	print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+}	
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $key;
