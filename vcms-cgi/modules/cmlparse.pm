@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.66 2010-05-06 04:58:47 vano Exp $
+# $Id: cmlparse.pm,v 1.67 2010-05-06 20:24:37 vano Exp $
 
 BEGIN
 {
@@ -1509,10 +1509,14 @@ sub tag_text {
         
         if (	($pkey && $cmlmain::prm->{$pkey}->{type} eq 'LIST') || ($ptype->{value} && $ptype->{value} eq 'LIST' ) ) {
         	$rs=&cmlcalc::calculate({id=>$rs->{value},expr=>'p(_NAME)'});
+      	}
+      	
+      	if ( !$frmt && $pkey && $cmlmain::prm->{$pkey}->{type} eq 'NUMBER' ) {
+      		    $frmt=$cmlmain::prm->{$pkey}->{extra}->{format};   
       	}	
         my $result=$rs->{value};
         if ($frmt) {
-  		$result=sprintf ($frmt,$result)
+  			$result=sprintf ($frmt,$result)
         } elsif ($dfrmt && $result) {
         	$result = strftime $dfrmt,gmtime($result);
         }		 
