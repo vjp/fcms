@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.10 2010-05-06 05:01:37 vano Exp $
+# $Id: admin.pl,v 1.11 2010-05-06 20:10:14 vano Exp $
 
 use lib "../modules/";
 
@@ -75,7 +75,11 @@ if ($cmlcalc::SETSITEVARS) {
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 if (param('csv')) {
-	print header(-type=>'text/csv', -charset=>$GLOBAL->{CODEPAGE});
+	print header(
+		-type=>'text/csv',
+		-charset=>$GLOBAL->{CODEPAGE},
+		-attachment=>'export.csv',
+	);
 } else {
 	print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 }	
