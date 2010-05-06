@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.65 2010-05-04 19:18:50 vano Exp $
+# $Id: cmlparse.pm,v 1.66 2010-05-06 04:58:47 vano Exp $
 
 BEGIN
 {
@@ -124,7 +124,8 @@ sub cmlparser
    (my $ztag, my $ztagdata)=/^(.+?)>(.*)$/s;
    my $rdata=pop(@stack);
    my $xparam=pop(@pstack);
-  
+   #$rdata=~s/\n\s*$//s;
+   $rdata=~s/^\s*\n//s;
    my $pstr;
    
    my $xtra;
