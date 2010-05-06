@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.67 2010-05-06 20:24:37 vano Exp $
+# $Id: cmlparse.pm,v 1.68 2010-05-06 20:33:57 vano Exp $
 
 BEGIN
 {
@@ -107,7 +107,7 @@ sub cmlparser
    my $rdata=pop(@stack) || '';
    my $pstr;
    if ($#stack==0)   {
-      $pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner}) || '';
+      $pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner});
    }
    else 	 {
    	$pstr="<cml:$tname $tparam/>"
@@ -131,7 +131,7 @@ sub cmlparser
    my $xtra;
    if ($#stack==0)   {
      $xtra=pop(@stack) || '';
-     $pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner}) || '';
+     $pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner});
      if (lc($ztag) eq 'container' || lc($ztag) eq 'lowlevel') 
      { 
     	unless ($felm) { $xtra=''} 
