@@ -1,4 +1,4 @@
-//$Id: ajax.js,v 1.3 2010-05-05 04:45:04 vano Exp $
+//$Id: ajax.js,v 1.4 2010-05-06 18:36:45 vano Exp $
 
 
 function alertreload_callback(json){
@@ -34,7 +34,7 @@ function alertreload_callback(json){
             function exec (id,method) {
                 var dt={
                     id: id,
-                    method: method,
+                    method: method
                 };
                 ajax_call('execute', dt, alertreload_callback);
             }
@@ -47,7 +47,7 @@ function alertreload_callback(json){
             	} else {
             		var dt={
             				id: id,
-            				lmethod: lmethod,
+            				lmethod: lmethod
             		};
             		ajax_call('execute', dt, alertreload_callback);
             	}	
