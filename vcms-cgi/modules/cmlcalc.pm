@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.54 2010-05-05 03:28:56 vano Exp $
+# $Id: cmlcalc.pm,v 1.55 2010-05-07 04:58:15 vano Exp $
 
 BEGIN
 {
@@ -8,6 +8,8 @@ BEGIN
  use Data::Dumper;
  use Time::Local;
  use JSON::PP;
+ use POSIX;
+ 
  eval {require Time::HiRes };
 
  @ISA = 'Exporter';
@@ -640,6 +642,10 @@ sub today {
 	return timegm(localtime());
 }	
 
+sub month {
+	my @tm=gmtime();
+	return mktime(0,0,0,1,$tm[4],$tm[5]);
+}
 
 
 sub distlist {
