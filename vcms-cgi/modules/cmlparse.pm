@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.69 2010-05-11 19:01:03 vano Exp $
+# $Id: cmlparse.pm,v 1.70 2010-05-11 19:08:41 vano Exp $
 
 BEGIN
 {
@@ -946,10 +946,17 @@ sub tag_actionlink {
 	
 	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
 	if ($pl->{action} eq 'EDIT') {
-		&cmlmain::checkload({id=>$pl->{id}});
-		my $tid=$cmlmain::lobj->{$pl->{id}}->{upobj};
+		my $id;
+		if ($pl->{prm} || $pl->{param}) {
+			my $prm=$pl->{prm} || $pl->{param};
+			$id=&cmlcalc::p($prm,$pl->{id});
+		} else {
+			$id=$pl->{id};
+		}
+		&cmlmain::checkload({id=>$id});
+		my $tid=$cmlmain::lobj->{$id}->{upobj};
 		my $kn=$cmlmain::obj->{$tid}->{key};
-	 	return "<a href='?$pprm=EDIT_$kn&id=$pl->{id}' $param>$title</a>";
+	 	return "<a href='?$pprm=EDIT_$kn&id=$id' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
