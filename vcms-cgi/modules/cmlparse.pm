@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.68 2010-05-06 20:33:57 vano Exp $
+# $Id: cmlparse.pm,v 1.69 2010-05-11 19:01:03 vano Exp $
 
 BEGIN
 {
@@ -1518,7 +1518,7 @@ sub tag_text {
         if ($frmt) {
   			$result=sprintf ($frmt,$result)
         } elsif ($dfrmt && $result) {
-        	$result = strftime $dfrmt,gmtime($result);
+        	$result = &cmlmain::enc(strftime ($dfrmt,gmtime($result)));
         }		 
   	
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
