@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.72 2010-05-11 20:05:11 vano Exp $
+# $Id: cmlparse.pm,v 1.73 2010-05-11 21:21:17 vano Exp $
 
 BEGIN
 {
@@ -65,6 +65,8 @@ sub initparser
     	'dynamic'=>1,
     	'lightbox'=>1,
     	'captcha'=>1,
+    	'csvrow'=>1,
+    	'csvcol'=>1,
  	);
 }
 
@@ -285,6 +287,23 @@ sub fetchparam {
 
 ############################### Обработчики тегов
 
+
+sub tag_csvcol {
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $value=cmlparser({data=>$data,inner=>$inner});
+	push (@cmlcalc::CSVCOLS, '"'.$value.'"');
+	return $value;
+}
+
+sub tag_csvrow {
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $value=cmlparser({data=>$data,inner=>$inner});
+	push (@cmlcalc::CSVROWS,join(';',@cmlcalc::CSVCOLS));
+	undef @cmlcalc::CSVCOLS;
+	return $value;
+}
 
 
 
@@ -1301,7 +1320,7 @@ sub tag_img 	{
 		if ($cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
 			$src=$v->{value};
 		} else {
-			my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
+			my $pstr=$path eq 'absolute' ? $cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
 			$src="$pstr/$v->{value}";
 		}	
 	}

@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.55 2010-05-07 04:58:15 vano Exp $
+# $Id: cmlcalc.pm,v 1.56 2010-05-11 21:21:06 vano Exp $
 
 BEGIN
 {
@@ -14,7 +14,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS);
 }
 
 sub initcalc
@@ -237,8 +237,13 @@ sub calculate 	{
 				},
         	});
         }   	
-        
- 	return $xvalue;
+
+    if ($_[0]->{csv}) {
+    	$xvalue->{value}=join("\r\n",@cmlcalc::CSVROWS);
+    }
+    return $xvalue;	
+  
+ 	
 }
 
 sub execute 	{
