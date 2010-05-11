@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.71 2010-05-11 19:24:37 vano Exp $
+# $Id: cmlparse.pm,v 1.72 2010-05-11 20:05:11 vano Exp $
 
 BEGIN
 {
@@ -949,6 +949,7 @@ sub tag_actionlink {
 	}
 	$inner->{objid}=$iid;
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner});
+	$title=&cmlcalc::p('_NAME',$iid) unless $title;
 	$title=$pl->{action} unless $title;
 	
 	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
