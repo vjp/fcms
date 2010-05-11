@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.11 2010-05-06 20:10:14 vano Exp $
+# $Id: admin.pl,v 1.12 2010-05-11 03:11:23 vano Exp $
 
 use lib "../modules/";
 
@@ -97,17 +97,18 @@ if (param('page') && $cmlmain::lmethod->{param('page').'PARSER'}->{script}){
 }
 
 
-
+my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
-	$v=&cmlcalc::calculate({key=>'BASEMENU',expr=>'p(PAGETEMPLATE)'});
+	$v=&cmlcalc::calculate({key=>'BASEMENU',expr=>"p($prm)"});
 }	elsif (param('body')) {
-	$v=&cmlcalc::calculate({key=>'BASEMAIN',expr=>'p(PAGETEMPLATE)'});
+	$v=&cmlcalc::calculate({key=>'BASEMAIN',expr=>"p($prm)"});
 } elsif (param('view')) {
- 	$v=&cmlcalc::calculate({key=>param('view'),expr=>'p(PAGETEMPLATE)'});
+	
+ 	$v=&cmlcalc::calculate({key=>param('view'),expr=>"p($prm)"});
 }else {
 	$cmlcalc::CGIPARAM->{pagemenu}='BASEMENU' unless param('pagemenu');
 	$cmlcalc::CGIPARAM->{page}='BASEMAIN' unless param('page');	
- 	$v=&cmlcalc::calculate({key=>'MAINCMSTEMPL',expr=>"p('PAGETEMPLATE')"});
+ 	$v=&cmlcalc::calculate({key=>'MAINCMSTEMPL',expr=>"p($prm)"});
 }
 
 viewlog();

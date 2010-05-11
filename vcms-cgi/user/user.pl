@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.4 2010-05-04 20:00:15 vano Exp $
+# $Id: user.pl,v 1.5 2010-05-11 03:11:44 vano Exp $
 
 use lib "../modules/";
 
@@ -66,23 +66,32 @@ if ($cmlcalc::SETSITEVARS) {
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+if (param('csv')) {
+	print header(
+		-type=>'text/csv',
+		-charset=>$GLOBAL->{CODEPAGE},
+		-attachment=>'export.csv',
+	);
+} else {
+	print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+}	
 
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $key;
 
+my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
-	$v=&cmlcalc::calculate({key=>'USERMENU',expr=>'p(PAGETEMPLATE)'});
+	$v=&cmlcalc::calculate({key=>'USERMENU',expr=>"p($prm)"});
 }	elsif (param('body')) {
-	$v=&cmlcalc::calculate({key=>'USERMAIN',expr=>'p(PAGETEMPLATE)'});
+	$v=&cmlcalc::calculate({key=>'USERMAIN',expr=>"p($prm)"});
 } elsif (param('view')) {
- 	$v=&cmlcalc::calculate({key=>param('view'),expr=>'p(PAGETEMPLATE)'});
+ 	$v=&cmlcalc::calculate({key=>param('view'),expr=>"p($prm)"});
 }else {
 	$cmlcalc::CGIPARAM->{pagemenu}='USERMENU' unless param('pagemenu');
 	$cmlcalc::CGIPARAM->{page}='USERMAIN' unless param('page');	
- 	$v=&cmlcalc::calculate({key=>'USERCMSTEMPL',expr=>"p('PAGETEMPLATE')"});
+ 	$v=&cmlcalc::calculate({key=>'USERCMSTEMPL',expr=>"p($prm)"});
 }
 
 viewlog();
