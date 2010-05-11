@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.56 2010-05-11 21:21:06 vano Exp $
+# $Id: cmlcalc.pm,v 1.57 2010-05-11 21:54:31 vano Exp $
 
 BEGIN
 {
@@ -238,7 +238,7 @@ sub calculate 	{
         	});
         }   	
 
-    if ($_[0]->{csv}) {
+    if ($_[0]->{csv} && @cmlcalc::CSVROWS) {
     	$xvalue->{value}=join("\r\n",@cmlcalc::CSVROWS);
     }
     return $xvalue;	
@@ -530,6 +530,20 @@ sub splitprice {
 	return $number;
 }
 
+
+sub csv
+{
+	my ($oid)=@_;
+	return calc($oid,'p(PAGETEMPLATE)','csv');
+}
+
+sub html
+{
+	my ($oid)=@_;
+	return calc($oid,'p(PAGETEMPLATE)');
+}
+
+
 sub p	{
 	
 	my ($pkey,$oid)=@_;
@@ -791,10 +805,13 @@ sub lowlevel {
 }	
 
 sub calc {
-	my $id=$_[0];
-	my $expr=$_[1];
+	my ($id,$expr,$format)=@_;
 	my $tOBJ=$OBJID;
-	my $v=calculate({id=>$id,expr=>$expr})->{value};
+	my $v=calculate({
+		id=>$id,
+		expr=>$expr,
+		csv=>$format eq 'csv'?1:0
+	})->{value};
 	$OBJID=$tOBJ;
 	return $v;
 }	
