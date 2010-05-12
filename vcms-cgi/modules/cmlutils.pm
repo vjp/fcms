@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.19 2010-04-17 18:59:07 vano Exp $
+# $Id: cmlutils.pm,v 1.20 2010-05-12 05:24:52 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -213,7 +213,17 @@ sub email {
   	my $message=$_[0]->{message};
   	my $subject=$_[0]->{subject};	
   	my $charset=$_[0]->{charset};
-  	my $contenttype=$_[0]->{html}?'text/html':'text/plain';
+  	my $contenttype;
+  	my $att_filename;
+  	if ($_[0]->{html}) {
+  		$contenttype='text/html';
+  	} elsif ($_[0]->{csv}) {
+  		$contenttype='text/csv';
+  		$att_filename='export.csv';
+  	} else {
+  		$contenttype='text/plain';	
+  	}
+  	
   	my $lmessage=$message;
   	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf-8':'windows-1251';
   	my $echarset=$charset || $defcharset;
@@ -227,7 +237,9 @@ sub email {
 		print MAIL "To: $to\n";
 		print MAIL "From: $from\n";
 		print MAIL "Subject: $subject\n";
-		print MAIL "Content-Type: $contenttype; charset=$echarset\n\n";
+		print MAIL "Content-Type: $contenttype; charset=$echarset\n";
+		print MAIL "Content-Disposition: attachment; filename=$att_filename\n" if $att_filename;
+		print MAIL "\n";
 		print MAIL $message;
 		close(MAIL) || print "Error closing mail: $!";
 		if ($_[0]->{log}) {
