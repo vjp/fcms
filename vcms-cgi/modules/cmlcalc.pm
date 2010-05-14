@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.57 2010-05-11 21:54:31 vano Exp $
+# $Id: cmlcalc.pm,v 1.58 2010-05-14 03:26:37 vano Exp $
 
 BEGIN
 {
@@ -981,7 +981,7 @@ sub baselparser
 
 
 	my $alerttext=$CGIPARAM->{alerttext};
-	$alerttext='Значения изменены' unless $alerttext;
+	$alerttext=enc('Значения изменены') unless $alerttext;
 	alert($alerttext);
 }
 
