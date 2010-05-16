@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.63 2010-05-16 18:57:14 vano Exp $
+# $Id: cmlmain.pm,v 1.64 2010-05-16 19:16:28 vano Exp $
 
 BEGIN
 {
@@ -902,6 +902,7 @@ sub setvalue  {
 		if ($pkey eq '_KEY') {   
 			update({id=>$objid , key=>$value}) ; 
 			$sthCH->execute($objid) || die $dbh->errstr;
+			$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang) || die $dbh->errstr;
 			return 1; 
 		}	
 		if ($pkey eq '_UP') {   
@@ -1344,7 +1345,11 @@ sub addobject {
 	if ($key) { $nobj->{$key}=$obj->{$newid} }
 
 
-  setvalue({uid=>$newid,param=>'_NAME',value=>$name});
+   $sthH->execute("u$newid",'_UP',$up,'NUMBER',$LANGS[0]) || die $dbh->errstr;
+   if ($key) {
+   		$sthH->execute("u$newid",'_KEY',$key,'TEXT',$lang) || die $dbh->errstr;
+   }	
+   setvalue({uid=>$newid,param=>'_NAME',value=>$name});
 
  	return $newid;
 }
@@ -1432,7 +1437,13 @@ sub addlowobject {
 	if ($key) { $nobj->{$key}=$lobj->{$newid}  }
 	
 
-
+    $sthH->execute($newid,'_UPOBJ',$upobj,'NUMBER',$obj->{$upobj}->{lang}) || die $dbh->errstr;
+    if ($key) {
+   		$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang) || die $dbh->errstr;
+    }	
+    
+    
+    
  	setvalue({id=>$newid,param=>'_NAME',value=>$name});
  	
  	return $newid;
@@ -1475,6 +1486,9 @@ sub deleteobject
  my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute("u$id") || die $dbh->errstr;
  
  undef $ltree->{$id};
+ $sthH->execute("u$id",'_DEL',1,'NUMBER','') || die $dbh->errstr;
+ 	
+ 
 
  map
  {
@@ -1516,6 +1530,8 @@ sub deletelowobject
   		deletelowobject($_);
  	}(@{$ltree->{$upobj}->{$id}});
  	if (@dlist) {deletelowobject(\@dlist)}	
+ 	
+ 	$sthH->execute("$id",'_DEL',1,'NUMBER','') || die $dbh->errstr;
  	return 1;
 }
 
