@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.62 2010-05-05 04:41:34 vano Exp $
+# $Id: cmlmain.pm,v 1.63 2010-05-16 18:57:14 vano Exp $
 
 BEGIN
 {
@@ -933,7 +933,9 @@ sub setvalue  {
  			$sthI->execute($objid,$pkey,$value,$lobj->{$objid}->{upobj},$cl) || die $dbh->errstr;
  		}	
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
- 			$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
+ 			if ($value ne '') {
+ 				$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
+ 			}	
  		}	
  		
 
@@ -974,13 +976,13 @@ sub setvalue  {
   		}	else  {$cl=$LANGS[0]}
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
-  		$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;	
+  		if ($value ne '') {
+  			$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
+  		}		
   		$sthCH->execute("u$objid") || die $dbh->errstr;
 
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
-			#$sthUI->execute($objid,$pkey,$value,'') || die $dbh->errstr;
-  	  		#$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},undef) || die $dbh->errstr;
   			$obj->{$objid}->{vals}->{$pkey}->{value}=$value;
 		}	
   			
