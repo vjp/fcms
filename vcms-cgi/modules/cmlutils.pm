@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.20 2010-05-12 05:24:52 vano Exp $
+# $Id: cmlutils.pm,v 1.21 2010-05-17 05:07:10 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -241,7 +241,7 @@ sub email {
 		print MAIL "Content-Disposition: attachment; filename=$att_filename\n" if $att_filename;
 		print MAIL "\n";
 		print MAIL $message;
-		close(MAIL) || print "Error closing mail: $!";
+		close(MAIL) || die "Error closing mail: $!";
 		if ($_[0]->{log}) {
 			my $id=addlowobject({upobj=>&cmlcalc::id(EMAILARC),name=>scalar localtime()});
 			setvalue({id=>$id,param=>EMAILMESSAGE,value=>$lmessage});
