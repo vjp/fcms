@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.67 2010-05-17 05:15:51 vano Exp $
+# $Id: cmlmain.pm,v 1.68 2010-05-17 20:08:05 vano Exp $
 
 BEGIN
 {
@@ -50,7 +50,7 @@ BEGIN
               
               &get_sec_id &check_sec_id &get_sec_key
               
-              &add_user &check_user &del_user &activate_user &check_auth
+              &add_user &check_user &del_user &activate_user &check_auth &change_pass_user
               
               &check_session &end_session
              );
@@ -58,6 +58,13 @@ BEGIN
 
 }
 
+sub change_pass_user ($$) 
+{
+	my ($password,$objid)=@_;
+	my $sth1=$dbh->prepare("UPDATE  ${DBPREFIX}auth SET pwd=password(?), flag=flag|1  WHERE objid=?");
+	$sth1->execute($password,$objid) || die $dbh->errstr();
+	return 1;
+}	
 
 
 
