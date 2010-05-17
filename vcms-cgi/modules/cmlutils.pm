@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.21 2010-05-17 05:07:10 vano Exp $
+# $Id: cmlutils.pm,v 1.22 2010-05-17 05:18:47 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -215,6 +215,8 @@ sub email {
   	my $charset=$_[0]->{charset};
   	my $contenttype;
   	my $att_filename;
+  	die "send mail : no recepient"	if $_[0]->{to}!~/\@/;
+
   	if ($_[0]->{html}) {
   		$contenttype='text/html';
   	} elsif ($_[0]->{csv}) {
