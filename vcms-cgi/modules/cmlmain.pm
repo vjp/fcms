@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.64 2010-05-16 19:16:28 vano Exp $
+# $Id: cmlmain.pm,v 1.65 2010-05-17 03:10:23 vano Exp $
 
 BEGIN
 {
@@ -1486,7 +1486,7 @@ sub deleteobject
  my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute("u$id") || die $dbh->errstr;
  
  undef $ltree->{$id};
- $sthH->execute("u$id",'_DEL',1,'NUMBER','') || die $dbh->errstr;
+ $sthH->execute("u$id",'_DEL',"u$obj->{$id}->{up}",'TEXT','') || die $dbh->errstr;
  	
  
 
@@ -1531,7 +1531,7 @@ sub deletelowobject
  	}(@{$ltree->{$upobj}->{$id}});
  	if (@dlist) {deletelowobject(\@dlist)}	
  	
- 	$sthH->execute("$id",'_DEL',1,'NUMBER','') || die $dbh->errstr;
+ 	$sthH->execute("$id",'_DEL',"u$upobj",'TEXT','') || die $dbh->errstr;
  	return 1;
 }
 
