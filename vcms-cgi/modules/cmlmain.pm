@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.66 2010-05-17 03:31:19 vano Exp $
+# $Id: cmlmain.pm,v 1.67 2010-05-17 05:15:51 vano Exp $
 
 BEGIN
 {
@@ -93,12 +93,12 @@ sub del_user ($)
 sub check_user ($;$) 
 {
 	my ($login,$opts)=@_;
-	my $q="SELECT id FROM ${DBPREFIX}auth WHERE login=?";
+	my $q="SELECT objid FROM ${DBPREFIX}auth WHERE login=?";
 	$q.="  AND flag&1" unless $opts->{all};
 	my $sth2=$dbh->prepare($q);
 	$sth2->execute($login) || die $dbh->errstr();
-	my ($uid)=$sth2->fetchrow();
-	return $uid;
+	my ($objid)=$sth2->fetchrow();
+	return $objid;
 }	
 
 sub check_auth ($$)
