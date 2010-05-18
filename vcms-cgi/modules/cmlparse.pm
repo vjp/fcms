@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.73 2010-05-11 21:21:17 vano Exp $
+# $Id: cmlparse.pm,v 1.74 2010-05-18 20:27:53 vano Exp $
 
 BEGIN
 {
@@ -1942,7 +1942,7 @@ sub tag_inputtext {
 	my $mode='input';
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm)      {	
- 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea', $rows=20, $cols=75}
+ 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea', $rows=30, $cols=100}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}
 	}
   	if ($pl->{prmexpr})      { 
