@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.74 2010-05-18 20:27:53 vano Exp $
+# $Id: cmlparse.pm,v 1.75 2010-05-18 20:35:50 vano Exp $
 
 BEGIN
 {
@@ -1404,9 +1404,9 @@ sub tag_video 	{
 
  	return qq(	
                 <script type="text/javascript">
-		swfobject.embedSWF("/swf/fp.swf?video=$src&image=$psrc", "playerDiv", "$width", "$height", "8.0.0", "/swf/expressInstall.swf");
+		swfobject.embedSWF("/swf/fp.swf?video=$src&image=$psrc", "playerDiv_$v->{value}", "$width", "$height", "8.0.0", "/swf/expressInstall.swf");
 		</script>		
- 		<div id="playerDiv">
+ 		<div id="playerDiv_$v->{value}">
 			<h1>Для проигрывания роликов необходим Flash Player версии 8 или выше</h1>
 			<p><a target='_blank' href="http://www.adobe.com/go/getflashplayer"><img border='0' src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Получить Adobe Flash player" /></a></p>
 		</div>
