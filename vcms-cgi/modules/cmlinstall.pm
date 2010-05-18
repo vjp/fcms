@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.96 2010-05-18 19:53:18 vano Exp $
+# $Id: cmlinstall.pm,v 1.97 2010-05-18 20:28:14 vano Exp $
 
 BEGIN
 {
@@ -593,7 +593,9 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
+
 
 <cml:include key='MCEINIT'/>
 <cml:include key='INITHINTS'/>
