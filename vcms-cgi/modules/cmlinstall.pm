@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.95 2010-05-05 05:33:46 vano Exp $
+# $Id: cmlinstall.pm,v 1.96 2010-05-18 19:53:18 vano Exp $
 
 BEGIN
 {
@@ -650,7 +650,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         editor_selector : "mceEditor",
         convert_urls : false,
         theme : "advanced", 
-        theme_advanced_styles : "Заголовок 1=mcheader1;Заголовок 2=mcheader2;Заголовок 3=mcheader3", 
+        theme_advanced_styles : "Без рамки=imlink;Без подчеркивания=noundlink", 
         theme_advanced_disable : "image", 
         plugins : "paste,fullscreen",
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,fontsizeselect,|,forecolor,backcolor,|,sub,sup",
