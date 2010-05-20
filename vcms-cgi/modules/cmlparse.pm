@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.75 2010-05-18 20:35:50 vano Exp $
+# $Id: cmlparse.pm,v 1.76 2010-05-20 20:42:43 vano Exp $
 
 BEGIN
 {
@@ -1049,7 +1049,7 @@ sub tag_a	{
 		'extraprm','adminextraprm',
 		'param','prm','expr','id',
 		'ifprm','ifparam','ifexpr',
-		
+		'blank',
 	]);
 	
 	my $ql;
@@ -1131,7 +1131,8 @@ sub tag_a	{
   		if ($mode eq 'openwindow') {
   			$bstr=qq(<a href="javascript:openwindow('$ql')" $param>);
   		}	else {
- 			$bstr=qq(<a href='$ql' $param>);
+  			my $blstr=$pl->{'blank'} && $pl->{'blank'} ne 'NULL'?"target='_blank'":'';
+ 			$bstr=qq(<a href='$ql' $blstr $param>);
  		}
 	}	
  	return $bstr.cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}).$estr;	
