@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.25 2010-05-01 13:51:50 vano Exp $
+# $Id: cmlsrv.pl,v 1.26 2010-05-21 18:39:51 vano Exp $
 
 use lib "../modules/";
 
@@ -569,7 +569,7 @@ sub viewtree
     print "<nobr>$sep";
     unless ($isupper) {print "<a href='?action=delete&id=$_' class=ldel>(X)</a>"}
     print "<a href='?action=add&id=$_' class=ladd target=mainbody>(+)</a>";
-    unless ($isupper) {print "<a href='#' onClick='var target=prompt(\"Скопировать в\",\"\");location.href=\"?action=copy&id=u$_&to=\"+target' class=ladd>(C)</a>"}
+    unless ($isupper) {print enc("<a href='#' onClick='var target=prompt(\"Скопировать в\",\"\");location.href=\"?action=copy&id=u$_&to=\"+target' class=ladd>(C)</a>")}
     print "<a href='?action=editform&id=$_' class=lmenu target=mainbody>($_)$name</a><br></nobr>";
     viewtree($_,$level+1);
     
