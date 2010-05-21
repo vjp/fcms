@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.68 2010-05-17 20:08:05 vano Exp $
+# $Id: cmlmain.pm,v 1.69 2010-05-21 18:50:14 vano Exp $
 
 BEGIN
 {
@@ -199,14 +199,14 @@ sub returnobject {
 sub copyvals {
 	my $from=$_[0]->{from};
 	my $to=$_[0]->{to};
-	my $sthS=$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,upobj,value) SELECT $to->{ind},pkey,upobj,value FROM vls WHERE objid=? AND pkey!='_NAME'");
+	my $sthS=$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,upobj,value) SELECT $to->{ind},pkey,upobj,value FROM ${DBPREFIX}vls WHERE objid=? AND pkey!='_NAME'");
 	$sthS->execute($from->{ind}) || die $dbh->errstr;
 }	
 	
 sub copyuvals {
 	my $from=$_[0]->{from};
 	my $to=$_[0]->{to};
-	my $sthS=$dbh->prepare("REPLACE ${DBPREFIX}uvls (objid,pkey,value) SELECT $to->{ind},pkey,value FROM uvls WHERE objid=? AND pkey!='_NAME'");
+	my $sthS=$dbh->prepare("REPLACE ${DBPREFIX}uvls (objid,pkey,value) SELECT $to->{ind},pkey,value FROM ${DBPREFIX}uvls WHERE objid=? AND pkey!='_NAME'");
 	$sthS->execute($from->{ind}) || die $dbh->errstr;
 }	
 
