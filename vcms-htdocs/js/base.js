@@ -56,6 +56,22 @@ function execute(func,data,callback) {
 }
 
 
+function lexecute(func,objid,data,callback) {
+	new Ajax.Request('/cgi-bin/ajax-json.pl', {
+		method:'post',	
+		parameters: {
+			lfunc: func,
+			objid:objid,
+			data: Object.toJSON(data)
+		},
+		onSuccess: function(transport) {
+			var json = transport.responseText.evalJSON();
+			callback(json)
+		}
+	});
+}
+
+
 
 function ajax_call(func,data,callback) {
 		new Ajax.Request('ajax-json.pl', {
