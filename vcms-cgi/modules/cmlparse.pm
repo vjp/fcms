@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.76 2010-05-20 20:42:43 vano Exp $
+# $Id: cmlparse.pm,v 1.77 2010-05-22 20:56:58 vano Exp $
 
 BEGIN
 {
@@ -1926,6 +1926,7 @@ sub tag_inputtext {
   	my $pl=fetchparam($param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
+  		'elementid',
   	]);
   
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
@@ -1986,15 +1987,16 @@ sub tag_inputtext {
   	if ($pl->{type}) {
   		$typestr="type='$pl->{type}"; 
   		$mode='input';
-  	}	
+  	}
+  	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":'';	
 	if ($mode eq 'input') {
 		 my $sizestr;
 		 if ($cols) {$sizestr="size='$cols'"}
-		 return "<input value='$value' $param $sizestr name='$name' $typestr>";
+		 return "<input value='$value' $param $sizestr name='$name' $typestr $tidstr>";
 	} elsif ($mode eq 'textarea') {
 		my $cls=$cmlmain::prm->{$prm}->{extra}->{visual}?'class="mceEditor"':'';
-	    	my $ev=escapeHTML($value);
-	    	my $tidstr=$pl->{textareaid}?"id='$pl->{textareaid}'":'';
+	    my $ev=escapeHTML($value);
+	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
 		return "<textarea rows='$rows' cols='$cols' $param name='$name' $tidstr $cls>$ev</textarea>";
 	}	
 }	
