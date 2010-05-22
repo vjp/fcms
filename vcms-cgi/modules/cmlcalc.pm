@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.59 2010-05-22 19:36:45 vano Exp $
+# $Id: cmlcalc.pm,v 1.60 2010-05-22 21:07:50 vano Exp $
 
 BEGIN
 {
@@ -849,6 +849,20 @@ sub max {
 	}
 	return $max;	
 }	
+
+sub sum {
+	my @list=split(/\s*;\s*/,$_[0]);
+	my $expr=$_[1];
+
+	my $sum=0;
+	for (@list) {
+		my $v=&calculate({id=>$_,expr=>$expr})->{value};
+		$sum+=$v;
+	}
+	return $sum;	
+}	
+
+
 
 sub maxobj {
 	my @list=split(/\s*;\s*/,$_[0]);
