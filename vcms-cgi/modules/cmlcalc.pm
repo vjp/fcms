@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.58 2010-05-14 03:26:37 vano Exp $
+# $Id: cmlcalc.pm,v 1.59 2010-05-22 19:36:45 vano Exp $
 
 BEGIN
 {
@@ -248,32 +248,31 @@ sub calculate 	{
 
 sub execute 	{
 
- 	my $method;
-  	my @treeid;
- 	undef $OBJID;	
- 	my $low;
+ 		my $method;
+  		my @treeid;
+ 		undef $OBJID;	
+ 		my $low;
  	  	
- 	if (ref $_[0] eq 'HASH')   {
+ 		if (ref $_[0] eq 'HASH')   {
 
-    if ($_[0]->{method}) {
-			$method=$_[0]->{method};
-		} elsif ($_[0]->{lmethod}) 	{
-			$method=$_[0]->{lmethod};
-			$low=1;
-		}	
-		my $indx;
- 		if    ($_[0]->{tabpkey})  {
- 			$indx=$prm->{$_[0]->{tabpkey}}->{extra}->{cell};
- 			@treeid=&cmlmain::treelist($indx);
- 			$indx=$_[0]->{tabkey};
+    		if ($_[0]->{method}) {
+				$method=$_[0]->{method};
+			} elsif ($_[0]->{lmethod}) 	{
+				$method=$_[0]->{lmethod};
+				$low=1;
+			}	
+			my $indx;
+ 			if    ($_[0]->{tabpkey})  {
+ 				$indx=$prm->{$_[0]->{tabpkey}}->{extra}->{cell};
+ 				@treeid=&cmlmain::treelist($indx);
+ 				$indx=$_[0]->{tabkey};
  			
- 			$id=$_[0]->{id};
- 			$pkey=$_[0]->{tabpkey};
- 			&cmlmain::checkload({id=>$id,pkey=>$pkey,tabkey=>$indx});
- 			$OBJID=$cmlmain::tobj->{$id}->{$pkey}->{vals}->{$indx};
- 		}	
- 		elsif ($_[0]->{id})  {
-  			if ($_[0]->{id}=~s/^t_(.+)$/$1/)  {
+ 				$id=$_[0]->{id};
+ 				$pkey=$_[0]->{tabpkey};
+ 				&cmlmain::checkload({id=>$id,pkey=>$pkey,tabkey=>$indx});
+ 				$OBJID=$cmlmain::tobj->{$id}->{$pkey}->{vals}->{$indx};
+ 			} elsif ($_[0]->{id})  {
+  				if ($_[0]->{id}=~s/^t_(.+)$/$1/)  {
     				(my $tid,my $tpkey,my $tabkey)=($indx=~/^(.+?)_(.+?)_(.+)$/);
     				$indx=$prm->{$tpkey}->{extra}->{cell};
     				@treeid=&cmlmain::treelist($indx);
@@ -281,71 +280,68 @@ sub execute 	{
     				$indx=$_[0]->{id};
     				&cmlmain::checkload({id=>$tid,pkey=>$tpkey,tabkey=>$tabkey});
     				$OBJID=$cmlmain::tobj->{$tid}->{$tpkey}->{vals}->{$tabkey};
-  			}
-  			elsif ($_[0]->{id}=~s/^u(\d+)$/$1/) {
+  				}	elsif ($_[0]->{id}=~s/^u(\d+)$/$1/) {
     				$indx=$_[0]->{id};
     				@treeid=&cmlmain::treelist($indx);
     				$OBJID=$cmlmain::obj->{$indx};    				
-  			}
-  			else  {		
-   				&cmlmain::checkload({id=>$_[0]->{id}});
-   				if ($cmlmain::lobj->{$_[0]->{id}}->{template}) {
-   					push(@treeid,&cmlmain::treelist($cmlmain::lobj->{$_[0]->{id}}->{template}))
-   				}
-   				push (@treeid,&cmlmain::treelist($cmlmain::lobj->{$_[0]->{id}}->{upobj}));
-   				$OBJID=$cmlmain::lobj->{$_[0]->{id}};   
-   				$low=1;				
-  			} 
+  				}	else  {		
+   					&cmlmain::checkload({id=>$_[0]->{id}});
+   					if ($cmlmain::lobj->{$_[0]->{id}}->{template}) {
+   						push(@treeid,&cmlmain::treelist($cmlmain::lobj->{$_[0]->{id}}->{template}))
+   					}
+   					push (@treeid,&cmlmain::treelist($cmlmain::lobj->{$_[0]->{id}}->{upobj}));
+   					$OBJID=$cmlmain::lobj->{$_[0]->{id}};   
+   					$low=1;				
+  				} 
   			
+ 			}	elsif ($_[0]->{key}) {
+  				&cmlmain::checkload({key=>$_[0]->{key}});
+  				return execute({method=>$method,id=>$cmlmain::nobj->{$_[0]->{key}}->{id}});
+ 			}
  		}
- 		elsif ($_[0]->{key}) {
-  			&cmlmain::checkload({key=>$_[0]->{key}});
-  			return execute({method=>$method,id=>$cmlmain::nobj->{$_[0]->{key}}->{id}});
- 		}
- 	}
- 	my $res=0;
+ 		my $res=0;
  	
-  	if ($low) {
-  		$METHODID=$cmlmain::lmethod->{$method};
-  		#	unless ($METHODID) {$METHODID=$cmlmain::method->{$method}}
-	}	else {
-  		$METHODID=$cmlmain::method->{$method};
-  		#	unless ($METHODID) {$METHODID=$cmlmain::lmethod->{$method}}
-  	}	
- 	my $ev=eval "use cmlmain; $METHODID->{script}";
- 	unless($METHODID->{script}) {
+  		if ($low) {
+  			$METHODID=$cmlmain::lmethod->{$method};
+  			#	unless ($METHODID) {$METHODID=$cmlmain::method->{$method}}
+		}	else {
+  			$METHODID=$cmlmain::method->{$method};
+	  		#	unless ($METHODID) {$METHODID=$cmlmain::lmethod->{$method}}
+  		}	
+ 		my $ev=eval "use cmlmain; $METHODID->{script}";
+ 		unless($METHODID->{script}) {
  		
- 		$res=enc("Метод $method не найден");
- 		if (
- 			$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
- 			$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 
- 		) {
- 			return $res;	
+ 			$res=enc("Метод $method не найден");
+ 			if (
+ 				$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
+ 				$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 
+ 			) {
+ 				return $res;	
+ 			}
+			&cmlmain::alert($res);
  		}
-		&cmlmain::alert($res);
- 	}
- 	if ($@) {
- 		if (
- 			$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
- 			$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX'
- 		) {
- 			$res=$@;
+ 		if ($@) {
+ 			if (
+ 				$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
+ 				$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX'
+ 			) {
+ 				$res=$@;
+ 			} else {
+ 				&cmlmain::alert(enc("Ошибка выполнения метода $method : $@"));
+ 			}	 
  		} else {
- 			&cmlmain::alert(enc("Ошибка выполнения метода $method : $@"));
- 		}	 
- 	} else {
- 		$res=$ev
- 	}
+ 			$res=$ev
+ 		}
 
  	
  	
- 	#for (@treeid) {
- 	#	if ($cmlmain::obj->{$_}->{method}->{$method}) {
- 	#		eval "use cmlmain; $cmlmain::obj->{$_}->{method}->{$method}->{script}";
- 	#		if ($@) {print "Error in expr $_[0]->{expr}:$@"} else {$res=1}
- 	#		last;
- 	#	}	
- 	#}
+ 		#for (@treeid) {
+	 	#	if ($cmlmain::obj->{$_}->{method}->{$method}) {
+ 		#		eval "use cmlmain; $cmlmain::obj->{$_}->{method}->{$method}->{script}";
+	 	#		if ($@) {print "Error in expr $_[0]->{expr}:$@"} else {$res=1}
+ 		#		last;
+	 	#	}	
+ 		#}
         return $res;
 }
 
