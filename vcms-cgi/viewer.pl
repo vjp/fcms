@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.14 2010-05-01 13:50:59 vano Exp $
+# $Id: viewer.pl,v 1.15 2010-05-23 12:52:00 vano Exp $
 
 use lib "./modules/";
 
@@ -204,6 +204,7 @@ if (!$opensite && !cookie('dev')) {
 my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time());
 print header(
+	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
 	-type=>'text/html',
 	-cookie=>\@cookies, 
 	-charset=>$GLOBAL->{CODEPAGE},
