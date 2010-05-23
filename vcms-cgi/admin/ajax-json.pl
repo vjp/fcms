@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.5 2010-05-05 05:29:18 vano Exp $
+# $Id: ajax-json.pl,v 1.6 2010-05-23 19:29:59 vano Exp $
 
 use strict;
 no strict "refs";
@@ -34,6 +34,7 @@ print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 my $data=param('data');
 my $func=param('func');
 my $json = new JSON::PP;
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);

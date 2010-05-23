@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.13 2010-05-11 21:20:53 vano Exp $
+# $Id: admin.pl,v 1.14 2010-05-23 19:29:49 vano Exp $
 
 use lib "../modules/";
 
@@ -33,6 +33,7 @@ $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('BENCHMARK',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{dev}=cookie('dev');
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 

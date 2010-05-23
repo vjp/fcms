@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.9 2010-05-22 19:49:53 vano Exp $
+# $Id: ajax-json.pl,v 1.10 2010-05-23 19:30:35 vano Exp $
 
 use strict;
 use lib "./modules/";
@@ -22,6 +22,7 @@ my $func=param('func');
 check_session();
 $cmlcalc::CGIPARAM=decode_json($data);
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 my $result;
 if (param('func')) {
 	$result=execute({method=>param('func')});

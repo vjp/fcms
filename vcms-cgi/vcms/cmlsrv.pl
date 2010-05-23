@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.27 2010-05-21 18:50:29 vano Exp $
+# $Id: cmlsrv.pl,v 1.28 2010-05-23 19:30:20 vano Exp $
 
 use lib "../modules/";
 
@@ -59,6 +59,7 @@ print header(-type=>'text/html', -charset=>$GLOBAL->{CODEPAGE});
 
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
 $cmlcalc::ENV->{dev}=cookie('dev');
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 if ($action) {
 	if ($action eq 'installstruct') {

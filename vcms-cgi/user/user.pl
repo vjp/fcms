@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.5 2010-05-11 03:11:44 vano Exp $
+# $Id: user.pl,v 1.6 2010-05-23 19:30:10 vano Exp $
 
 use lib "../modules/";
 
@@ -24,6 +24,7 @@ $cmlcalc::CGIPARAM->{_MODE}='USER';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p(USERNOFRAMES,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
