@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.77 2010-05-22 20:56:58 vano Exp $
+# $Id: cmlparse.pm,v 1.78 2010-05-23 12:16:41 vano Exp $
 
 BEGIN
 {
@@ -851,7 +851,12 @@ sub tag_use
 	my $matrix;
 	
 	
-	my $pl=fetchparam($param,['id','idcgi','namecgi','uname','key','param','prm','paramtab','idexpr']);
+	my $pl=fetchparam($param,[
+		'id','idcgi','namecgi',
+		'uname','key','param','prm',
+		'paramtab','idexpr',
+		'needauthprm'
+	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
 		$id=$pl->{id};     
@@ -913,7 +918,19 @@ sub tag_use
 	$inner->{objid}=$id;
 	$inner->{matrix}=$matrix;
 	$inner->{parent}=$id;
-        return cmlparser({data=>$_[0]->{data},inner=>$inner});
+	
+	if ($pl->{'needauthprm'}) {
+		if (!$cmlcalc::ENV->{'USERID'}) {
+			return cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner});
+		} else {
+			my $uid=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{'needauthprm'})"})->{value};
+			if ($uid ne $cmlcalc::ENV->{'USERID'}) {
+				return cmlparser({data=>"<cml:include key='FORBIDDEN'/>",inner=>$inner});
+			}
+		}	
+	}
+	
+    return cmlparser({data=>$_[0]->{data},inner=>$inner});
 }
 
 
