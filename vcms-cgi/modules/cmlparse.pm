@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.78 2010-05-23 12:16:41 vano Exp $
+# $Id: cmlparse.pm,v 1.79 2010-05-23 12:51:34 vano Exp $
 
 BEGIN
 {
@@ -855,7 +855,8 @@ sub tag_use
 		'id','idcgi','namecgi',
 		'uname','key','param','prm',
 		'paramtab','idexpr',
-		'needauthprm'
+		'needauthprm',
+		'validupkey',
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -928,6 +929,14 @@ sub tag_use
 				return cmlparser({data=>"<cml:include key='FORBIDDEN'/>",inner=>$inner});
 			}
 		}	
+	}
+	
+	if ($pl->{'validupkey'}) {
+		if (&cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'}) {
+			$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+			$cmlcalc::STOPCACHE=1;
+			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
+		}
 	}
 	
     return cmlparser({data=>$_[0]->{data},inner=>$inner});
