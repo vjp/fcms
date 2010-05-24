@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.15 2010-05-23 12:52:00 vano Exp $
+# $Id: viewer.pl,v 1.16 2010-05-24 20:34:54 vano Exp $
 
 use lib "./modules/";
 
@@ -18,6 +18,7 @@ my $st=time;
 start('.');
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 
 check_session();
@@ -48,10 +49,19 @@ shift @pi;
 my %pathinfo=@pi;
 $cmlcalc::CGIPARAM->{pathinfo}=$pathinfostr;
 
+my $xmlmode;
+
 unless ($pathinfo{view}) {
 	 my $firstparam=shift @pi;
-	 if ($firstparam=~/^__(.+)$/) {$cmlcalc::CGIPARAM->{tview}=$1}
-	 elsif ($firstparam=~/^_(.+)$/) {$cmlcalc::CGIPARAM->{view}=$1}
+	 if ($firstparam=~/^(.+)\.xml$/i) {
+	 	$xmlmode=1;
+	 	$firstparam=$1;
+	 } 
+	 if ($firstparam=~/^__(.+)$/) {
+	 	$cmlcalc::CGIPARAM->{tview}=$1
+	 } elsif ($firstparam=~/^_(.+)$/) {
+	 	$cmlcalc::CGIPARAM->{view}=$1
+	 }
 	 %pathinfo=@pi;
 }	
 for (my $i=0;$i<=$#pi;$i++) {
@@ -205,7 +215,7 @@ my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time());
 print header(
 	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
-	-type=>'text/html',
+	-type=>$xmlmode?'text/xml':'text/html',
 	-cookie=>\@cookies, 
 	-charset=>$GLOBAL->{CODEPAGE},
 	-last_modified=>$lmtime,
