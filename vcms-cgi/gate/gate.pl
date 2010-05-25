@@ -1,12 +1,12 @@
 #!/usr/bin/perl -w
 
-# $Id: gate.pl,v 1.1 2010-05-25 04:26:31 vano Exp $
+# $Id: gate.pl,v 1.2 2010-05-25 20:12:18 vano Exp $
 
 use lib "../modules/";
 
 use cmlmain;
 
-use CGI  qw(param url header);
+use CGI  qw(param url header path_info);
 use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
@@ -29,22 +29,27 @@ message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK};
 
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
 
+my $pathinfostr=path_info();
+my @pi=split('/',$pathinfostr);
+shift @pi;
+my %pathinfo=@pi;
+$cmlcalc::CGIPARAM->{pathinfo}=$pathinfostr;
 
 
-my $qs=url(-relative=>1,-path_info=>1,-query=>1,);
-
-my $xs= $qs;
-
-$qs=~s/;/&/g;
-$qs =~ s/\&parsemethod=.+$//;
-$cmlcalc::QUERYSTRING=$qs;
-
+my $method_name;
+my $firstparam=shift @pi;
+if ($firstparam=~/^_(.+)$/) {
+	 	$method_name=$1
+}
 
 print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 
-my $body;
-if ($body) {print $body}
-else       {errorpage()}
+
+if ($method_name) {
+	print &cmlcalc::execute({method=>$method_name,key=>'GATE'});
+}else       {
+	errorpage()
+}
 
 
 
