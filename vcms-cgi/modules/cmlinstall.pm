@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.97 2010-05-18 20:28:14 vano Exp $
+# $Id: cmlinstall.pm,v 1.98 2010-05-25 04:38:25 vano Exp $
 
 BEGIN
 {
@@ -26,6 +26,7 @@ addobject({convertname=>1,forced=>1,up=>0,key=>'TEMPLATES',name=>'Шаблоны'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'RESTRICTIONS',name=>'Ограничения доступа'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'GATE',name=>'Внешний интерфейс'});
 
 
 
