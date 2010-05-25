@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.28 2010-05-23 19:30:20 vano Exp $
+# $Id: cmlsrv.pl,v 1.29 2010-05-25 21:23:47 vano Exp $
 
 use lib "../modules/";
 
@@ -19,11 +19,12 @@ use Time::HiRes qw (time);
 use vars qw(%aliases);
 
 
-#open(STDERR, ">/dev/null");
+
 $aliases{'root'}='../.htaccess';
 $aliases{'vcms'}='.htaccess';
 $aliases{'admin'}='../admin/.htaccess';		
 $aliases{'user'}='../user/.htaccess';
+$aliases{'gate'}='../gate/.htaccess';
 
 
 start('..');
@@ -160,22 +161,7 @@ if ($action) {
      			$action='viewusers';	
      		}
      	}
-     	
-     	#if ($action eq 'rewritehtadmin') {unlink '../admin/.htaccess'; $action='createhtadmin'}
-     	#if ($action eq 'createhtadmin') {createhtaccess('../admin/.htaccess'); alert('.htaccess создан');$action='viewusers'}
-     	
-     	#if ($action eq 'rewritehtvcms') {unlink '.htaccess'; $action='createhtvcms'}
-     	#if ($action eq 'createhtvcms') {createhtaccess('.htaccess'); alert('.htaccess создан'); $action='viewusers'}
 
-		#if ($action eq 'rewritehtuser') {unlink '../user/.htaccess'; $action='createhtuser'}
-     	#if ($action eq 'createhtuser') {createhtaccess('../user/.htaccess'); alert('.htaccess создан'); $action='viewusers'}
-
-     	#if ($action eq 'rewritehtroot') {unlink '../.htaccess'; $action='createhtroot'}
-     	#if ($action eq 'createhtroot') {createhtaccess('../.htaccess'); alert('.htaccess создан');$action='viewusers'}
-
-
-     	
-     	
      	if ($action eq 'setmemo'   )  { 
      		my $objid=param('objid');
      		my $objuid=param('objuid');
