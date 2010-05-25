@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.6 2010-03-19 06:48:27 vano Exp $
+# $Id: install.pl,v 1.7 2010-05-25 04:28:46 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -45,11 +45,15 @@ if (param('install')) {
 				print "...Распаковка удачная",br();
 				system "rm cgi.tar.gz";
 				chmod (0755, 'viewer.pl');
+				chmod (0755, 'ajax-json.pl');
 				chmod (0755, 'admin/admin.pl');
+				chmod (0755, 'admin/ajax-json.pl');
 				chmod (0755, 'user/user.pl');
+				chmod (0755, 'gate/gate.pl');
 				chmod (0755, 'vcms/autorun.pl');
 				chmod (0755, 'vcms/cmlsrv.pl');
 				chmod (0755, 'vcms/ajax.pl');
+				chmod (0755, 'vcms/ajax-json.pl');
 				
 			}
 		}
