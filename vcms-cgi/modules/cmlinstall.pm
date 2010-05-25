@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.98 2010-05-25 04:38:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.99 2010-05-25 21:39:12 vano Exp $
 
 BEGIN
 {
@@ -209,6 +209,10 @@ setvalue({key=>'SEARCHBLOCK',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 </form>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'NOTFOUND',name=>'Страница не найдена'});
+setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+Страница не найдена
+)});
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
