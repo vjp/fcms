@@ -10,6 +10,8 @@ RewriteRule ^(_.*)$ /cgi-bin/viewer.pl/$1
 RewriteRule ^$ /cgi-bin/viewer.pl
 RewriteRule ^admin/?$ /cgi-bin/admin/admin.pl
 RewriteRule ^user/?$ /cgi-bin/user/user.pl
+RewriteRule ^gate/?$ /cgi-bin/gate/gate.pl
+RewriteRule ^gate/(_.*)$ /cgi-bin/gate/gate.pl/$1
 RewriteRule ^vcms/?$ /cgi-bin/vcms/cmlsrv.pl
 
 
