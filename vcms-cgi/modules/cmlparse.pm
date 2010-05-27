@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.79 2010-05-23 12:51:34 vano Exp $
+# $Id: cmlparse.pm,v 1.80 2010-05-27 05:03:56 vano Exp $
 
 BEGIN
 {
@@ -856,7 +856,7 @@ sub tag_use
 		'uname','key','param','prm',
 		'paramtab','idexpr',
 		'needauthprm',
-		'validupkey',
+		'validupkey','validupexpr'
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -931,14 +931,18 @@ sub tag_use
 		}	
 	}
 	
+	my $e404;
 	if ($pl->{'validupkey'}) {
-		if (&cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'}) {
-			$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
-			$cmlcalc::STOPCACHE=1;
-			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
-		}
-	}
-	
+		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'};
+	} 	elsif ($pl->{'validupexpr'}) {
+		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
+	}	 
+
+	if ($e404) {
+		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+		$cmlcalc::STOPCACHE=1;
+		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
+	}	
     return cmlparser({data=>$_[0]->{data},inner=>$inner});
 }
 
