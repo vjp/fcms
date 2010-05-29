@@ -1,6 +1,6 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.22 2010-05-17 05:18:47 vano Exp $
+# $Id: cmlutils.pm,v 1.23 2010-05-29 19:41:14 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -11,10 +11,10 @@ BEGIN	{
  	eval {require Time::HiRes };
  	use Encode;
  	use	URI::Escape;
-    use MIME::Base64;
+    
 
  	@ISA = 'Exporter';
- 	@EXPORT = qw( &getpage &currency &xmlparse &email &yandexsearch &sitesearch &yandextic &googlepr &whois );
+ 	@EXPORT = qw( &getpage &currency &xmlparse &yandexsearch &sitesearch &yandextic &googlepr &whois );
 }
 
 sub whois {
@@ -207,56 +207,6 @@ sub xmlparse {
 	return $rf;
 }	
 
-sub email {
-  	my $to=$_[0]->{to};
-  	my $from=$_[0]->{from};
-  	my $message=$_[0]->{message};
-  	my $subject=$_[0]->{subject};	
-  	my $charset=$_[0]->{charset};
-  	my $contenttype;
-  	my $att_filename;
-  	die "send mail : no recepient"	if $_[0]->{to}!~/\@/;
-
-  	if ($_[0]->{html}) {
-  		$contenttype='text/html';
-  	} elsif ($_[0]->{csv}) {
-  		$contenttype='text/csv';
-  		$att_filename='export.csv';
-  	} else {
-  		$contenttype='text/plain';	
-  	}
-  	
-  	my $lmessage=$message;
-  	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf-8':'windows-1251';
-  	my $echarset=$charset || $defcharset;
-	$subject = '=?'.$echarset.'?b?'.encode_base64($subject,'').'?=';
-  	Encode::from_to( $message, $defcharset, $charset) if $charset;
-  
-	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
-		print "no sendmail $!";
-		return undef;
-	}	else{
-		print MAIL "To: $to\n";
-		print MAIL "From: $from\n";
-		print MAIL "Subject: $subject\n";
-		print MAIL "Content-Type: $contenttype; charset=$echarset\n";
-		print MAIL "Content-Disposition: attachment; filename=$att_filename\n" if $att_filename;
-		print MAIL "\n";
-		print MAIL $message;
-		close(MAIL) || die "Error closing mail: $!";
-		if ($_[0]->{log}) {
-			my $id=addlowobject({upobj=>&cmlcalc::id(EMAILARC),name=>scalar localtime()});
-			setvalue({id=>$id,param=>EMAILMESSAGE,value=>$lmessage});
-			setvalue({id=>$id,param=>EMAILSUBJECT,value=>$subject});
-			setvalue({id=>$id,param=>EMAILADDRESS,value=>$to});
-			setvalue({id=>$id,param=>EMAILFROM,value=>$from});
-			setvalue({id=>$id,param=>EMAILDATE,value=>&cmlcalc::now()});
-		}
-		
-		return 1;
-	}
-	
-	}	
 
 
 sub getpage {
