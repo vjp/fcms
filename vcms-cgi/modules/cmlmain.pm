@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.70 2010-05-29 19:41:39 vano Exp $
+# $Id: cmlmain.pm,v 1.71 2010-05-29 20:18:06 vano Exp $
 
 BEGIN
 {
@@ -2402,12 +2402,16 @@ sub fsindexcreate {
 sub email {
   	my $to=$_[0]->{to};
   	my $charset=$_[0]->{charset};
-  	my $objid=$_[0]->{objid};
+  	my $lid=$_[0]->{letterid};
   	
-  	my $from	=$objid?&cmlcalc::p(LETTERFROM,$objid):$_[0]->{from};
-  	my $message	=$objid?&cmlcalc::p(LETTERTEXT,$objid):$_[0]->{message};
-  	my $subject	=$objid?&cmlcalc::p(LETTERSUBJECT,$objid):$_[0]->{subject};	
-  	my $html	=$objid?&cmlcalc::p(LETTERHTML,$objid):$_[0]->{html};
+  	my $from	=$lid?&cmlcalc::p(LETTERFROM,$lid):$_[0]->{from};
+  	my $message	=$lid?&cmlcalc::p(LETTERTEXT,$lid):$_[0]->{message};
+  	my $subject	=$lid?&cmlcalc::p(LETTERSUBJECT,$lid):$_[0]->{subject};	
+  	my $html	=$lid?&cmlcalc::p(LETTERHTML,$lid):$_[0]->{html};
+  	
+  	if ($_[0]->{objid}) {
+  		$message=&cmlparse::cmlparser({data=>$message,objid=>$_[0]->{objid}});
+  	}
   	
   	my $contenttype;
   	my $att_filename;
@@ -2449,7 +2453,7 @@ sub email {
 			setvalue({id=>$id,param=>EMAILDATE,value=>&cmlcalc::now()});
 		}
 		
-		return 1;
+		return $message;
 	}
 	
 }	
