@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.99 2010-05-25 21:39:12 vano Exp $
+# $Id: cmlinstall.pm,v 1.100 2010-05-29 20:33:51 vano Exp $
 
 BEGIN
 {
@@ -49,10 +49,19 @@ addprm({convertname=>1,objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK
 setprmextra({pkey=>'SECLINK',extra=>'formula',value=>'lowlist(id(SECTIONS))'});
 setprmextra({pkey=>'SECLINK',extra=>'single',value=>'y'});
 
+
 addobject({convertname=>1,upkey=>'CONTENT',key=>'ARTICLES',name=>'Статьи'});
 addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',key=>'ARTICLETEXT',evl=>'n'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
+
+
+addobject({convertname=>1,upkey=>'CONTENT',key=>'LETTERS',name=>'Письма'});
+addprm({convertname=>1,objkey=>'LETTERS',name=>'Текст письма',type=>'LONGTEXT',key=>'LETTERTEXT',evl=>'n'});
+addprm({convertname=>1,objkey=>'LETTERS',name=>'Заголовок',type=>'TEXT',key=>'LETTERSUBJECT',evl=>'n'});
+addprm({convertname=>1,objkey=>'LETTERS',name=>'Отправитель',type=>'TEXT',key=>'LETTERFROM',evl=>'n'});
+addprm({convertname=>1,objkey=>'LETTERS',name=>'HTML',type=>'FLAG',key=>'LETTERHTML',evl=>'n'});
+
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'GALLERY',name=>'Фотогалерея'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
