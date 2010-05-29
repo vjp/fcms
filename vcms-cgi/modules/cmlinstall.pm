@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.100 2010-05-29 20:33:51 vano Exp $
+# $Id: cmlinstall.pm,v 1.101 2010-05-29 20:37:19 vano Exp $
 
 BEGIN
 {
@@ -390,6 +390,29 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
 </table>
 </cml:use>
 )});
+
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'EDIT_LETTERS', name=>'Редактирование письма'});
+setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
+<cml:use id='_prm:id_'>
+  <cml:form parser='BASELPARSER'>
+      <table>
+          <tr><td>Наименование: </td><td><cml:inputtext param='_NAME' size='100'/></td></tr>
+          <tr><td>Ключ: </td><td><cml:inputtext param='_KEY'/></td></tr>
+          <tr><td>Заголовок: </td><td><cml:inputtext param='LETTERSUBJECT'/></td></tr>
+          <tr><td>Отправитель: </td><td><cml:inputtext param='LETTERFROM'/></td></tr>
+          <tr><td>HTML: </td><td><cml:inputflag param='LETTERHTML'/></td></tr>
+          <tr><td>Шаблон текста письма: </td><td><cml:inputtext param='LETTERTEXT'/></td></tr>
+          <tr><td colspan=2><cml:changebutton/></td></tr>
+      </table>
+  </cml:form>
+  <hr/>
+  Отображение текста письма
+  <hr/>
+  <cml:text param='LETTERTEXT'/>
+  <hr/>
+</cml:use>
+)});
+
 
 
 
