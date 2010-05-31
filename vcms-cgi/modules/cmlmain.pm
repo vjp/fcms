@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.71 2010-05-29 20:18:06 vano Exp $
+# $Id: cmlmain.pm,v 1.72 2010-05-31 05:56:46 vano Exp $
 
 BEGIN
 {
@@ -2411,6 +2411,7 @@ sub email {
   	
   	if ($_[0]->{objid}) {
   		$message=&cmlparse::cmlparser({data=>$message,objid=>$_[0]->{objid}});
+  		$subject=&cmlparse::cmlparser({data=>$subject,objid=>$_[0]->{objid}});
   	}
   	
   	my $contenttype;
