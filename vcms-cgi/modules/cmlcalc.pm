@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.60 2010-05-22 21:07:50 vano Exp $
+# $Id: cmlcalc.pm,v 1.61 2010-05-31 19:24:55 vano Exp $
 
 BEGIN
 {
@@ -537,6 +537,14 @@ sub html
 {
 	my ($oid)=@_;
 	return calc($oid,'p(PAGETEMPLATE)');
+}
+
+sub inc ($;$$) {
+	my ($pkey,$oid,$icount)=@_;
+	$icount ||= 1;
+	my $val=p($pkey,$oid)+$icount;
+	set($oid || p(_ID),$pkey,$val);
+	return $val;
 }
 
 
