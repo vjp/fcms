@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.101 2010-05-29 20:37:19 vano Exp $
+# $Id: cmlinstall.pm,v 1.102 2010-05-31 05:58:14 vano Exp $
 
 BEGIN
 {
@@ -58,7 +58,8 @@ setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'LETTERS',name=>'Письма'});
 addprm({convertname=>1,objkey=>'LETTERS',name=>'Текст письма',type=>'LONGTEXT',key=>'LETTERTEXT',evl=>'n'});
-addprm({convertname=>1,objkey=>'LETTERS',name=>'Заголовок',type=>'TEXT',key=>'LETTERSUBJECT',evl=>'n'});
+addprm({convertname=>1,objkey=>'LETTERS',name=>'Заголовок',type=>'LONGTEXT',key=>'LETTERSUBJECT',evl=>'n'});
+setprmextra({pkey=>'LETTERSUBJECT',extra=>'rows',value=>'1'});
 addprm({convertname=>1,objkey=>'LETTERS',name=>'Отправитель',type=>'TEXT',key=>'LETTERFROM',evl=>'n'});
 addprm({convertname=>1,objkey=>'LETTERS',name=>'HTML',type=>'FLAG',key=>'LETTERHTML',evl=>'n'});
 
