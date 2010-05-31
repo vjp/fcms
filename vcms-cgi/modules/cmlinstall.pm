@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.102 2010-05-31 05:58:14 vano Exp $
+# $Id: cmlinstall.pm,v 1.103 2010-05-31 21:14:40 vano Exp $
 
 BEGIN
 {
@@ -427,7 +427,7 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 </head>
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
 	<frame src="/cgi-bin/admin/admin.pl?menu=CMSMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-	<frame src="/admin/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
+	<cml:frame src="/cgi-bin/admin/admin.pl?mbframe=1&body=_prm:framebody_&id=_prm:frameid_" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000"/>
 </frameset>
 </html>
 )});
@@ -442,11 +442,26 @@ setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 </head>
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
 	<frame src="/cgi-bin/user/user.pl?menu=USERMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-	<frame src="/user/splash.htm" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000">
+	<cml:frame src="/cgi-bin/user/user.pl?mbframe=1&body=_prm:framebody_&id=_prm:frameid_" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000"/>
 </frameset>
 </html>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'SPLASH',name=>'Заставка'});
+setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
+<html>
+<head>
+<link href="/css/admin.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<center>
+<img src="/cmsimg/design/b-topic_500x100.jpg" width="500" height="100" alt="VCMS" border="0"><br>
+<hr size=2>
+<img src="/cmsimg/design/vcms_splash_500x400.jpg" width="500" height="400" alt="Преимущества VCMS" border="0"><br>
+</center>
+</body>
+</html>
+)});
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELIST',name=>'Базовый шаблон списка'});
 setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
