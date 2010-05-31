@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.14 2010-05-23 19:29:49 vano Exp $
+# $Id: admin.pl,v 1.15 2010-05-31 21:20:20 vano Exp $
 
 use lib "../modules/";
 
@@ -101,7 +101,7 @@ if (param('page') && $cmlmain::lmethod->{param('page').'PARSER'}->{script}){
 my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
 	$v=&cmlcalc::calculate({key=>'BASEMENU',expr=>"p($prm)"});
-}	elsif (param('body')) {
+}	elsif (param('body') && param('body') ne 'NULL') {
 	$v=&cmlcalc::calculate({key=>'BASEMAIN',expr=>"p($prm)"});
 } elsif (param('view')) {
 	
@@ -113,7 +113,11 @@ if (param('menu')) {
 }else {
 	$cmlcalc::CGIPARAM->{pagemenu}='BASEMENU' unless param('pagemenu');
 	$cmlcalc::CGIPARAM->{page}='BASEMAIN' unless param('page');	
- 	$v=&cmlcalc::calculate({key=>'MAINCMSTEMPL',expr=>"p($prm)"});
+	if (param('mbframe') && !param('framebody')) {
+		$v=&cmlcalc::calculate({key=>'SPLASH',expr=>"p($prm)"});
+	} else {
+	 	$v=&cmlcalc::calculate({key=>'MAINCMSTEMPL',expr=>"p($prm)"});
+	}	
 }
 
 viewlog();
