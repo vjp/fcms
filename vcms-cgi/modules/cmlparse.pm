@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.82 2010-06-02 05:30:07 vano Exp $
+# $Id: cmlparse.pm,v 1.83 2010-06-02 05:45:09 vano Exp $
 
 BEGIN
 {
@@ -1823,8 +1823,8 @@ sub tag_form {
 			$action="/__$tview" 	
 	}
   	$actionstr="action='$action'" if $action;
-	
-	my $data="<form $param method='$method' enctype='multipart/form-data' $actionstr>";
+	my $estr=$action!~/^http/?"enctype='multipart/form-data'":"";
+	my $data="<form $param method='$method' $estr $actionstr>";
 	
     unless ($action=~/^http/) {
 		if ($view) {$data.="<input type='hidden' name='view' value='$view'>"}
