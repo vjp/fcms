@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.81 2010-05-27 05:27:15 vano Exp $
+# $Id: cmlparse.pm,v 1.82 2010-06-02 05:30:07 vano Exp $
 
 BEGIN
 {
@@ -1742,7 +1742,8 @@ sub tag_form {
   		'tview','body','page','menu','insertinto',
   		'link','alert','action','prm','param','editprm',
   		'piclistprm','filelistprm','parseprm',
-  		'renameparam','renameprm', 'matrix','ukey','listprm'  		
+  		'renameparam','renameprm', 'matrix','ukey','listprm',
+  		'actionexpr',  		
   		]);
 	$param=$pl->{'str'};
 	
@@ -1814,6 +1815,8 @@ sub tag_form {
 
 	if ($pl->{'action'})  {	
 		$action=$pl->{'action'}	
+	} elsif ($pl->{'actionexpr'})  {
+		$action=&cmlcalc::calculate({id=>$id,key=>$pl->{'key'},expr=>$pl->{'actionexpr'}})->{value};	
 	} elsif ($view  && $cmlcalc::CGIPARAM->{_MODE} eq 'SITE') {
 		$action="/_$view" 	
 	} elsif ($tview && $cmlcalc::CGIPARAM->{_MODE} eq 'SITE') {
@@ -1823,29 +1826,30 @@ sub tag_form {
 	
 	my $data="<form $param method='$method' enctype='multipart/form-data' $actionstr>";
 	
-
-	if ($view) {$data.="<input type='hidden' name='view' value='$view'>"}
-	elsif ($tview) {$data.="<input type='hidden' name='tview' value='$tview'>"}
-	elsif ($body) {$data.="<input type='hidden' name='body' value='$body'>"}
-	elsif ($menu) {$data.="<input type='hidden' name='menu' value='$menu'>"}
-	elsif ($page) {$data.="<input type='hidden' name='page' value='$page'>"}
-	else {$data.="<input type='hidden' name='action' value='go'>"}
+    unless ($action=~/^http/) {
+		if ($view) {$data.="<input type='hidden' name='view' value='$view'>"}
+		elsif ($tview) {$data.="<input type='hidden' name='tview' value='$tview'>"}
+		elsif ($body) {$data.="<input type='hidden' name='body' value='$body'>"}
+		elsif ($menu) {$data.="<input type='hidden' name='menu' value='$menu'>"}
+		elsif ($page) {$data.="<input type='hidden' name='page' value='$page'>"}
+		else {$data.="<input type='hidden' name='action' value='go'>"}
 	
-	$data.="<input type='hidden' name='id' value='$id'>";
-	$data.="<input type='hidden' name='param' value='$pkey'>";
-	$data.="<input type='hidden' name='parsemethod' value='$parser'>";
-	$data.="<input type='hidden' name='parseid' value='$parserid'>" if $parserid;
-	$data.="<input type='hidden' name='parseprm' value='$pl->{parseprm}'>" if $pl->{'parseprm'};
-	$data.="<input type='hidden' name='listprm' value='$pl->{listprm}'>" if $pl->{'listprm'};
+		$data.="<input type='hidden' name='id' value='$id'>";
+		$data.="<input type='hidden' name='param' value='$pkey'>";
+		$data.="<input type='hidden' name='parsemethod' value='$parser'>";
+		$data.="<input type='hidden' name='parseid' value='$parserid'>" if $parserid;
+		$data.="<input type='hidden' name='parseprm' value='$pl->{parseprm}'>" if $pl->{'parseprm'};
+		$data.="<input type='hidden' name='listprm' value='$pl->{listprm}'>" if $pl->{'listprm'};
 	
-	if ($pl->{'postparser'}) {$data.="<input type='hidden' name='postparser' value='$pl->{postparser}'>";}
-	if ($pl->{'preparser'}) {$data.="<input type='hidden' name='preparser' value='$pl->{preparser}'>";}
-	if ($pl->{'insertinto'}) {$data.="<input type='hidden' name='insertinto' value='$pl->{insertinto}'>";}
-	if ($pl->{'link'}) {$data.="<input type='hidden' name='link' value='$pl->{link}'>";}
-	if ($pl->{'alert'}) {$data.="<input type='hidden' name='alerttext' value='$pl->{alert}>"}
-	if ($pl->{'ukey'}) {$data.="<input type='hidden' name='ukey' value='$pl->{ukey}'>"}
-	if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
-	
+		if ($pl->{'postparser'}) {$data.="<input type='hidden' name='postparser' value='$pl->{postparser}'>";}
+		if ($pl->{'preparser'}) {$data.="<input type='hidden' name='preparser' value='$pl->{preparser}'>";}
+		if ($pl->{'insertinto'}) {$data.="<input type='hidden' name='insertinto' value='$pl->{insertinto}'>";}
+		if ($pl->{'link'}) {$data.="<input type='hidden' name='link' value='$pl->{link}'>";}
+		if ($pl->{'alert'}) {$data.="<input type='hidden' name='alerttext' value='$pl->{alert}>"}
+		if ($pl->{'ukey'}) {$data.="<input type='hidden' name='ukey' value='$pl->{ukey}'>"}
+		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
+    }
+    
 	for my $p qw( editprm piclistprm filelistprm ) {
 		my $pv=$pl->{$p} || $cmlcalc::CGIPARAM->{$p};
 		$data.="<input type='hidden' name='$p' value='$pv'>" if $pv;
