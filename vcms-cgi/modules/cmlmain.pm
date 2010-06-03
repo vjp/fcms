@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.72 2010-05-31 05:56:46 vano Exp $
+# $Id: cmlmain.pm,v 1.73 2010-06-03 05:46:25 vano Exp $
 
 BEGIN
 {
@@ -2400,15 +2400,23 @@ sub fsindexcreate {
 
 
 sub email {
-  	my $to=$_[0]->{to};
+  	my $to		=$_[0]->{to};
+  	my $from	=$_[0]->{from};
+  	my $message	=$_[0]->{message};
+  	my $subject	=$_[0]->{subject};	
+  	my $html	=$_[0]->{html};
+  	
   	my $charset=$_[0]->{charset};
   	my $lid=$_[0]->{letterid};
   	
-  	my $from	=$lid?&cmlcalc::p(LETTERFROM,$lid):$_[0]->{from};
-  	my $message	=$lid?&cmlcalc::p(LETTERTEXT,$lid):$_[0]->{message};
-  	my $subject	=$lid?&cmlcalc::p(LETTERSUBJECT,$lid):$_[0]->{subject};	
-  	my $html	=$lid?&cmlcalc::p(LETTERHTML,$lid):$_[0]->{html};
-  	
+  	if ($lid) {
+  		$from	=&cmlcalc::p(LETTERFROM,$lid) unless $from;
+  		$to		=&cmlcalc::p(LETTERTO,$lid) unless $to;
+  		$message=&cmlcalc::p(LETTERTEXT,$lid) unless $message;
+  		$subject=&cmlcalc::p(LETTERSUBJECT,$lid) unless $subject;	
+  		$html	=&cmlcalc::p(LETTERHTML,$lid) unless $html;
+  		
+  	}
   	if ($_[0]->{objid}) {
   		$message=&cmlparse::cmlparser({data=>$message,objid=>$_[0]->{objid}});
   		$subject=&cmlparse::cmlparser({data=>$subject,objid=>$_[0]->{objid}});
@@ -2416,7 +2424,7 @@ sub email {
   	
   	my $contenttype;
   	my $att_filename;
-  	die "send mail : no recepient"	if $_[0]->{to}!~/\@/;
+  	die "send mail : no recepient"	if $to!~/\@/;
 
   	if ($html) {
   		$contenttype='text/html';
@@ -2428,6 +2436,8 @@ sub email {
   	}
   	
   	my $lmessage=$message;
+  	my $lsubject=$subject;
+  	
   	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf-8':'windows-1251';
   	my $echarset=$charset || $defcharset;
 	$subject = '=?'.$echarset.'?b?'.encode_base64($subject,'').'?=';
@@ -2446,9 +2456,9 @@ sub email {
 		print MAIL $message;
 		close(MAIL) || die "Error closing mail: $!";
 		if ($_[0]->{log}) {
-			my $id=addlowobject({upobj=>&cmlcalc::id(EMAILARC),name=>scalar localtime()});
+			my $id=addlowobject({upobj=>&cmlcalc::id(EMAILARC),name=>scalar localtime().' '.$lsubject});
 			setvalue({id=>$id,param=>EMAILMESSAGE,value=>$lmessage});
-			setvalue({id=>$id,param=>EMAILSUBJECT,value=>$subject});
+			setvalue({id=>$id,param=>EMAILSUBJECT,value=>$lsubject});
 			setvalue({id=>$id,param=>EMAILADDRESS,value=>$to});
 			setvalue({id=>$id,param=>EMAILFROM,value=>$from});
 			setvalue({id=>$id,param=>EMAILDATE,value=>&cmlcalc::now()});
