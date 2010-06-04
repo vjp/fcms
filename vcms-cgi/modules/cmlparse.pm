@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.83 2010-06-02 05:45:09 vano Exp $
+# $Id: cmlparse.pm,v 1.84 2010-06-04 20:32:57 vano Exp $
 
 BEGIN
 {
@@ -960,7 +960,8 @@ sub tag_actionlink {
 		'setflag','name','value','prm','param',
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
-		'orderby','ordertype', 
+		'orderby','ordertype','method','lmethod',
+		'alert','redir', 
 
 	]);
 	
@@ -1000,6 +1001,9 @@ sub tag_actionlink {
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner});
 	$title=&cmlcalc::p('_NAME',$iid) unless $title;
 	$title=$pl->{action} unless $title;
+	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
+	my $err_mes=&cmlmain::enc('Ошибка');
+	my $rd=$pl->{redir}?"location.href='$pl->{redir}';":'';
 	
 	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
 	if ($pl->{action} eq 'EDIT') {
@@ -1034,7 +1038,42 @@ sub tag_actionlink {
 		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","","")'>$title</a>
 		);
 		
-	}		
+	} elsif ($pl->{method}) {
+			return qq(
+			   <script> 
+			   function _exec_$pl->{method} () {
+			   	   execute('$pl->{method}',0, function(json) {
+			   	   	    if (json.status) {
+        					alert(json.message || '$succ_mes');
+        					$rd
+    					} else {
+        					alert('$err_mes: '+json.message);
+    					}   
+			   	   	       
+			   	   })
+			   }	   	
+			   </script>
+			   <a href='#' onclick="_exec_$pl->{method} ()">$title</a>
+			);	
+	} elsif ($pl->{lmethod}) {
+			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
+			return qq(
+			   <script> 
+			   function _lexec_$pl->{lmethod}_$oid () {
+			   	   lexecute('$pl->{lmethod}',$oid,0, function(json) {
+			   	   	    if (json.status) {
+        					alert(json.message || '$succ_mes');
+        					$rd
+    					} else {
+        					alert('$err_mes: '+json.message);
+    					}   
+			   	   	       
+			   	   })
+			   }	   	
+			   </script>
+			   <a href='#' onclick="_lexec_$pl->{lmethod}_$oid ()">$title</a>
+			);	
+	}			
 	
 	$method="BASE$pl->{action}METHOD";	
 	my @hlist;
