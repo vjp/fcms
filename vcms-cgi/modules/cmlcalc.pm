@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.61 2010-05-31 19:24:55 vano Exp $
+# $Id: cmlcalc.pm,v 1.62 2010-06-08 17:30:01 vano Exp $
 
 BEGIN
 {
@@ -623,11 +623,13 @@ sub p	{
  
  
  	if ($cmlmain::prm->{$pkey}->{type})  {
-   		return &{$gtype{$cmlmain::prm->{$pkey}->{type}}->{retvalue}}({id=>$id,pkey=>$pkey,noparse=>$noparse,lang=>$CALCLANG})->{value};
+		my $v=&{$gtype{$cmlmain::prm->{$pkey}->{type}}->{retvalue}}({id=>$id,pkey=>$pkey,noparse=>$noparse,lang=>$CALCLANG})->{value};
+		$OBJID=$id; 
+   		return $v; 
  	}
  	else  {
  		  return undef;
-   		# print "CALC ERROR $pkey NOT FOUND"; 	 
+ 	 
  	}	  
 }
 
