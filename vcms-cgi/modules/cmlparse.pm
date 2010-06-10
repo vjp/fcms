@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.84 2010-06-04 20:32:57 vano Exp $
+# $Id: cmlparse.pm,v 1.85 2010-06-10 19:07:53 vano Exp $
 
 BEGIN
 {
@@ -20,6 +20,7 @@ sub initparser
 	%DYNTAG=(
     	'execute'=>1,
     	'captcha'=>1,
+    	'auth'=>1,
  	);
 	
 	
@@ -67,6 +68,7 @@ sub initparser
     	'captcha'=>1,
     	'csvrow'=>1,
     	'csvcol'=>1,
+    	'auth'=>1,
  	);
 }
 
@@ -836,7 +838,25 @@ sub tag_var {
 	return $_[0]->{inner}->{var}->{$varname};
 }	
 
-
+sub tag_auth
+{
+	my $param=$_[0]->{param};
+  	my $inner; %{$inner}=%{$_[0]->{inner}};
+  	my $pl=fetchparam($param,['prm','id']);
+  	my $id=$pl->{id} || $inner->{objid};
+	if (!$cmlcalc::ENV->{'USERID'}) {
+			return cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner});
+	} elsif ($pl->{'prm'}) {
+		my $uid=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{'prm'})"})->{value};
+		if ($uid ne $cmlcalc::ENV->{'USERID'}) {
+			return cmlparser({data=>"<cml:include key='FORBIDDEN'/>",inner=>$inner});
+		}
+	} else {
+		$id=$cmlcalc::ENV->{'USERID'};
+	}	
+	$inner->{objid}=$id;
+    return cmlparser({data=>$_[0]->{data},inner=>$inner})
+}
 
 
 sub tag_use
@@ -855,7 +875,6 @@ sub tag_use
 		'id','idcgi','namecgi',
 		'uname','key','param','prm',
 		'paramtab','idexpr',
-		'needauthprm',
 		'validupkey','validupexpr'
 	]);
 	
@@ -920,16 +939,7 @@ sub tag_use
 	$inner->{matrix}=$matrix;
 	$inner->{parent}=$id;
 	
-	if ($pl->{'needauthprm'}) {
-		if (!$cmlcalc::ENV->{'USERID'}) {
-			return cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner});
-		} else {
-			my $uid=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{'needauthprm'})"})->{value};
-			if ($uid ne $cmlcalc::ENV->{'USERID'}) {
-				return cmlparser({data=>"<cml:include key='FORBIDDEN'/>",inner=>$inner});
-			}
-		}	
-	}
+	
 	
 	my $e404;
 	if ($pl->{'validupkey'}) {
@@ -1745,7 +1755,7 @@ sub tag_date {
  	
 
   	return undef unless $result;
-	return strftime $frmt,gmtime($result);
+	return &cmlmain::enc(strftime $frmt,gmtime($result));
 	
 }
 
