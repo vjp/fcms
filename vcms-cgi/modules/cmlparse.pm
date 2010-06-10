@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.86 2010-06-10 21:45:09 vano Exp $
+# $Id: cmlparse.pm,v 1.87 2010-06-10 22:00:29 vano Exp $
 
 BEGIN
 {
@@ -2007,7 +2007,8 @@ sub tag_inputtext {
 	
 	my $param=$_[0]->{param};
 
-  	my $pl=fetchparam($param,[
+	
+  	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
   		'elementid',
@@ -2076,12 +2077,12 @@ sub tag_inputtext {
 	if ($mode eq 'input') {
 		 my $sizestr;
 		 if ($cols) {$sizestr="size='$cols'"}
-		 return "<input value='$value' $param $sizestr name='$name' $typestr $tidstr>";
+		 return "<input hasdata='1' value='$value' $param $sizestr name='$name' $typestr $tidstr>";
 	} elsif ($mode eq 'textarea') {
 		my $cls=$cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
 	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
-		return "<textarea rows='$rows' cols='$cols' $param name='$name' $tidstr $cls>$ev</textarea>";
+		return "<textarea hasdata='1' rows='$rows' cols='$cols' $param name='$name' $tidstr $cls>$ev</textarea>";
 	}	
 }	
 
