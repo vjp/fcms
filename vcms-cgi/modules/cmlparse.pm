@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.85 2010-06-10 19:07:53 vano Exp $
+# $Id: cmlparse.pm,v 1.86 2010-06-10 21:45:09 vano Exp $
 
 BEGIN
 {
@@ -1792,7 +1792,7 @@ sub tag_form {
   		'link','alert','action','prm','param','editprm',
   		'piclistprm','filelistprm','parseprm',
   		'renameparam','renameprm', 'matrix','ukey','listprm',
-  		'actionexpr',  		
+  		'actionexpr','elementid',  		
   		]);
 	$param=$pl->{'str'};
 	
@@ -1872,8 +1872,9 @@ sub tag_form {
 			$action="/__$tview" 	
 	}
   	$actionstr="action='$action'" if $action;
+  	my $frmid=$pl->{elementid} || ($parserid?"frm$parserid":"frm$id");
 	my $estr=$action!~/^http/?"enctype='multipart/form-data'":"";
-	my $data="<form $param method='$method' $estr $actionstr>";
+	my $data="<form $param method='$method' $estr $actionstr id='$frmid'>";
 	
     unless ($action=~/^http/) {
 		if ($view) {$data.="<input type='hidden' name='view' value='$view'>"}
