@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.88 2010-06-10 22:34:13 vano Exp $
+# $Id: cmlparse.pm,v 1.89 2010-06-14 21:18:27 vano Exp $
 
 BEGIN
 {
@@ -1100,9 +1100,9 @@ sub tag_actionlink {
 	my $hstr=join('&',@hlist);
 	if ($pl->{action} eq 'DEL') {
 		if ($cmlmain::GLOBAL->{DOUBLECONFIRM}) {
-			$param.=qq(onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")');
+			$param.=&cmlmain::enc(qq(onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")'));
 		} else {
-			$param.=qq(onclick='return confirm("Вы уверены что хотите удалить объект")');
+			$param.=&cmlmain::enc(qq(onclick='return confirm("Вы уверены что хотите удалить объект")'));
 		}	
 	}
 	
