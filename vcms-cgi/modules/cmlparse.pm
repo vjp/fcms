@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.89 2010-06-14 21:18:27 vano Exp $
+# $Id: cmlparse.pm,v 1.90 2010-06-15 18:05:49 vano Exp $
 
 BEGIN
 {
@@ -1394,7 +1394,7 @@ sub tag_img 	{
 		unless ($expr) {$expr="p(PIC)"}
 		my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>$expr});
 		unless ($v->{value}) {
-			if ($alt) {return $alt}
+			#if ($alt) {return $alt}
 			return undef
 		}
 		if ($cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
