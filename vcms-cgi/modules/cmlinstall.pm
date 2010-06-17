@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.105 2010-06-17 20:05:15 vano Exp $
+# $Id: cmlinstall.pm,v 1.106 2010-06-17 20:11:22 vano Exp $
 
 BEGIN
 {
@@ -316,6 +316,9 @@ addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартова
 setvalue({key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>'Here is startpage'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERRORPAGE',name=>'Cтраница ошибки'});
 setvalue({key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Here is errorpage'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STATPAGE',name=>'Страница для статистики'});
+setvalue({key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
+
 
 copyprm({objkey=>'CMSDESIGN',key=>'PAGETEMPLATE'});
 copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
