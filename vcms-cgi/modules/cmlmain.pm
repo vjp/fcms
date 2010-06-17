@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.74 2010-06-17 06:04:52 vano Exp $
+# $Id: cmlmain.pm,v 1.75 2010-06-17 20:05:31 vano Exp $
 
 BEGIN
 {
@@ -64,13 +64,18 @@ BEGIN
 sub statclick ($)
 {
 	my ($clid)=@_;
-	my $sth1=$dbh->prepare("INSERT INTO  ${DBPREFIX}statclick (clid,clurl,clip) VALUES (?,?,?)");
+	my $lup=&cmlcalc::p(LINKSPLACE,$clid);
 	my $url=$ENV{REQUEST_URI};
 	$url=~s/_cl=\d+&?//;
 	$url=~s/\?$//;
-	$sth1->execute($clid,$url,$ENV{REMOTE_ADDR}) || die $dbh->errstr();
-	return 1;
-	
+	return "----".&cmlcalc::add (&cmlcalc::id(CLICKS),{
+			_NAME=>scalar(localtime()).' - '.$url,
+			CLURL=>$url,
+			CLIP=>$ENV{REMOTE_ADDR},
+			CLTIME=>&cmlcalc::now(),
+			CLLINK=>$clid,
+	});
+
 }
 
 sub change_pass_user ($$) 
