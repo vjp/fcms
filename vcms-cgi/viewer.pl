@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.16 2010-05-24 20:34:54 vano Exp $
+# $Id: viewer.pl,v 1.17 2010-06-17 06:05:25 vano Exp $
 
 use lib "./modules/";
 
@@ -221,7 +221,7 @@ print header(
 	-last_modified=>$lmtime,
 );
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
-
+statclick($cgiparam->{_cl}) if $cgiparam->{_cl};
 my $body=$v->{value};
 if ($body) {
 	print $body;

@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.73 2010-06-03 05:46:25 vano Exp $
+# $Id: cmlmain.pm,v 1.74 2010-06-17 06:04:52 vano Exp $
 
 BEGIN
 {
@@ -53,10 +53,24 @@ BEGIN
               
               &add_user &check_user &del_user &activate_user &check_auth &change_pass_user
               
-              &check_session &end_session &email
+              &check_session &end_session &email 
+              
+              &statclick
              );
 
 
+}
+
+sub statclick ($)
+{
+	my ($clid)=@_;
+	my $sth1=$dbh->prepare("INSERT INTO  ${DBPREFIX}statclick (clid,clurl,clip) VALUES (?,?,?)");
+	my $url=$ENV{REQUEST_URI};
+	$url=~s/_cl=\d+&?//;
+	$url=~s/\?$//;
+	$sth1->execute($clid,$url,$ENV{REMOTE_ADDR}) || die $dbh->errstr();
+	return 1;
+	
 }
 
 sub change_pass_user ($$) 
