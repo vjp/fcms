@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.90 2010-06-15 18:05:49 vano Exp $
+# $Id: cmlparse.pm,v 1.91 2010-06-18 05:15:12 vano Exp $
 
 BEGIN
 {
@@ -2261,7 +2261,15 @@ sub tag_if {
 			$_[0]->{uinner}->{cond}=1;
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
 		}  	
-	}  
+	} elsif ($param=~s/(\W)value=(['"])(.+?)\2/$1/i)      {
+		my $cond=$3;
+		$cond="!$cond" if $not;
+		undef $_[0]->{uinner}->{cond};
+		if ($cond)	{
+			$_[0]->{uinner}->{cond}=1;
+			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
+		}  	
+	}    
 
  	return undef;  	
 }	
