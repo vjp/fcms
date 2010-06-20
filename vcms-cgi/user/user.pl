@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.7 2010-05-31 21:11:35 vano Exp $
+# $Id: user.pl,v 1.8 2010-06-20 20:28:44 vano Exp $
 
 use lib "../modules/";
 
@@ -88,7 +88,11 @@ if (param('menu')) {
 }	elsif (param('body') && param('body') ne 'NULL') {
 	$v=&cmlcalc::calculate({key=>'USERMAIN',expr=>"p($prm)"});
 } elsif (param('view')) {
- 	$v=&cmlcalc::calculate({key=>param('view'),expr=>"p($prm)"});
+ 	$v=&cmlcalc::calculate({
+ 		key=>param('view'),
+ 		expr=>"p($prm)",
+ 		csv=>param('csv'),
+ 	});
 }else {
 	$cmlcalc::CGIPARAM->{pagemenu}='USERMENU' unless param('pagemenu');
 	$cmlcalc::CGIPARAM->{page}='USERMAIN' unless param('page');
