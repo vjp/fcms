@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.91 2010-06-18 05:15:12 vano Exp $
+# $Id: cmlparse.pm,v 1.92 2010-06-21 20:34:07 vano Exp $
 
 BEGIN
 {
@@ -629,22 +629,20 @@ sub tag_radioselect {
 
 
 sub tag_list  	{
-	my $param=$_[0]->{param};
-  	my $data=$_[0]->{data};
-  	my $inner; %{$inner}=%{$_[0]->{inner}};
+		my $param=$_[0]->{param};
+  		my $data=$_[0]->{data};
+  		my $inner; %{$inner}=%{$_[0]->{inner}};
   	
 
   
-  	my $pkey;
-  	my $id; 
-  	my $expr;
-  	my $uid;
-  	my $ukey;
-  	my $key;
-  	my $container;
+  		my $pkey;
+  		my $id; 
+  		my $expr;
+  		my $uid;
+  		my $ukey;
+  		my $key;
+  		my $container;
 		my $body;  	
-		my $orderby;
-		my $ordertype;
 		my $limit;
 		my $start;
 		my $notop;
@@ -653,13 +651,26 @@ sub tag_list  	{
 		my @filarray;
 		my @filexparray;
 	
-  	if ($param=~s/(\W)container=(['"])(.+?)\2/$1/i)      {$container=$3 } else {$container=1}
-  	if ($param=~s/(\W)orderby=(['"])(.+?)\2/$1/i)        {$orderby=$3 } 
-  	if ($param=~s/(\W)ordertype=(['"])(.+?)\2/$1/i)      {$ordertype=$3 } 
-  	if ($param=~s/(\W)limit=(['"])(.+?)\2/$1/i)          {$limit=$3 } 
-	if ($param=~s/(\W)start=(['"])(.+?)\2/$1/i)          {$start=$3 }  else {$start=0}
-	$orderby='_INDEX' if !$orderby || $orderby eq 'NULL'; 	
-  	my $pl=fetchparam($param,['selected','selexpr']);
+	
+  		if ($param=~s/(\W)container=(['"])(.+?)\2/$1/i)      {$container=$3 } else {$container=1}
+  		 
+  		if ($param=~s/(\W)limit=(['"])(.+?)\2/$1/i)          {$limit=$3 } 
+		if ($param=~s/(\W)start=(['"])(.+?)\2/$1/i)          {$start=$3 }  else {$start=0}
+		
+		
+ 	
+  		my $pl=fetchparam($param,[
+  			'selected','selexpr',
+  			'orderby','ordertype','orderexpr'
+  		]);
+		my $orderexpr;
+		if ($pl->{orderexpr}) {
+			$orderexpr=$pl->{orderexpr}
+		} elsif ($pl->{orderby} || $orderby eq 'NULL') {
+			$orderexpr="p($pl->{orderby})";
+		} else {
+			$orderexpr="p(_INDEX)"
+		}	
   	
 
 		$param=~s {(\W)filter(\d*)=(['"])(.*?)\3} {
@@ -744,24 +755,20 @@ sub tag_list  	{
 		  	@splist=grep { 	&cmlcalc::calculate({id=>$_,expr=>$filterexpr})->{value}  } @splist	
 		}	
 		
-		unless ($orderby eq '_MANUAL') {
-  			if ($orderby) {
-  				my $ordertype=$cmlmain::prm->{$orderby}->{type} || '';
-  				if ( $ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $orderby eq '_INDEX') {
-  					@splist=sort {
-  						&cmlcalc::calculate({id=>$a,expr=>"p($orderby)"})->{value} <=> &cmlcalc::calculate({id=>$b,expr=>"p($orderby)"})->{value}; 
-  					} @splist;
-  				} else {
-  					@splist=sort {
-  						&cmlcalc::calculate({id=>$a,expr=>"p($orderby)"})->{value} cmp &cmlcalc::calculate({id=>$b,expr=>"p($orderby)"})->{value}; 
-  					} @splist;
-  				}		
-  			}
+		unless ($pl->{orderby} eq '_MANUAL') {
+			my $ordertype=$cmlmain::prm->{$pl->{orderby}}->{type} || '';
+			if ( $ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $orderexpr eq 'p(_INDEX)') {
+  				@splist=sort {
+  					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} <=> &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
+  				} @splist;
+  			} else {
+  				@splist=sort {
+  					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} cmp &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
+  				} @splist;
+  			}		
 		}		
   		
-
-  		
-		if (lc $ordertype eq 'desc') {
+		if (lc $pl->{ordertype} eq 'desc') {
 			@splist=reverse @splist; 
 		}
 		
