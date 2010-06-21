@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.106 2010-06-17 20:11:22 vano Exp $
+# $Id: cmlinstall.pm,v 1.107 2010-06-21 05:15:26 vano Exp $
 
 BEGIN
 {
@@ -785,7 +785,7 @@ $bm=qq(
 <td><cml:actionlink action='EDIT'>Редактировать</cml:actionlink></td>
 </tr>
 </cml:list>
-<tr><td/><td><cml:changebutton/></td></tr>
+<tr><td/><td colspan=2><cml:changebutton/></td></tr>
 </table>
 </cml:form>
 <hr>
