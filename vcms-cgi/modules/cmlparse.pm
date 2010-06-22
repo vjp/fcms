@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.92 2010-06-21 20:34:07 vano Exp $
+# $Id: cmlparse.pm,v 1.93 2010-06-22 21:30:19 vano Exp $
 
 BEGIN
 {
@@ -882,7 +882,7 @@ sub tag_use
 		'id','idcgi','namecgi',
 		'uname','key','param','prm',
 		'paramtab','idexpr',
-		'validupkey','validupexpr'
+		'validupkey','validupexpr','validexpr',
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -953,7 +953,9 @@ sub tag_use
 		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'};
 	} 	elsif ($pl->{'validupexpr'}) {
 		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
-	}	 
+	} 	elsif ($pl->{'validexpr'}) {
+		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1;
+	}	 	 
 
 	if ($e404) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
