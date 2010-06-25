@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.94 2010-06-25 05:21:03 vano Exp $
+# $Id: cmlparse.pm,v 1.95 2010-06-25 06:11:38 vano Exp $
 
 BEGIN
 {
@@ -666,7 +666,7 @@ sub tag_list  	{
 		my $orderexpr;
 		if ($pl->{orderexpr}) {
 			$orderexpr=$pl->{orderexpr}
-		} elsif ($pl->{orderby} || $orderby eq 'NULL') {
+		} elsif ($pl->{orderby} && $pl->{orderby} ne 'NULL') {
 			$orderexpr="p($pl->{orderby})";
 		} else {
 			$orderexpr="p(_INDEX)"
@@ -757,13 +757,13 @@ sub tag_list  	{
 		
 		unless ($pl->{orderby} eq '_MANUAL') {
 			my $ordertype=$cmlmain::prm->{$pl->{orderby}}->{type} || '';
-			if ( $ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $orderexpr eq 'p(_INDEX)') {
+			if ( $pl->{orderby} && ($ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $orderexpr eq 'p(_INDEX)')) {
   				@splist=sort {
   					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} <=> &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
   				} @splist;
   			} else {
   				@splist=sort {
-  					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} cmp &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
+  					lc (&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value}) cmp lc (&cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}); 
   				} @splist;
   			}		
 		}		
