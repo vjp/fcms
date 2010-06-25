@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.93 2010-06-22 21:30:19 vano Exp $
+# $Id: cmlparse.pm,v 1.94 2010-06-25 05:21:03 vano Exp $
 
 BEGIN
 {
@@ -1147,7 +1147,7 @@ sub tag_a	{
 		$ql="/view/$pl->{'name'}" 	
 	} elsif ($pl->{'href'}) {	
 		$ql=$pl->{'href'};
-		if ($ql!~/^(http|\/|\?)/ && $ql ne '#') {$ql="http://$ql"}
+		if ($ql!~/^(http|mailto|\/|\?)/ && $ql ne '#') {$ql="http://$ql"}
 	} elsif ($pl->{'pagenum'}) {	
 		my $pid=$pl->{'pagenum'};
 		$ql=$cmlcalc::QUERYSTRING;
