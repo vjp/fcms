@@ -1,3 +1,5 @@
+// $Id: base.js,v 1.14 2010-06-28 22:28:16 vano Exp $
+
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
         "; expires=+1d" +
@@ -108,7 +110,7 @@ function auth_callback (json) {
 function auth(login,password,success_func) {
         var dt={
             login      : login,
-            password   : password,  
+            password   : password  
         };
         auth_success_func=success_func;
         execute('AUTH',dt,auth_callback);
@@ -132,5 +134,21 @@ function logout () {
         execute('LOGOUT',dt,logout_callback);
 }	
 
+function setVCallback (json) {
+	if (json.status) {
+		alert(lbSuccess);
+    } else {
+        alert(lbError+': '+json.message);
+    }   
+}
 
+function set (objid,prm) {
+	var inputid='_o'+objid+'_p'+prm;
+	var dt={
+            id      : objid,
+            prm     : prm,
+            value   : $(inputid).value
+    };
+	ajax_call('setvalue',dt,setVCallback);
+}
 
