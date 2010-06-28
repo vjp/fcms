@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.108 2010-06-24 04:34:43 vano Exp $
+# $Id: cmlinstall.pm,v 1.109 2010-06-28 22:17:38 vano Exp $
 
 BEGIN
 {
@@ -188,6 +188,8 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <script>
   var lbLabelImage="Фото";
   var lbLabelOf="из";
+  var lbError="Ошибка";
+  var lbSuccess="Успех";
 </script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
 )});
