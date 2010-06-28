@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.109 2010-06-28 22:17:38 vano Exp $
+# $Id: cmlinstall.pm,v 1.110 2010-06-28 22:26:46 vano Exp $
 
 BEGIN
 {
@@ -543,6 +543,8 @@ h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; 
 -->
 </style>
 
+
+
 <script type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
 
@@ -649,6 +651,12 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
+<script>
+  var lbLabelImage="Фото";
+  var lbLabelOf="из";
+  var lbError="Ошибка";
+  var lbSuccess="Успех";
+</script>
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
