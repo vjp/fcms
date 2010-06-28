@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.95 2010-06-25 06:11:38 vano Exp $
+# $Id: cmlparse.pm,v 1.96 2010-06-28 04:48:51 vano Exp $
 
 BEGIN
 {
@@ -1513,8 +1513,7 @@ sub tag_execute {
 		'id','method','key','lmethod',
 	]);
 	
-	$id=$pl->{id} || $_[0]->{inner}->{objid};
-
+	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 	my $res=&cmlcalc::execute({
 		key=>$pl->{key},
 		id=>$id,
