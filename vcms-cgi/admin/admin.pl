@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.15 2010-05-31 21:20:20 vano Exp $
+# $Id: admin.pl,v 1.16 2010-06-28 04:49:11 vano Exp $
 
 use lib "../modules/";
 
@@ -27,7 +27,7 @@ for (param()) {
 	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',grep {$_ ne '0'} @pl) }
 	else 		    { $cmlcalc::CGIPARAM->{$_}=$pl[0] }
 }
-
+$cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='ADMIN';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('BENCHMARK',&cmlcalc::id('CMSDESIGN'));

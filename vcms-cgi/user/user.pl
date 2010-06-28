@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.8 2010-06-20 20:28:44 vano Exp $
+# $Id: user.pl,v 1.9 2010-06-28 04:49:22 vano Exp $
 
 use lib "../modules/";
 
@@ -20,6 +20,7 @@ start('..');
 my $v;
 
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
+$cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='USER';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p(USERNOFRAMES,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
