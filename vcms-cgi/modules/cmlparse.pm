@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.96 2010-06-28 04:48:51 vano Exp $
+# $Id: cmlparse.pm,v 1.97 2010-06-28 22:28:32 vano Exp $
 
 BEGIN
 {
@@ -69,6 +69,7 @@ sub initparser
     	'csvrow'=>1,
     	'csvcol'=>1,
     	'auth'=>1,
+    	'savebutton'=>1,
  	);
 }
 
@@ -2081,7 +2082,7 @@ sub tag_inputtext {
   		$typestr="type='$pl->{type}"; 
   		$mode='input';
   	}
-  	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":'';	
+  	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
 	if ($mode eq 'input') {
 		 my $sizestr;
 		 if ($cols) {$sizestr="size='$cols'"}
@@ -2200,8 +2201,16 @@ sub tag_deletebutton {
 
 sub tag_changebutton {
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-	return "<input type=image src='$imgsrc' width='119' height='24' value='OK'/>";
+	return "<input type='image' src='$imgsrc' width='119' height='24' value='OK'/>";
 }	
+
+sub tag_savebutton {
+	my $param=$_[0]->{param};
+  	my $pl=fetchparam($param,['prm','id']);
+  	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
+  	return qq(<input type="button" value="+" onclick="set('$id','$pl->{prm}')">);
+}
+
 
 sub tag_dev {
 	return $cmlcalc::ENV->{dev}?cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}):'';
