@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.11 2010-05-23 21:15:06 vano Exp $
+# $Id: ajax-json.pl,v 1.12 2010-06-29 05:59:11 vano Exp $
 
 use strict;
 use lib "./modules/";
@@ -24,6 +24,7 @@ my $prms=decode_json($data);
 $cmlcalc::CGIPARAM=$prms if ref $prms eq 'HASH';
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 my $result;
 if (param('func')) {
 	$result=execute({method=>param('func')});
