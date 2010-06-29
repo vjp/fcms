@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.62 2010-06-08 17:30:01 vano Exp $
+# $Id: cmlcalc.pm,v 1.63 2010-06-29 18:12:33 vano Exp $
 
 BEGIN
 {
@@ -593,9 +593,13 @@ sub p	{
     			elsif($id->{type} eq 'L') {  return "$id->{ind}" }
     			elsif($id->{type} eq 'V') {  return "v$id->{ind}" }
    		}
-   		if ($skey eq 'index') { 	return $id->{indx} 	}
+   		if ($skey eq 'index') 	{ 	return $id->{indx} 	}
    		if ($skey eq 'key') 	{		return $id->{key} 	}
-		if ($skey eq 'type')  {		return $id->{type}  }	   		
+   		if ($skey eq 'upkey') 	{
+				if   ($id->{type} eq 'U') {  return p('_KEY',"u$id->{up}") }
+    			elsif($id->{type} eq 'L') {  return p('_KEY',"u$id->{upobj}") }
+   		}
+		if ($skey eq 'type')  	{		return $id->{type}  }	   		
 		if ($skey eq 'up')  {
 			if   ($id->{type} eq 'U') {  return "u$id->{up}" }
     			elsif($id->{type} eq 'L') {  return "u$id->{upobj}" }
