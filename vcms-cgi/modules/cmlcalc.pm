@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.63 2010-06-29 18:12:33 vano Exp $
+# $Id: cmlcalc.pm,v 1.64 2010-06-30 21:05:01 vano Exp $
 
 BEGIN
 {
@@ -672,7 +672,7 @@ sub today {
 }	
 
 sub month {
-	my @tm=gmtime();
+	my @tm=localtime();
 	return mktime(0,0,0,1,$tm[4],$tm[5]);
 }
 
