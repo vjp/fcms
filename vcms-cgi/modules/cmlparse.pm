@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.99 2010-07-01 18:43:06 vano Exp $
+# $Id: cmlparse.pm,v 1.100 2010-07-01 20:59:24 vano Exp $
 
 BEGIN
 {
@@ -412,7 +412,7 @@ sub tag_menuitem	{
 	}
 	my $href='?'. ($pl->{href} || "body=$pl->{action}_$pl->{key}");
 	my $icohref='?'. ($pl->{icohref} || $pl->{href} || "body=$pl->{action}_$pl->{key}");
-	
+	$inner->{objid}=$id;	
 	
 	my $itext=cmlparser({data=>$data,inner=>$inner});
 	unless ($itext) {
