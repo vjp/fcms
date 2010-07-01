@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.98 2010-06-30 20:14:39 vano Exp $
+# $Id: cmlparse.pm,v 1.99 2010-07-01 18:43:06 vano Exp $
 
 BEGIN
 {
@@ -758,7 +758,7 @@ sub tag_list  	{
 		
 		unless ($pl->{orderby} eq '_MANUAL') {
 			my $ordertype=$cmlmain::prm->{$pl->{orderby}}->{type} || '';
-			if ( $pl->{orderby} && ($ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $orderexpr eq 'p(_INDEX)')) {
+			if ( $orderexpr eq 'p(_INDEX)' || $ordertype eq 'DATE' || $ordertype eq 'NUMBER') {
   				@splist=sort {
   					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} <=> &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
   				} @splist;
