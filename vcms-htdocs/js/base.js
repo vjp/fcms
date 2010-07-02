@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.16 2010-07-02 04:47:15 vano Exp $
+// $Id: base.js,v 1.17 2010-07-02 05:30:51 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -148,12 +148,7 @@ function set (objid,prm,fcallback) {
             prm     : prm,
             value   : $(inputid).value
     };
-	if (fcallback) {
-		lexecute('BASESAVEMETHOD',objid,dt,fcallback);
-	} else {
-		lexecute('BASESAVEMETHOD',objid,dt,setVCallback);
-	}
+	lexecute('BASESAVEMETHOD',objid,dt,fcallback || setVCallback);
 
-	
 }
 
