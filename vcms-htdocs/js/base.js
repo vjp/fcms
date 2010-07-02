@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.14 2010-06-28 22:28:16 vano Exp $
+// $Id: base.js,v 1.15 2010-07-02 03:50:06 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -145,10 +145,9 @@ function setVCallback (json) {
 function set (objid,prm) {
 	var inputid='_o'+objid+'_p'+prm;
 	var dt={
-            id      : objid,
             prm     : prm,
             value   : $(inputid).value
     };
-	ajax_call('setvalue',dt,setVCallback);
+	lexecute('BASESAVEMETHOD',objid,dt,setVCallback);
 }
 
