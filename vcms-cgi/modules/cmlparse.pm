@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.100 2010-07-01 20:59:24 vano Exp $
+# $Id: cmlparse.pm,v 1.101 2010-07-02 05:31:15 vano Exp $
 
 BEGIN
 {
@@ -2079,7 +2079,7 @@ sub tag_inputtext {
 
   	my $typestr;
   	if ($pl->{type}) {
-  		$typestr="type='$pl->{type}"; 
+  		$typestr="type='$pl->{type}'"; 
   		$mode='input';
   	}
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
@@ -2205,9 +2205,13 @@ sub tag_changebutton {
 
 sub tag_savebutton {
 	my $param=$_[0]->{param};
-  	my $pl=fetchparam($param,['prm','id']);
+  	my $pl=fetchparam($param,['prm','id','callback']);
   	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
-  	return qq(<input type="button" value="+" onclick="set('$id','$pl->{prm}')">);
+  	if ($pl->{callback}) {
+  		return qq(<input type="button" value="+" onclick="set('$id','$pl->{prm}',$pl->{callback})"/>);
+  	} else { 
+  		return qq(<input type="button" value="+" onclick="set('$id','$pl->{prm}')"/>);
+  	}	
 }
 
 
