@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.77 2010-07-04 21:31:16 vano Exp $
+# $Id: cmlmain.pm,v 1.78 2010-07-04 22:51:29 vano Exp $
 
 BEGIN
 {
@@ -52,6 +52,7 @@ BEGIN
               &get_sec_id &check_sec_id &get_sec_key
               
               &add_user &check_user &del_user &activate_user &check_auth &change_pass_user &check_password
+              &deactivate_user &update_login
               
               &check_session &end_session &email 
               
@@ -99,13 +100,27 @@ sub add_user ($$$)
 	return $uid;
 }	
 
+sub update_login ($$) 
+{
+	my ($objid,$login)=@_;
+	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET login=? where objid=?");
+	$sth1->execute($login,$objid) || die $dbh->errstr();
+	
+}
+
 sub activate_user ($) 
 {
-	my ($login)=@_;
-	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET flag=flag|1 where login=?");
-	$sth1->execute($login) || die $dbh->errstr();
+	my ($objid)=@_;
+	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET flag=flag|1 where objid=?");
+	$sth1->execute($objid) || die $dbh->errstr();
 }	
 
+sub deactivate_user ($) 
+{
+	my ($objid)=@_;
+	my $sth1=$dbh->prepare("UPDATE ${DBPREFIX}auth SET flag=flag&~1 where objid=?");
+	$sth1->execute($objid) || die $dbh->errstr();
+}	
 
 
 sub del_user ($) 
