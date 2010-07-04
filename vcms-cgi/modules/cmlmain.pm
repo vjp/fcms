@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.76 2010-06-17 20:18:16 vano Exp $
+# $Id: cmlmain.pm,v 1.77 2010-07-04 21:31:16 vano Exp $
 
 BEGIN
 {
@@ -51,7 +51,7 @@ BEGIN
               
               &get_sec_id &check_sec_id &get_sec_key
               
-              &add_user &check_user &del_user &activate_user &check_auth &change_pass_user
+              &add_user &check_user &del_user &activate_user &check_auth &change_pass_user &check_password
               
               &check_session &end_session &email 
               
@@ -144,6 +144,20 @@ sub check_auth ($$)
 	} else {
 		return (0,0);
 	}
+	
+}
+
+sub check_password ($)
+{
+	my ($password)=@_;
+	return (0,0) unless $cmlcalc::ENV->{'USERID'};
+	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE objid=? and pwd=password(?)");
+	$sth1->execute($cmlcalc::ENV->{'USERID'},$password);
+	my ($sid,$flag)=$sth1->fetchrow();
+	if ($sid && ($flag & 1)) {
+		return (1,0);
+	}		
+	return (0,1);
 	
 }
 
