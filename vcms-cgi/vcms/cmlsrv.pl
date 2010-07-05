@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.30 2010-07-05 04:39:35 vano Exp $
+# $Id: cmlsrv.pl,v 1.31 2010-07-05 20:15:44 vano Exp $
 
 use lib "../modules/";
 
@@ -991,19 +991,19 @@ sub editlowform
 
 sub config {
 	print start_form(-method=>'post',-name=>'mfrm');
-	print "Конфигурация";
+	print enc("Конфигурация");
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
 	print hidden(-name=>'action',-value=>'editconfig',-override=>1);
-	print submit(-value=>'Изменить конфигурацию');
+	print submit(-value=>enc('Изменить конфигурацию'));
 	print hr;
-	print "Экспорт",br;
+	print enc("Экспорт"),br;
 	print endform();
-	print a({-href=>"?action=export&area=scripts"},'скрипты'),br;
-	print a({-href=>"?action=export&area=docs"},'статика'),br;
-	print a({-href=>"?action=export&area=data"},'файлы и картинки'),br;
-	print a({-href=>"?action=export&area=db"},'база данных'),br;
+	print a({-href=>"?action=export&area=scripts"},enc('скрипты')),br;
+	print a({-href=>"?action=export&area=docs"},enc('статика')),br;
+	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
+	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
 	
 }
 
