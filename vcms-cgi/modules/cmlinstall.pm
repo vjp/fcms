@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.110 2010-06-28 22:26:46 vano Exp $
+# $Id: cmlinstall.pm,v 1.111 2010-07-05 04:36:08 vano Exp $
 
 BEGIN
 {
@@ -454,7 +454,7 @@ setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'SPLASH',name=>'Заставка'});
-setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
+setvalue({key=>'SPLASH',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 <html>
 <head>
 <link href="/css/admin.css" rel="stylesheet" type="text/css">
