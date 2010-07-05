@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.7 2010-05-25 04:28:46 vano Exp $
+# $Id: install.pl,v 1.8 2010-07-05 04:31:18 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -169,6 +169,8 @@ if (param('install')) {
 my $path=`pwd`;
 $path=~s/cgi-bin\s*//s;
 
+my $wpath="${path}www/";
+$wpath=$path unless -s $wpath;
 
 print qq(
 <form method='post'>
@@ -180,7 +182,7 @@ print qq(
   <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'><td></td></tr>
   <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'><td></td></tr>
   <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'><td></td></tr>
-  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='${path}www/'><td></td></tr>
+  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='$wpath'><td></td></tr>
   <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'><td></td></tr>
   <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'><td></td></tr>    
 </table>
