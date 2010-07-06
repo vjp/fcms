@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.17 2010-07-02 05:30:51 vano Exp $
+// $Id: base.js,v 1.18 2010-07-06 20:24:16 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -98,8 +98,8 @@ var auth_success_func;
 function auth_callback (json) {
       if (json.status) {
            var jar = new CookieJar({
-              path: '/',
-           })
+              path: '/'
+           });
            jar.put('auth',json);
            if (auth_success_func) auth_success_func();
       } else {
