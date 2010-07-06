@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.8 2010-07-05 04:31:18 vano Exp $
+# $Id: install.pl,v 1.9 2010-07-06 20:27:08 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -136,7 +136,8 @@ if (param('install')) {
 		}
 	}
 	print hr();
-	print '<a href="?createdb=1">Создать БД</a>';
+	print '<a href="?createdb=1">Создать БД</a>',br();
+	print '<a href="/vcms">Перейти к конфигурированию</a>';
 	
 	print hr();
 	exit;
@@ -175,16 +176,24 @@ $wpath=$path unless -s $wpath;
 print qq(
 <form method='post'>
 <table>
-  <tr><td>Хост БД</td><td><input size='100' name='dbhost'><td></td></tr>
-  <tr><td>Имя БД</td><td><input size='100' name='dbname'><td></td></tr>
-  <tr><td>Пользователь БД</td><td><input size='100' name='dbuser'><td></td></tr>
-  <tr><td>Пароль БД</td><td><input size='100' type='password' name='dbpassword'><td></td></tr>
-  <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'><td></td></tr>
-  <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'><td></td></tr>
-  <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'><td></td></tr>
-  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='$wpath'><td></td></tr>
-  <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'><td></td></tr>
-  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'><td></td></tr>    
+  <tr><td>Хост БД</td><td><input size='100' name='dbhost'></td></tr>
+  <tr><td>Имя БД</td><td><input size='100' name='dbname'></td></tr>
+  <tr><td>Пользователь БД</td><td><input size='100' name='dbuser'></td></tr>
+  <tr><td>Пароль БД</td><td><input size='100' type='password' name='dbpassword'></td></tr>
+  <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'></td></tr>
+  <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'></td></tr>
+  <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'></td></tr>
+  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='$wpath'></td></tr>
+  <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'></td></tr>
+  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>  
+  <tr><td>Интерфейсы</td>
+  	<td>
+  		/     <input type='checkbox' name='i_site' value='1' checked='checked'>
+  		/vcms <input type='checkbox' name='i_vcms' value='1' checked='checked'>
+  		/admin <input type='checkbox' name='i_admin' value='1' checked='checked'>
+  		/user <input type='checkbox' name='i_user' value='1' checked='checked'>
+  	</td>
+  </tr>  
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
