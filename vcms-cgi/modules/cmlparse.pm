@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.101 2010-07-02 05:31:15 vano Exp $
+# $Id: cmlparse.pm,v 1.102 2010-07-07 04:16:05 vano Exp $
 
 BEGIN
 {
@@ -1568,41 +1568,45 @@ sub tag_include {
 }
 
 sub tag_text {
-  	my $param=$_[0]->{param};
-  	my $key;
-  	my $ukey;
-  	my $uid;
-  	my $pkey;
-  	my $expr;
-  	my $id;
+  	
+  		my $param=$_[0]->{param};
+  		my $key;
+  		my $ukey;
+  		my $uid;
+  		my $pkey;
+  		my $expr;
+  		my $id;
     	my $frmt;
     	my $ptype;
         my $dfrmt;
+        
+        my $pl=fetchparam(\$param,[	'br' ]);
         
     	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
     	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
     
     
      
-  	if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)     {$pkey=$3; $expr="p('$pkey')" }
+  		if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)     {$pkey=$3; $expr="p('$pkey')" }
     	if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i)       {$pkey=$3; $expr="p('$pkey')" }
      	$dfrmt=$cmlmain::prm->{$pkey}->{extra}->{format} if $pkey && $cmlmain::prm->{$pkey}->{type} eq 'DATE'; 
   
     	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3}
   
-  	if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
-  	elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
-  	elsif ($param=~s/(\W)ukey=(['"])(.+?)\2/$1/i)      {$ukey=$3  }
-  	elsif ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)       {$uid=$3   }
-  	elsif ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)   {$key=param($3)}
-  	elsif ($param=~s/(\W)idexpr=(['"])(.+?)\2/$1/i)    {
+  		if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
+  		elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
+  		elsif ($param=~s/(\W)ukey=(['"])(.+?)\2/$1/i)      {$ukey=$3  }
+  		elsif ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)       {$uid=$3   }
+  		elsif ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)   {$key=param($3)}
+  		elsif ($param=~s/(\W)idexpr=(['"])(.+?)\2/$1/i)    {
   	    	$id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$3})->{value}
-  	} elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {$id=param($3)}
-  	elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {$id=$3; 
-  		if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
-  		if (lc ($id) eq '_parent') {$id=$_[0]->{inner}->{parent}} 
-  	}
-  	else  {$id=$_[0]->{inner}->{objid}} 
+  		} elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {
+  			$id=param($3)
+  		}  elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {
+  			$id=$3; 
+  			if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
+  			if (lc ($id) eq '_parent') {$id=$_[0]->{inner}->{parent}} 
+  		}  	else  {$id=$_[0]->{inner}->{objid}} 
 
         my $rs;
         if (lc ($id) eq '_iterator')        {$result=$_[0]->{inner}->{iterator}}
@@ -1637,8 +1641,9 @@ sub tag_text {
         	$result = &cmlmain::enc(strftime ($dfrmt,gmtime($result)));
         }		 
   	
+  		$result=~s/\n/<br>/g if $pl->{'br'};
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
-	return $result;
+		return $result;
 }
 
 
