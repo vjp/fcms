@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.103 2010-07-11 22:03:54 vano Exp $
+# $Id: cmlparse.pm,v 1.104 2010-07-11 22:14:08 vano Exp $
 
 BEGIN
 {
@@ -1914,7 +1914,7 @@ sub tag_form {
 		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
     }
     
-	for my $p qw( editprm piclistprm filelistprm ) {
+	for my $p qw( editprm piclistprm filelistprm ukey ) {
 		my $pv=$pl->{$p} || $cmlcalc::CGIPARAM->{$p};
 		$data.="<input type='hidden' name='$p' value='$pv'>" if $pv;
 	}
