@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.102 2010-07-07 04:16:05 vano Exp $
+# $Id: cmlparse.pm,v 1.103 2010-07-11 22:03:54 vano Exp $
 
 BEGIN
 {
@@ -332,7 +332,7 @@ PITEM
 sub tag_dynamic {
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	if ($inner->{dyncalc}) {
+	if ($inner->{dyncalc} || !$GLOBAL->{CACHE}) {
 		return cmlparser({data=>$data,inner=>$inner});
 	} else {
 		return $data;
@@ -568,8 +568,8 @@ sub tag_select {
 	if ($pl->{'defoptname'}) {
 		$defopt="<option value='$defoptvalue'>$pl->{'defoptname'}</option>"
 	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
-		$defopt="<option value='0'>Не задан</option>"
-	}
+		$defopt=&cmlmain::enc("<option value='0'>Не задан</option>")
+}
 	
 	undef $inner->{selectedlist};
   	if (defined $sexpr) {
