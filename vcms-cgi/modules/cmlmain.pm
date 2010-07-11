@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.78 2010-07-04 22:51:29 vano Exp $
+# $Id: cmlmain.pm,v 1.79 2010-07-11 20:35:24 vano Exp $
 
 BEGIN
 {
@@ -75,6 +75,7 @@ sub statclick ($)
 			CLIP=>$ENV{REMOTE_ADDR},
 			CLTIME=>&cmlcalc::now(),
 			CLLINK=>$clid,
+			GEODATA=>CGI::cookie('_cn').' '.CGI::cookie('_cc'),
 	});
 
 }
