@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.31 2010-07-05 20:15:44 vano Exp $
+# $Id: cmlsrv.pl,v 1.32 2010-07-12 19:36:17 vano Exp $
 
 use lib "../modules/";
 
@@ -1094,6 +1094,17 @@ sub editprmform {
 	
 	my $extra=&{$ptype{$prm->{$pkey}->{type}}->{extra}}({pkey=>$pkey});
 	print_top();
+	print q(
+	 <script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+				id : "editarea"		
+				,language: "ru"
+				,syntax: "perl"			
+				,start_highlight: true		
+			});
+	 </script> 	
+	);
+	
 	print start_form(-method=>'post');
 	print hidden (-name=>'action',-default=>'editprm',-override=>1);
   	print hidden (-name=>'pname',-default=>$pkey);
@@ -1111,7 +1122,7 @@ sub editprmform {
 	print Tr(th(enc('Исправляемый')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
 	if ($prm->{$pkey}->{evaluate} eq 'y') {$ss=1} else {$ss=''}
 	print Tr(th(enc('Выполняемый')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
-  	print Tr(th(enc('Умолчание')),td(textarea(-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
+  	print Tr(th(enc('Умолчание')),td(textarea(-id=>'editarea',-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
   
   	if (ref $extra eq 'ARRAY') {
     	print Tr(th({-colspan=>2},enc("Дополнительные атрибуты")));
