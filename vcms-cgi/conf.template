@@ -1,5 +1,5 @@
 
-# $Id: conf.template,v 1.6 2010-07-13 21:58:43 vano Exp $
+# $Id: conf.template,v 1.7 2010-07-13 21:58:59 vano Exp $
 
 $DBNAME='<dbname>';
 $DBUSER='<dbuser>';
@@ -17,7 +17,7 @@ $DELIMAGEURL='/cmsimg/delete.png';
 $INSIMAGEURL='/cmsimg/insert.png';
 $EDTIMAGEURL='/cmsimg/edit.png';
 $POSTBUTTONURL='/cmsimg/ok_post.jpg';
-$SAVEBUTTONURL='/cmsimg/save.png
+$SAVEBUTTONURL='/cmsimg/save.png';
 $DOUBLECONFIRM=0;
 $CACHE=<cache>;
 $UTF=<utf>;
