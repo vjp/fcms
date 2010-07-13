@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.111 2010-07-05 04:36:08 vano Exp $
+# $Id: cmlinstall.pm,v 1.112 2010-07-13 21:34:55 vano Exp $
 
 BEGIN
 {
@@ -267,7 +267,7 @@ setvalue({key=>'SEARCH',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 )});
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'DATAFILES',name=>'Файловый архив'});
-setvalue({convert=>1,key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Здесь будет файловый архив'});
+setvalue({convert=>1,key=>'DATAFILES',pkey=>'PAGETEMPLATE',value=>'Здесь будет файловый архив'});
 
 
 
