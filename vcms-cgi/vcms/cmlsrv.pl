@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.32 2010-07-12 19:36:17 vano Exp $
+# $Id: cmlsrv.pl,v 1.33 2010-07-13 21:25:07 vano Exp $
 
 use lib "../modules/";
 
@@ -511,7 +511,7 @@ sub defaultform {
 
 <frameset cols="30%,*">
 <frame src="/cgi-bin/vcms/cmlsrv.pl?action=viewleft" name="leftmenu">
-<frame src="cgi-bin/admin/admin.pl?mbframe=1" name="mainbody">
+<frame src="/cgi-bin/admin/admin.pl?mbframe=1" name="mainbody">
 </frameset>
 </html>
 	);
