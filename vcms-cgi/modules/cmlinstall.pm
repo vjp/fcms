@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.112 2010-07-13 21:34:55 vano Exp $
+# $Id: cmlinstall.pm,v 1.113 2010-07-13 21:37:02 vano Exp $
 
 BEGIN
 {
@@ -232,7 +232,7 @@ setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
 	<cml:include key="SITEHEADER"/> <cml:include name="_prm:view_"/> <cml:include key="SITEFOOTER"/>
 )});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'UNDERCONSTRUCT',name=>'Заглушка'});
-setvalue({key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Under construction...'});
+setvalue({convert=>1,key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Сайт в разработке'});
 
 
 
