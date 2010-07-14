@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.113 2010-07-13 21:37:02 vano Exp $
+# $Id: cmlinstall.pm,v 1.114 2010-07-14 05:36:26 vano Exp $
 
 BEGIN
 {
@@ -983,6 +983,17 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEPARSER',
 
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>'baselparser()'});
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>'baselparser()'});
+
+
+addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'BASECMS',key=>'BASESAVEMETHOD',name=>'Базовый метод сохранения параметра',script=>q(
+my $id=p(_ID);
+set ($id,$CGIPARAM->{prm},$CGIPARAM->{value});
+my $result;
+$result->{'status'}=1;
+$result->{'newvalue'}=$CGIPARAM->{value};
+$result->{'prm'}=$CGIPARAM->{prm};
+return $result;
+)});
 
 
 my $sscript='
