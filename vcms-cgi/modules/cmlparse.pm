@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.106 2010-07-13 22:34:13 vano Exp $
+# $Id: cmlparse.pm,v 1.107 2010-07-14 17:57:25 vano Exp $
 
 BEGIN
 {
@@ -332,7 +332,7 @@ PITEM
 sub tag_dynamic {
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	if ($inner->{dyncalc} || !$GLOBAL->{CACHE}) {
+	if ($inner->{dyncalc} || !$cmlmain::GLOBAL->{CACHE}) {
 		return cmlparser({data=>$data,inner=>$inner});
 	} else {
 		return $data;
