@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.114 2010-07-14 05:36:26 vano Exp $
+# $Id: cmlinstall.pm,v 1.115 2010-07-14 17:23:16 vano Exp $
 
 BEGIN
 {
@@ -1215,7 +1215,7 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
- 			`cachekey` varchar(100) NOT NULL default '',
+ 			`cachekey` varchar(1000) NOT NULL default '',
   			`pagetext` mediumtext,
   			`ts` datetime default NULL,
   			`objid` int(11) NOT NULL default '0',
@@ -1226,7 +1226,7 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
-  			`cachekey` varchar(100) NOT NULL default '',
+  			`cachekey` varchar(1000) NOT NULL default '',
   			`objlink` varchar(12) NOT NULL default '',
   			`dev` int(11) NOT NULL default '0',
   			`lang` varchar(20) NOT NULL default '',
