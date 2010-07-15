@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.107 2010-07-14 17:57:25 vano Exp $
+# $Id: cmlparse.pm,v 1.108 2010-07-15 19:36:03 vano Exp $
 
 BEGIN
 {
@@ -2210,9 +2210,9 @@ sub tag_changebutton {
 
 sub tag_savebutton {
 	my $param=$_[0]->{param};
-  	my $pl=fetchparam($param,['prm','id','callback']);
+  	my $pl=fetchparam($param,['prm','id','callback','label']);
   	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
-  	my $imgsrc=$cmlmain::SAVEBUTTONURL;
+  	my $imgsrc=$pl->{'label'}?$cmlmain::POSTBUTTONURL:$cmlmain::SAVEBUTTONURL;
   	if ($pl->{callback}) {
   		return qq(<input type="image" src="$imgsrc" value="+" onclick="set('$id','$pl->{prm}',$pl->{callback});return false"/>);
   	} else { 
