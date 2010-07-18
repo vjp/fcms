@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.116 2010-07-18 19:02:20 vano Exp $
+# $Id: cmlinstall.pm,v 1.117 2010-07-18 19:14:51 vano Exp $
 
 BEGIN
 {
@@ -211,6 +211,7 @@ DEFAULT HEADER
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
 setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <hr/>DEFAULT FOOTER
+<script>  setCookie('_jsOK',1); </script>
 </body>
 </html>
 )});
@@ -611,13 +612,14 @@ DEV OFF <a href="/" target="_top">>></a> <a href="#" onclick="setCookie('dev','1
 
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUFOOTER',name=>'Базовый шаблон подвала меню'});
-setvalue({key=>'BASEMENUFOOTER',pkey=>'PAGETEMPLATE',value=>'
+setvalue({key=>'BASEMENUFOOTER',pkey=>'PAGETEMPLATE',value=>q(
 </td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
+<script>  setCookie('_jsOK',1); </script>
 </body>
 </html>
-'});
+)});
 
 
 
@@ -771,6 +773,7 @@ my $bmf=qq(
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
+<script>  setCookie('_jsOK',1); </script>
 </body>
 </html>
 );
