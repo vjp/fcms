@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.17 2010-06-17 06:05:25 vano Exp $
+# $Id: viewer.pl,v 1.18 2010-07-18 18:49:05 vano Exp $
 
 use lib "./modules/";
 
@@ -20,6 +20,9 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
+if ($ENV{HTTP_REFERER}=~/$ENV{SERVER_NAME}/ && !cookie('_jsOK') && cmlcalc::id('JSERRORS')) {
+	staterror('JSERRORS');
+}
 
 check_session();
 
