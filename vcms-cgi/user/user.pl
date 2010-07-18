@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.9 2010-06-28 04:49:22 vano Exp $
+# $Id: user.pl,v 1.10 2010-07-18 19:10:53 vano Exp $
 
 use lib "../modules/";
 
@@ -28,6 +28,10 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
+
+if ($ENV{HTTP_REFERER}=~/$ENV{SERVER_NAME}/ && !cookie('_jsOK') && cmlcalc::id('JSERRORS')) {
+	staterror('JSERRORS');
+}
 
 if (cookie('env')) {
 	for (split('&',cookie('env'))) {
