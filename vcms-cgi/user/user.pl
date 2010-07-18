@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.10 2010-07-18 19:10:53 vano Exp $
+# $Id: user.pl,v 1.11 2010-07-18 21:50:56 vano Exp $
 
 use lib "../modules/";
 
@@ -29,9 +29,7 @@ $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
-if ($ENV{HTTP_REFERER}=~/$ENV{SERVER_NAME}/ && !cookie('_jsOK') && cmlcalc::id('JSERRORS')) {
-	staterror('JSERRORS');
-}
+
 
 if (cookie('env')) {
 	for (split('&',cookie('env'))) {
