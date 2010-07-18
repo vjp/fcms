@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.118 2010-07-18 22:30:31 vano Exp $
+# $Id: cmlinstall.pm,v 1.119 2010-07-18 22:53:14 vano Exp $
 
 BEGIN
 {
@@ -192,6 +192,19 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbSuccess="Успех";
 </script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
+
+<script>  
+function jsErrHandler(message, url, line)
+{
+    new Ajax.Request('/cgi-bin/ajax-json.pl', {
+            method:'post',  
+            parameters: {func: 'JSERROR', data: Object.toJSON({message:message,url:url,line:line})}
+        });
+     return true;
+}
+window.onerror = jsErrHandler;
+</script>
+
 )});
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
