@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.66 2010-07-13 05:27:13 vano Exp $
+# $Id: cmlcalc.pm,v 1.67 2010-07-18 22:48:35 vano Exp $
 
 BEGIN
 {
@@ -689,7 +689,7 @@ sub month {
 }
 
 sub weekday {
-	return strftime('%u',gmtime(time()))
+	return strftime('%u',localtime(time()))
 } 
 
 sub distlist {
