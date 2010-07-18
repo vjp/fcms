@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.117 2010-07-18 19:14:51 vano Exp $
+# $Id: cmlinstall.pm,v 1.118 2010-07-18 22:30:31 vano Exp $
 
 BEGIN
 {
@@ -211,7 +211,6 @@ DEFAULT HEADER
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEFOOTER',name=>'Подвал'});
 setvalue({key=>'SITEFOOTER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <hr/>DEFAULT FOOTER
-<script>  setCookie('_jsOK',1); </script>
 </body>
 </html>
 )});
@@ -616,7 +615,6 @@ setvalue({key=>'BASEMENUFOOTER',pkey=>'PAGETEMPLATE',value=>q(
 </td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
-<script>  setCookie('_jsOK',1); </script>
 </body>
 </html>
 )});
@@ -1025,9 +1023,17 @@ addprm({convertname=>1,objkey=>'CLICKS',name=>'Счетчик',type=>'LIST',key=>'CLLIN
 addobject({convertname=>1,upkey=>'STAT',key=>'ERRORS',name=>'Ошибки'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'URL',type=>'TEXT',key=>'ERRORURL',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'IP',type=>'TEXT',key=>'ERRORIP',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'Ошибка',type=>'TEXT',key=>'ERRORMESSAGE',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Время',type=>'DATE',key=>'ERRORTIME',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Переменные среды',type=>'LONGTEXT',key=>'ERRORENV',evl=>'n'});
 addobject({convertname=>1,upkey=>'ERRORS',key=>'JSERRORS',name=>'JS-Ошибки'});
+
+addmethod ({convertname=>1,objkey=>'ERRORS',key=>'JSERROR',name=>'Обработка js ошибки',,script=>q(
+staterror("E:$CGIPARAM->{message} L:$CGIPARAM->{line}",$CGIPARAM->{url},"JSERRORS");
+return {status=>1};
+)});
+
+
 
 alert(enc('Структура создана успешно'));
 
