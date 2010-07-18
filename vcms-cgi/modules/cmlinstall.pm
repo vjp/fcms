@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.115 2010-07-14 17:23:16 vano Exp $
+# $Id: cmlinstall.pm,v 1.116 2010-07-18 19:02:20 vano Exp $
 
 BEGIN
 {
@@ -1019,8 +1019,12 @@ addprm({convertname=>1,objkey=>'CLICKS',name=>'Время',type=>'DATE',key=>'CLTIME'
 addprm({convertname=>1,objkey=>'CLICKS',name=>'Счетчик',type=>'LIST',key=>'CLLINK',evl=>'n'});
 
 
-
-
+addobject({convertname=>1,upkey=>'STAT',key=>'ERRORS',name=>'Ошибки'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'URL',type=>'TEXT',key=>'ERRORURL',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'IP',type=>'TEXT',key=>'ERRORIP',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'Время',type=>'DATE',key=>'ERRORTIME',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'Переменные среды',type=>'LONGTEXT',key=>'ERRORENV',evl=>'n'});
+addobject({convertname=>1,upkey=>'ERRORS',key=>'JSERRORS',name=>'JS-Ошибки'});
 
 alert(enc('Структура создана успешно'));
 
