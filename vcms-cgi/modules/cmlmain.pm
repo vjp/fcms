@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.81 2010-07-18 21:50:20 vano Exp $
+# $Id: cmlmain.pm,v 1.82 2010-07-19 05:44:50 vano Exp $
 
 BEGIN
 {
@@ -64,19 +64,23 @@ BEGIN
 
 
 
-sub staterror ($;$$)
+sub staterror ($;$$$)
 {
-	my ($message,$url,$key)=@_;
+	my ($message,$url,$ua,$key)=@_;
 	$key ||= 'ERRORS';
 	$url ||= $ENV{REQUEST_URI};
-	return &cmlcalc::add (&cmlcalc::id($key),{
+	$ua  ||= $ENV{HTTP_USER_AGENT};
+	if (cmlcalc::id($key)) {
+		return &cmlcalc::add (&cmlcalc::id($key),{
 			_NAME=>scalar(localtime()).' - '.$url,
 			ERRORURL=>$url,
+			ERRORUA=>$ua,
 			ERRORIP=>$ENV{REMOTE_ADDR},
 			ERRORTIME=>&cmlcalc::now(),
 			ERRORENV=>Dumper(\%ENV),
 			ERRORMESSAGE=>$message,
-	});
+		});
+	}	
 }
 
 

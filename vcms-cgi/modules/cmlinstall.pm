@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.119 2010-07-18 22:53:14 vano Exp $
+# $Id: cmlinstall.pm,v 1.120 2010-07-19 05:46:51 vano Exp $
 
 BEGIN
 {
@@ -193,12 +193,13 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 </script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
 
+
 <script>  
 function jsErrHandler(message, url, line)
 {
     new Ajax.Request('/cgi-bin/ajax-json.pl', {
             method:'post',  
-            parameters: {func: 'JSERROR', data: Object.toJSON({message:message,url:url,line:line})}
+            parameters: {func: 'JSERROR', data: Object.toJSON({message:message,url:url,line:line,ua:navigator.userAgent})}
         });
      return true;
 }
@@ -1037,12 +1038,13 @@ addobject({convertname=>1,upkey=>'STAT',key=>'ERRORS',name=>'Ошибки'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'URL',type=>'TEXT',key=>'ERRORURL',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'IP',type=>'TEXT',key=>'ERRORIP',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Ошибка',type=>'TEXT',key=>'ERRORMESSAGE',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'UserAgent',type=>'TEXT',key=>'ERRORUA',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Время',type=>'DATE',key=>'ERRORTIME',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Переменные среды',type=>'LONGTEXT',key=>'ERRORENV',evl=>'n'});
 addobject({convertname=>1,upkey=>'ERRORS',key=>'JSERRORS',name=>'JS-Ошибки'});
 
 addmethod ({convertname=>1,objkey=>'ERRORS',key=>'JSERROR',name=>'Обработка js ошибки',,script=>q(
-staterror("E:$CGIPARAM->{message} L:$CGIPARAM->{line}",$CGIPARAM->{url},"JSERRORS");
+staterror("E:$CGIPARAM->{message} L:$CGIPARAM->{line}",$CGIPARAM->{url},$CGIPARAM->{ua},"JSERRORS");
 return {status=>1};
 )});
 
