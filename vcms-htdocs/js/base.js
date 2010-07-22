@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.20 2010-07-22 05:51:46 vano Exp $
+// $Id: base.js,v 1.21 2010-07-22 22:19:01 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -142,6 +142,19 @@ function setVCallback (json) {
     }   
 }
 
+
+function setMVCallback (json) {
+	if (json.status) {
+		alert(lbSuccess);
+		window.location.reload();
+    } else {
+        alert(lbError+': '+json.message);
+    }   
+}
+
+
+
+
 function set (objid,prm,fcallback) {
 	var inputid='_o'+objid+'_p'+prm;
 	var dt={
@@ -154,6 +167,6 @@ function set (objid,prm,fcallback) {
 
 function multiset (frm,fcallback) {
 	var dt=frm.up('form').serialize(true);	
-	execute('BASELPARSER',dt,fcallback || setVCallback);
+	execute('BASELPARSER',dt,fcallback || setMVCallback);
 }
 
