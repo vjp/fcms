@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.110 2010-07-22 21:17:42 vano Exp $
+# $Id: cmlparse.pm,v 1.111 2010-07-22 21:32:32 vano Exp $
 
 BEGIN
 {
@@ -9,7 +9,7 @@ BEGIN
  use CGI  qw(param escapeHTML upload);
  use POSIX qw(strftime);
  use Time::HiRes qw (time);
-
+ use URI::Escape; 
  
  @ISA = 'Exporter';
  @EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
@@ -981,7 +981,7 @@ sub tag_actionlink {
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
-		'alert','redir', 
+		'alert','redir','back', 
 
 	]);
 	
@@ -1030,7 +1030,9 @@ sub tag_actionlink {
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
 		my $kn=$cmlmain::obj->{$tid}->{key};
-	 	return "<a href='?$pprm=EDIT_$kn&id=$iid' $param>$title</a>";
+		my $href="?$pprm=EDIT_$kn&id=$iid";
+		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
+	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
