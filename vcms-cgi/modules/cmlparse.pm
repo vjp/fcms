@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.108 2010-07-15 19:36:03 vano Exp $
+# $Id: cmlparse.pm,v 1.109 2010-07-22 05:51:24 vano Exp $
 
 BEGIN
 {
@@ -1919,6 +1919,7 @@ sub tag_form {
 		$data.="<input type='hidden' name='$p' value='$pv'>" if $pv;
 	}
 	$inner->{matrix}=$pl->{matrix};
+	$inner->{formid}=$frmid;
 	
 	$data.=cmlparser({data=>$_[0]->{data},inner=>$inner});
 	$data.="</form>";
@@ -2204,8 +2205,15 @@ sub tag_deletebutton {
 
 
 sub tag_changebutton {
+	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-	return "<input type='image' src='$imgsrc' width='119' height='24' value='OK'/>";
+  	my $pl=fetchparam($param,['ajax']);
+	
+	if ($pl->{'ajax'}) {
+		return qq(<input type='image' src='$imgsrc' id='ZZZ' width='119' height='24' value='OK' onclick="multiset(this);return false;"/>);
+	} else {
+		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK'/>";
+	}	
 }	
 
 sub tag_savebutton {
