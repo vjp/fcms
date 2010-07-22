@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.82 2010-07-19 05:44:50 vano Exp $
+# $Id: cmlmain.pm,v 1.83 2010-07-22 05:52:44 vano Exp $
 
 BEGIN
 {
@@ -79,6 +79,7 @@ sub staterror ($;$$$)
 			ERRORTIME=>&cmlcalc::now(),
 			ERRORENV=>Dumper(\%ENV),
 			ERRORMESSAGE=>$message,
+			ERRORPAGE=>$ENV{HTTP_REFERER},
 		});
 	}	
 }
