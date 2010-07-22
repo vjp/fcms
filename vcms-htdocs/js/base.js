@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.19 2010-07-15 18:07:39 vano Exp $
+// $Id: base.js,v 1.20 2010-07-22 05:51:46 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -150,5 +150,10 @@ function set (objid,prm,fcallback) {
     };
 	lexecute('BASESAVEMETHOD',objid,dt,fcallback || setVCallback);
 
+}
+
+function multiset (frm,fcallback) {
+	var dt=frm.up('form').serialize(true);	
+	execute('BASELPARSER',dt,fcallback || setVCallback);
 }
 
