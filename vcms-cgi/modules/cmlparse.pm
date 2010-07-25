@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.111 2010-07-22 21:32:32 vano Exp $
+# $Id: cmlparse.pm,v 1.112 2010-07-25 21:19:26 vano Exp $
 
 BEGIN
 {
@@ -2209,10 +2209,14 @@ sub tag_deletebutton {
 sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-  	my $pl=fetchparam($param,['ajax','callback']);
+  	my $pl=fetchparam(\$param,['ajax','callback','title']);
   	my $cstr=$pl->{callback}?",$pl->{callback}":'';
 	my $onclickstr=$pl->{'ajax'}?"onclick='multiset(this${cstr});return false;'":'';
-	return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr/>";
+	if ($pl->{title}) {
+		return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
+	} else {	
+		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param/>";
+	}	
 	
 }	
 
