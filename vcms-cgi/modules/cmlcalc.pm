@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.68 2010-07-22 05:52:11 vano Exp $
+# $Id: cmlcalc.pm,v 1.69 2010-07-26 05:11:04 vano Exp $
 
 BEGIN
 {
@@ -1022,7 +1022,7 @@ sub baselparser
 	my $alerttext=$CGIPARAM->{alerttext};
 	$alerttext=enc('Çíà÷åíèÿ èçìåíåíû') unless $alerttext;
 	alert($alerttext);
-	return ({status=>1});
+	return ({status=>1,objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id}});
 }
 
 
