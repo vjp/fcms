@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.112 2010-07-25 21:19:26 vano Exp $
+# $Id: cmlparse.pm,v 1.113 2010-07-27 17:27:46 vano Exp $
 
 BEGIN
 {
@@ -2211,7 +2211,7 @@ sub tag_changebutton {
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
   	my $pl=fetchparam(\$param,['ajax','callback','title']);
   	my $cstr=$pl->{callback}?",$pl->{callback}":'';
-	my $onclickstr=$pl->{'ajax'}?"onclick='multiset(this${cstr});return false;'":'';
+	my $onclickstr=$pl->{'ajax'}?"onclick='tinyMCE.triggerSave();multiset(this${cstr});return false;'":'';
 	if ($pl->{title}) {
 		return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
 	} else {	
