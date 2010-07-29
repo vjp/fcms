@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.114 2010-07-29 06:01:03 vano Exp $
+# $Id: cmlparse.pm,v 1.115 2010-07-29 21:21:36 vano Exp $
 
 BEGIN
 {
@@ -2099,6 +2099,7 @@ sub tag_inputtext {
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
 	if ($mode eq 'input') {
 		 my $sizestr;
+		 $value=~s/"/&quot;/g;
 		 if ($cols) {$sizestr="size='$cols'"}
 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr/>);
 	} elsif ($mode eq 'textarea') {
