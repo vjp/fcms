@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.113 2010-07-27 17:27:46 vano Exp $
+# $Id: cmlparse.pm,v 1.114 2010-07-29 06:01:03 vano Exp $
 
 BEGIN
 {
@@ -1192,7 +1192,13 @@ sub tag_a	{
  		if ($v->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
  		else {
  			$ql=$v->{value};
- 			if ($ql!~/^(http|\/|\?)/) {$ql="http://$ql"}
+ 			if ($ql!~/^(http|\/|\?)/) { 
+ 				if ($ql=~/\@/) {
+ 					$ql="mailto:$ql"
+ 				} else {
+ 					$ql="http://$ql"
+ 				}	
+ 			}
  		}	
   	}
 
