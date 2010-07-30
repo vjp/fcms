@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.115 2010-07-29 21:21:36 vano Exp $
+# $Id: cmlparse.pm,v 1.116 2010-07-30 05:35:11 vano Exp $
 
 BEGIN
 {
@@ -198,13 +198,7 @@ sub tagparse {
  			"$v";
 		}	
 	}iges;
-	
-#	$_[0]->{param}=~s{_cgi:(.+?)_} {
-# 		$v=$cmlcalc::CGIPARAM->{$1};
-# 		if ($v eq '') {$v='NULL'}
-# 		"$v";
-#	}iges;
-	
+
 	
 	$_[0]->{param}=~s{_var:(.+?)_} {
  		$v=$_[0]->{inner}->{var}->{$1};
