@@ -1,6 +1,6 @@
-package cmlinstall;
+BASEpackage cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.120 2010-07-19 05:46:51 vano Exp $
+# $Id: cmlinstall.pm,v 1.121 2010-08-02 03:23:09 vano Exp $
 
 BEGIN
 {
@@ -500,7 +500,7 @@ setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 
 my $bestr=qq(  
   <cml:use id='_prm:id_'>
-  <cml:form parser='BASELPARSER'>
+  <cml:form>
       <table>
           <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/></td></tr>
           <tr><td colspan=2><cml:changebutton/></td></tr>
