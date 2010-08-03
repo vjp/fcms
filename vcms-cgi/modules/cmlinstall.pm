@@ -1,6 +1,6 @@
-BASEpackage cmlinstall;
+package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.121 2010-08-02 03:23:09 vano Exp $
+# $Id: cmlinstall.pm,v 1.122 2010-08-03 04:35:02 vano Exp $
 
 BEGIN
 {
