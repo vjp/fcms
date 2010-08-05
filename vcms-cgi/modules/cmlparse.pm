@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.117 2010-08-03 04:25:40 vano Exp $
+# $Id: cmlparse.pm,v 1.118 2010-08-05 21:22:10 vano Exp $
 
 BEGIN
 {
@@ -1059,8 +1059,12 @@ sub tag_actionlink {
 	} elsif ($pl->{method}) {
 			return qq(
 			   <script> 
-			   function _exec_$pl->{method} () {
-			   	   execute('$pl->{method}',0, function(json) {
+			      function _exec_$pl->{method} () {
+			   	    var dt={
+                    	id: 0,
+                    	method: '$pl->{method}'
+                	};
+                	 ajax_call('execute', dt,   function(json) {
 			   	   	    if (json.status) {
         					alert(json.message || '$succ_mes');
         					$rd
@@ -1068,8 +1072,8 @@ sub tag_actionlink {
         					alert('$err_mes: '+json.message);
     					}   
 			   	   	       
-			   	   })
-			   }	   	
+			   	   });
+			   	 }	   	
 			   </script>
 			   <a href='#' onclick="_exec_$pl->{method} ()">$title</a>
 			);	
@@ -1078,15 +1082,18 @@ sub tag_actionlink {
 			return qq(
 			   <script> 
 			   function _lexec_$pl->{lmethod}_$oid () {
-			   	   lexecute('$pl->{lmethod}',$oid,0, function(json) {
+			   	   var dt={
+            				id: $oid,
+            				lmethod: '$pl->{lmethod}'
+            		};
+            		ajax_call('execute', dt, function(json) {
 			   	   	    if (json.status) {
         					alert(json.message || '$succ_mes');
         					$rd
     					} else {
         					alert('$err_mes: '+json.message);
     					}   
-			   	   	       
-			   	   })
+			   	   });
 			   }	   	
 			   </script>
 			   <a href='#' onclick="_lexec_$pl->{lmethod}_$oid ()">$title</a>
