@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.6 2010-03-30 20:51:07 vano Exp $
+# $Id: ajax-json.pl,v 1.7 2010-08-05 20:26:39 vano Exp $
 
 use strict;
 no strict "refs";
@@ -30,6 +30,10 @@ $AJAX_FUNCS={
 
 start('..');
 print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
+$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
+$cmlcalc::ENV->{dev}=cookie('dev');
+$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
 my $data=param('data');
 my $func=param('func');

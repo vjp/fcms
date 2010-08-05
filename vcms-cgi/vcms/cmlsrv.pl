@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.33 2010-07-13 21:25:07 vano Exp $
+# $Id: cmlsrv.pl,v 1.34 2010-08-05 20:26:52 vano Exp $
 
 use lib "../modules/";
 
@@ -58,7 +58,8 @@ if ($action) {
 
 print header(-type=>'text/html', -charset=>$GLOBAL->{CODEPAGE});
 
-$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
+$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vcms';
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
