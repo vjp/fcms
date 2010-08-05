@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.118 2010-08-05 21:22:10 vano Exp $
+# $Id: cmlparse.pm,v 1.119 2010-08-05 21:50:06 vano Exp $
 
 BEGIN
 {
@@ -2311,6 +2311,7 @@ sub tag_if {
 		}  	
 	} elsif ($param=~s/(\W)value=(['"])(.+?)\2/$1/i)      {
 		my $cond=$3;
+		undef $cond if $cond eq 'NULL';
 		$cond="!$cond" if $not;
 		undef $_[0]->{uinner}->{cond};
 		if ($cond)	{
