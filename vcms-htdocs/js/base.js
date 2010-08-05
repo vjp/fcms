@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.21 2010-07-22 22:19:01 vano Exp $
+// $Id: base.js,v 1.22 2010-08-05 05:14:11 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -144,9 +144,10 @@ function setVCallback (json) {
 
 
 function setMVCallback (json) {
+	var url=document.location.href;
 	if (json.status) {
 		alert(lbSuccess);
-		window.location.reload();
+		location.href=url;
     } else {
         alert(lbError+': '+json.message);
     }   
