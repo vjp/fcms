@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.122 2010-08-03 04:35:02 vano Exp $
+# $Id: cmlinstall.pm,v 1.123 2010-08-05 04:29:10 vano Exp $
 
 BEGIN
 {
@@ -769,7 +769,7 @@ addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вста
 setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
 <table><tr>
     <cml:list prm='PICLINKS'>
-        <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:img border="0" prm='PIC'/></cml:a></td>
+        <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:img border="0" prm='PIC' width="100"/></cml:a></td>
     </cml:list>
 </tr></table>
 <cml:form insertinto='_id:GALLERY_' link='PICLINK'>
