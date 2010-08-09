@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.31 2010-04-25 19:59:46 vano Exp $
+# $Id: cmlview.pm,v 1.32 2010-08-09 21:38:40 vano Exp $
 
 BEGIN
 {
@@ -573,7 +573,7 @@ sub editmethodform ($$;$)
 	print enc("Объект "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
 	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
 	
-	print qq(
+	print enc(q(
 		<script language="javascript" type="text/javascript">
 			editAreaLoader.init({
 			id : "editarea"		
@@ -581,14 +581,39 @@ sub editmethodform ($$;$)
 			,syntax: "perl"			
 			,start_highlight: true		
 		});
-		</script>
-	);
+		function console (script) {
+				$('resultDiv').update('...');
+				$('statusDiv').update('ВЫПОЛНЕНИЕ');
+          		var dt={script: script};
+          		ajax_call('console', dt, console_callback);
+  			}
+			
+			function console_callback(json){
+				     $('resultDiv').update(json.result);
+				     var statusstr;
+				     if (json.status=='SUCCESS') {
+				     	statusstr='УСПЕХ';
+				     } else {
+				     	statusstr='ОШИБКА';
+				     }		
+				     $('statusDiv').update(statusstr);
+				     
+            }
+		</script>		
+	));
+	
+
+
 	
 	my $save_js="editmethod('$id','$pkey','$lflag',editAreaLoader.getValue('editarea'))";
+	my $savenrun_js="console(editAreaLoader.getValue('editarea'))";
 	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
 	print br;
-	print button(-value=>enc('Исправить'),-onclick=>$save_js);
+	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
+	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
 
+	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
+	print hr,"<div id='resultDiv'></div>";
 	
 }	
 
