@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.69 2010-07-26 05:11:04 vano Exp $
+# $Id: cmlcalc.pm,v 1.70 2010-08-09 20:54:33 vano Exp $
 
 BEGIN
 {
@@ -71,7 +71,12 @@ sub scripteval {
 
 sub set {
 	my ($id,$prm,$val)=@_;
-	return &cmlmain::setvalue({id=>$id,prm=>$prm,value=>$val});
+	if (ref $prm eq 'HASH') {
+		&cmlmain::setvalue({id=>$id,prm=>$_,value=>$prm->{$_}}) for keys %$prm;
+		return 1;	
+	} else {
+		return &cmlmain::setvalue({id=>$id,prm=>$prm,value=>$val});
+	}	
 }
 
 sub setv {
