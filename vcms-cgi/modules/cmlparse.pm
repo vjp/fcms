@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.119 2010-08-05 21:50:06 vano Exp $
+# $Id: cmlparse.pm,v 1.120 2010-08-09 20:54:12 vano Exp $
 
 BEGIN
 {
@@ -977,7 +977,7 @@ sub tag_actionlink {
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
-		'alert','redir','back', 
+		'alert','redir','back', 'callback'
 
 	]);
 	
@@ -1022,6 +1022,18 @@ sub tag_actionlink {
 	my $rd=$pl->{redir}?"location.href='$pl->{redir}';":'';
 	
 	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
+	
+	my $defajaxcallback=qq(
+		function(json) {
+		   	    if (json.status) {
+        				alert(json.message || '$succ_mes');
+        				$rd
+    			} else {
+        				alert('$err_mes: '+json.message);
+    			}   
+     	 }
+    );
+    
 	if ($pl->{action} eq 'EDIT') {
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
@@ -1057,6 +1069,10 @@ sub tag_actionlink {
 		);
 		
 	} elsif ($pl->{method}) {
+ 	
+		if ($pl->{callback}) {
+			return qq(<a href='#' onclick="ajax_call('execute', {id:0,method:'$pl->{method}'}, $pl->{callback}  )">$title</a>);
+		} else {
 			return qq(
 			   <script> 
 			      function _exec_$pl->{method} () {
@@ -1064,40 +1080,30 @@ sub tag_actionlink {
                     	id: 0,
                     	method: '$pl->{method}'
                 	};
-                	 ajax_call('execute', dt,   function(json) {
-			   	   	    if (json.status) {
-        					alert(json.message || '$succ_mes');
-        					$rd
-    					} else {
-        					alert('$err_mes: '+json.message);
-    					}   
-			   	   	       
-			   	   });
+                	 ajax_call('execute', dt, $defajaxcallback  );
 			   	 }	   	
 			   </script>
 			   <a href='#' onclick="_exec_$pl->{method} ()">$title</a>
 			);	
+		}	
 	} elsif ($pl->{lmethod}) {
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
-			return qq(
-			   <script> 
-			   function _lexec_$pl->{lmethod}_$oid () {
-			   	   var dt={
-            				id: $oid,
-            				lmethod: '$pl->{lmethod}'
-            		};
-            		ajax_call('execute', dt, function(json) {
-			   	   	    if (json.status) {
-        					alert(json.message || '$succ_mes');
-        					$rd
-    					} else {
-        					alert('$err_mes: '+json.message);
-    					}   
-			   	   });
-			   }	   	
-			   </script>
-			   <a href='#' onclick="_lexec_$pl->{lmethod}_$oid ()">$title</a>
-			);	
+			if ($pl->{callback}) {
+				return qq(<a href='#' onclick="ajax_call('execute', {id:$oid,method:'$pl->{lmethod}'}, $pl->{callback}  )">$title</a>);
+			} else {
+				return qq(
+			   		<script> 
+			   			function _lexec_$pl->{lmethod}_$oid () {
+			   	   			var dt={
+            					id: $oid,
+            					lmethod: '$pl->{lmethod}'
+            				};
+            				ajax_call('execute', dt, $defajaxcallback );
+			   			}	   	
+			   		</script>
+			   		<a href='#' onclick="_lexec_$pl->{lmethod}_$oid ()">$title</a>
+				);
+			}		
 	}			
 	
 	$method="BASE$pl->{action}METHOD";	
