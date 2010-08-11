@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.22 2010-08-05 05:14:11 vano Exp $
+// $Id: base.js,v 1.23 2010-08-11 21:57:53 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -46,8 +46,8 @@ function getElementsByTagAndClass (tagName,className) {
 }
 
 
-function execute(func,data,callback) {
-	new Ajax.Request('/cgi-bin/ajax-json.pl', {
+function execute(func,data,callback,url) {
+	new Ajax.Request(url || '/cgi-bin/ajax-json.pl', {
 		method:'post',	
 		parameters: {func: func, data: Object.toJSON(data)},
 		onSuccess: function(transport) {
@@ -58,8 +58,8 @@ function execute(func,data,callback) {
 }
 
 
-function lexecute(func,objid,data,callback) {
-	new Ajax.Request('/cgi-bin/ajax-json.pl', {
+function lexecute(func,objid,data,callback,url) {
+	new Ajax.Request(url || '/cgi-bin/ajax-json.pl', {
 		method:'post',	
 		parameters: {
 			lfunc: func,
