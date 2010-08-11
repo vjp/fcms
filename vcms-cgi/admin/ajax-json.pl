@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.7 2010-06-29 05:59:28 vano Exp $
+# $Id: ajax-json.pl,v 1.8 2010-08-11 21:58:53 vano Exp $
 
 use strict;
 no strict "refs";
@@ -36,6 +36,7 @@ my $func=param('func');
 my $json = new JSON::PP;
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);

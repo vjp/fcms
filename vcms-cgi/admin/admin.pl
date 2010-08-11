@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.18 2010-07-18 21:51:04 vano Exp $
+# $Id: admin.pl,v 1.19 2010-08-11 21:58:39 vano Exp $
 
 use lib "../modules/";
 
@@ -32,6 +32,7 @@ $cmlcalc::CGIPARAM->{_MODE}='ADMIN';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('BENCHMARK',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
 
