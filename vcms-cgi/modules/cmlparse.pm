@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.120 2010-08-09 20:54:12 vano Exp $
+# $Id: cmlparse.pm,v 1.121 2010-08-11 21:56:26 vano Exp $
 
 BEGIN
 {
@@ -1038,6 +1038,9 @@ sub tag_actionlink {
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
 		my $kn=$cmlmain::obj->{$tid}->{key};
+		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
+			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
+		}	
 		my $href="?$pprm=EDIT_$kn&id=$iid";
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
 	 	return "<a href='$href' $param>$title</a>";
