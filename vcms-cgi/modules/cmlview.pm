@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.32 2010-08-09 21:38:40 vano Exp $
+# $Id: cmlview.pm,v 1.33 2010-08-12 22:26:40 vano Exp $
 
 BEGIN
 {
@@ -511,7 +511,7 @@ sub editfilelink {
  
  	my $val=calculate({id=>$id,uid=>$uid,pkey=>$pkey,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)"});
  	my $viewstr;
- 	if ($val->{value}=~/\.(jpe?g|png|gif)$/){
+ 	if ($val->{value}=~/\.(jpe?g|png|gif)$/i){
  		$viewstr = "<img src='$val->{value}'/><br/>";
  	}
  	 
