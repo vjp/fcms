@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.124 2010-08-05 21:54:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.125 2010-08-12 20:06:25 vano Exp $
 
 BEGIN
 {
@@ -677,6 +677,22 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 <script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 
+<script src="/js/calendar_date_select/calendar_date_select.js" type="text/javascript"></script>
+<script src="/js/calendar_date_select/format_db.js" type="text/javascript"></script>
+
+<link href="/css/calendar_date_select/red.css" rel="stylesheet" type="text/css" />
+
+<script>
+  _translations = {
+    "OK": "OK",
+    "Now": "Сейчас",
+    "Today": "Сегодня",
+    "Clear": "Очистить" 
+  };
+  Date.weekdays = $w("пн вт ср чт пт сб вс");
+  Date.months = $w("Январь Февраль Март Апрель Май Июнь Июль Август Сенятбрь Октябрь Ноябрь Декабрь" );
+  
+</script>
 
 <cml:include key='MCEINIT'/>
 <cml:include key='INITHINTS'/>
