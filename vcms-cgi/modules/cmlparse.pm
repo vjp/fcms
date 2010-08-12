@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.121 2010-08-11 21:56:26 vano Exp $
+# $Id: cmlparse.pm,v 1.122 2010-08-12 20:02:09 vano Exp $
 
 BEGIN
 {
@@ -70,6 +70,7 @@ sub initparser
     	'csvcol'=>1,
     	'auth'=>1,
     	'savebutton'=>1,
+    	'calendar'=>1,
  	);
 }
 
@@ -2157,6 +2158,35 @@ sub tag_inputdate {
 	
 	return "<input value='$value' $param name='$name'>$frmtstr";
 }	
+
+sub tag_calendar {
+	my $param=$_[0]->{param};
+	my $id=$_[0]->{inner}->{objid};
+	
+	
+	my $value;
+	my $fvalue;
+	
+	my $name;
+	my $frmtstr;
+	my $pl=fetchparam(\$param,['param','prm']);
+	my $prm=$pl->{param} || $pl->{prm};
+	if ($prm) {
+			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
+	}
+	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
+	
+	my $fvformat=$need_time?"%Y-%m-%d %H:%M":"%Y-%m-%d";
+	my $calopts=$need_time?"{time:'mixed', year_range:2 }":"{year_range:2 }";
+	$fvalue=strftime($fvformat,localtime($value)) if $value; 
+	return qq(
+			 <input type="hidden" value="$value" name="_p$prm"/>
+	         <input value="$fvalue" onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000)">
+             <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
+ 	 );
+}	
+
+
 
 
 sub tag_checkbox {
