@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.83 2010-07-22 05:52:44 vano Exp $
+# $Id: cmlmain.pm,v 1.84 2010-08-13 05:31:14 vano Exp $
 
 BEGIN
 {
@@ -1581,6 +1581,7 @@ sub deleteobject
 sub deletealllowobjects
 {
 	my ($id)=@_;
+	$id=~s/^u//;
 	buildlowtree($id);
 	my @dellist=@{$cmlmain::ltree->{$id}->{0}};
 	for my $oid (@dellist) {
