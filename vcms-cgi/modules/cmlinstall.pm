@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.125 2010-08-12 20:06:25 vano Exp $
+# $Id: cmlinstall.pm,v 1.126 2010-08-16 05:05:58 vano Exp $
 
 BEGIN
 {
@@ -340,9 +340,15 @@ setvalue({key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
 copyprm({objkey=>'CMSDESIGN',key=>'PAGETEMPLATE'});
 copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
 
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNADMIN',name=>'Интерфейс администратора'});
+addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNUSER',name=>'Интерфейс пользователя'});
 
-addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSMENU',name=>'Шаблоны меню'});
-addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSFORM',name=>'Шаблоны форм'});
+addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
+addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
+
+addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
+addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
+
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
 
@@ -437,7 +443,7 @@ setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
 
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSFORM', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
 setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 
 <html>
@@ -453,11 +459,11 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSFORM', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
 setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
-<TITLE>VCMS : Интерфейс администратора</TITLE>
+<TITLE>VCMS : Интерфейс пользовтеля</TITLE>
 <link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
@@ -517,7 +523,7 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 
 
 
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENU',name=>'Базовый шаблон меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENU',name=>'Шаблон меню'});
 setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 <CML:INCLUDE name='BASEMENUHEADER'/>
 <CML:INCLUDE name='CMSHEADMENU'/>
@@ -527,7 +533,7 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMENU',name=>'Шаблон меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMENU',name=>'Шаблон меню'});
 setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
 <CML:INCLUDE name='USERMENUHEADER'/>
 <CML:INCLUDE name='USERHEADMENU'/>
@@ -535,10 +541,10 @@ setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
 <CML:INCLUDE name='BASEMENUFOOTER'/>
 )});
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
 setvalue({convert=>1,key=>'USERMAINMENU',pkey=>'PAGETEMPLATE',value=>"... главное меню здесь ..."});
 
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'USERMENUHEADER',name=>'Базовый шаблон заголовка меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMENUHEADER',name=>'Базовый шаблон заголовка меню'});
 setvalue({key=>'USERMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
@@ -577,7 +583,7 @@ h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; 
 
 
 
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
 setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
@@ -641,10 +647,10 @@ my $bm="
 <CML:INCLUDE name='BASEMAINFOOTER'/>
 ";
 
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAIN',name=>'Базовый шаблон правого фрейма'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN',key=>'BASEMAIN',name=>'Базовый шаблон правого фрейма'});
 setvalue({key=>'BASEMAIN',pkey=>'PAGETEMPLATE',value=>$bm});
 
-addlowobject({convertname=>1,upobjkey=>'CMSFORM',key=>'USERMAIN',name=>'Шаблон страницы'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERMAIN',name=>'Шаблон страницы'});
 setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMAIN'/>"});
 
 my $bmv=qq(<html>
