@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.12 2010-08-05 20:27:01 vano Exp $
+# $Id: user.pl,v 1.13 2010-08-16 05:37:04 vano Exp $
 
 use lib "../modules/";
 
@@ -22,7 +22,7 @@ my $v;
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
 $cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='USER';
-$cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p(USERNOFRAMES,&cmlcalc::id(CMSDESIGN));
+$cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGNUSER'));;
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
@@ -102,6 +102,8 @@ if (param('menu')) {
 	$cmlcalc::CGIPARAM->{page}='USERMAIN' unless param('page');
 	if (param('mbframe') && !param('framebody')) {
 		$v=&cmlcalc::calculate({key=>'SPLASH',expr=>"p($prm)"});
+	} elsif ($cmlcalc::ENV->{NOFRAMES}) {	
+		$v=&cmlcalc::calculate({key=>'USERCMSTEMPLNOFRAMES',expr=>"p($prm)"});
 	} else {	
  		$v=&cmlcalc::calculate({key=>'USERCMSTEMPL',expr=>"p($prm)"});
 	}	
