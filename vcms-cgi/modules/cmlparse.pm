@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.123 2010-08-17 05:08:47 vano Exp $
+# $Id: cmlparse.pm,v 1.124 2010-08-17 05:53:15 vano Exp $
 
 BEGIN
 {
@@ -308,17 +308,23 @@ sub tag_csvrow {
 sub tag_pagination {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
-	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pid=$cmlcalc::CGIPARAM->{pagenum} || 1;
-	my $rtext = <<PITEM;
-	<cml:list $param>
-		<cml:if expr='_LISTINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX+1'/> </cml:if>
-		<cml:if expr='_LISTINDEX ne $pid'>
-			<cml:a pagenum='_LISTINDEX'><cml:text expr='_CONTAINERINDEX+1'/></cml:a>
-		</cml:if>
-		<cml:container/>
-	</cml:list>
-PITEM
+	my $inner; %{$inner}=%{$_[0]->{inner}};	
+	my $pl=fetchparam(\$param,[
+		'page','limit','container',
+	]);
+	delete $pl->{page} if $pl->{page} eq 'NULL';
+	my $container=$pl->{container} || $pl->{limit};
+	my $pid=$cmlcalc::CGIPARAM->{pagenum} || $pl->{page} || 1;
+	$pid--;
+	my $rtext = qq(
+		<cml:list container='$container' $param>
+			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX+1'/> </cml:if>
+			<cml:else>
+				<cml:a pagenum='_LISTINDEX'><cml:text expr='_CONTAINERINDEX+1'/></cml:a>
+			</cml:else>
+			<cml:container/>
+		</cml:list>
+	);
 	return cmlparser({data=>$rtext,inner=>$inner});
 	
 	
@@ -791,7 +797,7 @@ sub tag_list  	{
 			}				
 		}
 		
-		my $contid=1;
+		my $conid=0;
   		for (my $i=$start;$i<$limit+$start;$i++) {
   			next if $splist[$i] eq 'NULL';
   			if ($i>$#splist) {last}
