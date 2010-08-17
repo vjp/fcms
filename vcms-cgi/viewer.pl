@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.20 2010-08-17 17:43:40 vano Exp $
+# $Id: viewer.pl,v 1.21 2010-08-17 18:09:17 vano Exp $
 
 use lib "./modules/";
 
@@ -101,7 +101,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 my $qs=url(-path_info=>1,-query=>1,-relative=>1);
 $qs =~ s/\?.*$//;
 $qs =~ s/\/parsemethod\/.+$//;
-$cmlcalc::QUERYSTRING=$qs || $ENV{'REDIRECT_URL'};
+$cmlcalc::QUERYSTRING=$ENV{'REDIRECT_URL'} || $qs;
 
 my $cgiparam=$cmlcalc::CGIPARAM;
 

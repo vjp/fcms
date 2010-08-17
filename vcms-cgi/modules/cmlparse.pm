@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.125 2010-08-17 06:05:04 vano Exp $
+# $Id: cmlparse.pm,v 1.126 2010-08-17 18:08:55 vano Exp $
 
 BEGIN
 {
@@ -319,7 +319,7 @@ sub tag_pagination {
 		<cml:list container='$container' $param>
 			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX'/> </cml:if>
 			<cml:else>
-				<cml:a pagenum='_LISTINDEX'><cml:text expr='_CONTAINERINDEX'/></cml:a>
+				<cml:a pagenum='_CONTAINERINDEX'><cml:text expr='_CONTAINERINDEX'/></cml:a>
 			</cml:else>
 			<cml:container/>
 		</cml:list>
@@ -1178,12 +1178,10 @@ sub tag_a	{
 	} elsif ($pl->{'pagenum'}) {	
 		my $pid=$pl->{'pagenum'};
 		$ql=$cmlcalc::QUERYSTRING;
-		if ($ql=~/pagenum=\d+/) {
-			$ql=~s/pagenum=\d+/pagenum=$pid/;
-		} elsif ($ql=~/page\/\d+/) {
+		if ($ql=~/page\/\d+/) {
 			$ql=~s/page\/\d+/page\/$pid/;
 		} else {	
-			$ql.="&pagenum=$pid";
+			$ql.="page/$pl->{'pagenum'}";
 		}	
 	} elsif ($pl->{'parser'}) {	
 	    	my $parser=$pl->{'parser'};
