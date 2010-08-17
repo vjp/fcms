@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.122 2010-08-12 20:02:09 vano Exp $
+# $Id: cmlparse.pm,v 1.123 2010-08-17 05:08:47 vano Exp $
 
 BEGIN
 {
@@ -652,15 +652,21 @@ sub tag_list  	{
 	
   		if ($param=~s/(\W)container=(['"])(.+?)\2/$1/i)      {$container=$3 } else {$container=1}
   		 
-  		if ($param=~s/(\W)limit=(['"])(.+?)\2/$1/i)          {$limit=$3 } 
-		if ($param=~s/(\W)start=(['"])(.+?)\2/$1/i)          {$start=$3 }  else {$start=0}
-		
-		
  	
   		my $pl=fetchparam($param,[
   			'selected','selexpr',
-  			'orderby','ordertype','orderexpr'
+  			'orderby','ordertype','orderexpr',
+  			'limit','start','page',
   		]);
+  		$limit=$pl->{limit};
+  		if ($pl->{start}) {
+  			$start=$pl->{start}
+  		} elsif ($pl->{page} && $pl->{page} ne 'NULL') {
+  			$start=($pl->{page}-1)*$limit
+  		} else {
+  			$start=0;
+  		}
+  		
 		my $orderexpr;
 		if ($pl->{orderexpr}) {
 			$orderexpr=$pl->{orderexpr}
