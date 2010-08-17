@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.124 2010-08-17 05:53:15 vano Exp $
+# $Id: cmlparse.pm,v 1.125 2010-08-17 06:05:04 vano Exp $
 
 BEGIN
 {
@@ -315,12 +315,11 @@ sub tag_pagination {
 	delete $pl->{page} if $pl->{page} eq 'NULL';
 	my $container=$pl->{container} || $pl->{limit};
 	my $pid=$cmlcalc::CGIPARAM->{pagenum} || $pl->{page} || 1;
-	$pid--;
 	my $rtext = qq(
 		<cml:list container='$container' $param>
-			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX+1'/> </cml:if>
+			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX'/> </cml:if>
 			<cml:else>
-				<cml:a pagenum='_LISTINDEX'><cml:text expr='_CONTAINERINDEX+1'/></cml:a>
+				<cml:a pagenum='_LISTINDEX'><cml:text expr='_CONTAINERINDEX'/></cml:a>
 			</cml:else>
 			<cml:container/>
 		</cml:list>
@@ -797,7 +796,7 @@ sub tag_list  	{
 			}				
 		}
 		
-		my $conid=0;
+		my $conid=1;
   		for (my $i=$start;$i<$limit+$start;$i++) {
   			next if $splist[$i] eq 'NULL';
   			if ($i>$#splist) {last}
@@ -1179,8 +1178,13 @@ sub tag_a	{
 	} elsif ($pl->{'pagenum'}) {	
 		my $pid=$pl->{'pagenum'};
 		$ql=$cmlcalc::QUERYSTRING;
-		$ql=~s/pagenum=\d+/pagenum=$pid/;
-		$ql.="&pagenum=$pid" if $ql!~/pagenum=\d+/;
+		if ($ql=~/pagenum=\d+/) {
+			$ql=~s/pagenum=\d+/pagenum=$pid/;
+		} elsif ($ql=~/page\/\d+/) {
+			$ql=~s/page\/\d+/page\/$pid/;
+		} else {	
+			$ql.="&pagenum=$pid";
+		}	
 	} elsif ($pl->{'parser'}) {	
 	    	my $parser=$pl->{'parser'};
 		$ql=$cmlcalc::QUERYSTRING;
