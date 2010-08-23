@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.126 2010-08-17 18:08:55 vano Exp $
+# $Id: cmlparse.pm,v 1.127 2010-08-23 21:38:23 vano Exp $
 
 BEGIN
 {
@@ -1597,8 +1597,9 @@ sub tag_include {
 	if ($body) {
 		return  cmlparser({data=>$body, inner=>$inner}); 
 	}	else       {
+		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
-		return "[ Include ERROR! (id:$id key:$key expr:$expr) ]"
+		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
 	}
 }
 
