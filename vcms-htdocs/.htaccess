@@ -5,7 +5,7 @@ RewriteEngine on
 
 RewriteRule ^data/?$ /_DATAFILES
 
-RewriteRule ^(.*/view/.*)$ /cgi-bin/viewer.pl/$1
+RewriteRule ^(view/.*)$ /cgi-bin/viewer.pl/$1
 RewriteRule ^(_.*)$ /cgi-bin/viewer.pl/$1
 RewriteRule ^$ /cgi-bin/viewer.pl
 RewriteRule ^admin/?$ /cgi-bin/admin/admin.pl
