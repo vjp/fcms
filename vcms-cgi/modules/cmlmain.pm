@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.84 2010-08-13 05:31:14 vano Exp $
+# $Id: cmlmain.pm,v 1.85 2010-08-23 23:06:55 vano Exp $
 
 BEGIN
 {
@@ -449,7 +449,7 @@ sub edit {
 	
 	
 	
-	my $sthU=$dbh->prepare("UPDATE ${DBPREFIX}tree SET keyname=?, template=? ,ltemplate=?, indx=?,lang=?,nolog=? WHERE id=?");
+	my $sthU=$dbh->prepare("UPDATE ${DBPREFIX}tree SET keyname=?, template=? ,ltemplate=?, indx=?,lang=?,nolog=?,up=? WHERE id=?");
 	
 	if (ref $_[0]->{name} eq 'HASH') {
 	  my $nh=$_[0]->{name};	
@@ -469,6 +469,7 @@ sub edit {
 	if (defined $_[0]->{key})       {$obj->{$id}->{key}=$_[0]->{key}}
 	if (defined $_[0]->{indx})      {$obj->{$id}->{indx}=$_[0]->{indx}}
 	if (defined $_[0]->{lang})      {$obj->{$id}->{lang}=$_[0]->{lang}}
+	if (defined $_[0]->{up})        {$obj->{$id}->{up}=$_[0]->{up}}
 	if ($_[0]->{template} ne '')  {$obj->{$id}->{template}=$_[0]->{template}}
 	if ($_[0]->{ltemplate} ne '') {$obj->{$id}->{ltemplate}=$_[0]->{ltemplate}}
 	$obj->{$id}->{nolog}=$nolog;
@@ -482,6 +483,7 @@ sub edit {
  	   $obj->{$id}->{indx},
  	   $obj->{$id}->{lang},
  	   $obj->{$id}->{nolog},
+ 	   $obj->{$id}->{up},
  	   $id) || die $dbh->errstr;
  	   
  	   
@@ -1049,7 +1051,15 @@ sub setvalue  {
   		my $objid;
   		if ($uid) {$objid=$uid}	else {$objid=$1}
   		if ($pkey eq '_INDEX') {   update({id=>"u$objid" , indx=>$value}) ; return }	
-		if ($pkey eq '_KEY')   {   update({id=>"u$objid" , key=>$value}) ; return }	  		
+		if ($pkey eq '_KEY')   {   update({id=>"u$objid" , key=>$value}) ; return }	  
+		if ($pkey eq '_UP') {   
+			if ($value=~/^u(\d+)/) {
+				update({id=>"u$objid" , up=>$1}); 
+				$sthCH->execute("u$objid") || die $dbh->errstr;
+			}	
+			return 1;
+		}	
+				
 		my $cl;
 	 	
 	 	if    ($_[0]->{lang})      {$cl=$_[0]->{lang}} 
