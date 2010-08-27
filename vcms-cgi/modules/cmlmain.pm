@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.85 2010-08-23 23:06:55 vano Exp $
+# $Id: cmlmain.pm,v 1.86 2010-08-27 22:30:45 vano Exp $
 
 BEGIN
 {
@@ -49,7 +49,7 @@ BEGIN
               
               &prminfo &enc
               
-              &get_sec_id &check_sec_id &get_sec_key
+              &get_sec_id &check_sec_id &get_sec_key &check_captcha
               
               &add_user &check_user &del_user &activate_user &check_auth &change_pass_user &check_password
               &deactivate_user &update_login
@@ -237,6 +237,10 @@ sub get_sec_id {
 	my ($sid)=$sth2->fetchrow();
 	return $sid;
 }	
+
+sub check_captcha {
+	return check_sec_id($cmlcalc::CGIPARAM->{'sec_id'},$cmlcalc::CGIPARAM->{'sec_key'})
+}
 
 sub check_sec_id {
 	my ($id,$ckey)=@_;
