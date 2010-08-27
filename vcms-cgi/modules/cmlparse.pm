@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.128 2010-08-24 05:54:20 vano Exp $
+# $Id: cmlparse.pm,v 1.129 2010-08-27 22:00:52 vano Exp $
 
 BEGIN
 {
@@ -66,6 +66,7 @@ sub initparser
     	'dynamic'=>1,
     	'lightbox'=>1,
     	'captcha'=>1,
+    	'captchaanswer'=>1,
     	'csvrow'=>1,
     	'csvcol'=>1,
     	'auth'=>1,
@@ -1145,6 +1146,11 @@ sub tag_actionlink {
 	return "<a href='?$hstr' $param>$title</a>";
 	
 }	
+sub tag_captchaanswer 
+{
+	my $param=$_[0]->{param};
+	return "<input type='text' id='sec_key' $param>";
+}
 
 sub tag_captcha {
 	my $sec_id=&cmlmain::get_sec_id();
@@ -1554,7 +1560,7 @@ sub tag_execute {
 	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 	my $res=&cmlcalc::execute({
 		key=>$pl->{key},
-		id=>$id,
+		id=>$pl->{key}?0:$id,
 		method=>$pl->{method},
 		lmethod=>$pl->{lmethod}
 	});
