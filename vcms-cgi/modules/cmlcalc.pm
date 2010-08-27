@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.70 2010-08-09 20:54:33 vano Exp $
+# $Id: cmlcalc.pm,v 1.71 2010-08-27 22:01:34 vano Exp $
 
 BEGIN
 {
@@ -296,8 +296,7 @@ sub execute 	{
    					}
    					push (@treeid,&cmlmain::treelist($cmlmain::lobj->{$_[0]->{id}}->{upobj}));
    					$OBJID=$cmlmain::lobj->{$_[0]->{id}};   
-   					$low=1;				
-  				} 
+   				} 
   			
  			}	elsif ($_[0]->{key}) {
   				&cmlmain::checkload({key=>$_[0]->{key}});
@@ -316,7 +315,7 @@ sub execute 	{
  		my $ev=eval "use cmlmain; $METHODID->{script}";
  		unless($METHODID->{script}) {
  		
- 			$res=enc("Метод $method не найден");
+ 			$res=enc("Метод $method ($low) не найден");
  			if (
  				$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
  				$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 
