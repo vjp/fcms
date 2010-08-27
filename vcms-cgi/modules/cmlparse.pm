@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.130 2010-08-27 22:24:43 vano Exp $
+# $Id: cmlparse.pm,v 1.131 2010-08-27 23:14:13 vano Exp $
 
 BEGIN
 {
@@ -1850,7 +1850,7 @@ sub tag_form {
   		'link','alert','action','prm','param','editprm',
   		'piclistprm','filelistprm','parseprm',
   		'renameparam','renameprm', 'matrix','ukey','listprm',
-  		'actionexpr','elementid',  		
+  		'actionexpr','elementid','iframe',  		
   		]);
 	$param=$pl->{'str'};
 	
@@ -1932,7 +1932,10 @@ sub tag_form {
   	$actionstr="action='$action'" if $action;
   	my $frmid=$pl->{elementid} || ($parserid?"frm$parserid":"frm$id");
 	my $estr=$action!~/^http/?"enctype='multipart/form-data'":"";
-	my $data="<form $param method='$method' $estr $actionstr id='$frmid'>";
+	my $ifrstr=$pl->{iframe}?"target='iframe$id'":'';
+	
+	
+	my $data="<form $param method='$method' $estr $actionstr id='$frmid' $ifrstr>";
 	
     unless ($action=~/^http/) {
 		if ($view) {$data.="<input type='hidden' name='view' value='$view'>"}
@@ -1944,7 +1947,7 @@ sub tag_form {
 	
 		$data.="<input type='hidden' name='id' value='$id'>";
 		$data.="<input type='hidden' name='param' value='$pkey'>";
-		$data.="<input type='hidden' name='parsemethod' value='$parser'>";
+		$data.="<input type='hidden' name='parsemethod' value='$parser'>" unless $pl->{iframe};
 		$data.="<input type='hidden' name='parseid' value='$parserid'>" if $parserid;
 		$data.="<input type='hidden' name='parseprm' value='$pl->{parseprm}'>" if $pl->{'parseprm'};
 		$data.="<input type='hidden' name='listprm' value='$pl->{listprm}'>" if $pl->{'listprm'};
@@ -1967,6 +1970,7 @@ sub tag_form {
 	
 	$data.=cmlparser({data=>$_[0]->{data},inner=>$inner});
 	$data.="</form>";
+	$data.="<iframe id='iframe$id' name='iframe$id' src=''></iframe>" if $pl->{iframe};
 	return $data;
 }	
 
