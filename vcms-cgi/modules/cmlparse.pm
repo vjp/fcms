@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.131 2010-08-27 23:14:13 vano Exp $
+# $Id: cmlparse.pm,v 1.132 2010-08-28 04:12:26 vano Exp $
 
 BEGIN
 {
@@ -1149,7 +1149,7 @@ sub tag_actionlink {
 sub tag_captchaanswer 
 {
 	my $param=$_[0]->{param};
-	return "<input type='text' id='sec_key' name='sec_key' $param>";
+	return "<input type='text' id='sec_key' name='sec_key' value='' $param>";
 }
 
 sub tag_captcha {
