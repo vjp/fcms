@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.33 2010-08-12 22:26:40 vano Exp $
+# $Id: cmlview.pm,v 1.34 2010-08-29 19:11:11 vano Exp $
 
 BEGIN
 {
@@ -487,7 +487,8 @@ sub editfile
 
  
  my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,pkey=>$pkey,expr=>"p($pkey)"});
- if ($val->{value}) {$outp="<a href='$GLOBAL->{FILEURL}/$val->{value}'>Скачать</a><br>"}
+ my $label=enc('Скачать');
+ if ($val->{value}) {$outp="<a href='$GLOBAL->{FILEURL}/$val->{value}'>$label</a><br>"}
  if (checkupd({id=>$_[0]->{id},uid=>$_[0]->{uid},tabkey=>$_[0]->{tabkey},pkey=>$_[0]->{pkey}})) {	 
  	$outp="$outp <input type='file' name='$prmname' value='$val->{value}' onchange='document.$formname.$flagname.value=1'>\n";
  } 	
