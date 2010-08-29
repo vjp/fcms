@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.71 2010-08-27 22:01:34 vano Exp $
+# $Id: cmlcalc.pm,v 1.72 2010-08-29 19:24:12 vano Exp $
 
 BEGIN
 {
@@ -930,50 +930,14 @@ sub saveformdata {
 		}   
 	}
 	
-}	
-
-
-sub uploadfile
-{
- my $pkey;
- if ($_[0]->{pkey})  {$pkey=$_[0]->{pkey}}
- elsif ($_[0]->{param}) {$pkey=$_[0]->{param}}
- else {return 0}
- 
- my $fh;
- my $fname;
- if ($_[0]->{cgiparam}) {
- 	 $fh=$_[0]->{cgiparam};
- 	 $fname=$_[0]->{cgiparam}; 
- } else {return 0}
- 
-
- 
- my $objid;
- my $objuid;
- 
- if    ($_[0]->{id})    {$objid=$_[0]->{id}}
- elsif ($_[0]->{uid})   {$objuid=$objuid=$_[0]->{uid}}
- else  {return 0}
- 
- 
- my $tabkey=$_[0]->{tabkey};
- my $tabpkey=$_[0]->{tabpkey};
-
- 
- if    ($objid)  { $fname=~s{^.+\\(.+?)$}{${objid}_${pkey}_$1}i }
- elsif ($objuid) { $fname=~s{^.+\\(.+?)$}{${objuid}_${pkey}_$1}i }
- 
-
- 
- open FILE,">$GLOBAL->{FILEPATH}/$fname" ||die $!;
- binmode FILE;  
- while (<$fh>) { 
- 	print FILE; 
- }
- close  FILE || die $!;
- setvalue({id=>$objid,uid=>$objuid,pkey=>$pkey,value=>$fname,tabkey=>$tabkey,tabpkey=>$tabpkey});
 }
+	
+sub uploadfile 
+{
+	my ($objid,$prm,$cgiparamname)=@_;
+	uploadprmfile({param=>$prm,id=>$objid,cgiparam=>$cgiparamname});
+}
+
 
 sub baselparser
 {
