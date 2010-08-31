@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.72 2010-08-29 19:24:12 vano Exp $
+# $Id: cmlcalc.pm,v 1.73 2010-08-31 20:40:43 vano Exp $
 
 BEGIN
 {
@@ -536,6 +536,7 @@ sub csv ($;$$)
 	my ($oid,$prm,$objid)=@_;
 	$prm ||= 'PAGETEMPLATE';
 	if($objid) {
+		undef @cmlcalc::CSVROWS;
 		my $rtext=calc($oid,"p($prm)");
 		&cmlparse::cmlparser({data=>$rtext,objid=>$objid}); 
 	 	return join("\r\n",@cmlcalc::CSVROWS);
