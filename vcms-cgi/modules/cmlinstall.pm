@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.128 2010-08-23 21:37:42 vano Exp $
+# $Id: cmlinstall.pm,v 1.129 2010-09-01 21:24:05 vano Exp $
 
 BEGIN
 {
@@ -32,12 +32,12 @@ addobject({convertname=>1,forced=>1,up=>0,key=>'STAT',name=>'Статистика'});
 
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(0,PICLINK)'});
-addprm({convertname=>1,objkey=>'CONTENT',name=>'Первая картинка',type=>'LIST',key=>'FIRSTPIC',upd=>'n',defval=>'my @v=split(/;/,p(PICLINKS));$v[0]'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Первая картинка',type=>'LIST',key=>'FIRSTPIC',upd=>'n',defval=>'my @v=sort{p(_INDEX,$a)<=>p(_INDEX,$b)}split(/;/,p(PICLINKS));$v[0]'});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Картинки для верхних объектов',type=>'LIST',key=>'UPICLINKS',upd=>'n',defval=>'ubackref(id(GALLERY),PICLINK)'});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(0,FILELINK)'});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Файлы для верхних объектов',type=>'LIST',key=>'UFILELINKS',upd=>'n',defval=>'ubackref(id(FILEARCHIVE),FILELINK)'});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Ролики',type=>'LIST',key=>'VIDLINKS',upd=>'n',defval=>'backref(0,VIDLINK)'});
-addprm({convertname=>1,objkey=>'CONTENT',name=>'Первый ролик',type=>'LIST',key=>'FIRSTVIDEO',upd=>'n',defval=>'my @v=split(/;/,p(VIDLINKS));$v[0]'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Первый ролик',type=>'LIST',key=>'FIRSTVIDEO',upd=>'n',defval=>'my @v=sort{p(_INDEX,$a)<=>p(_INDEX,$b)}split(/;/,p(VIDLINKS));$v[0]'});
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Ролики для верхних объектов',type=>'LIST',key=>'UVIDLINKS',upd=>'n',defval=>'ubackref(id(VIDEOGALLERY),VIDLINK)'});
 
 
@@ -70,7 +70,7 @@ addprm({convertname=>1,objkey=>'GALLERY',name=>'Картинка',type=>'PICTURE',key=>'
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Превью',type=>'PICTURE',key=>'SMALLPIC',evl=>'n'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'PICLINK',evl=>'n'});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Следующая картинка',type=>'LIST',key=>'NEXTPIC',upd=>'n',defval=>q(
-my @v=reverse split(/;/,p(PICLINKS,p(PICLINK)));
+my @v=reverse sort{p(_INDEX,$a)<=>p(_INDEX,$b)} split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
 for (@v) {
@@ -79,7 +79,7 @@ for (@v) {
 }
 )});
 addprm({convertname=>1,objkey=>'GALLERY',name=>'Предыдущая картинка',type=>'LIST',key=>'PREVPIC',upd=>'n',defval=>q(
-my @v=split(/;/,p(PICLINKS,p(PICLINK)));
+my @v=sort{p(_INDEX,$a)<=>p(_INDEX,$b)} split(/;/,p(PICLINKS,p(PICLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
 for (@v) {
@@ -96,7 +96,7 @@ addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Ролик',type=>'VIDEO',key=>'
 addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Ссылка на раздел',type=>'LIST',key=>'VIDLINK',evl=>'n'});
 addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Картинка',type=>'PICTURE',key=>'PIC',evl=>'n'});
 addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Следующий ролик',type=>'LIST',key=>'NEXTVIDEO',upd=>'n',defval=>q(
-my @v=reverse split(/;/,p(VIDLINKS,p(VIDLINK)));
+my @v=reverse sort{p(_INDEX,$a)<=>p(_INDEX,$b)} split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
 for (@v) {
@@ -105,7 +105,7 @@ for (@v) {
 }
 )});
 addprm({convertname=>1,objkey=>'VIDEOGALLERY',name=>'Предыдущий ролик',type=>'LIST',key=>'PREVVIDEO',upd=>'n',defval=>q(
-my @v=split(/;/,p(VIDLINKS,p(VIDLINK)));
+my @v=sort{p(_INDEX,$a)<=>p(_INDEX,$b)} split(/;/,p(VIDLINKS,p(VIDLINK)));
 my $id=p(_ID);
 my $r=$v[-1];
 for (@v) {
