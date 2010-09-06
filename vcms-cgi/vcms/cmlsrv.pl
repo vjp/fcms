@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.34 2010-08-05 20:26:52 vano Exp $
+# $Id: cmlsrv.pl,v 1.35 2010-09-06 20:25:28 vano Exp $
 
 use lib "../modules/";
 
@@ -1117,7 +1117,7 @@ sub editprmform {
 	print Tr(th(enc('Ключ')),td(b($pkey)));
 	print Tr(th(enc('Тип')),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
 	
-	my $tl=method_list();
+	my $tl=lmethod_list();
 	print Tr(th(enc('Обработчик OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
 	if ($prm->{$pkey}->{upd}->{$id} eq 'y') {$ss=1} else {$ss=''}
 	print Tr(th(enc('Исправляемый')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
@@ -1164,7 +1164,7 @@ sub method_list {
 
  my $tlbls;
  my @tvals=('');
- push (@tvals,keys %$method);
+ push (@tvals,sort keys %$method);
  for (@tvals) { $tlbls->{$_}="$method->{$_}->{name} ($_)" } 
  $tlbls->{''}=enc('Не определен');
  
@@ -1173,6 +1173,23 @@ sub method_list {
  
  return $tl;
 }	
+
+
+sub lmethod_list {
+	
+ 	my $tl;	
+ 	my $tlbls;
+ 	my @tvals=('');
+ 	push (@tvals,sort keys %$lmethod);
+ 	for (@tvals) { $tlbls->{$_}="$lmethod->{$_}->{name} ($_)" } 
+ 	$tlbls->{''}=enc('Не определен');
+ 
+ 	$tl->{vals}=\@tvals;
+ 	$tl->{lbls}=$tlbls;
+ 
+ 	return $tl;
+}	
+
 
 sub meta_redirect {
 		print "<META HTTP-EQUIV='Refresh' CONTENT='2; URL=$_[0]'/>Подождите, сохраняем...";

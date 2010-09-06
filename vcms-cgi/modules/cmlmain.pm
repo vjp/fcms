@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.86 2010-08-27 22:30:45 vano Exp $
+# $Id: cmlmain.pm,v 1.87 2010-09-06 20:25:10 vano Exp $
 
 BEGIN
 {
@@ -1128,7 +1128,8 @@ sub setvalue  {
   	if ($prm->{$pkey}->{extra}->{onchange}) {
   		if ($id) {$OBJECT=$obj->{$id}}
   	 	if ($uid) {$OBJECT=$lobj->{$uid}}
-     		eval "$prm->{$pkey}->{extra}->{onchange}";   	
+  	 	cmlcalc::execute({lmethod=>$prm->{$pkey}->{extra}->{onchange},id=>$id});
+    	#eval "$prm->{$pkey}->{extra}->{onchange}";   	
 	}	
 	return 1;
 }
