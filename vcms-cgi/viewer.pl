@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.21 2010-08-17 18:09:17 vano Exp $
+# $Id: viewer.pl,v 1.22 2010-09-06 19:24:39 vano Exp $
 
 use lib "./modules/";
 
@@ -194,7 +194,9 @@ if (!$opensite && !cookie('dev')) {
  	} else {
  		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
  	}	
-}elsif ($cgiparam->{tview}) { 		
+}elsif ($cgiparam->{tview}) { 	
+	
+		
  		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
 } else {
 	 if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
@@ -212,14 +214,16 @@ if (!$opensite && !cookie('dev')) {
    	}  
 }
 my $mtime=Time::HiRes::time()-$stime;
-my $lmtime=scalar gmtime($v->{lmtime} || time());
+my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 print header(
 	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
 	-type=>$xmlmode?'text/xml':'text/html',
 	-cookie=>\@cookies, 
 	-charset=>$GLOBAL->{CODEPAGE},
-	-last_modified=>$lmtime,
+	###  incorrect-last_modified=>$lmtime,
 );
+
+
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 statclick($cgiparam->{_cl}) if $cgiparam->{_cl};
 my $body=$v->{value};
