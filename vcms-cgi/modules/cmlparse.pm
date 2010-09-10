@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.132 2010-08-28 04:12:26 vano Exp $
+# $Id: cmlparse.pm,v 1.133 2010-09-10 05:23:36 vano Exp $
 
 BEGIN
 {
@@ -1532,18 +1532,32 @@ sub tag_video 	{
 		my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
 		$psrc="$pstr/$pv->{value}";
 	}
-
-
-
- 	return qq(	
-                <script type="text/javascript">
-		swfobject.embedSWF("/swf/fp.swf?video=$src&image=$psrc", "playerDiv_$v->{value}", "$width", "$height", "8.0.0", "/swf/expressInstall.swf");
-		</script>		
- 		<div id="playerDiv_$v->{value}">
-			<h1>Для проигрывания роликов необходим Flash Player версии 8 или выше</h1>
-			<p><a target='_blank' href="http://www.adobe.com/go/getflashplayer"><img border='0' src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Получить Adobe Flash player" /></a></p>
-		</div>
-			);
+    my $divname=$v->{value};
+    $divname=~s/\./_/g;
+ 	return qq(
+ 		
+ 	<div style="width:${width}px; height:${height}px; align:center;  background-image:url($psrc)" id="playerDiv_$divname"></div>
+ 	<script language="JavaScript">
+         var player = flowplayer("playerDiv_$divname",{
+        	src		: "/swf/flowplayer.swf",
+            version	: [9, 115],
+            bgcolor	: "#FFFFF",
+            onFail	: function()  {   document.getElementById("playerDiv_$divname").innerHTML ='' }
+        },{
+            clip: { 
+            	scaling:'fit',
+            },  
+            canvas: {
+                backgroundColor: '#FFFFFF'
+            },
+            playlist: [
+                {url: '$psrc', autoPlay: true},
+                {url: '$src', autoPlay: false},
+                {url: '$psrc', autoPlay: true}
+            ]
+        });
+     </script>
+	);
 
 }	
 
