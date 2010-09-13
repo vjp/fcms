@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.87 2010-09-06 20:25:10 vano Exp $
+# $Id: cmlmain.pm,v 1.88 2010-09-13 21:00:30 vano Exp $
 
 BEGIN
 {
@@ -56,7 +56,7 @@ BEGIN
               
               &check_session &end_session &email 
               
-              &statclick &staterror 
+              &statclick &staterror &copylinkfile
              );
 
 
@@ -2556,6 +2556,23 @@ sub email {
 	}
 	
 }	
+
+sub copylinkfile ($$$)
+{
+	my ($id,$sp,$dp)=@_;
+	my $sname=&cmlcalc::p($sp,$id);
+	my $dname=&cmlcalc::p($dp,$id);
+	if ($sname && !$dname) {
+   		my $spath="$GLOBAL->{FILEPATH}/../$sname";
+   		$sname=~s/\//_/g;
+   		$dname=$sname;
+   		system("cp $spath $GLOBAL->{FILEPATH}/$dname");
+   		&cmlcalc::set($id,$dp,$dname);
+   		return $dname;
+	}
+	return undef;
+	
+}
 
 
 return 1;
