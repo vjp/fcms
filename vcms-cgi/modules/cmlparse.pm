@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.133 2010-09-10 05:23:36 vano Exp $
+# $Id: cmlparse.pm,v 1.134 2010-09-14 18:26:34 vano Exp $
 
 BEGIN
 {
@@ -1545,7 +1545,7 @@ sub tag_video 	{
             onFail	: function()  {   document.getElementById("playerDiv_$divname").innerHTML ='' }
         },{
             clip: { 
-            	scaling:'fit',
+            	scaling:'fit'
             },  
             canvas: {
                 backgroundColor: '#FFFFFF'
