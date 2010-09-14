@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.89 2010-09-14 05:44:50 vano Exp $
+# $Id: cmlmain.pm,v 1.90 2010-09-14 06:14:06 vano Exp $
 
 BEGIN
 {
@@ -13,7 +13,7 @@ BEGIN
  use Time::HiRes qw (time);
  use JSON::PP;
  use MIME::Base64;
- 
+ use File::Copy; 
  use Encode;
 
  @ISA    = 'Exporter';
@@ -2566,7 +2566,7 @@ sub copylinkfile ($$$;$)
    		my $spath="$GLOBAL->{FILEPATH}/..$sname";
    		$sname=~s/\//_/g;
    		$dname=$sname;
-   		system ("cp $spath $GLOBAL->{FILEPATH}/$dname");
+   		copy("$spath","$GLOBAL->{FILEPATH}/$dname") or return ("Copy failed: $! file : $spath user : ".getlogin());
    		return unless -s "$GLOBAL->{FILEPATH}/$dname";
    		&cmlcalc::set($id,$dp,$dname);
    		return $dname;
