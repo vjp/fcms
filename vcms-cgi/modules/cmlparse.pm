@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.135 2010-09-14 18:36:19 vano Exp $
+# $Id: cmlparse.pm,v 1.136 2010-09-14 18:50:07 vano Exp $
 
 BEGIN
 {
@@ -1536,7 +1536,9 @@ sub tag_video 	{
     $divname=~s/\./_/g;
  	return qq(
  		
- 	<div style="width:${width}px; height:${height}px; align:center;  background-image:url($psrc)" id="playerDiv_$divname"></div>
+ 	<div style="width:${width}px; height:${height}px; align:center;  background-image:url($psrc); background-repeat:no-repeat; background-position:center; " id="playerDiv_$divname">
+ 
+ 	</div>
  	<script language="JavaScript">
          var player = flowplayer("playerDiv_$divname",{
         	src		: "/swf/flowplayer.swf",
