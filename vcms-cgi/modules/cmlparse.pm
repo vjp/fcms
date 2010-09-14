@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.134 2010-09-14 18:26:34 vano Exp $
+# $Id: cmlparse.pm,v 1.135 2010-09-14 18:36:19 vano Exp $
 
 BEGIN
 {
@@ -1503,8 +1503,8 @@ sub tag_video 	{
 	$expr="p('$pkey')" if $pkey;
 	$expr="p(MOVIE)" unless $expr;
 
-	my $width=$pl->{'width'} || 320;
-	my $height=$pl->{'height'} || 260;
+	my $width=$pl->{'width'} || 480;
+	my $height=$pl->{'height'} || 360;
 
 	my $prevkey=$pl->{'prevprm'} || $pl->{'previewprm'};
 	my $prevexpr;
