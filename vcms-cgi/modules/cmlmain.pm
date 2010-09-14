@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.90 2010-09-14 06:14:06 vano Exp $
+# $Id: cmlmain.pm,v 1.91 2010-09-14 06:16:55 vano Exp $
 
 BEGIN
 {
@@ -2566,7 +2566,7 @@ sub copylinkfile ($$$;$)
    		my $spath="$GLOBAL->{FILEPATH}/..$sname";
    		$sname=~s/\//_/g;
    		$dname=$sname;
-   		copy("$spath","$GLOBAL->{FILEPATH}/$dname") or return ("Copy failed: $! file : $spath user : ".getlogin());
+   		copy("$spath","$GLOBAL->{FILEPATH}/$dname") || message ("Copy failed: $! file : $spath user : ".getlogin());
    		return unless -s "$GLOBAL->{FILEPATH}/$dname";
    		&cmlcalc::set($id,$dp,$dname);
    		return $dname;
