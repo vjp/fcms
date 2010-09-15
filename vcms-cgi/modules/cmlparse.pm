@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.136 2010-09-14 18:50:07 vano Exp $
+# $Id: cmlparse.pm,v 1.137 2010-09-15 20:49:26 vano Exp $
 
 BEGIN
 {
@@ -1488,7 +1488,7 @@ sub tag_video 	{
 	my $pl=fetchparam(\$param,[
 		'id','name','key', 'param' ,'prm','expr', 
 		'previewprm','previewparam','path', 'width', 
-		'height'
+		'height', 'counterkey', 
 	]);
 	
 	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
@@ -1534,12 +1534,25 @@ sub tag_video 	{
 	}
     my $divname=$v->{value};
     $divname=~s/\./_/g;
+    
+    my $clcode;
+    my $clid=0;
+    my $clobjid=0;
+    if ($pl->{counterkey})  {
+    	$clid=0+&cmlcalc::id($pl->{counterkey});
+   		$clobjid=0+($id || &cmlcalc::p(_ID,$key));
+    }
+     
+    
+    
  	return qq(
  		
  	<div style="width:${width}px; height:${height}px; align:center;  background-image:url($psrc); background-repeat:no-repeat; background-position:center; " id="playerDiv_$divname">
  
  	</div>
  	<script language="JavaScript">
+ 	     var clid=$clid;
+ 	     var clobjid=$clobjid;
          var player = flowplayer("playerDiv_$divname",{
         	src		: "/swf/flowplayer.swf",
             version	: [9, 115],
@@ -1556,7 +1569,14 @@ sub tag_video 	{
                 {url: '$psrc', autoPlay: true},
                 {url: '$src', autoPlay: false},
                 {url: '$psrc', autoPlay: true}
-            ]
+            ],
+            onStart: function(clip){
+            	        if (clid) {
+              				clip.url.scan(/flv\$/, function(match){ 
+                      			new Ajax.Request('/__STATPAGE?_cl='+clid+'&_clobjid='+clobjid,{method:'get'});
+              				});
+      					}
+            }	
         });
      </script>
 	);
