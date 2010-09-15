@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.91 2010-09-14 06:16:55 vano Exp $
+# $Id: cmlmain.pm,v 1.92 2010-09-15 20:54:29 vano Exp $
 
 BEGIN
 {
@@ -85,9 +85,9 @@ sub staterror ($;$$$)
 }
 
 
-sub statclick ($)
+sub statclick ($;$)
 {
-	my ($clid)=@_;
+	my ($clid,$clobjid)=@_;
 	my $lup=&cmlcalc::p(LINKSPLACE,$clid);
 	my $url=$ENV{REQUEST_URI};
 	$url=~s/_cl=\d+&?//;
@@ -99,6 +99,7 @@ sub statclick ($)
 			CLTIME=>&cmlcalc::now(),
 			CLLINK=>$clid,
 			GEODATA=>CGI::cookie('_cn').' '.CGI::cookie('_cc'),
+			CLOBJLINK=>$clobjid,
 	});
 
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.22 2010-09-06 19:24:39 vano Exp $
+# $Id: viewer.pl,v 1.23 2010-09-15 20:56:09 vano Exp $
 
 use lib "./modules/";
 
@@ -225,7 +225,7 @@ print header(
 
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
-statclick($cgiparam->{_cl}) if $cgiparam->{_cl};
+statclick($cgiparam->{_cl},$cgiparam->{_clobjid}) if $cgiparam->{_cl};
 my $body=$v->{value};
 if ($body) {
 	print $body;
