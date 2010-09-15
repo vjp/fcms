@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.92 2010-09-15 20:54:29 vano Exp $
+# $Id: cmlmain.pm,v 1.93 2010-09-15 21:06:48 vano Exp $
 
 BEGIN
 {
@@ -91,6 +91,7 @@ sub statclick ($;$)
 	my $lup=&cmlcalc::p(LINKSPLACE,$clid);
 	my $url=$ENV{REQUEST_URI};
 	$url=~s/_cl=\d+&?//;
+	$url=~s/_clobjid=\d+&?//;
 	$url=~s/\?$//;
 	return &cmlcalc::add (&cmlcalc::id(CLICKS),{
 			_NAME=>scalar(localtime()).' - '.$url,
