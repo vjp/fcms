@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.93 2010-09-15 21:06:48 vano Exp $
+# $Id: cmlmain.pm,v 1.94 2010-09-20 20:36:35 vano Exp $
 
 BEGIN
 {
@@ -85,11 +85,10 @@ sub staterror ($;$$$)
 }
 
 
-sub statclick ($;$)
+sub statclick ($;$$)
 {
-	my ($clid,$clobjid)=@_;
-	my $lup=&cmlcalc::p(LINKSPLACE,$clid);
-	my $url=$ENV{REQUEST_URI};
+	my ($clid,$clobjid,$clurl)=@_;
+	my $url=$clurl || $ENV{REQUEST_URI};
 	$url=~s/_cl=\d+&?//;
 	$url=~s/_clobjid=\d+&?//;
 	$url=~s/\?$//;
