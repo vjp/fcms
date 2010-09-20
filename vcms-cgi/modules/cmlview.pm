@@ -1,6 +1,6 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.34 2010-08-29 19:11:11 vano Exp $
+# $Id: cmlview.pm,v 1.35 2010-09-20 20:36:02 vano Exp $
 
 BEGIN
 {
@@ -22,6 +22,7 @@ sub print_top {
     print q(
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
+    <script src='/js/flowplayer.js'> </script>
     ); 
     print q(<script>
     		function alert_callback(json){
@@ -453,14 +454,27 @@ sub editvideo
  	my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,pkey=>$pkey,expr=>"p($pkey)"});
  	if ($val->{value}) {
  		$outp=qq(
- 			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="320" height="260" id="fp" align="middle">
-				<param name="allowScriptAccess" value="sameDomain" />
-				<param name="movie" value="/swf/fp.swf?video=$GLOBAL->{FILEURL}/$val->{value}&image=&title=FlashVideo" />
-				<param name="quality" value="high" />
-				<param name="bgcolor" value="#ffffff" />
-				<embed src="/swf/fp.swf?video=$GLOBAL->{FILEURL}/$val->{value}&image=&title=FlashVideo" quality="high" bgcolor="#ffffff" width="320" height="260" name="fp" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
-			</object>
-			<br/>
+ 		
+ 		
+ 		<div style="width:320px; height:240px; align:center;" id="playerDiv_${id}_${uid}_${pkey}">
+ 
+ 	</div>
+ 	<script language="JavaScript">
+         var player = flowplayer("playerDiv_${id}_${uid}_${pkey}",{
+        	src		: "/swf/flowplayer.swf",
+            version	: [9, 115],
+            bgcolor	: "#FFFFF",
+        },{
+            clip: { 
+            	scaling:'fit',
+            	url:'$GLOBAL->{FILEURL}/$val->{value}',
+            	autoPlay: false
+            },  
+            canvas: {
+                backgroundColor: '#FFFFFF'
+            }	
+        });
+     </script>
  		);
  	}
  	if (checkupd({id=>$_[0]->{id},uid=>$_[0]->{uid},tabkey=>$_[0]->{tabkey},pkey=>$_[0]->{pkey}})) {	 
