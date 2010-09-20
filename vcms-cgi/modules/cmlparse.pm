@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.137 2010-09-15 20:49:26 vano Exp $
+# $Id: cmlparse.pm,v 1.138 2010-09-20 20:35:48 vano Exp $
 
 BEGIN
 {
@@ -1573,7 +1573,7 @@ sub tag_video 	{
             onStart: function(clip){
             	        if (clid) {
               				clip.url.scan(/flv\$/, function(match){ 
-                      			new Ajax.Request('/__STATPAGE?_cl='+clid+'&_clobjid='+clobjid,{method:'get'});
+                      			new Ajax.Request('/__STATPAGE?_cl='+clid+'&_clobjid='+clobjid+'&_clurl='+encodeURIComponent(location.href),{method:'get'});
               				});
       					}
             }	
