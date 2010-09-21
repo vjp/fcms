@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.138 2010-09-20 20:35:48 vano Exp $
+# $Id: cmlparse.pm,v 1.139 2010-09-21 05:35:51 vano Exp $
 
 BEGIN
 {
@@ -1215,16 +1215,17 @@ sub tag_a	{
 	}
 
   	my $expr;
+  	my $prm;
   	if ($pl->{'param'} || $pl->{'prm'}) {
-    		my $prm=$pl->{'param'}||$pl->{'prm'};
+    		$prm=$pl->{'param'}||$pl->{'prm'};
     		$expr="p($prm)";
   	} elsif ($pl->{'expr'}) {
-  		$expr=$pl->{'expr'};
+  			$expr=$pl->{'expr'};
   	}	
   	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
   	if ($expr) {
  		my $v=&cmlcalc::calculate({id=>$id,expr=>$expr});
- 		if ($v->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
+ 		if ($v->{type} eq 'FILE' || $cmlmain::prm->{$prm}->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
  		else {
  			$ql=$v->{value};
  			if ($ql!~/^(http|\/|\?)/) { 
@@ -1242,7 +1243,7 @@ sub tag_a	{
     		my $prm=$pl->{'ifparam'}||$pl->{'ifprm'};
     		$ifexpr="p($prm)";
   	} elsif ($pl->{'ifexpr'}) {
-  		$ifexpr=$pl->{'ifexpr'};
+  			$ifexpr=$pl->{'ifexpr'};
   	}	
   	$ifval=1;
   	if ($ifexpr) {
