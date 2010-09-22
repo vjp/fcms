@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.140 2010-09-22 20:44:57 vano Exp $
+# $Id: cmlparse.pm,v 1.141 2010-09-22 20:54:03 vano Exp $
 
 BEGIN
 {
@@ -426,6 +426,9 @@ sub tag_menuitem	{
 	my $mstr=$pl->{delmethod}?"method='$pl->{delmethod}'":'';
 	my $dtxt=$pl->{delete}?"<cml:deletebutton $mstr/>":'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
 	my $estr=&cmlmain::enc('Редактировать');
+	
+	undef $targetstr if $cmlcalc::ENV->{NOFRAMES};
+	undef $targetstr_ico if $cmlcalc::ENV->{NOFRAMES};
 	my $mtext=qq(
 		<tr>
 		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
