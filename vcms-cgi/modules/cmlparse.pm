@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.139 2010-09-21 05:35:51 vano Exp $
+# $Id: cmlparse.pm,v 1.140 2010-09-22 20:44:57 vano Exp $
 
 BEGIN
 {
@@ -433,6 +433,7 @@ sub tag_menuitem	{
 		<td bgcolor="$hcol" width="16">$dtxt</td>
 		</tr>
 	);
+	$mtext="<td><table>$mtext</table></td>" if $cmlcalc::ENV->{NOFRAMES};
 	return cmlparser({data=>$mtext,inner=>$inner});
 }
 
