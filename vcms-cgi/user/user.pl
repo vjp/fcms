@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.13 2010-08-16 05:37:04 vano Exp $
+# $Id: user.pl,v 1.14 2010-09-22 21:18:53 vano Exp $
 
 use lib "../modules/";
 
@@ -90,7 +90,7 @@ my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
 	$v=&cmlcalc::calculate({key=>'USERMENU',expr=>"p($prm)"});
 }	elsif (param('body') && param('body') ne 'NULL') {
-	$v=&cmlcalc::calculate({key=>'USERMAIN',expr=>"p($prm)"});
+	$v=&cmlcalc::calculate({key=>$cmlcalc::ENV->{NOFRAMES}?'USERCMSTEMPLNOFRAMES':'USERMAIN',expr=>"p($prm)"});
 } elsif (param('view')) {
  	$v=&cmlcalc::calculate({
  		key=>param('view'),
@@ -102,10 +102,9 @@ if (param('menu')) {
 	$cmlcalc::CGIPARAM->{page}='USERMAIN' unless param('page');
 	if (param('mbframe') && !param('framebody')) {
 		$v=&cmlcalc::calculate({key=>'SPLASH',expr=>"p($prm)"});
-	} elsif ($cmlcalc::ENV->{NOFRAMES}) {	
-		$v=&cmlcalc::calculate({key=>'USERCMSTEMPLNOFRAMES',expr=>"p($prm)"});
 	} else {	
- 		$v=&cmlcalc::calculate({key=>'USERCMSTEMPL',expr=>"p($prm)"});
+		$cmlcalc::CGIPARAM->{body}='USERSTARTPAGE' if $cmlcalc::ENV->{NOFRAMES};
+ 		$v=&cmlcalc::calculate({key=>$cmlcalc::ENV->{NOFRAMES}?'USERCMSTEMPLNOFRAMES':'USERCMSTEMPL',expr=>"p($prm)"});
 	}	
 }
 
