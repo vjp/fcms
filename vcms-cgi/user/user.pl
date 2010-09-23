@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: user.pl,v 1.14 2010-09-22 21:18:53 vano Exp $
+# $Id: user.pl,v 1.15 2010-09-23 03:19:01 vano Exp $
 
 use lib "../modules/";
 
@@ -22,6 +22,7 @@ my $v;
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
 $cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='USER';
+$cmlcalc::CGIPARAM->{_ROOT}='/user/';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGNUSER'));;
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
