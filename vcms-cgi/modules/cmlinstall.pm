@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.130 2010-09-15 03:24:04 vano Exp $
+# $Id: cmlinstall.pm,v 1.131 2010-09-23 03:26:42 vano Exp $
 
 BEGIN
 {
@@ -574,7 +574,7 @@ h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; 
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
-<center><a href="/admin/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></a></center>
+<center><cml:a href="_prm:_ROOT_" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></center>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
@@ -708,7 +708,7 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
-<center><a href="/admin/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></a></center>
+<center><cml:a href="_prm:_ROOT_/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></center>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
