@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.141 2010-09-22 20:54:03 vano Exp $
+# $Id: cmlparse.pm,v 1.142 2010-09-23 05:32:59 vano Exp $
 
 BEGIN
 {
@@ -1089,41 +1089,12 @@ sub tag_actionlink {
 		);
 		
 	} elsif ($pl->{method}) {
- 	
-		if ($pl->{callback}) {
-			return qq(<a href='#' onclick="ajax_call('execute', {id:0,method:'$pl->{method}'}, $pl->{callback}  )">$title</a>);
-		} else {
-			return qq(
-			   <script> 
-			      function _exec_$pl->{method} () {
-			   	    var dt={
-                    	id: 0,
-                    	method: '$pl->{method}'
-                	};
-                	 ajax_call('execute', dt, $defajaxcallback  );
-			   	 }	   	
-			   </script>
-			   <a href='#' onclick="_exec_$pl->{method} ()">$title</a>
-			);	
-		}	
+ 	    my $callback=$pl->{callback} || $defajaxcallback;
+		return qq(<a href='#' onclick="execute('$pl->{method}',{}, $callback)">$title</a>);
 	} elsif ($pl->{lmethod}) {
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
-			if ($pl->{callback}) {
-				return qq(<a href='#' onclick="ajax_call('execute', {id:$oid,method:'$pl->{lmethod}'}, $pl->{callback}  )">$title</a>);
-			} else {
-				return qq(
-			   		<script> 
-			   			function _lexec_$pl->{lmethod}_$oid () {
-			   	   			var dt={
-            					id: $oid,
-            					lmethod: '$pl->{lmethod}'
-            				};
-            				ajax_call('execute', dt, $defajaxcallback );
-			   			}	   	
-			   		</script>
-			   		<a href='#' onclick="_lexec_$pl->{lmethod}_$oid ()">$title</a>
-				);
-			}		
+			my $callback=$pl->{callback} || $defajaxcallback;
+			return qq(<a href='#' onclick="lexecute('$pl->{lmethod}',$oid,{}, $callback)">$title</a>);
 	}			
 	
 	$method="BASE$pl->{action}METHOD";	
