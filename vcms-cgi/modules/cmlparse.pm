@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.142 2010-09-23 05:32:59 vano Exp $
+# $Id: cmlparse.pm,v 1.143 2010-09-23 18:25:35 vano Exp $
 
 BEGIN
 {
@@ -1038,8 +1038,7 @@ sub tag_actionlink {
 	my $err_mes=&cmlmain::enc('Îøèáêà');
 	my $rd=$pl->{redir}?"location.href='$pl->{redir}';":'';
 	
-	my $pprm=$cmlcalc::ENV->{NOFRAMES}?'page':'body';
-	
+		
 	my $defajaxcallback=qq(
 		function(json) {
 		   	    if (json.status) {
@@ -1058,13 +1057,13 @@ sub tag_actionlink {
 		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
-		my $href="?$pprm=EDIT_$kn&id=$iid";
+		my $href="?body=EDIT_$kn&id=$iid";
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
 	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
-		my $hrf="?$pprm=LISTEDIT_$ukey&ukey=$ukey";
+		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
 		for (qw (id listprm link orderby ordertype)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
