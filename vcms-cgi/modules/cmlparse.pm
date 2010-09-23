@@ -1,6 +1,6 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.143 2010-09-23 18:25:35 vano Exp $
+# $Id: cmlparse.pm,v 1.144 2010-09-23 18:45:08 vano Exp $
 
 BEGIN
 {
@@ -994,7 +994,7 @@ sub tag_actionlink {
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
-		'alert','redir','back', 'callback'
+		'alert','redir','back', 'callback','redirvar',
 
 	]);
 	
@@ -1036,8 +1036,10 @@ sub tag_actionlink {
 	$title=$pl->{action} unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
-	my $rd=$pl->{redir}?"location.href='$pl->{redir}';":'';
+	my $rd;
 	
+	$rd="location.href='$pl->{redir}';" if $pl->{redir};
+	$rd="location.href=json.$pl->{redirvar};" if $pl->{redirvar};
 		
 	my $defajaxcallback=qq(
 		function(json) {
