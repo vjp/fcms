@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.23 2010-08-11 21:57:53 vano Exp $
+// $Id: base.js,v 1.24 2010-09-23 19:10:29 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -57,6 +57,14 @@ function execute(func,data,callback,url) {
 	});
 }
 
+function defcallback(json){
+    if (json.status) {
+        alert(json.status); 
+        window.location.href=window.location.href.sub(/\#$/,'');
+    } else {
+        alert(json.message);
+    }    
+}   
 
 function lexecute(func,objid,data,callback,url) {
 	new Ajax.Request(url || '/cgi-bin/ajax-json.pl', {
