@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.8 2010-08-11 21:58:53 vano Exp $
+# $Id: ajax-json.pl,v 1.9 2010-09-25 13:36:09 vano Exp $
 
 use strict;
 no strict "refs";
@@ -40,7 +40,12 @@ $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
-	$cmlcalc::CGIPARAM=decode_json($data);
+	if (ref $r eq 'HASH') {
+		unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
+			$r->{$_} = Encode::encode('cp1251',$r->{$_}) for keys %$r;
+		}
+		$cmlcalc::CGIPARAM=$r;
+	}		
 	$cmlcalc::CGIPARAM->{_MODE}='ADMINAJAX';
 	my $result=&$subname($r);
 	print $json->encode ($result);
