@@ -1,6 +1,6 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.94 2010-09-20 20:36:35 vano Exp $
+# $Id: cmlmain.pm,v 1.95 2010-09-25 13:35:49 vano Exp $
 
 BEGIN
 {
@@ -2308,9 +2308,7 @@ sub loaduserlist {
 
 
 sub adduser {
-	my $login=$_[0];
-	my $password=$_[1];
-	my $group=$_[2];
+	my ($login,$password,$group,$fio)=@_;
 	if ($login!~/^[a-zA-Z][a-zA-Z0-9_]+$/) {
 		message('Неправильные символы в логине');
 		return undef;
@@ -2318,8 +2316,9 @@ sub adduser {
 	my $upkey='SYSTEMUSERS';
 	$upkey.="_$group" if $group;
 	my $oid=&cmlcalc::add(&cmlcalc::id($upkey),{
-		_NAME=>$login,
+		_NAME=>$fio || $login,
 		_KEY=>"SU_$login",
+		SULOGIN=>$login,
 	});
 	
 	my $sth=$dbh->prepare("INSERT INTO ${DBPREFIX}users (login,password,`group`,objid) VALUES (?,ENCRYPT(?),?,?)");
