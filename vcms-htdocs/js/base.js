@@ -1,4 +1,4 @@
-// $Id: base.js,v 1.24 2010-09-23 19:10:29 vano Exp $
+// $Id: base.js,v 1.25 2010-09-27 19:37:17 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -59,7 +59,7 @@ function execute(func,data,callback,url) {
 
 function defcallback(json){
     if (json.status) {
-        alert(json.status); 
+        alert(json.message); 
         window.location.href=window.location.href.sub(/\#$/,'');
     } else {
         alert(json.message);
