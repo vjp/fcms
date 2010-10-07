@@ -40,6 +40,7 @@ sub sitesearch ($;$)
 	my ($query,$opts)=@_;
 	my $site=$opts->{'site'} || $ENV{SERVER_NAME};
 	my $page=$opts->{'page'} || 0;
+	my $url=$opts->{'url'} || 'http://xmlsearch.yandex.ru/xmlsearch';
 	my $positions=$opts->{'positions'} || 10;
 	$site="www.$site";
 
@@ -59,7 +60,7 @@ sub sitesearch ($;$)
 </request>
 DOC
 
-	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
+	my $req = HTTP::Request -> new      ( POST => $url); 
 	$req -> content_type ('application/xml');    
 	$req -> content ($squery);
 	my $response = $ua -> request ($req);
@@ -71,7 +72,7 @@ DOC
 	$r->{found}=0;
 	$r->{foundhuman}=Encode::encode($GLOBAL->{ENCODING},$rf->{response}->{"found-human"});
 	if ($rf->{response}->{error}) {
-		$r->{error}=$rf->{response}->{error}->{content};
+		$r->{error}=$rf->{response}->{error}->{content} || $rf->{response}->{error};
 		$r->{error}= Encode::encode($GLOBAL->{ENCODING},$r->{error});
 		$r->{errorcode}=$rf->{response}->{error}->{code};
 		return $r;
