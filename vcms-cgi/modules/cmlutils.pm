@@ -1,6 +1,5 @@
 package cmlutils;
 
-# $Id: cmlutils.pm,v 1.23 2010-05-29 19:41:14 vano Exp $
 
 BEGIN	{
 	use Exporter();
@@ -52,7 +51,7 @@ sub sitesearch ($;$)
 <<DOC;
 <?xml version='1.0' encoding='$GLOBAL->{CODEPAGE}'?>
 <request>    
-	<query>$query site='$site'</query>
+	<query>$query host:$site</query>
 	<page>0</page>
 	<groupings>
         <groupby attr='' mode='flat' groups-on-page='$positions' docs-in-group='1'/>
