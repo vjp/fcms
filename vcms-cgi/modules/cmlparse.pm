@@ -1189,8 +1189,9 @@ sub tag_a	{
 		if ($ql=~/page\/\d+/) {
 			$ql=~s/page\/\d+/page\/$pid/;
 		} else {	
+			$ql.='/' if $ql!~/\/$/;
 			$ql.="page/$pl->{'pagenum'}";
-		}	
+		}
 	} elsif ($pl->{'parser'}) {	
 	    	my $parser=$pl->{'parser'};
 		$ql=$cmlcalc::QUERYSTRING;
