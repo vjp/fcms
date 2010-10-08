@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: viewer.pl,v 1.24 2010-09-23 03:23:34 vano Exp $
-
 use lib "./modules/";
 
 use cmlmain;
@@ -101,7 +99,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 my $qs=url(-path_info=>1,-query=>1,-relative=>1);
 $qs =~ s/\?.*$//;
 $qs =~ s/\/parsemethod\/.+$//;
-$cmlcalc::QUERYSTRING=$ENV{'REDIRECT_URL'} || $qs;
+$cmlcalc::QUERYSTRING=$ENV{'REQUEST_URI'} || $qs;
 
 my $cgiparam=$cmlcalc::CGIPARAM;
 
