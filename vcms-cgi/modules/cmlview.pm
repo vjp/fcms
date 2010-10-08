@@ -1,6 +1,5 @@
 package cmlview;
 
-# $Id: cmlview.pm,v 1.35 2010-09-20 20:36:02 vano Exp $
 
 BEGIN
 {
@@ -269,8 +268,8 @@ sub editdate	{
  				  );
 		}ges; 	
 		
-		$format=~s{\%c}{
-			enc(strftime ('%c',gmtime($val->{value})));
+		$format=~s{\%(c|a)}{
+			enc(strftime ("\%$1",gmtime($val->{value})));
 		}ges;	
 		return $format;
  	}
