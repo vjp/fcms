@@ -1,6 +1,6 @@
 package cmlcalc;
 
-# $Id: cmlcalc.pm,v 1.75 2010-09-23 19:12:38 vano Exp $
+
 
 BEGIN
 {
@@ -14,7 +14,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS $ROWID);
 }
 
 sub initcalc

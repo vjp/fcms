@@ -1,6 +1,5 @@
 package cmlparse;
 
-# $Id: cmlparse.pm,v 1.145 2010-09-23 19:13:02 vano Exp $
 
 BEGIN
 {
@@ -72,6 +71,8 @@ sub initparser
     	'auth'=>1,
     	'savebutton'=>1,
     	'calendar'=>1,
+    	'table'=>1,
+    	'tr'=>1,
  	);
 }
 
@@ -304,7 +305,30 @@ sub tag_csvrow {
 	return $value;
 }
 
+sub tag_table {
+	my $param=$_[0]->{param};
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $body=cmlparser({data=>$data,inner=>$inner});
+	$cmlcalc::ROWID=0;
+	return "<table $param>$body</table>";
+}
 
+
+sub tag_tr {
+	my $param=$_[0]->{param};
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['colorswitcher']);
+	if ($pl->{'colorswitcher'}) {
+		my @colors=split(';',$pl->{'colorswitcher'});
+		my $index=$cmlcalc::ROWID % scalar @colors;
+		$param.=" bgcolor='$colors[$index]'";
+	}
+	my $body=cmlparser({data=>$data,inner=>$inner});
+	$cmlcalc::ROWID++;
+	return "<tr $param>$body</tr>";
+}
 
 sub tag_pagination {
 	my $param=$_[0]->{param};
