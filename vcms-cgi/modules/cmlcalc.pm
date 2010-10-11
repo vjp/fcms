@@ -956,6 +956,11 @@ sub baselparser
 
 	for my $cgiprm (keys %$CGIPARAM) {
 		my $value=$CGIPARAM->{$cgiprm};
+		
+		if (ref $value eq 'ARRAY' && ref $value->[1] eq 'ARRAY') {
+		    $value=join(';',@{$value->[1]})	
+		}
+		
 		if ($cgiprm=~/^_o(.+?)_p(.+)/) {
 			$id=$1;
 			my $prm=$2;
