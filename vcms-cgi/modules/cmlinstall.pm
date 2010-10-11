@@ -1,6 +1,6 @@
 package cmlinstall;
 
-# $Id: cmlinstall.pm,v 1.131 2010-09-23 03:26:42 vano Exp $
+
 
 BEGIN
 {
@@ -1190,7 +1190,7 @@ sub install_db ($$) {
   			id varchar(20) NOT NULL default '',
   			pkey varchar(50) NOT NULL default '',
   			vkey varchar(100) NOT NULL default '',
-  			value text,
+  			value mediumtext,
   			ptkey varchar(50) NOT NULL default '',
   			PRIMARY KEY  (id,pkey,ptkey,vkey)
 		) TYPE=MyISAM
@@ -1200,7 +1200,7 @@ sub install_db ($$) {
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}uvls (
   			`objid` int(11) NOT NULL default '0',
   			`pkey` varchar(255) NOT NULL default '',
-  			`value` text,
+  			`value` mediumtext,
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`)
 		) TYPE=MyISAM
