@@ -1999,9 +1999,9 @@ sub tag_form {
 		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
     }
     
-	for my $p qw( editprm piclistprm filelistprm ukey ) {
+	for my $p qw( editprm piclistprm filelistprm ukey back) {
 		my $pv=$pl->{$p} || $cmlcalc::CGIPARAM->{$p};
-		$data.="<input type='hidden' name='$p' value='$pv'>" if $pv;
+		$data.="<input type='hidden' name='$p' value='$pv' id='frm$p'>" if $pv;
 	}
 	$inner->{matrix}=$pl->{matrix};
 	$inner->{formid}=$frmid;

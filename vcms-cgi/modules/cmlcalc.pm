@@ -989,7 +989,11 @@ sub baselparser
 	my $alerttext=$CGIPARAM->{alerttext};
 	$alerttext=enc('Значения изменены') unless $alerttext;
 	alert($alerttext);
-	return ({status=>1,objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id}});
+	return ({
+		status=>1,
+		objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id},
+		back=>$CGIPARAM->{back}
+	});
 }
 
 
