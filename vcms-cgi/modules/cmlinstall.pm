@@ -1210,7 +1210,7 @@ sub install_db ($$) {
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}vls (
   			`objid` int(11) NOT NULL default '0',
   			`pkey` varchar(255) NOT NULL default '',
-  			`value` text,
+  			`value` mediumtext,
   			`upobj` int(11) default NULL,
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`),
@@ -1225,7 +1225,7 @@ sub install_db ($$) {
   			`filename` varchar(255) default NULL,
   			`dt` datetime default NULL,
   			`ptype` varchar(255) default NULL,
-  			`value` text,
+  			`value` mediumtext,
   			`lang` varchar(20) default NULL,
   			KEY `objid` (`objid`),
   			KEY `pkey` (`pkey`),
