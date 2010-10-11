@@ -60,7 +60,7 @@ LightboxOptions = Object.extend({
 	// When grouping images this is used to write: Image # of #.
 	// Change it for non-english localization
 	labelImage: lbLabelImage || "Image",
-	labelOf: lbLabelOf || "of",
+	labelOf: lbLabelOf || "of"
 }, window.LightboxOptions || {});
 
 // -----------------------------------------------------------------------------------
