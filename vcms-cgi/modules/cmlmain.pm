@@ -37,7 +37,7 @@ BEGIN
               &createhtaccess &fetchdate &fastsearch &fromcache &tocache
               &prefetch &prefetchlist &buildlist &clearcache
               
-              &alert &message &viewlog
+              &alert &message &redir &viewlog
               
               &fastsearch &isupper &iscompiled &fsindexcreate
               
@@ -1288,6 +1288,14 @@ sub alert {
 	 print "ALERT:: $_[0] \n" if $cmlcalc::CGIPARAM->{_MODE} eq 'AUTORUN';
 }	
 
+sub redir {
+	 my $mes;
+	 $mes->{type}='redirect';
+	 $mes->{message}=$_[0];
+	 push (@LOG,$mes);
+}
+
+
 sub message {
 	 my $mes;
 	 $mes->{type}='message';
@@ -1345,6 +1353,14 @@ sub viewlog {
 				$mes->{message}=~s/\r/ /gs; 
 				$mes->{message}=~s/\n/ /gs;
 				print "<script>alert('$mes->{message}')</script>";
+			} elsif ($mes->{type} eq 'redirect') {
+				chomp $mes->{message};
+				$mes->{message}=~s/\\/\\\\/gs;
+				$mes->{message}=~s/'/\\'/g;
+				$mes->{message}=~s/\r/ /gs; 
+				$mes->{message}=~s/\n/ /gs;
+				$mes->{message}=~s/"/\\"/gs;
+				print "<script>location.href='$mes->{message}'</script>";
 			} elsif ($mes->{type} eq 'message') {
 				chomp $mes->{message};
 				$mes->{message}=~s/\\/\\\\/gs;

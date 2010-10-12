@@ -994,6 +994,7 @@ sub baselparser
 	my $alerttext=$CGIPARAM->{alerttext};
 	$alerttext=enc('Çíà÷åíèÿ èçìåíåíû') unless $alerttext;
 	alert($alerttext);
+	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
 	return ({
 		status=>1,
 		objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id},
