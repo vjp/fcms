@@ -178,7 +178,7 @@ function set (objid,prm,fcallback) {
 }
 
 function multiset (frm,fcallback) {
-	var dt=frm.up('form').serialize(true);	
+	var dt=$(frm).up('form').serialize(true);	
 	execute('BASELPARSER',dt,fcallback || setMVCallback);
 }
 
