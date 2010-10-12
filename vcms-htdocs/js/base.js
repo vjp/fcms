@@ -1,4 +1,3 @@
-// $Id: base.js,v 1.25 2010-09-27 19:37:17 vano Exp $
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -155,7 +154,11 @@ function setMVCallback (json) {
 	var url=document.location.href;
 	if (json.status) {
 		alert(lbSuccess);
-		location.href=url;
+        if (json.back) {
+	           location.href=json.back;
+        } else {
+	           location.href=url;
+	    }    
     } else {
         alert(lbError+': '+json.message);
     }   
