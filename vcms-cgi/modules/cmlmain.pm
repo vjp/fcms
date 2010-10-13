@@ -1353,7 +1353,7 @@ sub viewlog {
 				$mes->{message}=~s/\r/ /gs; 
 				$mes->{message}=~s/\n/ /gs;
 				print "<script>alert('$mes->{message}')</script>";
-			} elsif ($mes->{type} eq 'redirect') {
+			} elsif ($mes->{type} eq 'redirect' && !$cmlcalc::CGIPARAM->{iframe}) {
 				chomp $mes->{message};
 				$mes->{message}=~s/\\/\\\\/gs;
 				$mes->{message}=~s/'/\\'/g;

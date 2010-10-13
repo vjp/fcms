@@ -1941,9 +1941,12 @@ sub tag_form {
 	
 	if ($pl->{'body'})  {
 		$body=$pl->{'body'}
+	} elsif ($pl->{'iframe'} && !$pl->{'action'}){
+		$body='IFRAMEPARSER' 	
 	} else {
 		$body=$cmlcalc::CGIPARAM->{body}
 	}
+	
 	if ($pl->{'page'})  {
 		$page=$pl->{'page'}
 	} else {
@@ -1999,16 +2002,18 @@ sub tag_form {
 		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
     }
     
-	for my $p qw( editprm piclistprm filelistprm ukey back) {
+	for my $p qw( editprm piclistprm filelistprm ukey back iframe) {
 		my $pv=$pl->{$p} || $cmlcalc::CGIPARAM->{$p};
 		$data.="<input type='hidden' name='$p' value='$pv' id='frm$p'>" if $pv;
 	}
+	
+	
 	$inner->{matrix}=$pl->{matrix};
 	$inner->{formid}=$frmid;
 	
 	$data.=cmlparser({data=>$_[0]->{data},inner=>$inner});
 	$data.="</form>";
-	$data.="<iframe id='iframe$id' name='iframe$id' src=''></iframe>" if $pl->{iframe};
+	$data.="<iframe id='iframe$id' width='0' height='0' name='iframe$id' src='' frameborder='0'></iframe>" if $pl->{iframe};
 	return $data;
 }	
 
