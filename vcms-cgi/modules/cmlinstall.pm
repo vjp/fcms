@@ -173,6 +173,22 @@ addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TIT
 setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 
 addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
+
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'IFRAMEPARSER',name=>'Обработчик IFRAME'});
+setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<cml:execute method='BASELPARSER' id='_prm:id_'>
+<script>
+    var url=parent.location.href;
+    <cml:if value="_prm:back_">
+     parent.location.href='<cml:text value="_prm:back_"/>';
+    </cml:if><cml:else>
+     parent.location.href=url; 
+    </cml:else> 
+</script>
+</cml:execute>
+)});
+
+
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'INITSCRIPTS',name=>'Инициализационная секция'});
 setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <link rel="stylesheet" href="/css/mce.css" type="text/css" />
