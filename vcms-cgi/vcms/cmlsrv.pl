@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: cmlsrv.pl,v 1.35 2010-09-06 20:25:28 vano Exp $
 
 use lib "../modules/";
 
@@ -1063,7 +1062,7 @@ sub viewprmform{
 	my $prm_struct=prminfo($pkey);
 	print "PRM $pkey";
 	print start_table();
-	print Tr(th('Имя'),th('Тип'),th('Объект'),th('Формула'),th('Вып'),th('Изм'),th('Свой'));
+	print Tr(th(enc('Имя')),th(enc('Тип')),th(enc('Объект')),th(enc('Формула')),th(enc('Вып')),th(enc('Изм')),th(enc('Свой')));
 	for my $p (@{$prm_struct->{prm}}) {
 		print Tr(
 			td($p->{pname}),
