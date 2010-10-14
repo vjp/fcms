@@ -2239,7 +2239,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm']);
+	my $pl=fetchparam(\$param,['param','prm','name']);
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm) {
 			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
@@ -2247,11 +2247,21 @@ sub tag_calendar {
 	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
 	
 	my $fvformat=$need_time?"%Y-%m-%d %H:%M":"%Y-%m-%d";
+	my $size=$need_time?15:10;
 	my $calopts=$need_time?"{time:'mixed', year_range:2 }":"{year_range:2 }";
-	$fvalue=strftime($fvformat,localtime($value)) if $value; 
+	$fvalue=strftime($fvformat,localtime($value)) if $value;
+	
+	if ($pl->{name}) {
+		$name=$pl->{name}
+	} elsif ($_[0]->{inner}->{matrix}) {
+		$name="_o${id}_p${prm}";
+	} else {
+		$name="_p$prm";
+	}
+	 
 	return qq(
-			 <input type="hidden" value="$value" name="_p$prm"/>
-	         <input value="$fvalue" onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000)">
+			 <input type="hidden" value="$value" name="$name"/>
+	         <input value="$fvalue" size='$size' onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000)">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
 }	
