@@ -1018,7 +1018,7 @@ sub tag_actionlink {
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
-		'alert','redir','back', 'callback','redirvar',
+		'alert','redir','back', 'callback','redirvar', 'button',
 
 	]);
 	
@@ -1114,12 +1114,14 @@ sub tag_actionlink {
 		);
 		
 	} elsif ($pl->{method}) {
- 	    my $callback=$pl->{callback} || $defajaxcallback;
-		return qq(<a href='#' onclick="execute('$pl->{method}',{}, $callback)">$title</a>);
+ 	    	my $callback=$pl->{callback} || $defajaxcallback;
+ 	    	my $onclick=qq(onclick="execute('$pl->{method}',{}, $callback)");
+			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
-			return qq(<a href='#' onclick="lexecute('$pl->{lmethod}',$oid,{}, $callback)">$title</a>);
+			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,{}, $callback)");
+			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	}			
 	
 	$method="BASE$pl->{action}METHOD";	
