@@ -801,8 +801,6 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
             tinyMCE.execCommand('mceRemoveControl', false, id);
     }
 </script>
-
-</script>
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вставка фото в визивиг'});
