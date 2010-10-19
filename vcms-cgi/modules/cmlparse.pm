@@ -1018,7 +1018,7 @@ sub tag_actionlink {
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
-		'alert','redir','back', 'callback','redirvar', 'button',
+		'alert','redir','back', 'callback','redirvar', 'button','title',
 
 	]);
 	
@@ -1055,7 +1055,8 @@ sub tag_actionlink {
 			$iid=$pl->{id};
 	}
 	$inner->{objid}=$iid;
-	$title=cmlparser({data=>$_[0]->{data},inner=>$inner});
+	$title=$pl->{title};
+	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
 	$title=&cmlcalc::p('_NAME',$iid) unless $title;
 	$title=$pl->{action} unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
