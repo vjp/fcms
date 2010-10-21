@@ -2242,7 +2242,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid']);
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm) {
 			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
@@ -2261,9 +2261,9 @@ sub tag_calendar {
 	} else {
 		$name="_p$prm";
 	}
-	 
+	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":''; 
 	return qq(
-			 <input type="hidden" value="$value" name="$name"/>
+			 <input type="hidden" value="$value" name="$name" $idstr/>
 	         <input value="$fvalue" size='$size' onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000)">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
