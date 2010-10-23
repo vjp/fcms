@@ -1803,7 +1803,7 @@ sub tag_date {
 	my $pl=fetchparam(\$param,[
 		'param','prm','expr','name','key',
 		'ukey','uid','namecgi','idcgi','id',
-		'format'
+		'format','value',
 	]);
 	
     my   $pkey=$pl->{param} || $pl->{prm};
@@ -1840,7 +1840,9 @@ sub tag_date {
   	$frmt='%d.%m.%y %H:%M' unless $frmt;
   	
   	 
-
+    if ($pl->{value}) {
+	    $result=$pl->{value};    	
+    } else {
         if (lc ($id) eq '_iterator')        {$result=$_[0]->{inner}->{iterator}}
         elsif (lc ($id) eq '_iteratornext') {$result=$_[0]->{inner}->{iteratornext}}
         elsif (lc ($id) eq '_iteratordelta') {$result=$_[0]->{inner}->{iteratornext}}
@@ -1852,8 +1854,7 @@ sub tag_date {
         } 
         $result=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
         $result=$result->{value} if ref $result eq 'HASH';
- 	
-
+    }
   	return undef unless $result;
 	return &cmlmain::enc(strftime $frmt,gmtime($result));
 	
