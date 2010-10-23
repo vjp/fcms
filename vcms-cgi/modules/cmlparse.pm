@@ -1061,13 +1061,14 @@ sub tag_actionlink {
 	$title=$pl->{action} unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
-	my $rd;
 	
+	my $rd='location.href=url;';
 	$rd="location.href='$pl->{redir}';" if $pl->{redir};
 	$rd="location.href=json.$pl->{redirvar};" if $pl->{redirvar};
 		
 	my $defajaxcallback=qq(
 		function(json) {
+			    var url=document.location.href;
 		   	    if (json.status) {
         				alert(json.message || '$succ_mes');
         				$rd
