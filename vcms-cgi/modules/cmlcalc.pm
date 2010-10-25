@@ -61,6 +61,13 @@ sub initcalc
 
 }
 
+sub jsoncookie ($) {
+	my ($name)=@_;
+	my $cval=CGI::cookie($name=~/^__CJ_/?$name:"__CJ_$name");
+	return undef unless $cval;
+	return decode_json($cval);
+}
+
 
 sub scripteval {
 		$cmlcalc::CGIPARAM->{_MODE}='CONSOLE';
