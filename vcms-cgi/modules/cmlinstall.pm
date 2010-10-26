@@ -768,6 +768,8 @@ var HINTS_CFG = {
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
 setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 	    <script language="javascript" type="text/javascript" src="/tiny_mce/tiny_mce.js"></script>
+	    <script language="javascript" type="text/javascript" src="/admin/js/mce.js"></script>
+	    
     <script language="javascript" type="text/javascript">
     tinyMCE.init({  mode : "specific_textareas",
         editor_selector : "mceEditor",
@@ -781,6 +783,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         theme_advanced_buttons3 : "",
         content_css : "/css/mce.css", 
         apply_source_formatting: true,
+        extended_valid_elements : "div[id|style]",
         language : "ru" 
     
     });
