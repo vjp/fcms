@@ -2470,9 +2470,15 @@ sub uploadprmfile
  
  my $fname=param($prmname);
  $fname =lc $fname; 
+ 
+ if ($cmlmain::GLOBAL->{CODEPAGE} eq 'utf-8') {
+ 		$fname = Encode::encode('windows-1251',Encode::decode('utf-8',$fname));
+ }	
   
  $fname =~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
  $fname =~s{[à-ÿÀ-ß\"\s\'\#]}{}g;
+
+ $fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
 
  $fh = upload($prmname);
  open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
