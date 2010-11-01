@@ -783,7 +783,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         theme_advanced_buttons3 : "",
         content_css : "/css/mce.css", 
         apply_source_formatting: true,
-        extended_valid_elements : "div[id|style]",
+        extended_valid_elements : "div[id|style|class]",
         language : "ru" 
     
     });
