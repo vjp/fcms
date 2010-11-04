@@ -431,12 +431,16 @@ sub tag_menuitem	{
 		}
 	}
 	
-	
-	unless ($pl->{key}) {
-		$pl->{key}=&cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
-	}
-	my $href='?'. ($pl->{href} || "body=$pl->{action}_$pl->{key}");
-	my $icohref='?'. ($pl->{icohref} || $pl->{href} || "body=$pl->{action}_$pl->{key}");
+	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
+    
+    if ($cmlmain::nobj->{$key}->{type} eq 'L') {
+    	my $upper=$cmlmain::nobj->{$key}->{upobj};
+    	$key=$cmlmain::obj->{$upper}->{key};
+    }
+
+
+	my $href='?'. ($pl->{href} || "body=$pl->{action}_$key");
+	my $icohref='?'. ($pl->{icohref} || $pl->{href} || "body=$pl->{action}_$key");
 	$inner->{objid}=$id;	
 	
 	my $itext=cmlparser({data=>$data,inner=>$inner});
