@@ -1623,32 +1623,43 @@ sub tag_include {
   	my $param=$_[0]->{param};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
   	my $key;
-  	my $pkey;
   	my $expr;
   	my $id;
-
-  	if    	($param=~s/(\W)id=(['"])(.+?)\2/$1/i)       {$id=$3    }
-  	elsif ($param=~s/(\W)idexpr=(['"])(.+?)\2/$1/i)    {
-  	    $id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$3})->{value}
+  	
+	my $pl=fetchparam(\$param,[
+		'id','idexpr','notfound','idcgi','name',
+		'key','namecgi','param','prm'
+	]);
+	
+  	if  ($pl->{id})       {
+  		$id=$pl->{id}    
+  	} 	elsif ($pl->{idexpr})    {
+  	    $id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$pl->{idexpr}})->{value}
+  	}  	elsif   ($pl->{idcgi})    {
+  		$id=param($pl->{idcgi})
+  	}  	elsif      ($pl->{name})     {
+  		$key=$pl->{name}   
+  	}  	elsif      ($pl->{key})     {
+  		$key=$pl->{key}   
+  	}  	elsif   ($pl->{namecgi})  {
+  		$key=param($pl->{namecgi})
+  	}  	else    {
+  		$id=$inner->{objid}
   	}
-
   	
-  	elsif   ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)    {$id=param($3)}
-  	elsif      ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)     {$key=$3   }
-  	elsif      ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)     {$key=$3   }
-  	elsif   ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)  {$key=param($3)}
-  	else    {$id=$inner->{objid}}
   	
-  	if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i) {$pkey=$3; $expr="p('$pkey')" }
-  	if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i) {$pkey=$3; $expr="p('$pkey')" }
-  	
-    	unless ($expr) {$expr='p(PAGETEMPLATE)'} 
-  	
-
-  	#my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,parent=>$inner->{objid}});
+  	if ($pl->{param}) {
+  		$expr="p('$pl->{param}')" 
+  	} elsif ($pl->{prm}) {
+  		$expr="p('$pl->{prm}')"
+  	} else {
+  		$expr='p(PAGETEMPLATE)';
+  	}
+  
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
 	if ($body) {
+		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
 		return  cmlparser({data=>$body, inner=>$inner}); 
 	}	else       {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
