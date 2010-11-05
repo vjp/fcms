@@ -1664,7 +1664,11 @@ sub tag_include {
 	}	else       {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
-		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
+		if ($expr eq 'p(PAGETEMPLATE)') {
+			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});
+		} else {
+			return undef;
+		}			
 	}
 }
 
