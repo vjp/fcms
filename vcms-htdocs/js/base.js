@@ -58,7 +58,7 @@ function execute(func,data,callback,url) {
 
 function defcallback(json){
     if (json.status) {
-        alert(json.message); 
+        alert(json.message || lbSuccess); 
         window.location.href=window.location.href.sub(/\#$/,'');
     } else {
         alert(json.message);
