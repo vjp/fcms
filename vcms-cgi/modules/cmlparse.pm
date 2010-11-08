@@ -1066,7 +1066,7 @@ sub tag_actionlink {
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
 	
-	my $rd='location.href=url;';
+	my $rd=qq(window.location.href=window.location.href.sub(/\\#\$/,''););
 	$rd="location.href='$pl->{redir}';" if $pl->{redir};
 	$rd="location.href=json.$pl->{redirvar};" if $pl->{redirvar};
 		
@@ -1075,6 +1075,7 @@ sub tag_actionlink {
 			    var url=document.location.href;
 		   	    if (json.status) {
         				alert(json.message || '$succ_mes');
+        				alert(url);
         				$rd
     			} else {
         				alert('$err_mes: '+json.message);
