@@ -157,7 +157,7 @@ function setMVCallback (json) {
         if (json.back) {
 	           location.href=json.back;
         } else {
-	           location.href=url;
+        	   window.location.href=window.location.href.sub(/\#$/,'');
 	    }    
     } else {
         alert(lbError+': '+json.message);
