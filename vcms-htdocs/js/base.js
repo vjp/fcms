@@ -1,3 +1,7 @@
+function reloadPage (){
+	window.location.href=window.location.href.sub(/\#$/,'');
+}
+
 
 function setCookie (name, value, expires, path, domain, secure) {
       document.cookie = name + "=" + escape(value) +
@@ -59,7 +63,7 @@ function execute(func,data,callback,url) {
 function defcallback(json){
     if (json.status) {
         alert(json.message || lbSuccess); 
-        window.location.href=window.location.href.sub(/\#$/,'');
+        reloadPage();
     } else {
         alert(json.message);
     }    
@@ -157,7 +161,7 @@ function setMVCallback (json) {
         if (json.back) {
 	           location.href=json.back;
         } else {
-        	   window.location.href=window.location.href.sub(/\#$/,'');
+        	   reloadPage();
 	    }    
     } else {
         alert(lbError+': '+json.message);
