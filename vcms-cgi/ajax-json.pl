@@ -33,7 +33,7 @@ if (ref $prms eq 'HASH') {
 
 
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
-$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 
 

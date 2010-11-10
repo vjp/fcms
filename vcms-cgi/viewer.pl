@@ -16,7 +16,7 @@ my $st=time;
 start('.');
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
-$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 
 
 check_session();

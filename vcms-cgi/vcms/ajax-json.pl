@@ -33,7 +33,7 @@ print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
-$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 
 my $data=param('data');
 my $func=param('func');

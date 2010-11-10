@@ -34,7 +34,7 @@ print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 my $data=param('data');
 my $func=param('func');
 my $json = new JSON::PP;
-$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 if ($AJAX_FUNCS->{$func}) {

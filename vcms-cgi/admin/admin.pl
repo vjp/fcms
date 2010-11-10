@@ -35,7 +35,7 @@ $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('BENCHMARK',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
-$cmlcalc::ENV->{SERVER}=$ENV{SERVER_NAME};
+$cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
