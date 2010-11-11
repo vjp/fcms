@@ -705,10 +705,12 @@ sub weekday {
 sub distlist {
 	my %inh;
 	my @rlist;
-	for (split(';',$_[0])) {
-		unless ($inh{$_}) { push (@rlist,$_); $inh{$_}=1}
-  }	
-  return join (';',@rlist);
+	for my $prm (@_) {
+		for (split(';',$prm)) {
+			unless ($inh{$_}) { push (@rlist,$_); $inh{$_}=1}
+  		}
+	}		
+  	return join (';',@rlist);
 }	
 
 sub lowlist {
