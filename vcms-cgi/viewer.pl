@@ -213,11 +213,14 @@ if (!$opensite && !cookie('dev')) {
 }
 my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
+
+my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
+
 print header(
 	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
 	-type=>$xmlmode?'text/xml':'text/html',
 	-cookie=>\@cookies, 
-	-charset=>$GLOBAL->{CODEPAGE},
+	-charset=>$charset,
 	###  incorrect-last_modified=>$lmtime,
 );
 
@@ -225,6 +228,9 @@ print header(
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 statclick($cgiparam->{_cl},$cgiparam->{_clobjid},$cgiparam->{_clurl}) if $cgiparam->{_cl};
 my $body=$v->{value};
+if ($xmlmode && $GLOBAL->{CODEPAGE} ne 'utf-8') {
+		$body=Encode::encode('utf-8',Encode::decode($GLOBAL->{CODEPAGE},$body));
+}
 if ($body) {
 	print $body;
 	benchmark($mtime) if cookie('dev');
