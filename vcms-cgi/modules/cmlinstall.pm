@@ -1085,8 +1085,10 @@ addprm({convertname=>1,objkey=>'ERRORS',name=>'Переменные среды',type=>'LONGTEXT
 addobject({convertname=>1,upkey=>'ERRORS',key=>'JSERRORS',name=>'JS-Ошибки'});
 
 addmethod ({convertname=>1,objkey=>'ERRORS',key=>'JSERROR',name=>'Обработка js ошибки',,script=>q(
-staterror("E:$CGIPARAM->{message} L:$CGIPARAM->{line}",$CGIPARAM->{url},$CGIPARAM->{ua},"JSERRORS");
-return {status=>1};
+if ($CGIPARAM->{url}=~/^http/) {
+	staterror("E:$CGIPARAM->{message} L:$CGIPARAM->{line}",$CGIPARAM->{url},$CGIPARAM->{ua},"JSERRORS");
+	return {status=>1};
+}	
 )});
 
 
