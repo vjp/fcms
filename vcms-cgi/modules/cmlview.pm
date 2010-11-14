@@ -11,7 +11,7 @@ BEGIN
  use cmlmain;
  use cmlcalc;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top &editmethodform &console);
+ @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console);
 
 }
 
@@ -54,6 +54,59 @@ sub print_top {
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
 	print br;
+}
+
+
+sub editprmform {
+	my $id=$_[0];
+	my $pkey=$_[1];
+	my $ss;
+	
+	my $extra=&{$ptype{$prm->{$pkey}->{type}}->{extra}}({pkey=>$pkey});
+	print_top();
+	print q(
+	 <script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+				id : "editarea"		
+				,language: "ru"
+				,syntax: "perl"			
+				,start_highlight: true		
+			});
+	 </script> 	
+	);
+	
+	print start_form(-method=>'post');
+	print hidden (-name=>'action',-default=>'editprm',-override=>1);
+  	print hidden (-name=>'pname',-default=>$pkey);
+  	print hidden (-name=>'id',-default=>$id);
+	
+	print start_table();
+	print Tr(th(enc('Объект')),td(b($obj->{$id}->{name})));
+	print Tr(th(enc('Наименование параметра')),td(b(textfield(-name=>'prmname',-default=>$prm->{$pkey}->{name},override=>1,size=>130))));
+	print Tr(th(enc('Ключ')),td(b($pkey)));
+	print Tr(th(enc('Тип')),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
+	
+	my $tl=lmethod_list();
+	print Tr(th(enc('Обработчик OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
+	print Tr(th(enc('Обработчик HasAccess')),td(b(popup_menu(-name=>'hasaccess',-default=>$prm->{$pkey}->{extra}->{hasaccess},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
+	if ($prm->{$pkey}->{upd}->{$id} eq 'y') {$ss=1} else {$ss=''}
+	print Tr(th(enc('Исправляемый')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
+	if ($prm->{$pkey}->{evaluate} eq 'y') {$ss=1} else {$ss=''}
+	print Tr(th(enc('Выполняемый')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
+  	print Tr(th(enc('Умолчание')),td(textarea(-id=>'editarea',-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
+  
+  	if (ref $extra eq 'ARRAY') {
+    	print Tr(th({-colspan=>2},enc("Дополнительные атрибуты")));
+    	for (@$extra) {
+    		print Tr(th($_->[0]),td($_->[1]));
+    	}	
+  	}	
+	print Tr(th(),td(submit(-value=>enc('Исправить'))));
+	print end_table();
+  	if (ref $extra ne 'ARRAY') {  
+  		print $extra,br 
+  	}
+	print endform;
 }
 
 sub console {
