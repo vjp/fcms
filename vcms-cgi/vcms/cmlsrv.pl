@@ -1123,20 +1123,7 @@ sub method_list {
 }	
 
 
-sub lmethod_list {
-	
- 	my $tl;	
- 	my $tlbls;
- 	my @tvals=('');
- 	push (@tvals,sort keys %$lmethod);
- 	for (@tvals) { $tlbls->{$_}="$lmethod->{$_}->{name} ($_)" } 
- 	$tlbls->{''}=enc('Не определен');
- 
- 	$tl->{vals}=\@tvals;
- 	$tl->{lbls}=$tlbls;
- 
- 	return $tl;
-}	
+
 
 
 sub meta_redirect {
