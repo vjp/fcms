@@ -566,6 +566,7 @@ sub tag_select {
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
+  	my $access_denied;
 	if ($pl->{'selexpr'}) {
 		$sexpr=$pl->{'selexpr'}
 	} elsif ($pl->{'selected'}) {
@@ -576,6 +577,10 @@ sub tag_select {
     		$prm=&cmlcalc::calculate({id=>$id,expr=>$pl->{'prmexpr'}})->{value};
   	}   
 	if ($prm) {  
+		if ($cmlmain::prm->{$prm}->{extra}->{hasaccess}) {
+			$access_denied=!(&cmlcalc::calculate({id=>$id,expr=>$cmlmain::prm->{$prm}->{extra}->{hasaccess}})->{value}); 
+		}
+		
 	  	$sexpr="p($prm)";
 	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  	$inner->{expr}=$expr;
@@ -623,7 +628,7 @@ sub tag_select {
   	my $itext=$_[0]->{data}?
   		cmlparser({data=>$_[0]->{data},inner=>$inner}):
   		tag_list({data=>$data,inner=>$inner,param=>$param});
-  	return "$hd<select name='$name' $param $multiple $idtxt>$defopt\n$itext</select>";
+  	return $access_denied?&cmlcalc::p(_NAME,&cmlcalc::p($prm,$id)) :"$hd<select name='$name' $param $multiple $idtxt>$defopt\n$itext</select>";
 
 }	
 
