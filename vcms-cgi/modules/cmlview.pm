@@ -5,7 +5,7 @@ BEGIN
 {
  use Exporter();
  use Data::Dumper;
- use CGI  qw/:standard upload center/;
+ use CGI  qw/:standard upload center *table/;
  use Time::Local;
  use POSIX qw(strftime);
  use cmlmain;
@@ -56,6 +56,20 @@ sub print_top {
 	print br;
 }
 
+sub lmethod_list {
+	
+ 	my $tl;	
+ 	my $tlbls;
+ 	my @tvals=('');
+ 	push (@tvals,sort keys %$lmethod);
+ 	for (@tvals) { $tlbls->{$_}="$lmethod->{$_}->{name} ($_)" } 
+ 	$tlbls->{''}=enc('Не определен');
+ 
+ 	$tl->{vals}=\@tvals;
+ 	$tl->{lbls}=$tlbls;
+ 
+ 	return $tl;
+}	
 
 sub editprmform {
 	my $id=$_[0];
@@ -88,13 +102,12 @@ sub editprmform {
 	
 	my $tl=lmethod_list();
 	print Tr(th(enc('Обработчик OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
-	print Tr(th(enc('Обработчик HasAccess')),td(b(popup_menu(-name=>'hasaccess',-default=>$prm->{$pkey}->{extra}->{hasaccess},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
 	if ($prm->{$pkey}->{upd}->{$id} eq 'y') {$ss=1} else {$ss=''}
 	print Tr(th(enc('Исправляемый')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
 	if ($prm->{$pkey}->{evaluate} eq 'y') {$ss=1} else {$ss=''}
 	print Tr(th(enc('Выполняемый')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
   	print Tr(th(enc('Умолчание')),td(textarea(-id=>'editarea',-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
-  
+	print Tr(th(enc('Условие доступа')),td(textarea(-name=>'hasaccess',-default=>$prm->{$pkey}->{extra}->{hasaccess},override=>1,rows=>15,cols=>130)));  
   	if (ref $extra eq 'ARRAY') {
     	print Tr(th({-colspan=>2},enc("Дополнительные атрибуты")));
     	for (@$extra) {
