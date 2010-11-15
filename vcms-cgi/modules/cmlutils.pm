@@ -74,6 +74,7 @@ DOC
 		$r->{error}=$rf->{response}->{error}->{content} || $rf->{response}->{error};
 		$r->{error}= Encode::encode($GLOBAL->{ENCODING},$r->{error});
 		$r->{errorcode}=$rf->{response}->{error}->{code};
+		staterror ($r->{error},undef,undef,'SEARCHERRORS');
 		return $r;
 	}
 	return $r unless $rf->{response}->{results}->{grouping}->{group};
