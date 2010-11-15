@@ -2275,7 +2275,7 @@ sub tag_calendar {
 	}
 	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
 	
-	my $fvformat=$need_time?"%Y-%m-%d %H:%M":"%Y-%m-%d";
+	my $fvformat=$need_time?"%d.%m.%Y %H:%M":"%d.%m.%Y";
 	my $size=$need_time?15:10;
 	my $calopts=$need_time?"{time:'mixed', year_range:2 }":"{year_range:2 }";
 	$fvalue=strftime($fvformat,localtime($value)) if $value;
