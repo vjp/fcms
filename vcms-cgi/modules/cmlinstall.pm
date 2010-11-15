@@ -715,7 +715,6 @@ h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size
   };
   Date.weekdays = $w("пн вт ср чт пт сб вс");
   Date.months = $w("Январь Февраль Март Апрель Май Июнь Июль Август Сенятбрь Октябрь Ноябрь Декабрь" );
-  Date.first_day_of_week = 1;
 </script>
 
 <cml:include key='MCEINIT'/>
