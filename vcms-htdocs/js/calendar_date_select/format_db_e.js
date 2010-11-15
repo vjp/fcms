@@ -24,3 +24,4 @@ Date.parseFormattedString = function (string) {
   if (d[8]) { date.setMinutes(d[6]); }
   return date;
 }
+Date.first_day_of_week = 1;
