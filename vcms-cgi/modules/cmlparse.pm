@@ -566,7 +566,7 @@ sub tag_select {
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
-  	my $access_denied;
+  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
 	if ($pl->{'selexpr'}) {
 		$sexpr=$pl->{'selexpr'}
 	} elsif ($pl->{'selected'}) {
@@ -578,7 +578,7 @@ sub tag_select {
   	}   
 	if ($prm) {  
 		if ($cmlmain::prm->{$prm}->{extra}->{hasaccess}) {
-			$access_denied=!(&cmlcalc::calculate({id=>$id,expr=>$cmlmain::prm->{$prm}->{extra}->{hasaccess}})->{value}); 
+			$access_denied=1  if !(&cmlcalc::calculate({id=>$id,expr=>$cmlmain::prm->{$prm}->{extra}->{hasaccess}})->{value}); 
 		}
 		
 	  	$sexpr="p($prm)";
@@ -1087,7 +1087,7 @@ sub tag_actionlink {
      	 }
     );
     
-	if ($pl->{action} eq 'EDIT') {
+	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW') {
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
 		my $kn=$pl->{upkey} || $cmlmain::obj->{$tid}->{key};
@@ -1095,6 +1095,7 @@ sub tag_actionlink {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
 		my $href="?body=EDIT_$kn&id=$iid";
+		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
 	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
@@ -2149,6 +2150,7 @@ sub tag_inputtext {
   		'elementid',
   	]);
   
+  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 
 
@@ -2186,6 +2188,8 @@ sub tag_inputtext {
 	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
 		$value = $cmlcalc::CGIPARAM->{$name}
 	}
+	return $value if $access_denied;
+	
 	
 	if ($pl->{cols}) {
 		$cols=$pl->{cols}
@@ -2209,6 +2213,8 @@ sub tag_inputtext {
   		$mode='input';
   	}
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
+  	
+  	
 	if ($mode eq 'input') {
 		 my $sizestr;
 		 $value=~s/"/&quot;/g;
@@ -2368,6 +2374,8 @@ sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
   	my $pl=fetchparam(\$param,['ajax','callback','title']);
+  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
+  	return undef if $access_denied;
   	my $cstr=$pl->{callback}?",$pl->{callback}":'';
 	my $onclickstr=$pl->{'ajax'}?"onclick='tinyMCE.triggerSave();multiset(this${cstr});return false;'":'';
 	if ($pl->{title}) {
