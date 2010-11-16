@@ -884,24 +884,25 @@ setvalue({convert=>1,key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 
 
 $ble=qq(
-<cml:use id='\$key'>
+<cml:use id='_prm:id_'>
+
 <cml:form parser='BASELPARSER'>
-<table>
-<tr><td>Наименование: </td><td><cml:text param='_NAME'/></b><br></td></tr>
-<tr><td>Текст: </td><td><cml:inputtext prm='_prm:editprm_' class='mceEditor' textareaid='MCEDITOR'/></b><br>
-WYSIWIG<input type='checkbox' checked onClick="javascript:toggleEditor('MCEDITOR');"></a>
+      <table>
+          <tr><td>Наименование: </td><td><cml:text param='_NAME'/></b><br></td></tr>
+          <tr><td>Текст: </td><td><cml:inputtext prm='_prm:editprm_' class='mceEditor' textareaid='MCEDITOR'/></b><br>
+          WYSIWIG<input type='checkbox' checked onClick="javascript:toggleEditor('MCEDITOR');"></a>
 </td></tr>
+        
+          <tr><td colspan=2><cml:changebutton/></td></tr>
 
-<tr><td colspan=2><cml:changebutton/></td></tr>
-
-</table>
+       </table>
 
 </cml:form>
 <hr>
 <table><tr>
 <cml:list prm='_prm:piclistprm_'>
 <td>
-<cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:image param='PIC' width=100/></cml:a> <br>
+<cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:image param='PIC' width='100'/></cml:a> <br>
 <cml:actionlink action='delete'>Удалить</cml:actionlink>
 </td>
 </cml:list>
@@ -913,10 +914,36 @@ WYSIWIG<input type='checkbox' checked onClick="javascript:toggleEditor('MCEDITOR
 
 
 <cml:form insertinto='_id:GALLERY_' link='PICLINK'>
-Наименование <cml:inputtext param='_NAME' value=''/>
-<cml:inputfile param='PIC'/>
+Наименование <cml:inputtext param='_NAME' value=''/><br>
+Файл <cml:inputfile param='PIC'/>
 
 <input type='submit' value='Новая картинка'>
+</cml:form>
+
+
+
+<hr/>
+<table><tr>
+<cml:list prm='_prm:vidlistprm_'>
+<td>
+<cml:video/> <br>
+<cml:a href='#' alt='_cml:_NAME_'  onclick="javascript:insertvideo('player_cml:_ID_','_global:FILEURL_/_cml:PIC_')">Вставить</cml:a> 
+<cml:actionlink action='delete'>Удалить</cml:actionlink>
+</td>
+</cml:list>
+</tr>
+</table>
+
+
+
+
+
+<cml:form insertinto='_id:VIDEOGALLERY_' link='VIDLINK'>
+Наименование <cml:inputtext param='_NAME' value=''/> <br/>
+Ролик <cml:inputfile param='MOVIE'/> <br>
+Превью <cml:inputfile param='PIC'/><br>
+
+<input type='submit' value='Новый ролик'>
 </cml:form>
 
 
