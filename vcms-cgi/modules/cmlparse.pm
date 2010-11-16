@@ -566,7 +566,7 @@ sub tag_select {
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
-  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
+  	my $access_denied=$cmlcalc::ENV->{READONLY};
 	if ($pl->{'selexpr'}) {
 		$sexpr=$pl->{'selexpr'}
 	} elsif ($pl->{'selected'}) {
@@ -1126,10 +1126,12 @@ sub tag_actionlink {
 		);
 		
 	} elsif ($pl->{method}) {
+		    return undef if $cmlcalc::ENV->{READONLY};
  	    	my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $onclick=qq(onclick="execute('$pl->{method}',{}, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
+		    return undef if $cmlcalc::ENV->{READONLY};
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
 			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,{}, $callback)");
@@ -2150,7 +2152,7 @@ sub tag_inputtext {
   		'elementid',
   	]);
   
-  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
+  	my $access_denied=$cmlcalc::ENV->{READONLY};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 
 
@@ -2275,11 +2277,19 @@ sub tag_calendar {
 	my $name;
 	my $frmtstr;
 	my $pl=fetchparam(\$param,['param','prm','name','elementid']);
+	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm) {
 			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
 	}
 	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
+	
+	if ($readonly) {
+		if ($value && $cmlmain::prm->{$prm}->{extra}->{format}) {
+			$value=strftime($cmlmain::prm->{$prm}->{extra}->{format},localtime($value));
+		}
+		return $value;	 
+	}
 	
 	my $fvformat=$need_time?"%d.%m.%Y %H:%M":"%d.%m.%Y";
 	my $size=$need_time?15:10;
@@ -2312,7 +2322,9 @@ sub tag_checkbox {
 	my $prm=$pl->{prm} || $pl->{param};
 	my $value=$pl->{value} || 1;	
 	my $checked=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1?'checked':'';
-
+    if ($cmlcalc::ENV->{READONLY}) {
+    	return $checked?"+":"-";
+    }
 	my $name;
 	if ($pl->{name}) {
 		$name=$pl->{name}
@@ -2374,7 +2386,7 @@ sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
   	my $pl=fetchparam(\$param,['ajax','callback','title']);
-  	my $access_denied=$cmlcalc::CGIPARAM->{readonly};
+  	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?",$pl->{callback}":'';
 	my $onclickstr=$pl->{'ajax'}?"onclick='tinyMCE.triggerSave();multiset(this${cstr});return false;'":'';

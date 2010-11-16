@@ -36,6 +36,7 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
+$cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
@@ -58,6 +59,8 @@ my $xs= $qs;
 $qs=~s/;/&/g;
 $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
+
+
 
 
 if(param('parsemethod')) {

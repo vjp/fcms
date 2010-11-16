@@ -28,6 +28,7 @@ $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
+$cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly};
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
