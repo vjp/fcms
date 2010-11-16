@@ -1090,7 +1090,7 @@ sub tag_actionlink {
 	if ($pl->{action} eq 'EDIT') {
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
-		my $kn=$cmlmain::obj->{$tid}->{key};
+		my $kn=$pl->{upkey} || $cmlmain::obj->{$tid}->{key};
 		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
