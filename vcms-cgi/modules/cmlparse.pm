@@ -1090,7 +1090,10 @@ sub tag_actionlink {
      	 }
     );
     
-	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW') {
+	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW' || $pl->{action} eq 'EDITVIEW') {
+		if ($pl->{action} eq 'EDITVIEW') {
+			$pl->{action}=$access_denied?'VIEW':'EDIT';	
+		}
 		return undef if $access_denied && $pl->{action} eq 'EDIT'; 	
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
@@ -1109,7 +1112,7 @@ sub tag_actionlink {
 		for (qw (id listprm link orderby ordertype filter filterexpr)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
-		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW';
+		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
  		return "<a href='$hrf' $param $tstr>$title</a>";
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
