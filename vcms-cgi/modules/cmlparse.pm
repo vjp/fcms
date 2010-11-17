@@ -1028,6 +1028,7 @@ sub tag_actionlink {
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
+		'filter','filterexpr',
 
 	]);
 	
@@ -1102,7 +1103,7 @@ sub tag_actionlink {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
-		for (qw (id listprm link orderby ordertype)) {
+		for (qw (id listprm link orderby ordertype filter filterexpr)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
  		return "<a href='$hrf' $param $tstr>$title</a>";
