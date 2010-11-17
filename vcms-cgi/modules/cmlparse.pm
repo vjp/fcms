@@ -79,88 +79,71 @@ sub initparser
 
 sub cmlparser
 {
- my $text=$_[0]->{data};
- my $pkey=$_[0]->{pkey};
- my $objid=$_[0]->{objid};
- my $debug=$_[0]->{debug};
- my $inner; %{$inner}=%{$_[0]->{inner}};
- if ($pkey)  {$inner->{pkey}=$pkey}
- if ($objid) {$inner->{objid}=$objid}
- if ($debug) {$inner->{debug}=$debug}
- my $felm;  if ($_[0]->{firstelm}) {$felm=1}
- my $lelm;  if ($_[0]->{lastelm})  {$lelm=1}
- #my $eelm;  if ($_[0]->{enableelm}){$eelm=1}
+ 	my $text=$_[0]->{data};
+ 	my $pkey=$_[0]->{pkey};
+ 	my $objid=$_[0]->{objid};
+ 	my $debug=$_[0]->{debug};
+ 	my $inner; %{$inner}=%{$_[0]->{inner}};
+ 	if ($pkey)  {$inner->{pkey}=$pkey}
+ 	if ($objid) {$inner->{objid}=$objid}
+ 	if ($debug) {$inner->{debug}=$debug}
+ 	my $felm;  if ($_[0]->{firstelm}) {$felm=1}
+ 	my $lelm;  if ($_[0]->{lastelm})  {$lelm=1}
+ 
+ 	my $setreadonly=$_[0]->{readonly} && !$cmlcalc::ENV->{READONLY};
+ 	$cmlcalc::ENV->{READONLY}=1 if $setreadonly;
  
 
-
- 
-
- my @txt=split(/<cml:/si,$text);
-
- my @stack=shift @txt;
- my @pstack;
+ 	my @txt=split(/<cml:/si,$text);
+ 	my @stack=shift @txt;
+ 	my @pstack;
 
 
- for (@txt)
- {
-  (my $tag, my $tagdata)=/^(.+?>)(.*)$/s;
-  my @intxt=split(/<\/cml:/si,$tagdata);
+ 	for (@txt){
+  		(my $tag, my $tagdata)=/^(.+?>)(.*)$/s;
+  		my @intxt=split(/<\/cml:/si,$tagdata);
 
-  my $firstsection=shift (@intxt);
+  		my $firstsection=shift (@intxt);
 
-  push (@stack,$firstsection);
-  if ($tag=~/\/>/)
-  {
-   (my $tname, my $tparam)=($tag=~/(\w+)\s*(.*?)\/>/s);
-   my $rdata=pop(@stack) || '';
-   my $pstr;
-   if ($#stack==0)   {
-      $pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner});
-   }
-   else 	 {
-   	$pstr="<cml:$tname $tparam/>"
-   }
-   push (@stack,(pop(@stack) || '')."$pstr$rdata" );
-  }
-  else
-  {
-   (my $tname, my $tparam)=($tag=~/(\w+)\s*(.*?)>/s);
-   push (@pstack,$tparam);
-  }
-  for (@intxt)
-  {
-   (my $ztag, my $ztagdata)=/^(.+?)>(.*)$/s;
-   my $rdata=pop(@stack);
-   my $xparam=pop(@pstack);
-   #$rdata=~s/\n\s*$//s;
-   $rdata=~s/^\s*\n//s;
-   my $pstr;
+  		push (@stack,$firstsection);
+  		if ($tag=~/\/>/)	{
+   			(my $tname, my $tparam)=($tag=~/(\w+)\s*(.*?)\/>/s);
+   			my $rdata=pop(@stack) || '';
+   			my $pstr;
+   			if ($#stack==0)   {
+      			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner});
+   			}  else 	 {
+   				$pstr="<cml:$tname $tparam/>"
+   			}
+   			push (@stack,(pop(@stack) || '')."$pstr$rdata" );
+  		} else {
+   			(my $tname, my $tparam)=($tag=~/(\w+)\s*(.*?)>/s);
+   			push (@pstack,$tparam);
+  		}
+  		for (@intxt) {
+   			(my $ztag, my $ztagdata)=/^(.+?)>(.*)$/s;
+   			my $rdata=pop(@stack);
+   			my $xparam=pop(@pstack);
+   			$rdata=~s/^\s*\n//s;
+   			my $pstr;
    
-   my $xtra;
-   if ($#stack==0)   {
-     $xtra=pop(@stack) || '';
-     $pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner});
-     if (lc($ztag) eq 'container' || lc($ztag) eq 'lowlevel') 
-     { 
-    	unless ($felm) { $xtra=''} 
-    	unless ($lelm) {$ztagdata=''}
-     }
-   }
-   else {
-     $xtra=pop(@stack) || '';	
-     $pstr="<cml:$ztag $xparam>$rdata</cml:$ztag>";	
-   }
-
-
-
-   push (@stack,"$xtra$pstr$ztagdata");
-   
-  }
- }
-
-
-
- return pop (@stack);
+   			my $xtra;
+   			if ($#stack==0)   {
+     			$xtra=pop(@stack) || '';
+     			$pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner});
+     			if (lc($ztag) eq 'container' || lc($ztag) eq 'lowlevel') { 
+    				unless ($felm) { $xtra=''} 
+    				unless ($lelm) {$ztagdata=''}
+     			}
+   			}   else {
+     			$xtra=pop(@stack) || '';	
+     			$pstr="<cml:$ztag $xparam>$rdata</cml:$ztag>";	
+   			}
+   			push (@stack,"$xtra$pstr$ztagdata");
+  		}
+ 	}
+ 	$cmlcalc::ENV->{READONLY}=0 if $setreadonly;
+ 	return pop (@stack);
 
 }
 
@@ -1644,7 +1627,7 @@ sub tag_include {
   	
 	my $pl=fetchparam(\$param,[
 		'id','idexpr','notfound','idcgi','name',
-		'key','namecgi','param','prm'
+		'key','namecgi','param','prm','readonly'
 	]);
 	
   	if  ($pl->{id})       {
@@ -1676,12 +1659,12 @@ sub tag_include {
   	my $body=$v->{value};
 	if ($body) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
-		return  cmlparser({data=>$body, inner=>$inner}); 
+		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
 	}	else       {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
 		if ($expr eq 'p(PAGETEMPLATE)') {
-			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});
+			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner,readonly=>$pl->{readonly}});
 		} else {
 			return undef;
 		}			
