@@ -423,9 +423,10 @@ sub tag_menuitem	{
 			$pl->{icohref}="body=EDIT_$ukey&id=$id" unless $pl->{icohref};
 		}
 			
-	} elsif ($pl->{action} eq 'LISTEDIT') {
+	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {
 		my $ukey=&cmlcalc::p(_KEY,$id);
 		$pl->{href}="body=LISTEDIT_${ukey}&ukey=$ukey";
+		$pl->{href}.="&readonly=1" if $pl->{action} eq 'LISTVIEW';
 		for (qw (orderby ordertype)) {
 			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 		}
@@ -1031,7 +1032,8 @@ sub tag_actionlink {
 		'filter','filterexpr',
 
 	]);
-	
+	my $access_denied=$cmlcalc::ENV->{READONLY};
+	  	
 	$pl->{action}='del' if lc($pl->{action}) eq 'delete';
 	$pl->{action}=uc($pl->{action});
 	
@@ -1089,6 +1091,7 @@ sub tag_actionlink {
     );
     
 	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW') {
+		return undef if $access_denied && $pl->{action} eq 'EDIT'; 	
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
 		my $kn=$pl->{upkey} || $cmlmain::obj->{$tid}->{key};
@@ -1099,13 +1102,14 @@ sub tag_actionlink {
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
 	 	return "<a href='$href' $param>$title</a>";
-	}	elsif ($pl->{action} eq 'LISTEDIT' ) {
+	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
 		for (qw (id listprm link orderby ordertype filter filterexpr)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
+		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW';
  		return "<a href='$hrf' $param $tstr>$title</a>";
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
