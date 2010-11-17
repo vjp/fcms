@@ -2345,6 +2345,8 @@ sub tag_checkbox {
 }	
 
 sub tag_deletebutton {
+	
+	return undef if $cmlcalc::ENV->{READONLY};
 	my $param=$_[0]->{param};
 	my $id=$_[0]->{inner}->{objid};
   	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid']);
