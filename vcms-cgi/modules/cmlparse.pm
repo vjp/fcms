@@ -1287,7 +1287,7 @@ sub tag_option {
 	my $value;
 	my $valuestr='';
 	my $id=$_[0]->{inner}->{objid};
-	my $pl=fetchparam(\$param,['value','param','sel','selexpr']);
+	my $pl=fetchparam(\$param,['value','param','sel','selexpr','selected']);
 	
 	if (defined $pl->{'value'}) { 
 	  	$value=&cmlcalc::calculate({id=>$id,expr=>$pl->{'value'}})->{value};
@@ -1298,17 +1298,15 @@ sub tag_option {
 	  	$valuestr="value='$value'"
 	}
 	$valuestr="value='$id'" unless $valuestr;
+	$value=$id unless $value;
 	
-	
-	if ($pl->{'sel'}) {
-	  	my $v=&cmlcalc::calculate({id=>$id,expr=>$pl->{'sel'}})->{value};
-	  	if ($v eq $value) {$selexpr='selected'}
-	} elsif ($pl->{'selexpr'}) { 
-	  	my $v=&cmlcalc::calculate({id=>$id,expr=>$pl->{'selexpr'}})->{value};
-	  	if ($v) {$selexpr='selected'}
+	if ($pl->{'sel'} || $pl->{'selected'} || $pl->{'selexpr'}) {
+		my $expr=$pl->{'sel'} || $pl->{'selected'} || $pl->{'selexpr'};
+	  	my $v=&cmlcalc::calculate({id=>$id,expr=>$expr})->{value};
+	  	if ($v eq $value) {$selexpr="selected='selected'"}
 	}  elsif (defined $_[0]->{inner}->{selected}) {
 	  	#if ($_[0]->{inner}->{selected}->{$value} || $_[0]->{inner}->{selected}->{"p$value"}) 
-	  	$selexpr='selected'
+	  	$selexpr="selected='selected'"
 	}	
 	my $dt=$_[0]->{data}?cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}):&cmlcalc::calculate({id=>$id,expr=>"p(_NAME)"})->{value};
 	return "<option $selexpr $valuestr $param>$dt</option>";
