@@ -57,12 +57,20 @@ BEGIN
               &check_session &end_session &email 
               
               &statclick &staterror &copylinkfile
+              
+              &ajax_ok
              );
 
 
 }
 
-
+sub ajax_ok() 
+{
+	return {
+		'status'=>1,
+		'message'=>enc('Успешно')	
+	}
+}
 
 sub staterror ($;$$$)
 {
