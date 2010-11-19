@@ -79,7 +79,11 @@ function lexecute(func,objid,data,callback,url) {
 		},
 		onSuccess: function(transport) {
 			var json = transport.responseText.evalJSON();
-			callback(json)
+			if (callback) {
+				callback(json)
+			} else {
+				defcallback(json)
+			}	
 		}
 	});
 }
@@ -181,8 +185,9 @@ function set (objid,prm,fcallback) {
 
 }
 
-function multiset (frm,fcallback) {
-	var dt=$(frm).up('form').serialize(true);	
+function multiset (frm,fcallback,back) {
+	var dt=$(frm).up('form').serialize(true);
+	dt.back=back;
 	execute('BASELPARSER',dt,fcallback || setMVCallback);
 }
 
