@@ -1742,7 +1742,7 @@ sub tag_text {
         if ($frmt) {
   			$result=sprintf ($frmt,$result)
         } elsif ($dfrmt && $result) {
-        	$result = &cmlmain::enc(strftime ($dfrmt,gmtime($result)));
+        	$result = &cmlmain::enc(strftime ($dfrmt,localtime($result)));
         }		 
   	
   		$result=~s/\n/<br>/g if $pl->{'br'};
@@ -1874,7 +1874,7 @@ sub tag_date {
         $result=$result->{value} if ref $result eq 'HASH';
     }
   	return undef unless $result;
-	return &cmlmain::enc(strftime $frmt,gmtime($result));
+	return &cmlmain::enc(strftime $frmt,localtime($result));
 	
 }
 
