@@ -638,7 +638,7 @@ sub p	{
    		if ($skey=~/^now(.*)$/) {
    			my $n=$1;
    			if ($n eq '') {return now()}
-   			my @dl=gmtime(now());
+   			my @dl=localtime(now());
    			if ($n eq 'year')  {return $dl[5]+1900}
    			if ($n eq 'month') {return $dl[4]+1}
    			if ($n eq 'day')   {return $dl[3]}
@@ -686,11 +686,11 @@ sub up {
 
 
 sub now {
-	return timegm(localtime());
+	return time();
 }	
 
 sub today {
-	return timegm(localtime());
+	return time();
 }	
 
 sub month {
