@@ -1012,7 +1012,7 @@ sub tag_actionlink {
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
-		'filter','filterexpr',
+		'filter','filterexpr','collectdata',
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1119,13 +1119,15 @@ sub tag_actionlink {
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY};
  	    	my $callback=$pl->{callback} || $defajaxcallback;
- 	    	my $onclick=qq(onclick="execute('$pl->{method}',{}, $callback)");
+ 	    	my $dtstr=$pl->{collectdata}?q($(this).up('form').serialize(true)):'{}'; 	    	
+ 	    	my $onclick=qq(onclick="execute('$pl->{method}',$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY};
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
-			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,{}, $callback)");
+			my $dtstr=$pl->{collectdata}?q($(this).up('form').serialize(true)):'{}';
+			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	}			
 	
