@@ -1971,13 +1971,13 @@ sub buildlist {
 
 sub buildlowtree
 {
- my $upobj=$_[0];
- my $objid=$_[1];
- my $limit=$_[2];
+ 	my $upobj=$_[0];
+ 	my $objid=$_[1];
+ 	my $limit=$_[2];
 
  
 
-	 my $t=time; 	
+	my $t=time; 	
 	 
 	 my $sthL;
 	 if ($objid) {
@@ -1991,7 +1991,7 @@ sub buildlowtree
 	 	 $sthL->execute($upobj) || die $dbh->errstr
 	 }
 	 
-	 my $lang=$obj->{$upobj}->{lang};
+	 my $lang=$upobj?$obj->{$upobj}->{lang}:'';
 	
 	my @idlist;	 
    while ($item=$sthL->fetchrow_hashref)
