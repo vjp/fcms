@@ -847,7 +847,7 @@ sub calc {
 	my $v=calculate({
 		id=>$id,
 		expr=>$expr,
-		csv=>$format eq 'csv'?1:0
+		csv=>$format && ($format eq 'csv')?1:0
 	})->{value};
 	$OBJID=$tOBJ;
 	return $v;
