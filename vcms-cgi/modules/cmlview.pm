@@ -756,9 +756,9 @@ sub editfilelinkfull
 
 sub editmemofull
 {
- 	my $id=0+param('objid');
+ 	my $id=param('objid') || 0;
  	my $pkey=param('pkey');
- 	my $uid=0+param('objuid');
+ 	my $uid=param('objuid') || 0;
  	my $tabkey=param('tabkey');
  	my $tabpkey=param('tabpkey');
  	my $lang=param('lang');
