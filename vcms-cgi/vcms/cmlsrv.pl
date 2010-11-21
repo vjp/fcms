@@ -701,11 +701,12 @@ sub editform
    print td($ptype{$prm->{$_}->{type}}->{name});
    
    print start_td();
-   if ($prm->{$_}->{defval}->{$id}=~/\n/s) {
-	print hidden(-name=>"prmmode$_",-default=>1,-override=>1);
+   my $defval=$prm->{$_}->{defval}->{$id} || '';
+   if ($defval=~/\n/s) {
+		print hidden(-name=>"prmmode$_",-default=>1,-override=>1);
    }	else {
-   	print hidden(-name=>"prmmode$_",-default=>0,-override=>1);
-	print textfield(-name=>"prmdef$_",
+   		print hidden(-name=>"prmmode$_",-default=>0,-override=>1);
+		print textfield(-name=>"prmdef$_",
                    -default=>$prm->{$_}->{defval}->{$id},
                    -override=>1,
                    -maxlength=>255,
