@@ -50,9 +50,9 @@ sub print_top {
   			}
             </script>
     );    
-	$title="<title>$title</title>" if $title;
+	$title='VCMS' unless $title;
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	print "<html><head>$title<link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
+	print "<html><head><title>$title</title><link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
 	print br;
 }
 
