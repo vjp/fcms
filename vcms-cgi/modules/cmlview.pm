@@ -1193,18 +1193,19 @@ sub extraflag {
 sub extranumber {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
+ 	my $srch=$extra->{srch} || '';
  	if ($_[0]->{check}) {
 	 	my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
  		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
  		my $ss;
- 		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
+ 		if ($srch eq 'y') {$ss='checked'} else {$ss=''}
  		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
 		return $outp;
 	} else {
 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1);
 		my $ss;
- 		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
+ 		if ($srch eq 'y') {$ss='checked'} else {$ss=''}
 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');
 		return $outp;
 	}			
