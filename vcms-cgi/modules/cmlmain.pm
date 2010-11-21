@@ -2140,7 +2140,7 @@ sub treelist
    $id=$obj->{$id}->{up};
    push(@tlist,"u$id");
   }
-  push(@tlist,'u1') if $obj->{$id}->{up} == 1;
+  push(@tlist,'u1') if $id && $obj->{$id}->{up} == 1;
   return @tlist;
 }
 
