@@ -1,6 +1,4 @@
 
-# $Id: conf.template,v 1.8 2010-08-19 09:45:08 vano Exp $
-
 $DBNAME='<dbname>';
 $DBUSER='<dbuser>';
 $DBPASSWORD='<dbpassword>';
