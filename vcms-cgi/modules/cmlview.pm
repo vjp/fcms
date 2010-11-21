@@ -761,7 +761,7 @@ sub editmemofull
  	my $uid=param('objuid') || 0;
  	my $tabkey=param('tabkey');
  	my $tabpkey=param('tabpkey');
- 	my $lang=param('lang');
+ 	my $lang=param('lang') || '';
  	
  	my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)",noparse=>1,lang=>$lang});
 
