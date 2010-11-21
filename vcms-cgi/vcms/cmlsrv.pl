@@ -61,6 +61,7 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vcms';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
+$cmlcalc::CGIPARAM->{_MODE}='CMLSRV';
 
 if ($action) {
 	if ($action eq 'installstruct') {
