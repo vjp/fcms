@@ -16,6 +16,7 @@ $CMSIMGURL='/cmsimg';
 $DELIMAGEURL='/cmsimg/delete.png';
 $INSIMAGEURL='/cmsimg/insert.png';
 $EDTIMAGEURL='/cmsimg/edit.png';
+$VIEWIMAGEURL='/cmsimg/edit.png';
 $POSTBUTTONURL='/cmsimg/ok_post.jpg';
 $SAVEBUTTONURL='/cmsimg/save.gif';
 $DOUBLECONFIRM=0;
