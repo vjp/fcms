@@ -609,8 +609,8 @@ sub editfilelink {
 sub editmemo {
  	my $id=$_[0]->{id};
  	my $uid=$_[0]->{uid};
- 	my $tabkey=$_[0]->{tabkey};
- 	my $tabpkey=$_[0]->{tabpkey};
+ 	my $tabkey=$_[0]->{tabkey} || '';
+ 	my $tabpkey=$_[0]->{tabpkey} || '';
  	my $pkey=$_[0]->{pkey};
  	my $lang=$_[0]->{lang};
  	my @outp;
