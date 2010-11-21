@@ -796,12 +796,7 @@ sub urnd {
 }
 
 sub lowlevel {
-
-	
-  my $tOBJ=$OBJID;
-  
-
-  
+ 	my $tOBJ=$OBJID;
 	my @list;
 	if (($uid)=($_[0]=~/u(\d+)/)) {
 		$OBJID=$cmlmain::obj->{$uid};
@@ -809,27 +804,20 @@ sub lowlevel {
 		@list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::tree->{$ind}};
 		map{$_="u$_"}@list;
 		push (@list,sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}}@{$cmlmain::ltree->{$ind}->{0}});
-		
-		
-		
-	}
-	elsif ($_[0]) 		      {
+	} elsif ($_[0]) 		      {
 		$OBJID=$cmlmain::lobj->{$_[0]};
 		my $ind=$OBJID->{ind};
 		my $upobj=$OBJID->{upobj};
 		@list=sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$upobj}->{$ind}};
-	}
- 	elsif ($OBJID->{type} eq 'U') {
+	}	elsif ($OBJID->{type} eq 'U') {
 		my $ind=$OBJID->{ind};
 		&cmlmain::checkload({uid=>$ind}); 
 		if ($cmlmain::tree->{$ind}) {
 		    @list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::tree->{$ind}};
      		map{$_="u$_"}@list;
-    } 		
-    push (@list,sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}}@{$cmlmain::ltree->{$ind}->{0}});
-     
-	}	
- 	elsif ($OBJID->{type} eq 'L') {
+    	} 		
+    	push (@list,sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}}@{$cmlmain::ltree->{$ind}->{0}});
+	} 	elsif ($OBJID->{type} eq 'L') {
 		my $ind=$OBJID->{ind};
 		my $upobj=$OBJID->{upobj};
 		&cmlmain::checkload({uid=>$upobj}); 		
