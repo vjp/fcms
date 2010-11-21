@@ -796,16 +796,18 @@ sub urnd {
 }
 
 sub lowlevel {
+	my ($low_id,$low_expr)=@_;
+	$low_id ||= '';
  	my $tOBJ=$OBJID;
 	my @list;
-	if (($uid)=($_[0]=~/u(\d+)/)) {
+	if (($uid)=($low_id=~/u(\d+)/)) {
 		$OBJID=$cmlmain::obj->{$uid};
 		my $ind=$OBJID->{ind};
 		@list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::tree->{$ind}};
 		map{$_="u$_"}@list;
 		push (@list,sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}}@{$cmlmain::ltree->{$ind}->{0}});
-	} elsif ($_[0]) 		      {
-		$OBJID=$cmlmain::lobj->{$_[0]};
+	} elsif ($low_id) 		      {
+		$OBJID=$cmlmain::lobj->{$low_id};
 		my $ind=$OBJID->{ind};
 		my $upobj=$OBJID->{upobj};
 		@list=sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$upobj}->{$ind}};
@@ -824,7 +826,7 @@ sub lowlevel {
 		@list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::ltree->{$upobj}->{$ind}};
 	}
 	
-	if ($_[1]) {@list=grep(calc($_,$_[1]),@list)}
+	if ($low_expr) {@list=grep(calc($_,$low_expr),@list)}
 	$OBJID=$tOBJ;
  	return join (';',@list);
 }	
