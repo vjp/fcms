@@ -892,9 +892,9 @@ sub returnvalue {
    if (!$obj->{$objid}->{cached} || $_[0]->{noparse})  {
       $sthUV->execute($objid) || die $dbh->errstr;
       while ($item=$sthUV->fetchrow_hashref) {
-      	unless (($prm->{$item->{pkey}}->{upd}->{$objid} eq 'n') ||
-      		($prm->{$item->{pkey}}->{upd}->{$tmp} eq 'n') ) {  
-      			
+      	my $oupd=$prm->{$item->{pkey}}->{upd}->{$objid} || '';
+      	my $otmp=$prm->{$item->{pkey}}->{upd}->{$tmp}   || '';
+      	unless (($oupd eq 'n') || ($otmp eq 'n') ) {  
          	$obj->{$objid}->{vals}->{$item->{pkey}}->{value}=$item->{value};
          	$obj->{$objid}->{vals}->{$item->{pkey}}->{type}=$prm->{$item->{pkey}}->{type};
         }	
