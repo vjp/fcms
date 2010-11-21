@@ -1097,8 +1097,8 @@ sub template_list
  	my @tvals=map { $obj->{$_}->{ind} } @tkeys;
  	$tvals[0]=0;
  	my $tlbls;
- 	for (@tvals) { $tlbls->{$_}="$obj->{$_}->{name} ($obj->{$_}->{key})" } 
- 	$tlbls->{0}=enc('Не определен');
+ 	for (@tvals) { $tlbls->{$_}=$_?"$obj->{$_}->{name} ($obj->{$_}->{key})":enc('Не определен') } 
+
  
  	$tl->{vals}=\@tvals;
  	$tl->{lbls}=$tlbls;
