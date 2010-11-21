@@ -1052,8 +1052,6 @@ sub tag_actionlink {
 	$inner->{objid}=$iid;
 	$title=$pl->{title};
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
-	$title=&cmlcalc::p('_NAME',$iid) unless $title;
-	$title=$pl->{action} unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
 	
@@ -1086,7 +1084,11 @@ sub tag_actionlink {
 		}	
 		my $href="?body=EDIT_$kn&id=$iid";
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
-		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back}; 
+		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
+		unless ($title) {
+			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
+			$title="<img src='$imgurl'/>";
+		} 
 	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
@@ -1130,6 +1132,11 @@ sub tag_actionlink {
 			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	}			
+	
+	
+	$title=&cmlcalc::p('_NAME',$iid) unless $title;
+	$title=$pl->{action} unless $title;
+	
 	
 	$method="BASE$pl->{action}METHOD";	
 	my @hlist;
