@@ -83,7 +83,7 @@ buildvparam();
 my $id;
 my $objid;
 
-my $prm_id=param('objid');
+my $prm_id=param('objid') || '';
 my $prm_key=param('objkey');
 my $prm_uid=param('id');
 
