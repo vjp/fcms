@@ -466,7 +466,6 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
 <TITLE>VCMS : Интерфейс администратора</TITLE>
-<link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
 	<frame src="/cgi-bin/admin/admin.pl?menu=CMSMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
