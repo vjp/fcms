@@ -480,7 +480,6 @@ setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
 <TITLE>VCMS : Интерфейс пользовтеля</TITLE>
-<link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
 <frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
 	<frame src="/cgi-bin/user/user.pl?menu=USERMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
@@ -671,21 +670,9 @@ setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMA
 
 my $bmv=qq(<html>
 <head>
-<style type=text/css>
-<!--
-td, body {font-family: Tahoma, Arial; font-size: 11px; color: #000000;}
-body {scrollbar-base-color: #000066; scrollbar-arrow-color: #ffffff; scrollbar-highlight-color: #FFFFFF; scrollbar-shadow-color: #FFFFFF; scrollbar-face-color: #909090; scrollbar-track-color: #f0f0f0; }
-a:,a:link, a:visited {font-family: Tahoma, sans-serif; font-size: 11px; color: #1E609C; text-decoration: underline;}
-a:active, a:hover {font-family: Tahoma, sans-serif; font-size: 11px; color: #9C1E1E; text-decoration: none;}
-hr {border: 0; width: 100%; color: #770000; background-color: #D96926; height: 2px;}
-li {font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}
-ul {font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
-input, select {font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
-small, .small {font-family: Tahoma, sans-serif; font-size: 9px; color: #565B64; font-weight : normal;}
-h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
--->
-</style>
+<link rel=stylesheet type=text/css href="/css/admin.css">
 </head>
+
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 <script>
   var lbLabelImage="Фото";
