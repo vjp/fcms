@@ -1,40 +1,11 @@
-body			{font-family: "Lucida Console", monospace; font-size: 12px; color: #220000;}
-
-
-
-table			{background-color: #FFFFFF; border: 1px; border: 0px;}
-td			{background-color: #EFEFEF; font-size: 12px; color: #220000; font-family: "Lucida Console", monospace; }
-th			{background-color: #FFF5CF; font-size: 17px; color: #770000; font-family: Arial, sans-serif; font-weight : bold;}
-
-
-
-pre			{font-family: "Lucida Console", monospace; font-size: 12px;}
-
-
-a:,a:link,a:visited	{font-family: "Lucida Console", monospace; font-size: 12px; color: #000077; font-weight : normal; text-decoration: none;}
-a:active, a:hover	{font-family: "Lucida Console", monospace; font-size: 12px; color: #000099; font-weight : normal; text-decoration: underline;}
-
-
-.tdmenu			{font-family: "Lucida Console", monospace; font-size: 11px; font-weight : normal;}
-
-
-
-h1 {font-family: "Lucida Console", monospace; font-size: 140%; color: #770000; margin-bottom: 0px; margin-top : 0px; padding-bottom : 0px; padding-top : 0px; font-weight : bold; font-style : italic;}
-h2 {font-family: "Lucida Console", monospace; font-size: 120%; color: #770000; margin-bottom: 0px; margin-top : 0px; padding-bottom : 0px; padding-top : 0px; font-weight : bold; font-style : italic;}
-h3 {font-family: "Lucida Console", monospace; font-size: 110%; color: #770000; margin-bottom: 0px; margin-top : 0px; padding-bottom : 0px; padding-top : 0px; font-weight : bold; font-style : italic;}
-
-
-
-small			{font-size: 10px;}
-.gray			{color: #999999;}
-
-
-
-hr			{border: 0; width: 100%; color: #770000; background-color: #CC0000; height: 2px;}
-
-li			{font-family: "Lucida Console", monospace; font-size: 12px; font-weight : bold; list-style : square;}
-ul			{font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
-
-input, select		{font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
-
-.tip			{display: none; padding-top: 3px; text-decoration: none;}
+td, body {font-family: Tahoma, Arial; font-size: 11px; color: #000000;}
+body {scrollbar-base-color: #000066; scrollbar-arrow-color: #ffffff; scrollbar-highlight-color: #FFFFFF; scrollbar-shadow-color: #FFFFFF; scrollbar-face-color: #909090; scrollbar-track-color: #f0f0f0; }
+a:,a:link, a:visited {font-family: Tahoma, sans-serif; font-size: 11px; color: #1E609C; text-decoration: underline;}
+a:active, a:hover {font-family: Tahoma, sans-serif; font-size: 11px; color: #9C1E1E; text-decoration: none;}
+hr {border: 0; width: 100%; color: #770000; background-color: #D96926; height: 2px;}
+li {font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}
+ul {font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
+input, select {font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
+small, .small {font-family: Tahoma, sans-serif; font-size: 9px; color: #565B64; font-weight : normal;}
+h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
+th          { font-size: 14px; font-family: Tahoma, Arial; font-weight : bold; background-color: #DDDDEE;}
