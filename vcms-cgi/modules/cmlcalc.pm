@@ -698,6 +698,13 @@ sub month {
 	return mktime(0,0,0,1,$tm[4],$tm[5]);
 }
 
+sub day (;$) {
+	my ($datestamp)=@_;
+	my @tm=localtime($datestamp);
+	return mktime(0,0,0,$tm[3],$tm[4],$tm[5]);
+}
+
+
 sub weekday {
 	return strftime('%u',localtime(time()))
 } 
