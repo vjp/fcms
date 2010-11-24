@@ -1634,7 +1634,7 @@ sub tag_include {
   	
 	my $pl=fetchparam(\$param,[
 		'id','idexpr','notfound','idcgi','name',
-		'key','namecgi','param','prm','readonly'
+		'key','namecgi','param','prm','readonly','no404'
 	]);
 	
   	if  ($pl->{id})       {
@@ -1664,7 +1664,7 @@ sub tag_include {
   
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
-	if ($body) {
+	if ($body || $pl->{'no404'}) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
 		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
 	}	else       {
