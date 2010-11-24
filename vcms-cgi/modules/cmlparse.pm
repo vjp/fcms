@@ -2342,7 +2342,7 @@ sub tag_deletebutton {
 	return undef if $cmlcalc::ENV->{READONLY};
 	my $param=$_[0]->{param};
 	my $id=$_[0]->{inner}->{objid};
-  	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid']);
+  	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid','alert']);
   	$pl->{prm}=$pl->{param} if $pl->{param};
     	$pl->{method}=$pl->{parser} if $pl->{parser};
     	my $parseid=$pl->{parseid} || $_[0]->{inner}->{objid};
@@ -2368,7 +2368,9 @@ sub tag_deletebutton {
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
 	my $deltext=&cmlmain::enc('Удалить');
-	my $confjs=&cmlmain::enc($cmlmain::GLOBAL->{DOUBLECONFIRM}?'confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")':'confirm("Вы уверены что хотите удалить объект")');
+	my $alert1=$pl->{'alert'} || &cmlmain::enc('Вы уверены, что хотите удалить объект?');
+	my $alert2=&cmlmain::enc('Продолжить?');
+	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?qq(confirm("$alert1") && confirm("$alert2")):qq(confirm("$alert1"));
 	my $scriptjs;
 	if ($pl->{method}) {
 		$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
