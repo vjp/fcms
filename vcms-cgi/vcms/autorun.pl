@@ -29,6 +29,8 @@ if ($prm) {
 start('..');
 $cmlcalc::ENV->{USER}='%autorun';
 $cmlcalc::CGIPARAM->{_MODE}='AUTORUN';
+($cmlcalc::ENV->{SERVER}) = ($GLOBAL->{ABSFILEURL}=~m{http://(.+)/data});
+
 my $AL=&cmlcalc::p('AUTOLOCK',&cmlcalc::id('AUTOMATE'));
 my $N=&cmlcalc::now();
 my $ALT=0+&cmlcalc::p('AUTOLOCKTIME',&cmlcalc::id('AUTOMATE'));
