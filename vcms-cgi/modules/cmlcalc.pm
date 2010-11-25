@@ -700,7 +700,7 @@ sub month {
 
 sub day (;$) {
 	my ($datestamp)=@_;
-	my @tm=localtime($datestamp);
+	my @tm=$datestamp?localtime($datestamp):localtime();
 	return mktime(0,0,0,$tm[3],$tm[4],$tm[5]);
 }
 
