@@ -17,11 +17,14 @@ BEGIN
 
 sub print_top {
 	my ($title)=@_;
-    print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
+   
+	$title='VCMS' unless $title;
+	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+	print "<html><head><title>$title</title><link rel='stylesheet' type='text/css' href='/css/vcms.css'>";
+     print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
     print q(
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
-    <script src='/js/flowplayer.js'> </script>
     ); 
     print q(<script>
     		function alert_callback(json){
@@ -50,10 +53,9 @@ sub print_top {
   			}
             </script>
     );    
-	$title='VCMS' unless $title;
-	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	print "<html><head><title>$title</title><link rel='stylesheet' type='text/css' href='/css/vcms.css'></head><body>";
+	print"</head><body>";
 	print br;
+	return undef;
 }
 
 sub lmethod_list {
@@ -124,8 +126,6 @@ sub editprmform {
 
 sub console {
 	my $value=$_[0];
-	print_top();
-	
 	print enc(q(
 		<script language="javascript" type="text/javascript">
 			editAreaLoader.init({
