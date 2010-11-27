@@ -1,6 +1,5 @@
 package cmlajax;
 
-# $Id: cmlajax.pm,v 1.23 2010-04-27 20:22:36 vano Exp $
 
 BEGIN
 {
