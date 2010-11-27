@@ -24,11 +24,13 @@ check_session();
 
 
 my $v;
+
+
+
 my $subdomain;
-my $pathinfostr=&CGI::path_info();
 if ($ENV{HTTP_HOST}=~/(.+)\..+\..+$/) {$subdomain=$1}
+$subdomain=~s/^www\.?//;
 if ($subdomain) {
-	$subdomain=~s/^www\.?//;
 	(my $vid)=fastsearch ({prm=>'HOSTNAME',pattern=>$subdomain});
 	my $redirectpath=&cmlcalc::p('REDIRECTPATH',$vid);
 	if ($redirectpath) {
@@ -42,6 +44,7 @@ if ($subdomain) {
 	}	
 }
 
+my $pathinfostr=&CGI::path_info();
 my @pi=split('/',$pathinfostr);
 shift @pi;
 my %pathinfo=@pi;
@@ -179,6 +182,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 
 my $opensite=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('OPENSITE')"})->{value};
 my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
+my $md=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('MULTIDOMAIN')"})->{value};
 
 my $stime=Time::HiRes::time();
 if (!$opensite && !cookie('dev')) {
@@ -206,9 +210,21 @@ if (!$opensite && !cookie('dev')) {
 	 } else {	
 	 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
 	 	unless ($v->{value}) {
-	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE'; 
-     			$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
-     		}		
+	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE';
+	 		if ($md) {
+	 			my $dom_objid=cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}");
+	 			if ($dom_objid) {
+	 				my $t_key=&cmlcalc::p('_KEY',&cmlcalc::p('DOMAINSTARTPAGE',$dom_objid));
+	 				my $t_prm=&cmlcalc::p('DOMAINPRMNAME',$dom_objid);
+	 				my $t_val=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid);
+	 				$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
+	 				$cmlcalc::CGIPARAM->{view}=$t_key;
+	 			}
+	 		}
+	 		
+	 		 
+     		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+     	}		
    	}  
 }
 my $mtime=Time::HiRes::time()-$stime;
