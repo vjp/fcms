@@ -15,7 +15,9 @@ BEGIN
  use MIME::Base64;
  use File::Copy; 
  use Encode;
+ use Net::IDN::Punycode::PP qw(:all);
 
+  
  @ISA    = 'Exporter';
  @EXPORT = qw(
               $lobj $nlobj $obj  $vobj $nobj $tobj $tree $ltree $prm  $method $lmethod %ptype @ptypes $dbh
@@ -58,11 +60,22 @@ BEGIN
               
               &statclick &staterror &copylinkfile
               
-              &ajax_ok
+              &ajax_ok &rf_name
              );
 
 
 }
+
+sub rf_name ()
+{
+	  my $servername=$ENV{'SERVER_NAME'};
+  	  $servername=~s{xn--(\w+)}
+  	  {
+   			Encode::encode('cp1251',decode_punycode($1));
+      }ige;
+      return $servername;
+}
+
 
 sub ajax_ok() 
 {
