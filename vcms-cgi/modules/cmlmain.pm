@@ -75,10 +75,7 @@ sub rf_enc_name ($)
 sub rf_name ()
 {
 	  my $servername=$ENV{'SERVER_NAME'};
-  	  $servername=~s{xn--(\w+)}
-  	  {
-   			Encode::encode('cp1251',decode_punycode($1));
-      }ige;
+  	  $servername=~s/xn--(\w+)/Encode::encode('cp1251',decode_punycode($1))/ige;
       return $servername;
 }
 
