@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: gate.pl,v 1.2 2010-05-25 20:12:18 vano Exp $
+
 
 use lib "../modules/";
 
