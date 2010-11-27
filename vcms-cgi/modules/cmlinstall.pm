@@ -683,7 +683,6 @@ my $bmv=qq(<html>
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
 
