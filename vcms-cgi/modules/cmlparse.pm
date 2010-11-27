@@ -1199,15 +1199,23 @@ sub tag_a	{
 	} elsif ($pl->{'href'}) {	
 		$ql=$pl->{'href'};
 		if ($ql!~/^(http|mailto|\/|\?)/ && $ql ne '#') {$ql="http://$ql"}
-	} elsif ($pl->{'pagenum'}) {	
+	} elsif ($pl->{'pagenum'}) {
 		my $pid=$pl->{'pagenum'};
-		$ql=$cmlcalc::QUERYSTRING;
-		if ($ql=~/page\/\d+/) {
-			$ql=~s/page\/\d+/page\/$pid/;
-		} else {	
-			$ql.='/' if $ql!~/\/$/;
-			$ql.="page/$pl->{'pagenum'}";
-		}
+		$ql=$cmlcalc::QUERYSTRING;		
+		if ($cmlcalc::CGIPARAM->{_MODE}='ADMIN') {
+			if ($ql=~/page=\d+/) {
+				$ql=~s/page=\d+/page=$pid/;
+			} else {	
+				$ql.="&page=$pl->{'pagenum'}";
+			}
+		} else {
+			if ($ql=~/page\/\d+/) {
+				$ql=~s/page\/\d+/page\/$pid/;
+			} else {	
+				$ql.='/' if $ql!~/\/$/;
+				$ql.="page/$pl->{'pagenum'}";
+			}
+		}	
 	} elsif ($pl->{'parser'}) {	
 	    	my $parser=$pl->{'parser'};
 		$ql=$cmlcalc::QUERYSTRING;
