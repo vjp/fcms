@@ -60,11 +60,17 @@ BEGIN
               
               &statclick &staterror &copylinkfile
               
-              &ajax_ok &rf_name
+              &ajax_ok &rf_name &rf_enc_name
              );
 
 
 }
+
+sub rf_enc_name ($)
+{
+	 return join('.',map {'xn--'.encode_punycode(Encode::decode('cp1251',$_))} split(/\./,$_[0])); 
+}
+
 
 sub rf_name ()
 {
