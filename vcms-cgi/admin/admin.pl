@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: admin.pl,v 1.21 2010-09-23 03:19:10 vano Exp $
-
 use lib "../modules/";
 
 use cmlmain;
@@ -13,13 +11,9 @@ use Time::HiRes qw (time);
 use strict;
  
 
-
-
 start('..');
 
 my $v;
-
-
 
 
 for (param()) {
