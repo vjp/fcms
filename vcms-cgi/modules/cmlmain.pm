@@ -1,6 +1,5 @@
 package cmlmain;
 
-# $Id: cmlmain.pm,v 1.95 2010-09-25 13:35:49 vano Exp $
 
 BEGIN
 {
