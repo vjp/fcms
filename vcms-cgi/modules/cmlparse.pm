@@ -569,7 +569,8 @@ sub tag_select {
 	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  	$inner->{expr}=$expr;
 	  	$multiple='multiple' if $cmlmain::prm->{$prm}->{extra}->{single} ne 'y';
-	} else {
+	} 
+	if (!$inner->{expr} && $pl->{expr}) {
 		$inner->{expr}=$pl->{expr} if $pl->{expr};
 	}
 	undef $multiple if $pl->{'single'};
