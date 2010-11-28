@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: captcha.pl,v 1.1 2010-04-03 12:09:44 vano Exp $
 
 
 use strict;
