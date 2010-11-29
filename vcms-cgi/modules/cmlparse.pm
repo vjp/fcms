@@ -1439,7 +1439,8 @@ sub tag_img 	{
 	
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
-		'alt','altparam','altprm', 'path', 'src', 'hintprm' 
+		'alt','altparam','altprm', 'path', 'src', 'hintprm',
+		'elementid' 
 	]);
 	
 
@@ -1482,6 +1483,7 @@ sub tag_img 	{
 			$src="$pstr/$v->{value}";
 		}	
 	}
+	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
 	if ($pl->{hintprm}) {
 		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
 		my $hintinit=qq(<script>
@@ -1489,10 +1491,10 @@ sub tag_img 	{
 		</script>
 		);
 		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
-		return "$hintinit<img src='$src' $param alt='$alt' $hintstr>";	
+		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr>";	
 
 	} else {
-		return "<img src='$src' $param alt='$alt' title='$alt'>";	
+		return "<img src='$src' $param alt='$alt' title='$alt' $idstr>";	
 	}
 	
 	
@@ -1643,7 +1645,7 @@ sub tag_include {
   	
 	my $pl=fetchparam(\$param,[
 		'id','idexpr','notfound','idcgi','name',
-		'key','namecgi','param','prm','readonly','no404'
+		'key','namecgi','param','prm','readonly','set404'
 	]);
 	
   	if  ($pl->{id})       {
@@ -1673,10 +1675,10 @@ sub tag_include {
   
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
-	if ($body || $pl->{'no404'}) {
+	if ($body) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
 		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
-	}	else       {
+	}	elsif ($pl->{'set404'})       {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
 		if ($expr eq 'p(PAGETEMPLATE)') {
@@ -1684,6 +1686,8 @@ sub tag_include {
 		} else {
 			return undef;
 		}			
+	} else {
+		return undef
 	}
 }
 
