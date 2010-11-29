@@ -1281,7 +1281,7 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
- 			`cachekey` varchar(1000) NOT NULL default '',
+ 			`cachekey` varchar(950) NOT NULL default '',
   			`pagetext` mediumtext,
   			`ts` datetime default NULL,
   			`objid` int(11) NOT NULL default '0',
