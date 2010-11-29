@@ -21,120 +21,119 @@ print qq(
 );
 
 if (param('install')) {
-	if (-s 'conf') {
-		print "Найден файл конфигурации, распаковки и перенастройки не будет",br();
+	$DBNAME=param('dbname');
+	$DBHOST=param('dbhost');
+	$DBUSER=param('dbuser');
+	$DBPASSWORD=param('dbpassword');
+	$DBPREFIX=param('dbprefix');
+	$DOMAINNAME=param('domainname');
+	$ABSPATH=param('abspath');
+	$UTF=0+param('utf');
+	$CACHE=0+param('cache');		
+	$ROOTPATH=param('rootpath');
+	
+	if (! -s 'cgi.tar.gz') {
+		print "Файл cgi.tar.gz не найден",br();
 	} else {
-		$DBNAME=param('dbname');
-		$DBHOST=param('dbhost');
-		$DBUSER=param('dbuser');
-		$DBPASSWORD=param('dbpassword');
-		$DBPREFIX=param('dbprefix');
-		$DOMAINNAME=param('domainname');
-		$ABSPATH=param('abspath');
-		$UTF=0+param('utf');
-		$CACHE=0+param('cache');		
-		$ROOTPATH=param('rootpath');
-		if (! -s 'cgi.tar.gz') {
-			print "Файл cgi.tar.gz не найден",br();
+		print "Произвожу распаковку архива cgi.tar.gz...",br();
+		my $str=`tar -xzf cgi.tar.gz`;
+		if (! -s 'conf.template') {
+			print "...Распаковка неудачная :$str",br();
 		} else {
-			print "Произвожу распаковку архива cgi.tar.gz...",br();
-			my $str=`tar -xzf cgi.tar.gz`;
-			if (! -s 'conf.template') {
-				print "...Распаковка неудачная :$str",br();
-			} else {
-				print "...Распаковка удачная",br();
-				system "rm cgi.tar.gz";
-				chmod (0755, 'viewer.pl');
-				chmod (0755, 'ajax-json.pl');
-				chmod (0755, 'admin/admin.pl');
-				chmod (0755, 'admin/ajax-json.pl');
-				chmod (0755, 'user/user.pl');
-				chmod (0755, 'gate/gate.pl');
-				chmod (0755, 'vcms/autorun.pl');
-				chmod (0755, 'vcms/cmlsrv.pl');
-				chmod (0755, 'vcms/ajax.pl');
-				chmod (0755, 'vcms/ajax-json.pl');
-				
-			}
-		}
-		if (param('dbname')) {
-			print 'Произвожу подключение к БД...',br();
-			my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD);
-			if (!$dbh) {
-				print "...Ошибка подключения к БД  [DBI:mysql:$DBNAME:$DBHOST\@$DBUSER]:".$DBI::errstr;
-			} else {
-			        print '...Подключение к БД успешно...',br();	
-			}
-		}
-		if (param('abspath')) {
-			print "Проверка доступности директории для создания файла паролей  ($ABSPATH)  ...",br();
-			open (FT,">$ABSPATH/.test") || print "Open file error :$!",br();
-			print FT 'test';
-			close FT || print "Close file error $!",br();
-			open (FT,"<$ABSPATH/.test");
-			my $tstr=<FT>;
-			close FT;
-			if ($tstr eq 'test') {
-				print '...Директория доступна',br();
-			} else {
-				print '...Создать файл не удалось',br();
-			}
-		}
-		if (param('rootpath')) {
-			print "Проверка доступности директории для распаковки шаблонов ($ROOTPATH)...",br();
-			open (FT,">$ROOTPATH/.test") || print "Open file error :$!",br();
-			print FT 'test';
-			close FT || print "Close file error $!",br();
-			open (FT,"<$ROOTPATH/.test");
-			my $tstr=<FT>;
-			close FT;
-			if ($tstr eq 'test') {
-				print '...Директория доступна',br();
-				if (! -s 'html.tar.gz') {
-					print "Файл html.tar.gz не найден",br();
-				} else {
-					print "Произвожу распаковку архива html.tar.gz...",br();
-					my $str=`tar -xzf html.tar.gz -C $ROOTPATH`;
-					if (! -s "${ROOTPATH}.htaccess") {
-						print "...Распаковка неудачная:$str",br();
-					} else {
-						print "...Распаковка удачная",br();
-						system "rm html.tar.gz";
-					}
-				}	
-			} else {
-				print '...Создать файл не удалось',br();
-			}
-		}
-			
-		if (-s 'conf.template') {
-			print "Создание конфигурационного файла...",br();
-			open (CF,'<conf.template');
-			my $cnf;
-			read(CF,$cnf,-s 'conf.template');
-			if (!$cnf) {
-				print "... Проблема чтения конфигруационного шаблона",br();
-			} else {
-				$cnf=~s/<dbname>/$DBNAME/g;
-				$cnf=~s/<dbuser>/$DBUSER/g;
-				$cnf=~s/<dbpassword>/$DBPASSWORD/g;
-				$cnf=~s/<dbhost>/$DBHOST/g;
-				$cnf=~s/<dbprefix>/$DBPREFIX/g;
-				$cnf=~s/<domainname>/$DOMAINNAME/g;
-				$cnf=~s/<abspath>/$ABSPATH/g;
-				$cnf=~s/<rootpath>/$ROOTPATH/g;
-				$cnf=~s/<utf>/$UTF/g;
-				$cnf=~s/<cache>/$CACHE/g;
-			}	
-			close CF;
-			open (CFF,'>conf');
-			print CFF $cnf;
-			close CFF;
-			print "...Конфигурация создана";	
-		} else {
-			print "Шаблон конфигурационного файла не найден",br();
+			print "...Распаковка удачная",br();
+			system "rm cgi.tar.gz";
+			chmod (0755, 'viewer.pl');
+			chmod (0755, 'ajax-json.pl');
+			chmod (0755, 'admin/admin.pl');
+			chmod (0755, 'admin/ajax-json.pl');
+			chmod (0755, 'user/user.pl');
+			chmod (0755, 'gate/gate.pl');
+			chmod (0755, 'vcms/autorun.pl');
+			chmod (0755, 'vcms/cmlsrv.pl');
+			chmod (0755, 'vcms/ajax.pl');
+			chmod (0755, 'vcms/ajax-json.pl');
 		}
 	}
+	
+	if (param('dbname')) {
+		print 'Произвожу подключение к БД...',br();
+		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD);
+		if (!$dbh) {
+			print "...Ошибка подключения к БД  [DBI:mysql:$DBNAME:$DBHOST\@$DBUSER]:".$DBI::errstr;
+		} else {
+	        print '...Подключение к БД успешно...',br();	
+		}
+	}
+	if (param('abspath')) {
+		print "Проверка доступности директории для создания файла паролей  ($ABSPATH)  ...",br();
+		open (FT,">$ABSPATH/.test") || print "Open file error :$!",br();
+		print FT 'test';
+		close FT || print "Close file error $!",br();
+		open (FT,"<$ABSPATH/.test");
+		my $tstr=<FT>;
+		close FT;
+		if ($tstr eq 'test') {
+			print '...Директория доступна',br();
+		} else {
+				print '...Создать файл не удалось',br();
+		}
+	}
+	
+	if (param('rootpath')) {
+		print "Проверка доступности директории для распаковки шаблонов ($ROOTPATH)...",br();
+		open (FT,">$ROOTPATH/.test") || print "Open file error :$!",br();
+		print FT 'test';
+		close FT || print "Close file error $!",br();
+		open (FT,"<$ROOTPATH/.test");
+		my $tstr=<FT>;
+		close FT;
+		if ($tstr eq 'test') {
+			print '...Директория доступна',br();
+			if (! -s 'html.tar.gz') {
+				print "Файл html.tar.gz не найден",br();
+			} else {
+				print "Произвожу распаковку архива html.tar.gz...",br();
+				my $str=`tar -xzf html.tar.gz -C $ROOTPATH`;
+				if (! -s "${ROOTPATH}/.htaccess") {
+					print "...Распаковка неудачная:$str",br();
+				} else {
+					print "...Распаковка удачная",br();
+					system "rm html.tar.gz";
+				}
+			}	
+		} else {
+			print '...Создать файл не удалось',br();
+		}
+	}
+			
+	if ( -s 'conf.template') {
+		print "Создание конфигурационного файла...",br();
+		open (CF,'<conf.template');
+		my $cnf;
+		read(CF,$cnf,-s 'conf.template');
+		if (!$cnf) {
+			print "... Проблема чтения конфигруационного шаблона",br();
+		} else {
+			$cnf=~s/<dbname>/$DBNAME/g;
+			$cnf=~s/<dbuser>/$DBUSER/g;
+			$cnf=~s/<dbpassword>/$DBPASSWORD/g;
+			$cnf=~s/<dbhost>/$DBHOST/g;
+			$cnf=~s/<dbprefix>/$DBPREFIX/g;
+			$cnf=~s/<domainname>/$DOMAINNAME/g;
+			$cnf=~s/<abspath>/$ABSPATH/g;
+			$cnf=~s/<rootpath>/$ROOTPATH/g;
+			$cnf=~s/<utf>/$UTF/g;
+				$cnf=~s/<cache>/$CACHE/g;
+		}	
+		close CF;
+		open (CFF,'>conf');
+		print CFF $cnf;
+		close CFF;
+		print "...Конфигурация создана";	
+	} else {
+		print "Шаблон конфигурационного файла не найден",br();
+	}
+
 	print hr();
 	print '<a href="?createdb=1">Создать БД</a>',br();
 	print '<a href="/vcms">Перейти к конфигурированию</a>';
@@ -172,6 +171,9 @@ $path=~s/cgi-bin\s*//s;
 
 my $wpath="${path}www/";
 $wpath=$path unless -s $wpath;
+
+chomp $path;
+chomp $wpath;
 
 print qq(
 <form method='post'>
