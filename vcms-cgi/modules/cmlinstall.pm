@@ -1292,7 +1292,7 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
-  			`cachekey` varchar(1000) NOT NULL default '',
+  			`cachekey` varchar(950) NOT NULL default '',
   			`objlink` varchar(12) NOT NULL default '',
   			`dev` int(11) NOT NULL default '0',
   			`lang` varchar(20) NOT NULL default '',
