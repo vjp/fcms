@@ -1308,7 +1308,7 @@ sub install_db ($$) {
   			KEY `ck` (`ckey`)
 		) ENGINE=MyISAM") || die $dbh->errstr();
     $dbh->do("
-		CREATE TABLE ${DBPREFIX}auth (
+		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
   			`id` int(11) NOT NULL auto_increment,
   			`login` varchar(50) collate utf8_unicode_ci NOT NULL,
   			`pwd` char(32) collate utf8_unicode_ci NOT NULL,
