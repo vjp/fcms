@@ -101,6 +101,22 @@ if (param('install')) {
 					system "rm html.tar.gz";
 				}
 			}	
+			
+			if (-s 'docs.tar.gz' && -s "${ROOTPATH}/.htaccess") {
+				print "Найден архив статики, распаковываем...";
+				my $str=`tar -xzf docs.tar.gz -C $ROOTPATH`;
+				print "...OK",br();
+				system "rm docs.tar.gz";
+			}
+			
+			if (-s 'data.tar.gz' && -e "${ROOTPATH}/data") {
+				print "Найден архив контента, распаковываем...";
+				my $str=`tar -xzf data.tar.gz -C $ROOTPATH/data`;
+				print "...OK",br();
+				system "rm data.tar.gz";
+			}
+			
+			
 		} else {
 			print '...Создать файл не удалось',br();
 		}
