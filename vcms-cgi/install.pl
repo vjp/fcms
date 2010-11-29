@@ -167,6 +167,15 @@ if (param('install')) {
 		print "Создаем бд ...",br;
 		&cmlinstall::install_db($dbh,$DBPREFIX);
 		print "... структура бд создана",br;
+
+	    if (-s 'db.gz') {
+	    	print "Импортируем данные из бекапа...";
+	    	`gzip -d -c db.gz | mysql -h$DBHOST -u$DBUSER -p$DBPASSWORD $DBNAME`;
+	    	print "OK",br();
+	    	system "rm db.gz"; 
+	    }
+
+
 	
 		print "Создаем базовые структуры...",br;
 		&cmlmain::start('.');
