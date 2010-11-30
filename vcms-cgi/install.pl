@@ -10,7 +10,7 @@ use CGI::Carp qw /fatalsToBrowser/;
 use DBI;
 
 
-use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE);
+use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN);
  
 
 print "Content-Type: text/html; charset=windows-1251\n\n";
@@ -31,6 +31,7 @@ if (param('install')) {
 	$UTF=0+param('utf');
 	$CACHE=0+param('cache');		
 	$ROOTPATH=param('rootpath');
+	$MULTIDOMAIN=0+param('multidomain');
 	
 	if (! -s 'cgi.tar.gz') {
 		print "Файл cgi.tar.gz не найден",br();
@@ -139,7 +140,8 @@ if (param('install')) {
 			$cnf=~s/<abspath>/$ABSPATH/g;
 			$cnf=~s/<rootpath>/$ROOTPATH/g;
 			$cnf=~s/<utf>/$UTF/g;
-				$cnf=~s/<cache>/$CACHE/g;
+			$cnf=~s/<cache>/$CACHE/g;
+			$cnf=~s/<multidomain>/$MULTIDOMAIN/g;
 		}	
 		close CF;
 		open (CFF,'>conf');
@@ -212,7 +214,8 @@ print qq(
   <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'></td></tr>
   <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='$wpath'></td></tr>
   <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'></td></tr>
-  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>  
+  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>
+  <tr><td>Мультидомен</td><td><input type='checkbox' name='multidomain' value='1'></td></tr>  
   <tr><td>Интерфейсы</td>
   	<td>
   		/     <input type='checkbox' name='i_site' value='1' checked='checked'>
