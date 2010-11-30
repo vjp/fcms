@@ -19,6 +19,7 @@ $POSTBUTTONURL='/cmsimg/ok_post.jpg';
 $SAVEBUTTONURL='/cmsimg/save.gif';
 $DOUBLECONFIRM=0;
 $CACHE=<cache>;
+$MULTIDOMAIN=<multidomain>;
 $UTF=<utf>;
 
 @LANGS=('rus','eng');
