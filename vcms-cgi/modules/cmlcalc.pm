@@ -198,7 +198,8 @@ sub calculate 	{
 	my $need_save;
 	my $cache_key;
 	if ($_[0]->{cache}) {
-		$cache_key=$ENV{'REQUEST_URI'};
+		$cache_key=$cmlmain::GLOBAL->{MULTIDOMAIN}?"$ENV{'SERVER_NAME'}$ENV{'REQUEST_URI'}":$ENV{'REQUEST_URI'};
+		$cache_key=~s/^www\.// if $cmlmain::GLOBAL->{MULTIDOMAIN};
 		$cache_key=~s/\?.+$//;
 		my ($cached_value,$cached_time)=&cmlmain::fromcache($cache_key,$cmlcalc::ENV->{dev},$CALCLANG);
 		if ($cached_value) {

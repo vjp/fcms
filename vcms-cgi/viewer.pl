@@ -182,7 +182,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 
 my $opensite=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('OPENSITE')"})->{value};
 my $vh=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('VHOST')"})->{value};
-my $md=&cmlcalc::calculate({key=>'CONTENT',expr=>"p('MULTIDOMAIN')"})->{value};
+
 
 my $stime=Time::HiRes::time();
 if (!$opensite && !cookie('dev')) {
@@ -211,7 +211,7 @@ if (!$opensite && !cookie('dev')) {
 	 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
 	 	unless ($v->{value}) {
 	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE';
-	 		if ($md) {
+	 		if ($GLOBAL->{MULTIDOMAIN}) {
 	 			my $dom_objid=cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}");
 	 			if ($dom_objid) {
 	 				my $t_key=&cmlcalc::p('_KEY',&cmlcalc::p('DOMAINSTARTPAGE',$dom_objid));
