@@ -786,7 +786,7 @@ sub tag_list  	{
 		if ($filterexpr) {
 		  	@splist=grep { 	&cmlcalc::calculate({id=>$_,expr=>$filterexpr})->{value}  } @splist	
 		}	
-		my $orderby=$pl->{orderby};
+		my $orderby=$pl->{orderby} || '';
 		unless ($orderby eq '_MANUAL') {
 			my $ordertype=$cmlmain::prm->{$orderby}->{type} || '';
 			if ( $orderexpr eq 'p(_INDEX)' || $ordertype eq 'DATE' || $ordertype eq 'NUMBER') {
