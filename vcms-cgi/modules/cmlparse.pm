@@ -1434,7 +1434,7 @@ sub tag_img 	{
 	my $id;
 	my $key;
 	my $src;
-	my $alt;
+	my $alt='';
   	my $expr;
 	
 	my $pl=fetchparam(\$param,[
