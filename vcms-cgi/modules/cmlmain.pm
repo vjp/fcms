@@ -1967,7 +1967,7 @@ sub buildlist {
    			$lobj->{$item->{id}}->{template}=$item->{template};
    			$lobj->{$item->{id}}->{indx}=$item->{indx};
    			$lobj->{$item->{id}}->{lang}=$obj->{$item->{upobj}}->{lang};
-   			$nobj->{$item->{keyname}}=$lobj->{$item->{id}};
+   			$nobj->{$item->{keyname}}=$lobj->{$item->{id}} if $item->{keyname};
     	}	
    	}
    	
