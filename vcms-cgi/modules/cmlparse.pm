@@ -1189,7 +1189,7 @@ sub tag_a	{
 		'extraprm','adminextraprm',
 		'param','prm','expr','id',
 		'ifprm','ifparam','ifexpr',
-		'blank',
+		'blank','elementid',
 	]);
 	
 	my $ql;
@@ -1285,13 +1285,13 @@ sub tag_a	{
 	my $bstr;
 	my $estr=$ifval?'</a>':'';
 	
-	
+	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
 	if ($ifval) {
   		if ($mode eq 'openwindow') {
-  			$bstr=qq(<a href="javascript:openwindow('$ql')" $param>);
+  			$bstr=qq(<a href="javascript:openwindow('$ql')" $param $idstr>);
   		}	else {
   			my $blstr=$pl->{'blank'} && $pl->{'blank'} ne 'NULL'?"target='_blank'":'';
- 			$bstr=qq(<a href='$ql' $blstr $param>);
+ 			$bstr=qq(<a href='$ql' $blstr $param $idstr>);
  		}
 	}	
  	return $bstr.cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}).$estr;	
