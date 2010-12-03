@@ -126,7 +126,7 @@ if ($action) {
 	
 	if ($action eq 'addnewuser') {
 	    	$action='viewusers';$cf=0;
-	    	if (!param('password')) {alert ('Пароль не задан')}
+	    	if (!param('password')) {alert (enc('Пароль не задан'))}
 	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
 				else {
 					if (adduser(param('nusername'),param('password'),param('group'))) {
@@ -147,7 +147,7 @@ if ($action) {
 	    		edituser(param('username'),undef,param('group'));
 	    		alert(enc('Данные изменены'));
 	    	}
-	    	elsif (param('password') ne param('retpassword')) {alert('Пароль не совпадает')}
+	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
 				else {
 					edituser(param('username'),param('password'),param('group'));
 					alert(enc('Данные изменены'));
