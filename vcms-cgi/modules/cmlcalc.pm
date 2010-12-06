@@ -490,7 +490,9 @@ sub days {
 	return int($_[0]/86400);
 }
 sub l {
-	return split(/;/,$_[0]);
+	my @l;
+	push(@l,split(/;/,$_)) for @_;
+	return @l;
 }
 sub env {
 	return $cmlcalc::ENV->{$_[0]};
