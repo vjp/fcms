@@ -59,7 +59,7 @@ BEGIN
               
               &statclick &staterror &copylinkfile
               
-              &ajax_ok &rf_name &rf_enc_name
+              &ajax_ok &rf_name &rf_enc_name &snapshot
              );
 
 
@@ -1984,6 +1984,18 @@ sub buildlist {
   
 }
 
+sub snapshot ($)
+{
+	my ($id)=@_;
+	my $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE objid=?");
+    $sthN->execute($id) || die $dbh->errstr();
+    my $vhash={}; 
+	while ($val=$sthN->fetchrow_hashref) {
+		$vhash->{$val->{pkey}}=$val->{value};
+	}	
+	my $json = new JSON::PP;
+	return  $json->encode ($vhash);
+}
 
 sub buildlowtree
 {
