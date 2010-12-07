@@ -131,6 +131,7 @@ if (param('install')) {
 		if (!$cnf) {
 			print "... Проблема чтения конфигруационного шаблона",br();
 		} else {
+			my $path=`pwd`;
 			$cnf=~s/<dbname>/$DBNAME/g;
 			$cnf=~s/<dbuser>/$DBUSER/g;
 			$cnf=~s/<dbpassword>/$DBPASSWORD/g;
@@ -139,6 +140,7 @@ if (param('install')) {
 			$cnf=~s/<domainname>/$DOMAINNAME/g;
 			$cnf=~s/<abspath>/$ABSPATH/g;
 			$cnf=~s/<rootpath>/$ROOTPATH/g;
+			$cnf=~s/<thisdir>/$path/g;
 			$cnf=~s/<utf>/$UTF/g;
 			$cnf=~s/<cache>/$CACHE/g;
 			$cnf=~s/<multidomain>/$MULTIDOMAIN/g;
