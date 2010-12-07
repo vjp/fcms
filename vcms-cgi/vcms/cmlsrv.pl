@@ -37,11 +37,11 @@ if ($action) {
 		if (param('area') eq 'scripts') {
 			print "Content-Disposition: attachment; filename=cgi-bin.tar.gz\n";
 			print "Content-type: application/octet-stream\n\n";
-			system("tar -cz -C ../../cgi-bin -f - .");
+			system("tar -cz -C $GLOBAL->{CGIPATH} -f - .");
 		} elsif (param('area') eq 'docs'){
 			print "Content-Disposition: attachment; filename=docs.tar.gz\n";
 			print "Content-type: application/octet-stream\n\n";
-			system("tar -cz -C $GLOBAL->{FILEPATH}/.. -f - --exclude='data/*' . ");
+			system("tar -cz -C $GLOBAL->{WWWPATH} -f - --exclude='data/*' . ");
 		} elsif (param('area') eq 'data'){
 			print "Content-Disposition: attachment; filename=data.tar.gz\n";
 			print "Content-type: application/octet-stream\n\n";
