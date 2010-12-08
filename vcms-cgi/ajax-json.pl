@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.14 2010-08-09 21:23:26 vano Exp $
 
 use strict;
 use lib "./modules/";
@@ -35,6 +34,7 @@ if (ref $prms eq 'HASH') {
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 
 
 my $result;
