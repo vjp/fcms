@@ -92,7 +92,7 @@ sub ajax_error($)
 	my ($errormessage)=@_;
 	return {
 		'status'=>0,
-		'message'=>$errormessage,	
+		'message'=>enc("Ошибка: ").$errormessage,	
 	}
 }
 
