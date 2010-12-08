@@ -59,7 +59,7 @@ BEGIN
               
               &statclick &staterror &copylinkfile
               
-              &ajax_ok &rf_name &rf_enc_name &snapshot
+              &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
              );
 
 
@@ -86,6 +86,17 @@ sub ajax_ok()
 		'message'=>enc('Успешно')	
 	}
 }
+
+sub ajax_error($) 
+{
+	my ($errormessage)=@_;
+	return {
+		'status'=>0,
+		'message'=>$errormessage,	
+	}
+}
+
+
 
 sub staterror ($;$$$)
 {
