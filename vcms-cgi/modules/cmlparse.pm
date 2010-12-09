@@ -1203,7 +1203,7 @@ sub tag_a	{
 	} elsif ($pl->{'pagenum'}) {
 		my $pid=$pl->{'pagenum'};
 		$ql=$cmlcalc::QUERYSTRING;		
-		if ($cmlcalc::CGIPARAM->{_MODE}='ADMIN') {
+		if ($cmlcalc::CGIPARAM->{_MODE} eq 'ADMIN') {
 			if ($ql=~/page=\d+/) {
 				$ql=~s/page=\d+/page=$pid/;
 			} else {	
