@@ -833,7 +833,7 @@ sub lowlevel {
 		my $ind=$OBJID->{ind};
 		my $upobj=$OBJID->{upobj};
 		&cmlmain::checkload({uid=>$upobj}); 		
-		@list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::ltree->{$upobj}->{$ind}};
+		@list=sort {$cmlmain::obj->{$a}->{indx}<=>$cmlmain::obj->{$b}->{indx}} @{$cmlmain::ltree->{$upobj}->{$ind}} if ref $cmlmain::ltree->{$upobj}->{$ind} eq 'ARRAY';
 	}
 	
 	if ($low_expr) {@list=grep(calc($_,$low_expr),@list)}
