@@ -201,18 +201,19 @@ if (!$opensite && !cookie('dev')) {
 		
  		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
 } else {
-	 if ($cmlcalc::SITEVARS->{subdomain} && $vh == 1) {
-	 	$cmlcalc::CGIPARAM->{view}='PAGE1'; 
-	 	$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
-	   	unless ($v) {
-	 		$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('PAGETEMPLATE')"});
-	 	} 	 
-	 } else {	
-	 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
-	 	unless ($v->{value}) {
-	 		$cmlcalc::CGIPARAM->{view}='STARTPAGE';
-	 		if ($GLOBAL->{MULTIDOMAIN}) {
-	 			my $dom_objid=cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}");
+		my $dom_objid=$GLOBAL->{MULTIDOMAIN}?cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}"):0;
+		my $dom_vhost=$dom_objid?cmlcalc::p('DOMAINSTARTPAGE',$dom_objid) eq &cmlcalc::id('VHOSTSDESIGN'):0;
+	 	if ($dom_vhost || ($cmlcalc::SITEVARS->{subdomain} && $vh == 1)) {
+	 		$cmlcalc::CGIPARAM->{view}='PAGE1'; 
+	 		$cmlcalc::SITEVARS->{VHOST}->{ID}=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid) if $dom_vhost;
+	 		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
+	   		unless ($v) {
+	 			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('PAGETEMPLATE')"});
+	 		} 	 
+	 	} else {	
+	 		$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
+	 		unless ($v->{value}) {
+	 			$cmlcalc::CGIPARAM->{view}='STARTPAGE';
 	 			if ($dom_objid) {
 	 				my $t_key=&cmlcalc::p('_KEY',&cmlcalc::p('DOMAINSTARTPAGE',$dom_objid));
 	 				my $t_prm=&cmlcalc::p('DOMAINPRMNAME',$dom_objid);
@@ -220,12 +221,9 @@ if (!$opensite && !cookie('dev')) {
 	 				$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
 	 				$cmlcalc::CGIPARAM->{view}=$t_key;
 	 			}
-	 		}
-	 		
-	 		 
-     		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
-     	}		
-   	}  
+     			$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+     		}		
+   		}  
 }
 my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
