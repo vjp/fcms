@@ -2407,7 +2407,18 @@ sub tag_changebutton {
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
   	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
   	
-	my $onclickstr=$pl->{'ajax'}?qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;"):'';
+  	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
+  	
+	my $onclickstr;
+	
+	if ($pl->{'ajax'}){
+		if ($_[0]->{inner}->{matrix}) {
+			$onclickstr=qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
+		}else {
+			my $id=$_[0]->{inner}->{objid};
+			$onclickstr=qq(onclick="tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
+		}	
+	}	
 	if ($pl->{title}) {
 		return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
 	} else {	
