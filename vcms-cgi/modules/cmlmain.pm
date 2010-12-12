@@ -974,6 +974,8 @@ sub setvalue  {
 	my $key=$_[0]->{key};
 	my $lang=$_[0]->{lang};
 	my $append=$_[0]->{append};
+	my $noonchange=$_[0]->{noonchange};
+	
 	my $ind;
 	if ($key) {
 		 checkload({key=>$key});
@@ -1161,11 +1163,10 @@ sub setvalue  {
 			}	
 		}
 	} 
-  	if ($prm->{$pkey}->{extra}->{onchange}) {
+  	if ($prm->{$pkey}->{extra}->{onchange} && !$noonchange) {
   		if ($id) {$OBJECT=$obj->{$id}}
   	 	if ($uid) {$OBJECT=$lobj->{$uid}}
   	 	cmlcalc::execute({lmethod=>$prm->{$pkey}->{extra}->{onchange},id=>$id});
-    	#eval "$prm->{$pkey}->{extra}->{onchange}";   	
 	}	
 	return 1;
 }
@@ -2005,9 +2006,26 @@ sub snapshot ($)
     my $vhash={}; 
 	while ($val=$sthN->fetchrow_hashref) {
 		$vhash->{$val->{pkey}}=$val->{value};
-	}	
-	my $json = new JSON::PP;
-	return  $json->encode ($vhash);
+	}
+	return 0 unless scalar keys %$vhash; 	
+	
+	my $snapshottext=Dumper($vhash);
+
+	my $sid=&cmlcalc::add(&cmlcalc::id('SNAPSHOTS'),
+	{
+		_NAME=>'Слепок объекта '.&cmlcalc::p(_NAME,$id).' от '.scalar localtime(),
+		SNAPSHOT=>$snapshottext,
+		SNAPSHOTOBJ=>$id,
+		SNAPSHOTOBJNAME=>$vhash->{_NAME},
+		SNAPSHOTTIME=>cmlcalc::now(),
+		SNAPSHOTUSER=>cmlcalc::env(USERID),	
+	});
+	for (keys %$vhash) {
+		if ($_ ne '_NAME') {
+			&cmlmain::setvalue({id=>$sid,prm=>$_,value=>$vhash->{$_},noonchange=>1});
+		}	
+	}
+	return  $sid;
 }
 
 sub buildlowtree
