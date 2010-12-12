@@ -161,7 +161,7 @@ function setVCallback (json) {
 function setMVCallback (json) {
 	var url=document.location.href;
 	if (json.status) {
-		alert(lbSuccess);
+		alert(json.message || lbSuccess);
         if (json.back) {
 	           location.href=json.back;
         } else {
@@ -185,9 +185,9 @@ function set (objid,prm,fcallback) {
 
 }
 
-function multiset (frm,fcallback,back) {
+function multiset (frm,fcallback,back,method) {
 	var dt=$(frm).up('form').serialize(true);
 	dt.back=back;
-	execute('BASELPARSER',dt,fcallback || setMVCallback);
+	execute(method || 'BASELPARSER',dt,fcallback || setMVCallback);
 }
 
