@@ -2400,13 +2400,14 @@ sub tag_deletebutton {
 sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-  	my $pl=fetchparam(\$param,['ajax','callback','title','redir']);
+  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method']);
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?$pl->{callback}:'undefined';
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
+  	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
   	
-	my $onclickstr=$pl->{'ajax'}?qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr);return false;"):'';
+	my $onclickstr=$pl->{'ajax'}?qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;"):'';
 	if ($pl->{title}) {
 		return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
 	} else {	
