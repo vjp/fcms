@@ -191,3 +191,10 @@ function multiset (frm,fcallback,back,method) {
 	execute(method || 'BASELPARSER',dt,fcallback || setMVCallback);
 }
 
+function multisetsingleobj (frm,id,fcallback,back,method) {
+	var dt=$(frm).up('form').serialize(true);
+	dt.back=back;
+	lexecute(method || 'BASELPARSER',id,dt,fcallback || setMVCallback);
+}
+
+
