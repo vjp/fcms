@@ -256,9 +256,9 @@ sub editdate	{
  	my $val=calculate({id=>$id,uid=>$uid,pkey=>$pkey,tabkey=>$tabkey,tabpkey=>$tabpkey,expr=>"p($pkey)"});
  	
  	unless (checkupd({id=>$_[0]->{id},uid=>$_[0]->{uid},tabkey=>$_[0]->{tabkey},pkey=>$_[0]->{pkey}})) {
- 		return strftime $format,gmtime($val->{value})
+ 		return strftime $format,localtime($val->{value})
  	}
- 	my @tm=gmtime($val->{value});
+ 	my @tm=localtime($val->{value});
 
         
 
@@ -335,7 +335,7 @@ sub editdate	{
 		}ges; 	
 		
 		$format=~s{\%(c|a)}{
-			enc(strftime ("\%$1",gmtime($val->{value})));
+			enc(strftime ("\%$1",localtime($val->{value})));
 		}ges;	
 		return $format;
  	}
