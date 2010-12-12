@@ -1088,7 +1088,7 @@ sub tag_actionlink {
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		unless ($title) {
 			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
-			$title="<img src='$imgurl'/>";
+			$title="<img src='$imgurl' border='0'/>";
 		} 
 	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
