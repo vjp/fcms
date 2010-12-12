@@ -79,11 +79,12 @@ sub rf_name ()
 }
 
 
-sub ajax_ok() 
+sub ajax_ok($) 
 {
+	my ($message)=@_;
 	return {
 		'status'=>1,
-		'message'=>enc('Успешно')	
+		'message'=>$message || enc('Успешно'),	
 	}
 }
 
