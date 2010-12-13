@@ -961,7 +961,7 @@ sub baselparser
 	} else {
 		$id=$CGIPARAM->{id}
 	}
-
+	my $changed;
 
 	for my $cgiprm (keys %$CGIPARAM) {
 		my $value=$CGIPARAM->{$cgiprm};
@@ -978,6 +978,7 @@ sub baselparser
 			}
 			if (p($prm,$id) ne $value) {
 				setvalue({id=>$id,prm=>$prm,value=>$value});
+				push (@{$changed->{$id}},$prm);
 			}
 		} elsif ($cgiprm=~/^_p(.+)/) {
 			my $prm=$1;
@@ -988,14 +989,18 @@ sub baselparser
 				$value=1;
 			}
 			setvalue({id=>$id,prm=>$prm,value=>$value});
+			push (@{$changed->{$id}},$prm);
 			if ($CGIPARAM->{renameprm} eq $prm) {
 				setvalue({id=>$id,prm=>'_NAME',value=>$value});
+				push (@{$changed->{$id}},'_NAME');
 			}
 		} elsif ($cgiprm=~/^_f(.+)/ && $value) {
 			uploadprmfile({id=>$id,pkey=>$1,cgiparam=>$cgiprm});
+			push (@{$changed->{$id}},$1);
 		} elsif ($cgiprm=~/^_o(.+?)_f(.+)/ && $value) {
 			$id=$1;
 			uploadprmfile({id=>$id,pkey=>$2,cgiparam=>$cgiprm});
+			push (@{$changed->{$id}},$2);
 		}
 	}
 
@@ -1007,7 +1012,8 @@ sub baselparser
 	return ({
 		status=>1,
 		objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id},
-		back=>$CGIPARAM->{back}
+		back=>$CGIPARAM->{back},
+		changed=>$changed,
 	});
 }
 
