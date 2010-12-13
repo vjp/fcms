@@ -79,7 +79,7 @@ sub rf_name ()
 }
 
 
-sub ajax_ok($) 
+sub ajax_ok(;$) 
 {
 	my ($message)=@_;
 	return {
