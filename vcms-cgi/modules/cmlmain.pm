@@ -67,6 +67,7 @@ BEGIN
 
 sub rf_enc_name ($)
 {
+	 return $_[0] if $_[0]!~/\.πτ/i;
 	 return join('.',map {'xn--'.encode_punycode(Encode::decode('cp1251',$_))} split(/\./,$_[0])); 
 }
 
