@@ -712,6 +712,15 @@ sub weekday {
 	return strftime('%u',localtime(time()))
 } 
 
+sub curyear {
+	return strftime('%Y',localtime(time()))
+}
+
+sub curmonth {
+	return strftime('%m',localtime(time()))
+}
+
+
 sub distlist {
 	my %inh;
 	my @rlist;
