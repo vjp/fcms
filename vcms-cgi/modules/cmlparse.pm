@@ -2179,7 +2179,7 @@ sub tag_inputtext {
 	my $mode='input';
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm)      {	
- 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea', $rows=30, $cols=100}
+ 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea'; $rows=30; $cols=100}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}
 	}
   	if ($pl->{prmexpr})      { 
