@@ -2501,13 +2501,13 @@ sub dropcache {
 
 sub tocache {
 	my ($key,$value,$links,$dev,$lang)=@_;
-	
-	$sthIC->execute($key,$value,0+$dev,"$lang") || die $dbh->errstr;
+	$dev = 0 unless $dev;	
+	$sthIC->execute($key,$value,$dev,"$lang") || die $dbh->errstr;
 	$sthDC->execute($key,0+$dev,"$lang") ||  die $dbh->errstr;
 	my %inserted;
 	for (@$links) {
 		if ($_ && !$inserted{$_}) {
-			$sthLC->execute($key,$_,0+$dev,"$lang") || die $dbh->errstr;
+			$sthLC->execute($key,$_,$dev,"$lang") || die $dbh->errstr;
 			$inserted{$_}=1;
 		}	
 	}
