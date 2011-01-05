@@ -2167,7 +2167,7 @@ sub tag_inputtext {
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 
 
-	my $value;  	  
+	my $value='';  	  
   	if ($pl->{value})   { 	
   		$value=$pl->{value}      	
 	} elsif ($pl->{expr})   { 	
@@ -2177,7 +2177,7 @@ sub tag_inputtext {
 	my $rows;
 	my $cols;
 	my $mode='input';
-	my $prm=$pl->{param} || $pl->{prm};
+	my $prm=$pl->{param} || $pl->{prm} || '';
 	if ($prm)      {	
  		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea'; $rows=30; $cols=100}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}

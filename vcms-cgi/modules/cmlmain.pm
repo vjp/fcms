@@ -876,8 +876,8 @@ sub returnvalue {
           		}			
         		$lobj->{$objid}->{vals}->{$item->{pkey}}->{type}=$prm->{$item->{pkey}}->{type};
         		if ($noparse && $pkey eq $item->{pkey}) {$npv->{value}=$item->{value}; $npv->{type}=$item->{type}}
-        		if ($item->{value} eq '1' && $item->{pkey}=~/^(.+)__COMPILEDFLAG$/) {$cf{$1}=1}
-        		if ($item->{pkey}=~/^(.+)__COMPILED$/) {$cv{$1}=$item->{value}}
+        		#if ($item->{value} eq '1' && $item->{pkey}=~/^(.+)__COMPILEDFLAG$/) {$cf{$1}=1}
+        		#if ($item->{pkey}=~/^(.+)__COMPILED$/) {$cv{$1}=$item->{value}}
      		}
      		for (keys %cf) {
      			$lobj->{$objid}->{langvals}->{$lang}->{$_}->{value}=$cv{$_};

@@ -1220,9 +1220,9 @@ sub extranumber {
 sub extramemo {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
- 	my $ss= $extra->{parse} eq 'y'?'checked':'';
- 	my $sse=$extra->{script} eq 'y'?'checked':'';
- 	my $ssv=$extra->{visual} eq 'y'?'checked':'';
+ 	my $ss= $extra && $extra->{parse} eq 'y'?'checked':'';
+ 	my $sse=$extra && $extra->{script} eq 'y'?'checked':'';
+ 	my $ssv=$extra && $extra->{visual} eq 'y'?'checked':'';
  	
  	my $flagname=$_[0]->{flag};
  	my $formname=$_[0]->{form};
