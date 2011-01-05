@@ -411,7 +411,7 @@ sub edittext 	{
  	my $flagname=$_[0]->{flag};
  	my $formname=$_[0]->{form};
  	my $pkey=$_[0]->{pkey};
- 	my $lang=$_[0]->{lang}; 
+ 	my $lang=$_[0]->{lang} || ''; 
  	my $prmname;
  	if ($tabkey) {$prmname='vk'.$tabkey.'v'.$pkey} else {$prmname="v$pkey"}
 
