@@ -1296,7 +1296,8 @@ sub install_db ($$) {
   			`objlink` varchar(12) NOT NULL default '',
   			`dev` int(11) NOT NULL default '0',
   			`lang` varchar(20) NOT NULL default '',
-  			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`)
+  			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
+  			KEY `ol` (`objlink`)
 		) ENGINE=MyISAM") || die $dbh->errstr();
 	
 	$dbh->do("
