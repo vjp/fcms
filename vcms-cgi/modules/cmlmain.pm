@@ -952,11 +952,32 @@ sub returnvalue {
  		$objid->{vals}->{$pkey}=defaultvalue({pkey=>$pkey,tpkey=>$tpkey})
  	}
         return $objid->{vals}->{$pkey}; 
-  }
+	}
  	
  
 
 }
+
+sub clearpagescache ($) {
+	my ($obj)=@_;
+    my $sth=$dbh->prepare("SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
+    $sth->execute($obj) || die $dbh->errstr();
+    my @h;
+	while (my ($key)=$sth->fetchrow()) {
+		push(@h,"'$key'");
+	}
+	if ((scalar @h) > 1000) {
+		$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
+		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
+	}elsif (@h){
+		my $dstr=join(',',@h);
+		$dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)") || die $dbh->errstr();
+		my $sthd=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
+		$sthd->execute($obj)|| die $dbh->errstr();
+	}
+}
+
+
 
 
 sub setvalue  {
@@ -1023,19 +1044,19 @@ sub setvalue  {
   		my $objid=$id;
 		if ($pkey eq '_INDEX') {   
 			update({id=>$objid , indx=>$value});
-			$sthCH->execute($objid) || die $dbh->errstr; 
+			clearpagescache($objid); 
 			return 1;
 		}	
 		if ($pkey eq '_KEY') {   
 			update({id=>$objid , key=>$value}) ; 
-			$sthCH->execute($objid) || die $dbh->errstr;
+			clearpagescache($objid); 
 			$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang) || die $dbh->errstr;
 			return 1; 
 		}	
 		if ($pkey eq '_UP') {   
 			if ($value=~/^u/) {
 				update({id=>$objid , upobj=>$value}); 
-				$sthCH->execute($objid) || die $dbh->errstr;
+				clearpagescache($objid); 
 			}	
 			return 1;
 		}	
@@ -1044,7 +1065,7 @@ sub setvalue  {
 			my $xk=$lobj->{$objid}->{key}; 
 			$xk=~s/^_PP_//;
 			updateprmname($xk,$value);
-			$sthCH->execute($objid) || die $dbh->errstr;
+			clearpagescache($objid); 
 			return 1; 
    	 	}	
   		my $cl;	
@@ -1068,7 +1089,7 @@ sub setvalue  {
  		
 
  		
- 		$sthCH->execute("$objid") || die $dbh->errstr;
+ 		clearpagescache($objid); 
 
  		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
@@ -1097,8 +1118,8 @@ sub setvalue  {
 		if ($pkey eq '_KEY')   {   update({id=>"u$objid" , key=>$value}) ; return }	  
 		if ($pkey eq '_UP') {   
 			if ($value=~/^u(\d+)/) {
-				update({id=>"u$objid" , up=>$1}); 
-				$sthCH->execute("u$objid") || die $dbh->errstr;
+				update({id=>"u$objid" , up=>$1});
+				clearpagescache("u$objid");  
 			}	
 			return 1;
 		}	
@@ -1115,7 +1136,8 @@ sub setvalue  {
   		if ($value ne '') {
   			$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
   		}		
-  		$sthCH->execute("u$objid") || die $dbh->errstr;
+  		clearpagescache("u$objid");
+  		
 
 		$obj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		if ($cl eq $LANGS[0] || $cl eq $lobj->{$objid}->{lang}) {
@@ -1140,7 +1162,8 @@ sub setvalue  {
  		$sthDL->execute($ind,$pkey) || die $dbh->errstr;
  		for (split(/\s*;\s*/,$value)) {
  			$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr;
- 			$sthCH->execute($_) || die $dbh->errstr;
+ 			clearpagescache($_);
+ 			
  		}
 	}
 
@@ -1249,7 +1272,7 @@ sub init	{
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=? AND lang=?");
  	
  	
- 	$sthCH=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN (SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?)");
+ 	#$sthCH=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN (SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?)");
 
  	
  	$sthCCP=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache");
