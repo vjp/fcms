@@ -111,7 +111,7 @@ sub cmlparser
    			my $rdata=pop(@stack) || '';
    			my $pstr;
    			if ($#stack==0)   {
-      			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner});
+      			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner}) || '';
    			}  else 	 {
    				$pstr="<cml:$tname $tparam/>"
    			}
@@ -2220,7 +2220,7 @@ sub tag_inputtext {
 		$rows=$cmlmain::prm->{$prm}->{extra}->{rows}
 	}
 
-  	my $typestr;
+  	my $typestr='';
   	if ($pl->{type}) {
   		$typestr="type='$pl->{type}'"; 
   		$mode='input';
@@ -2229,10 +2229,9 @@ sub tag_inputtext {
   	
   	
 	if ($mode eq 'input') {
-		 my $sizestr;
+		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
-		 if ($cols) {$sizestr="size='$cols'"}
-		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr/>);
+ 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
