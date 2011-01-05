@@ -2167,7 +2167,7 @@ sub tag_inputtext {
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 
 
-	my $value='';  	  
+	my $value;  	  
   	if ($pl->{value})   { 	
   		$value=$pl->{value}      	
 	} elsif ($pl->{expr})   { 	
