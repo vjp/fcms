@@ -817,7 +817,7 @@ $bm=qq(
 <td><cml:deletebutton/></td>
 <td><cml:inputtext param='_INDEX' value='_LISTINDEX'/></td>
 <td><cml:inputtext param='_NAME'/></td>
-<td><cml:actionlink action='EDIT'>Редактировать</cml:actionlink></td>
+<td><cml:actionlink action='EDITVIEW'/></td>
 </tr>
 </cml:list>
 <tr><td/><td colspan=2><cml:changebutton/></td></tr>
