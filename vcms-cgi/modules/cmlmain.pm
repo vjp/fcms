@@ -60,9 +60,16 @@ BEGIN
               &statclick &staterror &copylinkfile
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
+              
+              &import_db
              );
 
 
+}
+
+sub import_db ()
+{
+	`gzip -d -c db.gz | mysql -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
 }
 
 sub rf_enc_name ($)
