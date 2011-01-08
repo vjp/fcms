@@ -1071,7 +1071,7 @@ sub tag_actionlink {
     			}   
      	 }
     );
-    
+    return undef if $access_denied && $pl->{action} eq 'ADD'; 	
 	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW' || $pl->{action} eq 'EDITVIEW') {
 		if ($pl->{action} eq 'EDITVIEW') {
 			$pl->{action}=$access_denied?'VIEW':'EDIT';	
