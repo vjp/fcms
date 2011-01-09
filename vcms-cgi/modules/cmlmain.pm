@@ -858,7 +858,7 @@ sub returnvalue {
  	my $objid=$_[0]->{id};
  	my $pkey=$_[0]->{pkey};
  	my $noparse=$_[0]->{noparse};
- 	my $lang;
+ 	my $lang='';
  	my $npv;
 	if ($objid->{lang}) {
  		if ($objid->{lang} ne 'mul') {$lang=$objid->{lang}}
