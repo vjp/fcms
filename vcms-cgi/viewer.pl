@@ -28,8 +28,10 @@ my $v;
 
 
 my $subdomain;
-if ($ENV{HTTP_HOST}=~/(.+)\..+\..+$/) {$subdomain=$1}
-$subdomain=~s/^www\.?//;
+if ($ENV{HTTP_HOST}=~/(.+)\..+\..+$/) {
+	$subdomain=$1;
+	$subdomain=~s/^www\.?//;
+}
 if ($subdomain) {
 	(my $vid)=fastsearch ({prm=>'HOSTNAME',pattern=>$subdomain});
 	my $redirectpath=&cmlcalc::p('REDIRECTPATH',$vid);
@@ -54,15 +56,17 @@ my $xmlmode;
 
 unless ($pathinfo{view}) {
 	 my $firstparam=shift @pi;
-	 if ($firstparam=~/^(.+)\.xml$/i) {
-	 	$xmlmode=1;
-	 	$firstparam=$1;
-	 } 
-	 if ($firstparam=~/^__(.+)$/) {
-	 	$cmlcalc::CGIPARAM->{tview}=$1
-	 } elsif ($firstparam=~/^_(.+)$/) {
-	 	$cmlcalc::CGIPARAM->{view}=$1
-	 }
+	 if ($firstparam) {
+	 	if ($firstparam=~/^(.+)\.xml$/i) {
+	 		$xmlmode=1;
+	 		$firstparam=$1;
+	 	} 
+	 	if ($firstparam=~/^__(.+)$/) {
+	 		$cmlcalc::CGIPARAM->{tview}=$1
+	 	} elsif ($firstparam=~/^_(.+)$/) {
+	 		$cmlcalc::CGIPARAM->{view}=$1
+	 	}
+	 }	
 	 %pathinfo=@pi;
 }	
 for (my $i=0;$i<=$#pi;$i++) {
