@@ -597,7 +597,8 @@ sub tag_select {
 	
 	undef $inner->{selectedlist};
   	if (defined $sexpr) {
-  		for (split(';',&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value})) {$inner->{selectedlist}->{$_}=1}
+  		my $v=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value} || '';
+  		for (split(';',$v)) {$inner->{selectedlist}->{$_}=1}
   	} elsif ($cmlcalc::CGIPARAM->{$name}) {
   	 	$inner->{selectedlist}->{$cmlcalc::CGIPARAM->{$name}}=1
   	} else {
