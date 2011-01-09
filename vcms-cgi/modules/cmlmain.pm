@@ -1603,7 +1603,8 @@ sub addlowobject {
  	my $sthUX=$dbh->prepare("UPDATE ${DBPREFIX}objects SET indx=? WHERE id=?");
  	$sthUX->execute($indx,$newid) || die $dbh->errstr;
 
- 	$sthCH->execute("u$upobj") || die $dbh->errstr; 
+	clearpagescache("u$upobj"); 
+
  	
  	
  	push (@{$ltree->{$upobj}->{$up}},$newid);
@@ -1648,7 +1649,7 @@ sub deleteobject
  my $force=$_[1];
  if ($_[0]=~/u(\d+)/) {$id=$1}
  if ($obj->{$id}->{up}==0 && !$force) {print "cant delete root object"; return}
- $sthCH->execute("u$id") || die $dbh->errstr; 
+ clearpagescache("u$id");
  my @dellist=@{$cmlmain::ltree->{$id}->{0}};
  for (@dellist) {
  	deletelowobject($_);
@@ -1705,7 +1706,7 @@ sub deletelowobject
  	my $sthFSDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fs WHERE id=?");  $sthFSDL->execute($id) || die $dbh->errstr;
  	my $sthFSIDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fsint WHERE id=?");  $sthFSIDL->execute($id) || die $dbh->errstr;
  	$sthD->execute($id) || die $dbh->errstr;
- 	$sthCH->execute($id) || die $dbh->errstr; 
+ 	clearpagescache($id);
  	checkload({id=>$id});
  	my $upobj=$lobj->{$id}->{upobj};
  	@{$ltree->{$upobj}->{$lobj->{$id}->{up}}}=grep{$_ ne $id}@{$ltree->{$upobj}->{$lobj->{$id}->{up}}};
