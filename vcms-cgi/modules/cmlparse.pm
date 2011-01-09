@@ -1014,7 +1014,7 @@ sub tag_actionlink {
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
-		'filter','filterexpr','filterprm','collectdata',
+		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1087,19 +1087,21 @@ sub tag_actionlink {
 		my $href="?body=EDIT_$kn&id=$iid";
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
+		$href.='&'.$pl->{href} if $pl->{href};
 		unless ($title) {
 			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
 			$title="<img src='$imgurl' border='0'/>";
 		} 
 	 	return "<a href='$href' $param>$title</a>";
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
-		my $ukey=$pl->{ukey} || $cmlmain::obj->{$pl->{id}}->{key};
+		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
 		for (qw (id listprm link orderby ordertype filter filterexpr filterprm)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
+		$hrf.='&'.$pl->{href} if $pl->{href};
  		return "<a href='$hrf' $param $tstr>$title</a>";
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
@@ -1477,7 +1479,7 @@ sub tag_img 	{
 			#if ($alt) {return $alt}
 			return undef
 		}
-		if ($cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
+		if ($pkey && $cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
 			$src=$v->{value};
 		} else {
 			my $pstr=$path eq 'absolute' ? $cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
