@@ -61,16 +61,27 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db
+              &import_db &export_db
              );
 
 
 }
 
-sub import_db ()
+sub import_db (;$)
 {
-	`gzip -d -c db.gz | mysql -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
+	my ($filename)=@_;
+	$filename ||= 'db.gz';
+	`gzip -d -c $filename | mysql -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
 }
+
+sub export_db (;$)
+{
+	my ($filename)=@_;
+	$filename ||= '../../backup/db.gz';
+	`/usr/local/bin/mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename`;
+}
+
+
 
 sub rf_enc_name ($)
 {
