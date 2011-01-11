@@ -358,7 +358,7 @@ sub tag_menuitem	{
 		'action','key','href','icohref','id','prm','param',
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
-		'orderby','ordertype','readonly','delmethod'
+		'orderby','ordertype','readonly','delmethod','templatekey',
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -386,7 +386,7 @@ sub tag_menuitem	{
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
 			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod templatekey)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
@@ -401,9 +401,9 @@ sub tag_menuitem	{
 				}
 			}		
 		} else {
-			$ukey=&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
-			$pl->{href}="body=EDIT_$ukey";
-			$pl->{icohref}="body=EDIT_$ukey&id=$id" unless $pl->{icohref};
+			my $bodykey=$pl->{templatekey} || 'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
+			$pl->{href}="body=$bodykey";
+			$pl->{icohref}="body=$bodykey&id=$id" unless $pl->{icohref};
 		}
 			
 	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {
