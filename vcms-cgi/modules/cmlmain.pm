@@ -61,7 +61,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &export_db
+              &import_db &export_db &recover_object
              );
 
 
@@ -1331,6 +1331,21 @@ sub clearcache
 	$sthCCL->execute || die $dbh->errstr();
 }
 
+sub recover_object ($$)
+{
+	my ($id,$up)=@_;
+	my $sth=$dbh->prepare("SELECT distinct pkey FROM vlshist  WHERE objid=?");
+	my $sth2=$dbh->prepare("SELECT value FROM vlshist  WHERE objid=? AND pkey=? ORDER BY dt desc LIMIT 1");
+	$sth->execute($id);
+	my $l;
+	while (my ($pkey)=$sth->fetchrow()) {
+		$sth2->execute($id,$pkey);
+		my ($value)=$sth2->fetchrow();
+		$l->{$pkey}=$value;
+	}
+	my $newid=&cmlcalc::add($up,$l); 
+	return $newid;
+}
 
 
 sub sync ($$$$$) {
