@@ -1648,7 +1648,8 @@ sub tag_include {
   	
 	my $pl=fetchparam(\$param,[
 		'id','idexpr','notfound','idcgi','name',
-		'key','namecgi','param','prm','readonly','set404'
+		'key','namecgi','param','prm','readonly','set404',
+		'validupkey','validexpr','validupexpr',
 	]);
 	
   	if  ($pl->{id})       {
@@ -1676,20 +1677,32 @@ sub tag_include {
   		$expr='p(PAGETEMPLATE)';
   	}
   
+    my $e404;
+	if ($pl->{'validupkey'}) {
+		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'};
+	} 	elsif ($pl->{'validupexpr'}) {
+		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
+	} 	elsif ($pl->{'validexpr'}) {
+		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1;
+	}	 	 
+    
+  
+   if ($pl->{'set404'} || $e404)       {
+		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+		$cmlcalc::STOPCACHE=1;
+		if ($expr eq 'p(PAGETEMPLATE)' || $e404) {
+			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner,readonly=>$pl->{readonly}});
+		} else {
+			return undef;
+		}
+   }
+  
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
 	if ($body) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
 		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
-	}	elsif ($pl->{'set404'})       {
-		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
-		$cmlcalc::STOPCACHE=1;
-		if ($expr eq 'p(PAGETEMPLATE)') {
-			return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner,readonly=>$pl->{readonly}});
-		} else {
-			return undef;
-		}			
-	} else {
+	}	else {
 		return undef
 	}
 }
