@@ -1310,15 +1310,13 @@ sub install_db ($$) {
 		) ENGINE=MyISAM") || die $dbh->errstr();
     $dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
-  			`id` int(11) NOT NULL auto_increment,
-  			`login` varchar(50) collate utf8_unicode_ci NOT NULL,
-  			`pwd` char(32) collate utf8_unicode_ci NOT NULL,
+   			`login` varchar(50)  NOT NULL,
+  			`pwd` char(32) NOT NULL,
   			`flag` int(11) NOT NULL default '0',
   			`objid` int(11) NOT NULL,
   			`scookie` varchar(50),
   			`authtime` datetime,
-  			PRIMARY KEY  (`id`),
-  			UNIQUE KEY `login` (`login`),
+  			PRIMARY KEY  (`login`),
   			UNIQUE KEY `objid` (`objid`)
 		) ENGINE=MyISAM") || die $dbh->errstr();
 }
