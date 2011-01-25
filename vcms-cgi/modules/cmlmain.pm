@@ -53,7 +53,7 @@ BEGIN
               &get_sec_id &check_sec_id &get_sec_key &check_captcha
               
               &add_user &check_user &del_user &activate_user &check_auth &change_pass_user &check_password
-              &deactivate_user &update_login
+              &deactivate_user &update_login &reset_user
               
               &check_session &end_session &email 
               
@@ -173,11 +173,21 @@ sub add_user ($$$)
 	my ($login,$password,$objid)=@_;
 	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,password(?),?)");
 	$sth1->execute($login,$password,$objid) || die $dbh->errstr();
-	my $sth2=$dbh->prepare("SELECT id FROM ${DBPREFIX}auth WHERE login=?");
-	$sth2->execute($login) || die $dbh->errstr();
-	my ($uid)=$sth2->fetchrow();
-	return $uid;
+	return $objid;
 }	
+
+
+sub reset_user ($$$;$)
+{
+	my ($objid,$loginprm,$password,$activate)=@_;
+	return unless $password;
+	my $login=&cmlcalc::p($loginprm,$objid);
+	my $flag=$activate?1:0;
+	return unless $login;
+	my $sth1=$dbh->prepare("REPLACE ${DBPREFIX}auth (login,pwd,objid,flag) VALUES (?,password(?),?,?)");
+	$sth1->execute($login,$password,$objid,$flag) || die $dbh->errstr();
+	return $objid;
+}
 
 sub update_login ($$) 
 {
