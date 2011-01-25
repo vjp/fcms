@@ -1068,7 +1068,7 @@ sub tag_actionlink {
         				alert(json.message || '$succ_mes');
         				$rd
     			} else {
-        				alert('$err_mes: '+json.message);
+        				alert(json.message);
     			}   
      	 }
     );
