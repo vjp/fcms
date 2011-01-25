@@ -42,7 +42,11 @@ addprm({convertname=>1,objkey=>'CONTENT',name=>'Ролики для верхних объектов',typ
 
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'SECTIONS',name=>'Разделы каталога'});
+addprm({convertname=>1,objkey=>'CONTENT',name=>'Конфигурация',type=>'FILELINK',key=>'CONFFILE',evl=>'n',upd=>'y',self=>1});
+setvalue({key=>'CONTENT',pkey=>'CONFFILE',value=>'../cgi-bin/conf'});
+
 addprm({convertname=>1,objkey=>'SECTIONS',name=>'Позиции',type=>'LIST',key=>'POSITIONS',evl=>'y',upd=>'n',defval=>'backref(id(ITEMS),SECLINK)'});
+
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'ITEMS',name=>'Позиции каталога'});
 addprm({convertname=>1,objkey=>'ITEMS',name=>'Раздел',type=>'LIST',key=>'SECLINK',evl=>'n',upd=>'y'});
