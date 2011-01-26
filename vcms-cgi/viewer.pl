@@ -231,7 +231,7 @@ my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
-
+push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
 print header(
 	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
 	-type=>$xmlmode?'text/xml':'text/html',
