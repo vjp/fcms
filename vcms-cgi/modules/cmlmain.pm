@@ -242,6 +242,7 @@ sub check_auth ($$)
 		my $ck=int(rand(1000000000));
 		my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
 		$sth2->execute($ck,$sid) || die $dbh->errstr();
+		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$ck});
 		return (1,$ck);
 	} elsif ($sid && ! ($flag & 1)) {
 		return (0,1); 	
