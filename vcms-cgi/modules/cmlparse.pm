@@ -915,7 +915,7 @@ sub tag_use
 		'id','idcgi','namecgi',
 		'uname','key','param','prm',
 		'paramtab','idexpr',
-		'validupkey','validupexpr','validexpr',
+		'validupkey','validupexpr','validexpr','var',
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -943,7 +943,7 @@ sub tag_use
 		$id=$inner->{objid}
 	}
 	
-
+	$cmlcalc::ENV->{$pl->{var}}=$id if $pl->{var};
 	if       ($pl->{param} || $pl->{prm})       {
 		$paramname=$pl->{param} || $pl->{prm};
 		if ($cmlmain::prm->{$paramname}->{type} eq 'MATRIX')  {
