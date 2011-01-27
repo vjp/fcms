@@ -73,6 +73,7 @@ sub initparser
     	'calendar'=>1,
     	'table'=>1,
     	'tr'=>1,
+    	'groupheader'=>1,
  	);
 }
 
@@ -346,6 +347,11 @@ sub tag_dynamic {
 		return $data;
 	}
 }
+
+sub tag_groupheader {
+	return $_[0]->{inner}->{needheader}?cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}):'';
+}
+
 
 sub tag_menuitem	{
 	
@@ -677,16 +683,16 @@ sub tag_list  	{
 		my $filterexpr;
 		my @filarray;
 		my @filexparray;
-	
-	
-  		if ($param=~s/(\W)container=(['"])(.+?)\2/$1/i)      {$container=$3 } else {$container=1}
   		 
  	
   		my $pl=fetchparam($param,[
   			'selected','selexpr',
   			'orderby','ordertype','orderexpr',
-  			'limit','start','page',
+  			'limit','start','page','container',
+  			'headerprm','headerexpr',
   		]);
+  		$container=$pl->{'container'}||1;
+  		
   		$limit=$pl->{limit};
   		if ($pl->{start}) {
   			$start=$pl->{start}
@@ -821,10 +827,27 @@ sub tag_list  	{
 		}
 		
 		my $conid=1;
+		my $groupval;
   		for (my $i=$start;$i<$limit+$start;$i++) {
+  			
+  			
   			next if $splist[$i] eq 'NULL';
-  			if ($i>$#splist) {last}
+  			last if $i>$#splist;
+
+  			
  			$inner->{objid}=$splist[$i];
+ 			
+ 			undef $inner->{needheader};
+ 			if ($pl->{headerprm} || $pl->{headerexpr}) {
+ 				my $hexpr=$pl->{headerprm}?"p($pl->{headerprm})":$pl->{headerexpr};
+ 				my $nval=&cmlcalc::calculate({id=>$inner->{objid},expr=>$hexpr})->{value};
+ 				if ($nval ne $groupval) {
+ 					$inner->{needheader}=$nval;
+ 					$groupval=$nval;
+ 				}
+ 			}
+
+ 			
   			$inner->{listindex}=$i+1;
   			if ($pl->{selected} && $splist[$i] eq $pl->{selected}) {
   				$inner->{selected}=1 ;
@@ -843,7 +866,7 @@ sub tag_list  	{
   				if ((($i%$container)==($container-1)) || ($i==$limit-1) ) {$xdata="$xdata$edata";$conid++}
   				$body.=cmlparser({data=>$xdata,inner=>$inner});
   			}else {
-  				$body.=cmlparser({data=>$data,inner=>$inner})
+  				$body.=cmlparser({data=>$data,inner=>$inner});
   			}	
 		}	  
 	}
