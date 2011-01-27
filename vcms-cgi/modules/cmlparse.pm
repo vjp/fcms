@@ -2080,7 +2080,6 @@ sub tag_form {
 		if ($pl->{'insertinto'}) {$data.="<input type='hidden' name='insertinto' value='$pl->{insertinto}'>";}
 		if ($pl->{'link'}) {$data.="<input type='hidden' name='link' value='$pl->{link}'>";}
 		if ($pl->{'alert'}) {$data.="<input type='hidden' name='alerttext' value='$pl->{alert}>"}
-		if ($pl->{'ukey'}) {$data.="<input type='hidden' name='ukey' value='$pl->{ukey}'>"}
 		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
     }
     
