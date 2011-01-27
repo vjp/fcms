@@ -235,14 +235,16 @@ sub check_user ($;$)
 sub check_auth ($$)
 {
 	my ($login,$password)=@_;
-	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
+	my $sth1=$dbh->prepare("SELECT id,flag,objid FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
 	$sth1->execute($login,$password) || die $dbh->errstr();
-	my ($sid,$flag)=$sth1->fetchrow();
+	my ($sid,$flag,$objid)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
 		my $ck=int(rand(1000000000));
 		my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
 		$sth2->execute($ck,$sid) || die $dbh->errstr();
 		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$ck});
+		$cmlcalc::ENV->{'LOGIN'}=$login;
+		$cmlcalc::ENV->{'USERID'}=$objid;
 		return (1,$ck);
 	} elsif ($sid && ! ($flag & 1)) {
 		return (0,1); 	
