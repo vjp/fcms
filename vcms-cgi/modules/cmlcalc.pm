@@ -712,12 +712,17 @@ sub weekday {
 	return strftime('%u',localtime(time()))
 } 
 
-sub curyear {
-	return strftime('%Y',localtime(time()))
+sub curyear (;$){
+	
+	return strftime('%Y',localtime($_[0] || time()))
 }
 
-sub curmonth {
-	return strftime('%m',localtime(time()))
+sub curmonth (;$) {
+	return strftime('%m',localtime($_[0] || time()))
+}
+
+sub curday (;$) {
+	return strftime('%d',localtime($_[0] || time()))
 }
 
 
