@@ -2287,31 +2287,70 @@ sub tag_inputdate {
 	
 	my $value;
 	my $frmt;
-	my $prm;
+
 	my $name;
 	my $frmtstr;
-	
-	if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)      {	
-			$prm=$3; 
-			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
+	my $prm;
+	my $pl=fetchparam(\$param,['param','prm','name','format','split','value']);
+	if ($pl->{prm} || $pl->{param})      {
+		    $prm=$pl->{prm} || $pl->{param};	
 	}
-	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)      {	
-	  $frmt=$3; 
-  } elsif ($cmlmain::prm->{$prm}->{extra}->{format}) {
-	  $frmt=$cmlmain::prm->{$prm}->{extra}->{format};
+	if ($pl->{value}) {
+		$value=$pl->{value}
+	} elsif ($prm) {
+		$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value};
 	}	
+	
+	
+	if ($pl->{format})      {	
+	  		$frmt=$pl->{format}; 
+  	} elsif ($prm && $cmlmain::prm->{$prm}->{extra}->{format}) {
+	  		$frmt=$cmlmain::prm->{$prm}->{extra}->{format};
+	}	
+	
+	$name=$pl->{name} || "_p$prm"; 
+	$frmtstr="<input type=hidden name='_d$prm' value='$frmt'>";
+	if ($pl->{split} && $frmt) {
+		$frmt=~s{\%Y}{
+			my $ret="<select name='${name}_Y'>";
+			my $curv=&cmlcalc::curyear($value);
+			for my $y (2010..2012){
+				my $sel=$curv==$y?"selected='selected'":'';
+				$ret.="<option $sel>$y</option>";
+			}
+			$ret.="</select>";
+			"$ret";
+		}es;	
 
-  if ($frmt) { 
-  	$value=strftime($frmt,gmtime($value)) ;
-  	$frmtstr="<input type=hidden name='_d$prm' value='$frmt'>";
- 	} 
+		$frmt=~s{\%m}{
+			my $ret="<select name='${name}_m'>";
+			my $curm=&cmlcalc::curmonth($value);
+			for my $m (1..12){
+				my $sel=$curm==$m?"selected='selected'":'';
+				$ret.=sprintf("<option $sel>%02s</option>",$m);
+			}
+			$ret.="</select>";
+			"$ret";
+		}es;	
 		
-	
-	if ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)       {$name=$3   }
-  else {$name="_p$prm"}
-
-	
-	return "<input value='$value' $param name='$name'>$frmtstr";
+		$frmt=~s{\%d}{
+			my $ret="<select name='${name}_d'>";
+			my $curd=&cmlcalc::curday($value);
+			for my $d (1..31){
+				my $sel=$curd==$d?"selected='selected'":'';
+				$ret.=sprintf("<option $sel>%02s</option>",$d);
+			}
+			$ret.="</select>";
+			"$ret";
+		}es;	
+		
+		return $frmt.$frmtstr;
+	} else {
+  		if ($frmt) { 
+  			$value=strftime($frmt,localtime($value)) ;
+ 		} 
+		return "<input value='$value' $param name='$name'>$frmtstr";
+	}	
 }	
 
 sub tag_calendar {
