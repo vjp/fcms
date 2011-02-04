@@ -2198,18 +2198,23 @@ sub tag_inputtext {
   	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
-  		'elementid',
+  		'elementid','visual'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
+    if ($pl->{'key'}) {
+		&cmlmain::checkload({key=>$pl->{'key'}});
+		$id=$cmlmain::nobj->{$pl->{'key'}}->{id};
+	}
+    
 
 
 	my $value;  	  
   	if ($pl->{value})   { 	
   		$value=$pl->{value}      	
 	} elsif ($pl->{expr})   { 	
-  		$value=&cmlcalc::calculate({id=>$id,key=>$pl->{key},expr=>$pl->{expr}})->{value}      	
+  		$value=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}})->{value}      	
   	}
 
 	my $rows;
@@ -2217,11 +2222,15 @@ sub tag_inputtext {
 	my $mode='input';
 	my $prm=$pl->{param} || $pl->{prm} || '';
 	if ($prm)      {	
- 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {$mode='textarea'; $rows=30; $cols=100}
+ 		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {
+ 			$mode='textarea'; 
+ 			$rows=$pl->{rows} || 30; 
+ 			$cols=$pl->{cols} || 100;
+ 		}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}
 	}
   	if ($pl->{prmexpr})      { 
-    		$prm=&cmlcalc::calculate({id=>$id,key=>$pl->{key},expr=>$pl->{prmexpr}})->{value};
+    		$prm=&cmlcalc::calculate({id=>$id,expr=>$pl->{prmexpr}})->{value};
   	}   
   
 
@@ -2234,8 +2243,8 @@ sub tag_inputtext {
 		$name="_p$prm";
 	}
 
-    	if ($prm && !(defined $value)) {
-  		$value=&cmlcalc::calculate({id=>$id,key=>$pl->{key},expr=>"p($prm)",noparse=>1})->{value};
+    if ($prm && !(defined $value)) {
+  		$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)",noparse=>1})->{value};
 	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
 		$value = $cmlcalc::CGIPARAM->{$name}
 	}
@@ -2271,7 +2280,7 @@ sub tag_inputtext {
 		 $value=~s/"/&quot;/g;
  		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr/>);
 	} elsif ($mode eq 'textarea') {
-		my $cls=$cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
+		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
 	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
 		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea>);
