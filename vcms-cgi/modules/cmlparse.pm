@@ -1144,7 +1144,10 @@ sub tag_actionlink {
 		return qq(
 		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","","")'>$title</a>
 		);
-		
+	} 	elsif ($pl->{action} eq 'CLEAR') {
+		return qq(
+		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
+		);
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY};
  	    	my $callback=$pl->{callback} || $defajaxcallback;

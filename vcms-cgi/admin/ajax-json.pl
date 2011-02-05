@@ -24,6 +24,8 @@ $AJAX_FUNCS={
 	addobject=>1,
 	deleteobject=>1,
 	execute=>1,
+	deletealllow=>1,
+	
 };   
 
 

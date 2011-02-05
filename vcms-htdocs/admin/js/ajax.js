@@ -1,6 +1,3 @@
-//$Id: ajax.js,v 1.4 2010-05-06 18:36:45 vano Exp $
-
-
 function alertreload_callback(json){
                     if (json.status) {
                         alert(json.status); 
@@ -8,9 +5,9 @@ function alertreload_callback(json){
                     } else {
                         alert(json.message);
                     }    
-            }   
+}   
     
-           function deleteobject (parseid,id,parseprm,deleteid) {
+function deleteobject (parseid,id,parseprm,deleteid) {
                 var dt={
                     parseid: parseid,
                     id: id,
@@ -18,10 +15,18 @@ function alertreload_callback(json){
                     deleteid: deleteid  
                 };
                 ajax_call('deleteobject', dt, alertreload_callback);
-            }    
+}    
+
+function deletealllow (id) {
+    var dt={
+        id: id
+    };
+    ajax_call('deletealllow', dt, alertreload_callback);
+}    
 
 
-            function addobject (up,link,linkval,name,upobj) {
+
+function addobject (up,link,linkval,name,upobj) {
                 var dt={
                     up: up,
                     link: link,
@@ -29,17 +34,17 @@ function alertreload_callback(json){
                     upobj: upobj
                 };
                 ajax_call('addobject', dt, alertreload_callback);
-            }
+}
             
-            function exec (id,method) {
+ function exec (id,method) {
                 var dt={
                     id: id,
                     method: method
                 };
                 ajax_call('execute', dt, alertreload_callback);
-            }
+ }
 
-            function lexec (id,lmethod,data) {
+ function lexec (id,lmethod,data) {
             	if (data) {
             		data.id=id;
             		data.lmethod=lmethod;
@@ -51,4 +56,4 @@ function alertreload_callback(json){
             		};
             		ajax_call('execute', dt, alertreload_callback);
             	}	
-            }
+ }

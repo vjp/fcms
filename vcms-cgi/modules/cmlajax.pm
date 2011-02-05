@@ -77,6 +77,15 @@ sub ajax_deleteobject ($)
 	return ({status=>enc($status?'Объект удален ':'Ошибка удаления объекта')});
 }
 
+sub ajax_deletealllow($)
+{
+	my ($r)=@_;
+	if ($r->{id}) {
+		deletealllowobjects($r->{id});
+		return ({status=>enc('Все объекты удалены')});
+	}
+}
+
 sub ajax_console ($)
 {
 	my ($r)=@_;
