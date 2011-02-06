@@ -2325,7 +2325,7 @@ sub tag_inputdate {
 	$frmtstr="<input type=hidden name='_d$prm' value='$frmt'>";
 	if ($pl->{split} && $frmt) {
 		$frmt=~s{\%Y}{
-			my $ret="<select name='${name}_Y'>";
+			my $ret="<select name='${name}_dY'>";
 			my $curv=&cmlcalc::curyear($value);
 			for my $y (2010..2012){
 				my $sel=$curv==$y?"selected='selected'":'';
@@ -2336,7 +2336,7 @@ sub tag_inputdate {
 		}es;	
 
 		$frmt=~s{\%m}{
-			my $ret="<select name='${name}_m'>";
+			my $ret="<select name='${name}_dm'>";
 			my $curm=&cmlcalc::curmonth($value);
 			for my $m (1..12){
 				my $sel=$curm==$m?"selected='selected'":'';
@@ -2347,7 +2347,7 @@ sub tag_inputdate {
 		}es;	
 		
 		$frmt=~s{\%d}{
-			my $ret="<select name='${name}_d'>";
+			my $ret="<select name='${name}_dd'>";
 			my $curd=&cmlcalc::curday($value);
 			for my $d (1..31){
 				my $sel=$curd==$d?"selected='selected'":'';

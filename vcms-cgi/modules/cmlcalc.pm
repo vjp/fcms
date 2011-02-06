@@ -978,12 +978,14 @@ sub baselparser (;$)
 	}
 	my $changed;
 
+	my $dt_collector;
 	for my $cgiprm (keys %$CGIPARAM) {
 		my $value=$CGIPARAM->{$cgiprm};
 		
 		if (ref $value eq 'ARRAY' && ref $value->[1] eq 'ARRAY') {
 		    $value=join(';',@{$value->[1]})	
 		}
+		
 		
 		if ($cgiprm=~/^_o(.+?)_p(.+)/) {
 			$id=$1;
@@ -995,6 +997,8 @@ sub baselparser (;$)
 				setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
+	    } elsif ($cgiprm=~/^_p(.+)_d(.)$/) {		
+			$dt_collector->{$1}->{$2}=$value;
 		} elsif ($cgiprm=~/^_p(.+)/) {
 			my $prm=$1;
 			if ($CGIPARAM->{"_d$prm"}) {		
@@ -1017,6 +1021,20 @@ sub baselparser (;$)
 			uploadprmfile({id=>$id,pkey=>$2,cgiparam=>$cgiprm});
 			push (@{$changed->{$id}},$2);
 		}
+	}
+	for my $dtprm (keys %$dt_collector) {
+		my @tlist;
+ 		if ($dt_collector->{$dtprm}->{Y}) {$tlist[5]=$dt_collector->{$dtprm}->{Y}}     else {$tlist[5]=1970}
+ 		if ($dt_collector->{$dtprm}->{m}) {$tlist[4]=$dt_collector->{$dtprm}->{m}-1}   else {$tlist[4]=0}
+ 		if ($dt_collector->{$dtprm}->{d}) {$tlist[3]=$dt_collector->{$dtprm}->{d}}     else {$tlist[3]=1}
+ 		
+ 		$tlist[2]=0;
+ 		$tlist[1]=0;
+        $tlist[0]=0;
+
+        setvalue({id=>$id,prm=>$dtprm,value=>timelocal(@tlist)});
+		push (@{$changed->{$id}},$dtprm);		
+		
 	}
 
 	unless ($opts->{silent}) {
