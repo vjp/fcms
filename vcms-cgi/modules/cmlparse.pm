@@ -2047,7 +2047,8 @@ sub tag_form {
 
 
 	if ($pl->{'action'})  {	
-		$action=$pl->{'action'}	
+		$action=$pl->{'action'};
+		undef $view;	
 	} elsif ($pl->{'actionexpr'})  {
 		$action=&cmlcalc::calculate({id=>$id,key=>$pl->{'key'},expr=>$pl->{'actionexpr'}})->{value};	
 	} elsif ($view  && $cmlcalc::CGIPARAM->{_MODE} eq 'SITE') {
