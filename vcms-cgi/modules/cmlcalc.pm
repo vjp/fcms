@@ -961,8 +961,9 @@ sub uploadfile
 }
 
 
-sub baselparser
+sub baselparser (;$)
 {
+	my ($opts)=@_;
 	my $id;
 	if ($CGIPARAM->{parseid}) {	
 		$id=$CGIPARAM->{parseid}
@@ -1018,10 +1019,11 @@ sub baselparser
 		}
 	}
 
-
-	my $alerttext=$CGIPARAM->{alerttext};
-	$alerttext=enc('Значения изменены') unless $alerttext;
-	alert($alerttext);
+	unless ($opts->{silent}) {
+		my $alerttext=$CGIPARAM->{alerttext};
+		$alerttext=enc('Значения изменены') unless $alerttext;
+		alert($alerttext);
+	}	
 	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
 	return ({
 		status=>1,
