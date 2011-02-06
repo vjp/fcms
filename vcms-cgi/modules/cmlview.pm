@@ -991,11 +991,8 @@ sub setdate 	{
  	if (param($prmname.'_d')) {$tlist[3]=param($prmname.'_d')}   else {$tlist[3]=1}
  	if (param($prmname.'_H')) {$tlist[2]=param($prmname.'_H')}   else {$tlist[2]=0}
  	if (param($prmname.'_M')) {$tlist[1]=param($prmname.'_M')}   else {$tlist[1]=0}
-        $tlist[0]=0;
-
-        my $v=timegm(@tlist);
-      
-
+    $tlist[0]=0;
+    my $v=timelocal(@tlist);
  	setvalue({id=>$objid,uid=>$objuid,pkey=>$pkey,value=>$v,tabkey=>$tabkey,tabpkey=>$tabpkey});
 }
 
