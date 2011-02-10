@@ -965,8 +965,10 @@ sub baselparser (;$)
 {
 	my ($opts)=@_;
 	my $id;
-	if ($CGIPARAM->{parseid}) {	
-		$id=$CGIPARAM->{parseid}
+	if ( $opts && $opts->{id}) {
+	    $id=$opts->{id};
+	}elsif ($CGIPARAM->{parseid}) {	
+		$id=$CGIPARAM->{parseid};
 	} elsif ($CGIPARAM->{insertinto}) {	
 		my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
 		$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
