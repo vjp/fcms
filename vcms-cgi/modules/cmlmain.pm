@@ -62,6 +62,8 @@ BEGIN
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
               &import_db &export_db &recover_object
+              
+              &compile_date
              );
 
 
@@ -1327,6 +1329,19 @@ sub init	{
  	
  	undef @LOG;
 }
+
+sub compile_date($)
+{
+	my @tlist;
+ 	if ($_[0]->{Y}) {$tlist[5]=$_[0]->{Y}}     else {$tlist[5]=1970}
+ 	if ($_[0]->{m}) {$tlist[4]=$_[0]->{m}-1}   else {$tlist[4]=0}
+ 	if ($_[0]->{d}) {$tlist[3]=$_[0]->{d}}     else {$tlist[3]=1}
+	$tlist[2]=0;
+	$tlist[1]=0;
+    $tlist[0]=0;
+    return    timelocal(@tlist)
+}
+
 
 sub enc 
 {

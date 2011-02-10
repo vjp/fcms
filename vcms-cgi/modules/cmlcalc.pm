@@ -1025,18 +1025,8 @@ sub baselparser (;$)
 		}
 	}
 	for my $dtprm (keys %$dt_collector) {
-		my @tlist;
- 		if ($dt_collector->{$dtprm}->{Y}) {$tlist[5]=$dt_collector->{$dtprm}->{Y}}     else {$tlist[5]=1970}
- 		if ($dt_collector->{$dtprm}->{m}) {$tlist[4]=$dt_collector->{$dtprm}->{m}-1}   else {$tlist[4]=0}
- 		if ($dt_collector->{$dtprm}->{d}) {$tlist[3]=$dt_collector->{$dtprm}->{d}}     else {$tlist[3]=1}
- 		
- 		$tlist[2]=0;
- 		$tlist[1]=0;
-        $tlist[0]=0;
-
-        setvalue({id=>$id,prm=>$dtprm,value=>timelocal(@tlist)});
+        setvalue({id=>$id,prm=>$dtprm,value=>&cmlmain::compile_date($dt_collector->{$dtprm})});
 		push (@{$changed->{$id}},$dtprm);		
-		
 	}
 
 	unless ($opts->{silent}) {
