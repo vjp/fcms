@@ -1185,6 +1185,21 @@ sub extraflag {
 	
 }
 
+sub extrafilelink {
+ 	my $pkey=$_[0]->{pkey};
+ 	my $extra=$prm->{$pkey}->{extra};
+	my $outp=enc('CGI');
+	$outp.=checkbox(
+			-name=>"excgi$pkey", 
+			-checked=>$extra->{cgi} eq 'y'?'checked':'', 
+			-override=>1, 
+			-value=>1, 
+			-onchange=>$_[0]->{check}?"document.$_[0]->{form}.$_[0]->{flag}.value=1":'', 
+			-label=>'',
+	);		
+	return $outp;	
+}
+
 
 
 sub extranumber {
@@ -1296,6 +1311,11 @@ sub extraflagparse {
  	setprmextra({pkey=>$pkey,extra=>'srch',value=>$prs});
 }
 
+sub extrafilelinkparse {
+ 	my $pkey=$_[0]->{pkey};
+ 	my $prs=param("excgi$pkey")?'y':'n';
+ 	setprmextra({pkey=>$pkey,extra=>'cgi',value=>$prs});
+}
 
 
 
@@ -1393,8 +1413,8 @@ sub buildvparam {
 	$ptype{FILELINK}={
                  name       =>enc('—сылка на файл'),
                  editview   =>\&cmlview::editfilelink,
-                 extra      =>\&cmlview::emptysub,
-                 extraparse =>\&cmlview::emptysub,
+                 extra      =>\&cmlview::extrafilelink,
+                 extraparse =>\&cmlview::extrafilelinkparse,
                  setvalue   =>\&cmlview::settext,
                  extendedit =>\&cmlview::editfilelinkfull,
                  extendset=>\&cmlview::setfilelinkfull,
