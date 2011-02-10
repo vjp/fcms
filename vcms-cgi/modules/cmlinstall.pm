@@ -130,6 +130,8 @@ setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
 
 
 
+addprm({convertname=>1,objkey=>'DESIGN',name=>'htaccess',type=>'FILELINK',key=>'HTACCESS',evl=>'n',upd=>'y',self=>1});
+setvalue({key=>'DESIGN',pkey=>'HTACCESS',value=>'.htaccess'});
 
 
 
