@@ -707,8 +707,8 @@ sub editfilelinkfull
  	my $val=calculate({id=>$id,uid=>$uid,expr=>"p($pkey)",noparse=>1,lang=>$lang});
     my $filename=$val->{value};
     my $fcontent;
-    
-    open (FC, "<$GLOBAL->{FILEPATH}/../$filename");
+    my $fullpath=$prm->{$pkey}->{extra}->{cgi}?"$GLOBAL->{CGIPATH}/$filename":"$GLOBAL->{WWWPATH}/$filename";
+    open (FC, "<$fullpath");
 	read (FC,$fcontent,-s FC);
 	close(FC); 
 	
