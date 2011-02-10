@@ -112,6 +112,7 @@ sub ajax_ok(;$)
 sub ajax_error($) 
 {
 	my ($errormessage)=@_;
+	$cmlcalc::ENV->{'LASTERROR'}=$errormessage;
 	return {
 		'status'=>0,
 		'message'=>enc("Ошибка: ").$errormessage,	
