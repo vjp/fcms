@@ -1197,7 +1197,7 @@ sub setvalue  {
  		for (split(/\s*;\s*/,$value)) {
  			$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr;
  			clearpagescache($_);
- 			
+ 			undef $lobj->{$_} unless $_=~/^u/; 
  		}
 	}
 
