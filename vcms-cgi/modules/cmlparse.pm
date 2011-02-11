@@ -407,7 +407,7 @@ sub tag_menuitem	{
 				}
 			}		
 		} else {
-			my $bodykey=$pl->{templatekey} || 'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
+			my $bodykey=$pl->{templatekey} && $pl->{templatekey} ne 'NULL'?$pl->{templatekey}:'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 			$pl->{href}="body=$bodykey";
 			$pl->{icohref}="body=$bodykey&id=$id" unless $pl->{icohref};
 		}
