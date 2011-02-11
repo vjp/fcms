@@ -370,8 +370,8 @@ addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNUSER',name=>'Интерфе
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
 
-addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
-addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
+addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSMENUUSER',name=>'Шаблоны меню'});
+addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSFORMUSER',name=>'Шаблоны форм'});
 
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
