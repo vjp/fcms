@@ -1096,7 +1096,12 @@ if ($CGIPARAM->{url}=~/^http/) {
 }	
 )});
 
+addobject({convertname=>1,upkey=>'ERRORS',key=>'ERR404',name=>'Ошибки - страница не найдена'});
 
+addmethod ({convertname=>1,objkey=>'ERRORS',key=>'ERR404PARSER',name=>'Обработчик страница не найдена',,script=>q(
+staterror("$ENV{REQUEST_URI} - $ENV{HTTP_REFERER}",$ENV{REQUEST_URI},$ENV{HTTP_USER_AGENT},"ERR404");
+return 1;
+)});
 
 alert(enc('Структура создана успешно'));
 
