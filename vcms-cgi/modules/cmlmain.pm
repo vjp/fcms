@@ -2386,6 +2386,12 @@ sub loadcmsmethod {
 	 checkload({key=>$ekey});
 	 $mlist->{edittemplate}=$ekey if $nobj->{$ekey}->{id};
 	 
+	 
+	 my $mkey ="LISTMENU_".$obj->{$id}->{key};
+	 checkload({key=>$mkey});
+	 $mlist->{listmenutemplate}=$mkey if $nobj->{$mkey}->{id};
+	 
+	 
 	 return $mlist;
 }	
 
@@ -2412,7 +2418,12 @@ sub createcmsmethod {
 		$method="EDIT_$key";
 		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон объекта")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
+	}	elsif ($prm eq 'listmenutemplate') {
+		$method="LISTMENU_$key";
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон меню списка объекта")." '$name'"});
+		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}
+
 
 }	
 
@@ -2427,6 +2438,8 @@ sub rebuildcmsmethod {
 		setvalue({key=>"EDIT_$key",param=>'PAGETEMPLATE',value=>$template});
 	} elsif ($prm eq 'listedittemplate') {
 		setvalue({key=>"LISTEDIT_$key",param=>'PAGETEMPLATE',value=>$template});
+	} elsif ($prm eq 'listmenutemplate') {
+		setvalue({key=>"LISTMENU_$key",param=>'PAGETEMPLATE',value=>$template});
 	}
 }	
 
@@ -2441,6 +2454,10 @@ sub deletecmsmethod {
 		deletelowobject($nobj->{$k}->{id});
 	}	elsif ($prm eq 'listedittemplate') {
 		my $k="LISTEDIT_$key";
+		checkload({key=>$k});
+		deletelowobject($nobj->{$k}->{id});
+	}	elsif ($prm eq 'listmenutemplate') {
+		my $k="LISTMENU_$key";
 		checkload({key=>$k});
 		deletelowobject($nobj->{$k}->{id});
 	}
@@ -2461,7 +2478,14 @@ sub createtemplate {
 	  	my $tmpl=calculate({key=>'BASELISTEDIT',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
   	 	$tmpl=~s/\$key/$key/igs;
   	 	return $tmpl;
+  	}
+  	if ($prm eq 'listmenutemplate') {
+	  	my $tmpl=calculate({key=>'BASEMENULIST',expr=>'p(PAGETEMPLATE)',noparse=>1})->{value};
+  	 	$tmpl=~s/\$key/$key/igs;
+  	 	return $tmpl;
   	}	
+  	
+  		
 }	
 
 

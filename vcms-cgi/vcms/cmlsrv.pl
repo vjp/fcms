@@ -1045,6 +1045,20 @@ sub cmsmethod {
 	}
 	print end_Tr();
 
+
+  	print start_Tr();
+   	print td(enc('Шаблон меню списка объектов'));
+	unless($cmsmtd->{listmenutemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listmenutemplate"},enc('Создать шаблон')))}
+	else {
+			checkload({key=>$cmsmtd->{listmenuttemplate}});
+			my $objid=$nobj->{$cmsmtd->{listmenutemplate}}->{id};
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listmenutemplate"},enc('Пересоздать шаблон'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=listmenutemplate"},enc('Удалить шаблон')))
+	}
+	print end_Tr();
+
+
 	print end_table();
 }
 
