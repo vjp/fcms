@@ -60,6 +60,11 @@ addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',
 setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 
+addlowobject({convertname=>1,upobjkey=>'ARTICLES',key=>'ARTICLE_404',name=>'Страница не найдена'});
+setvalue({key=>'ARTICLE_404',pkey=>'ARTICLETEXT',convert=>1,value=>'Страница не найдена'});
+
+
+
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'LETTERS',name=>'Письма'});
 addprm({convertname=>1,objkey=>'LETTERS',name=>'Текст письма',type=>'LONGTEXT',key=>'LETTERTEXT',evl=>'n'});
@@ -360,7 +365,7 @@ setvalue({convert=>1,key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Ошибка'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STATPAGE',name=>'Страница для статистики'});
 setvalue({convert=>1,key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERROR404',name=>'Cтраница не найдена'});
-setvalue({convert=>1,key=>'ERROR404',pkey=>'PAGETEMPLATE',value=>'Страница не найдена'});
+setvalue({convert=>1,key=>'ERROR404',pkey=>'PAGETEMPLATE',value=>qq(<cml:include key='ARTICLE_404' prm='ARTICLETEXT' notfound='1'/><cml:execute method='ERR404PARSER'/>)});
 
 
 
