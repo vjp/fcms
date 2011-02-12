@@ -354,11 +354,14 @@ return $result;
 
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартовая страница'});
-setvalue({key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>'Here is startpage'});
+setvalue({convert=>1,key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>'Стартовая страница'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERRORPAGE',name=>'Cтраница ошибки'});
-setvalue({key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Here is errorpage'});
+setvalue({convert=>1,key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Ошибка'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STATPAGE',name=>'Страница для статистики'});
-setvalue({key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
+setvalue({convert=>1,key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
+addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERROR404',name=>'Cтраница не найдена'});
+setvalue({convert=>1,key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Страница не найдена'});
+
 
 
 copyprm({objkey=>'CMSDESIGN',key=>'PAGETEMPLATE'});
