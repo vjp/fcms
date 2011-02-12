@@ -1,5 +1,7 @@
 Options +Includes +FollowSymLinks -Indexes
 
+ErrorDocument 404 /cgi-bin/viewer.pl/_ERROR404
+
 RewriteBase /
 RewriteEngine on
 
