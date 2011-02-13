@@ -391,7 +391,8 @@ sub tag_menuitem	{
 		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 		if ($ukey && $ukey ne 'NULL') {
-			$pl->{href}="menu=BASEMENULIST&ukey=$ukey";
+			my $menutemplate=&cmlcalc::id("LISTMENU_$ukey")?"LISTMENU_$ukey":'BASEMENULIST';
+			$pl->{href}="menu=$menutemplate&ukey=$ukey";
 			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod templatekey)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
