@@ -19,7 +19,7 @@ sub ajax_setvalue ($)
        	$r->{value} = Encode::encode('cp1251',$r->{value}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
        	if ($cmlmain::prm->{$r->{prm}}->{type} eq 'FILELINK') {
        		my $val=calculate({id=>$r->{id},uid=>$r->{uid},expr=>"p($r->{prm})",noparse=>1,lang=>$r->{lang}});
-       		my $fn=">$GLOBAL->{FILEPATH}/../$val->{value}";
+       		my $fn=$prm->{$r->{prm}}->{extra}->{cgi}?">$GLOBAL->{CGIPATH}/$val->{value}":"$GLOBAL->{WWWPATH}/$val->{value}";
        		my $status=(open (FH,$fn))&&(print FH $r->{value})&&(close FH); 
        		return ({status=>enc($status?"Содержимое файла изменено":'Ошибка сохранения изменений')});
        	} else {
