@@ -365,6 +365,7 @@ sub tag_menuitem	{
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
+		'addupkey','addlink',
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -445,6 +446,12 @@ sub tag_menuitem	{
 	my $mstr=$pl->{delmethod}?"method='$pl->{delmethod}'":'';
 	my $dtxt=$pl->{delete}?"<cml:deletebutton $mstr/>":'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
 	my $estr=&cmlmain::enc('Редактировать');
+	my $addlink;
+	if ($pl->{addupkey}) {
+		$addlink=qq(<td bgcolor="$hcol" width="16"><cml:actionlink action='add' upkey='$pl->{addupkey}' link='$pl->{addlink}'><img src='$cmlmain::PLUSBUTTONURL' border='0'></cml:actionlink></td>);
+	}else {
+		$addlink=qq(<td bgcolor="$hcol"></td>);
+	}
 	
 	undef $targetstr if $cmlcalc::ENV->{NOFRAMES};
 	undef $targetstr_ico if $cmlcalc::ENV->{NOFRAMES};
@@ -452,6 +459,7 @@ sub tag_menuitem	{
 		<tr>
 		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
 		<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
+		$addlink
 		<td bgcolor="$hcol" width="16">$dtxt</td>
 		</tr>
 	);
