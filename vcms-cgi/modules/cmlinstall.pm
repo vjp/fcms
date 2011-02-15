@@ -60,7 +60,9 @@ addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',
 setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 
-addlowobject({convertname=>1,upobjkey=>'ARTICLES',key=>'ARTICLE_404',name=>'Страница не найдена'});
+addobject({convertname=>1,upkey=>'ARTICLES',key=>'SPECARTICLES',name=>'Специальные статьи'});
+
+addlowobject({convertname=>1,upobjkey=>'SPECARTICLES',key=>'ARTICLE_404',name=>'Страница не найдена'});
 setvalue({key=>'ARTICLE_404',pkey=>'ARTICLETEXT',convert=>1,value=>'Страница не найдена'});
 
 
