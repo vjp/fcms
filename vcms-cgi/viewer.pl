@@ -43,6 +43,8 @@ if ($subdomain) {
 		$cmlcalc::SITEVARS->{VHOST}->{ID}=$vid;
 		$cmlcalc::SITEVARS->{VHOST}->{NAME}=$subdomain;
 		$cmlcalc::SITEVARS->{VHOST}->{FULLNAME}=$ENV{HTTP_HOST};
+		
+		$cmlcalc::ENV->{HOSTID}=$vid;
 	}	
 }
 
@@ -190,6 +192,7 @@ $ENV{SERVER_NAME}=~s/^www\.//;
 my $dom_objid=$GLOBAL->{MULTIDOMAIN}?cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}"):0;
 my $dom_vhost=$dom_objid?cmlcalc::p('DOMAINSTARTPAGE',$dom_objid) eq &cmlcalc::id('VHOSTSDESIGN'):0;
 $cmlcalc::SITEVARS->{VHOST}->{ID}=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid) if $dom_vhost;
+$cmlcalc::ENV->{HOSTID}=$cmlcalc::SITEVARS->{VHOST}->{ID} if $dom_vhost;
 
 my $stime=Time::HiRes::time();
 if (!$opensite && !cookie('dev')) {
