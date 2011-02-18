@@ -387,6 +387,35 @@ addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шабло
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
 
 
+
+
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'LISTEDIT_ERR404', name=>'Управление ошибками'});
+setvalue({convert=>1,key=>'LISTEDIT_ERR404',pkey=>'PAGETEMPLATE',value=>q(
+<cml:use key='_prm:ukey_'>
+Ошибки 404 (страница не найдена) <cml:actionlink action='CLEAR'>Удалить все ошибки</cml:actionlink>
+
+<table>
+<tr>
+    <th></th>
+    <th>Время</th>
+    <th>URL (что искали)</th>
+    <th>Реферер (откуда пришли)</th>    
+    <th>UserAgent</th>
+</tr>
+<cml:list expr='lowlist()' orderby='_ID' ordertype='desc'>
+<tr>
+<td><cml:deletebutton/></td>
+<td><cml:text param='ERRORTIME'/></td>
+<td><cml:a prm='ERRORURL' target='_blank'><cml:text param='ERRORURL'/></cml:a></td>
+<td><cml:a prm='ERRORPAGE' target='_blank'><cml:text param='ERRORPAGE'/></cml:a></td>
+<td><cml:text param='ERRORUA'/></td>
+</tr>
+</cml:list>
+</table>
+
+</cml:use>
+)});
+
 addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'LISTEDIT_SYSTEMUSERS_user', name=>'Доступ менеджеров'});
 setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value=>q(
 <script>
@@ -844,7 +873,7 @@ $bm=qq(
 <cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
 </cml:use>
 );
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирвания списка'});
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базовый шаблон редактирования списка'});
 setvalue({convert=>1,key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
 
 
@@ -971,6 +1000,7 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'>Управление доступом менеджеров</cml:menuitem>
+<cml:menuitem action='LISTEDIT' key='ERR404'>Ошибки страница не найдена</cml:menuitem>
 </table>
 </td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
@@ -1093,6 +1123,7 @@ addprm({convertname=>1,objkey=>'ERRORS',name=>'IP',type=>'TEXT',key=>'ERRORIP',e
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Ошибка',type=>'TEXT',key=>'ERRORMESSAGE',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'UserAgent',type=>'TEXT',key=>'ERRORUA',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Время',type=>'DATE',key=>'ERRORTIME',evl=>'n'});
+setprmextra({pkey=>'ERRORTIME',extra=>'format',value=>'%d.%m.%Y %H:%M:%S'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Переменные среды',type=>'LONGTEXT',key=>'ERRORENV',evl=>'n'});
 addobject({convertname=>1,upkey=>'ERRORS',key=>'JSERRORS',name=>'JS-Ошибки'});
 
