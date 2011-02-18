@@ -966,7 +966,7 @@ addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEARTICLE',name=>'Базов
 setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble,convert=>1});
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
 setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
@@ -979,7 +979,7 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 )});
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'USERHEADMENU',name=>'Статическая часть главного меню пользовательского интерфейса'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERHEADMENU',name=>'Статическая часть главного меню пользовательского интерфейса'});
 setvalue({key=>'USERHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <tr><td>...</td></tr>
