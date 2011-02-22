@@ -74,6 +74,7 @@ sub initparser
     	'table'=>1,
     	'tr'=>1,
     	'groupheader'=>1,
+    	'acc'=>1,
  	);
 }
 
@@ -930,6 +931,28 @@ sub tag_auth
     return cmlparser({data=>$_[0]->{data},inner=>$inner})
 }
 
+
+sub tag_acc
+{
+		my $param=$_[0]->{param};
+		my $inner; %{$inner}=%{$_[0]->{inner}};
+		my $pl=fetchparam($param,[
+			'var','id','prm','param','expr','value'
+		]);	
+		my $id=$pl->{id} || $inner->{objid};
+		my $value;
+		my $expr;
+		$expr=$pl->{expr} if $pl->{expr};
+		$expr="p($pl->{prm})" if $pl->{prm};
+		$expr="p($pl->{param})" if $pl->{param};
+		
+		$value=$pl->{value} if $pl->{value};
+		$value=&cmlcalc::calculate({id=>$id,expr=>$expr})->{value} if $expr;
+		
+		$cmlcalc::ENV->{$pl->{var}}.=';' if $cmlcalc::ENV->{$pl->{var}};
+		$cmlcalc::ENV->{$pl->{var}}.=$value;
+	    return undef;
+}
 
 sub tag_use
 {
