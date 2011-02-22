@@ -911,8 +911,12 @@ sub sum {
 
 	my $sum=0;
 	for (@list) {
-		my $v=&calculate({id=>$_,expr=>$expr})->{value};
-		$sum+=$v;
+		if ($expr) {
+			my $v=&calculate({id=>$_,expr=>$expr})->{value};
+			$sum+=$v;
+		} else {
+			$sum+=$_;
+		}	
 	}
 	return $sum;	
 }	
