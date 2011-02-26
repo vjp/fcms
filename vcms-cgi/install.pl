@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: install.pl,v 1.9 2010-07-06 20:27:08 vano Exp $
 
 use lib "modules/";
 use strict;
@@ -8,6 +7,8 @@ use CGI  qw/:standard *Tr *table *td code/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use DBI;
+use Cwd;
+
 
 
 use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN);
@@ -131,7 +132,7 @@ if (param('install')) {
 		if (!$cnf) {
 			print "... Проблема чтения конфигруационного шаблона",br();
 		} else {
-			my $path=`pwd`;
+			my $path=getcwd();
 			chomp $path;
 			$cnf=~s/<dbname>/$DBNAME/g;
 			$cnf=~s/<dbuser>/$DBUSER/g;
@@ -196,7 +197,7 @@ if (param('install')) {
 		
 }
 
-my $path=`pwd`;
+my $path=getcwd();
 $path=~s/cgi-bin\s*//s;
 
 my $wpath="${path}www/";
