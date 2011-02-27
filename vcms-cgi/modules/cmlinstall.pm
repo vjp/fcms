@@ -243,8 +243,7 @@ addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'иряър
 setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <html>
 <head>
-<title>
-</title>
+<title><cml:text key='_prm:view_' prm='TITLE'/></title>
 <cml:include key='INITSCRIPTS'/>
 </head>
 <body>
