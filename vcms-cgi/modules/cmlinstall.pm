@@ -998,6 +998,7 @@ setvalue({key=>'BASEARTICLE',pkey=>'PAGETEMPLATE',value=>$ble,convert=>1});
 addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'CMSHEADMENU',name=>'Статическая часть главного меню'});
 setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
+<cml:menuitem action='MENULIST' key='ARTICLES'>Статьи</cml:menuitem>
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'>Управление доступом менеджеров</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='ERR404'>Ошибки страница не найдена</cml:menuitem>
