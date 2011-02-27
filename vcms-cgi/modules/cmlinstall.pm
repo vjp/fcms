@@ -481,6 +481,22 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
 </cml:use>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'EDIT_ARTICLES', name=>'Редактирование статьи'});
+setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
+  <cml:use id='_prm:id_'>
+  <cml:form>
+      <table>
+          <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/></td></tr>
+          <tr><td>ЧПУ-ключ: </td><td><cml:inputtext param='HRUKEY'/></td></tr>
+          <tr><td>Текст статьи: </td><td><cml:inputtext param='ARTICLETEXT'/></td></tr>          
+          <tr><td colspan=2><cml:changebutton/></td></tr>
+      </table>
+  </cml:form>
+  </cml:use>
+)});
+
+
+
 addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'EDIT_LETTERS', name=>'Редактирование письма'});
 setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
 <cml:use id='_prm:id_'>
