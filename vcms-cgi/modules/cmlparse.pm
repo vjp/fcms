@@ -1758,7 +1758,10 @@ sub tag_include {
   	my $v=&cmlcalc::calculate({key=>$key,expr=>$expr,id=>$id,noparse=>1});
   	my $body=$v->{value};
 	if ($body) {
-		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found' if $pl->{notfound};
+		if ($pl->{notfound}) {
+			$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+			$cmlcalc::STOPCACHE=1;
+		}	
 		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
 	}	else {
 		return undef
