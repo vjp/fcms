@@ -283,7 +283,7 @@ setvalue({convert=>1,key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Сайт в р
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ARTICLE',name=>'Статья'});
 setvalue({key=>'ARTICLE',pkey=>'PAGETEMPLATE',value=>q(
-<cml:use key='ART__cgi:1_'>
+<cml:use id='_cgi:1_'>
 <cml:text param='ARTICLETEXT'/>
 </cml:use>
 )});
