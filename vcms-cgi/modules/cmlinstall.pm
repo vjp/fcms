@@ -1157,7 +1157,7 @@ sub install_db ($$) {
   			extra varchar(100) NOT NULL default '',
   			value text,
   			PRIMARY KEY  (pkey,extra)
-		) TYPE=MyISAM;
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1167,7 +1167,7 @@ sub install_db ($$) {
   			vallink varchar(30) NOT NULL default '',
   			PRIMARY KEY  (objid,pkey,vallink),
   			KEY `vll` (`vallink`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1177,7 +1177,7 @@ sub install_db ($$) {
   			dt datetime default NULL,
   			type varchar(50) default NULL,
   			message text
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1188,7 +1188,7 @@ sub install_db ($$) {
   			pkey varchar(255) default NULL,
   			script text,
   			PRIMARY KEY  (id)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1200,7 +1200,7 @@ sub install_db ($$) {
   			`pkey` varchar(255) default NULL,
   			`script` text,
   			PRIMARY KEY  (`id`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1216,7 +1216,7 @@ sub install_db ($$) {
   			KEY upobj (upobj),
   			KEY keyname (keyname),
   			KEY indx (indx)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1232,7 +1232,7 @@ sub install_db ($$) {
   			evaluate enum('y','n') default 'y',
   			self enum('y','n') default 'n',
   			PRIMARY KEY  (id)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1249,7 +1249,7 @@ sub install_db ($$) {
   			KEY up (up),
   			KEY indx(indx),
   			KEY lang(lang)
-		) TYPE=MyISAM
+		)DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1260,7 +1260,7 @@ sub install_db ($$) {
   			value mediumtext,
   			ptkey varchar(50) NOT NULL default '',
   			PRIMARY KEY  (id,pkey,ptkey,vkey)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1270,7 +1270,7 @@ sub install_db ($$) {
   			`value` mediumtext,
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1282,7 +1282,7 @@ sub install_db ($$) {
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`),
   			KEY `upobj` (`upobj`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1298,7 +1298,7 @@ sub install_db ($$) {
   			KEY `pkey` (`pkey`),
   			KEY `ptype` (`ptype`),
   			KEY `lang` (`lang`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("create table IF NOT EXISTS ${DBPREFIX}users (
@@ -1306,7 +1306,7 @@ sub install_db ($$) {
  			`password` varchar(255),
  			`group` varchar(50),
  			`objid` int
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1317,7 +1317,7 @@ sub install_db ($$) {
   			`lang` varchar(5) NOT NULL default '',
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
 
@@ -1329,7 +1329,7 @@ sub install_db ($$) {
   			`lang` varchar(5) NOT NULL default '',
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
-		) TYPE=MyISAM
+		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 	
 	$dbh->do("
@@ -1340,8 +1340,9 @@ sub install_db ($$) {
   			`objid` int(11) NOT NULL default '0',
   			`dev` int(11) NOT NULL default '0',
   			`lang` varchar(20) NOT NULL default '',
-  		PRIMARY KEY  (`cachekey`,`dev`,`lang`)
-  		) ENGINE=MyISAM") || die $dbh->errstr();
+  			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
+  		) DEFAULT CHARSET=cp1251
+  	") || die $dbh->errstr();
 	
 	$dbh->do("
 		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
@@ -1351,7 +1352,8 @@ sub install_db ($$) {
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
   			KEY `ol` (`objlink`)
-		) ENGINE=MyISAM") || die $dbh->errstr();
+		) DEFAULT CHARSET=cp1251
+	") || die $dbh->errstr();
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}captcha (
@@ -1360,7 +1362,8 @@ sub install_db ($$) {
   			`tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   			PRIMARY KEY (`id`),
   			KEY `ck` (`ckey`)
-		) ENGINE=MyISAM") || die $dbh->errstr();
+		) DEFAULT CHARSET=cp1251
+	") || die $dbh->errstr();
     $dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
    			`login` varchar(50)  NOT NULL,
@@ -1371,7 +1374,8 @@ sub install_db ($$) {
   			`authtime` datetime,
   			PRIMARY KEY  (`login`),
   			UNIQUE KEY `objid` (`objid`)
-		) ENGINE=MyISAM") || die $dbh->errstr();
+		) DEFAULT CHARSET=cp1251
+	") || die $dbh->errstr();
 }
 
 return 1;
