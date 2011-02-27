@@ -183,7 +183,6 @@ return 1;
 
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
-addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE'});
 setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 
 addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
