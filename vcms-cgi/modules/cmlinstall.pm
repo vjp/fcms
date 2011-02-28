@@ -1046,13 +1046,13 @@ setvalue({key=>'USERHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENU',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
+addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'CMSMAINMENU',name=>'Шаблон главного меню'});
 setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
-<cml:use key='SECTIONS'>
-<b><cml:actionlink action='LISTEDIT' ukey='SECTIONS'><cml:text param='_NAME'/></cml:actionlink></b>
+<cml:use key='ARTICLES'>
+<b><cml:actionlink action='LISTEDIT' ukey='ARTICLES'><cml:text param='_NAME'/></cml:actionlink></b>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:list expr='lowlist()'>
-  <cml:menuitem action="MENULIST" listprm="POSITIONS" ukey="ITEMS" link="SECLINK" delete="1"/>
+  <cml:menuitem action="MENULIST"delete="1"/>
 </cml:list>
 </table>
 </cml:use>
