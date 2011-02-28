@@ -63,10 +63,34 @@ BEGIN
               
               &import_db &export_db &recover_object
               
-              &compile_date
+              &compile_date  &set_hru
              );
 
 
+}
+
+
+sub set_hru ($$)
+{
+	my ($hrukey,$redirectvalue)=@_;
+	
+	open (FC, "<$GLOBAL->{WWWPATH}/.htaccess");
+	read (FC,$fcontent,-s FC);
+	close(FC); 
+	$fcontent=~s{(### VCMS START ###\n)(.*?)(\n### VCMS END ###)}{
+   		my $start=$1;
+   		my $dyn=$2;
+   		my $end=$3;
+   		unless ($dyn=~s/RewriteRule (.+?) $hrukey/RewriteRule ^$redirectvalue $hrukey/s) {
+      		$dyn.="\nRewriteRule ^$redirectvalue $hrukey";
+   		}
+   		"$start$dyn$end";
+	}es;
+	open (FC, ">$GLOBAL->{WWWPATH}/.htaccess");
+	print FC $fcontent;
+	close(FC);	
+	return 1;
+	
 }
 
 sub import_db (;$)
