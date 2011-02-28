@@ -493,8 +493,8 @@ setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
   <cml:use id='_prm:id_'>
   <cml:form>
       <table>
-          <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/> <cml:a href='/_ARTICLE/_cml:_ID_' target='_blank'>Перейти</cml:a></td></tr>
-          <tr><td>ЧПУ-ключ: </td><td><cml:inputtext param='HRUKEY'/> <cml:a href='/_cml:HRUKEY_' target='_blank'>Протестировать ЧПУ</cml:a></td></tr>
+          <tr><td>Наименование: </td><td><cml:inputtext param='_NAME' size='100'/> <cml:a href='/_ARTICLE/_cml:_ID_' target='_blank'>Перейти</cml:a></td></tr>
+          <tr><td>ЧПУ-ключ: </td><td><cml:inputtext param='HRUKEY' size='100'/> <cml:a href='/_cml:HRUKEY_' target='_blank'>Протестировать ЧПУ</cml:a></td></tr>
           <tr><td>Текст статьи: </td><td><cml:inputtext param='ARTICLETEXT'/></td></tr>          
           <tr><td colspan=2><cml:changebutton/></td></tr>
       </table>
@@ -1055,6 +1055,10 @@ setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   <cml:menuitem action="MENULIST"delete="1"/>
 </cml:list>
 </table>
+<hr/>
+<cml:actionlink action='add'>Добавить новый</cml:actionlink>
+<hr/>
+<cml:a href='#' onclick='window.location.reload()'>Обновить</cml:a>
 </cml:use>
 )});
 
