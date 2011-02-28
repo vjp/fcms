@@ -17,4 +17,5 @@ RewriteRule ^gate/(_.*)$ /cgi-bin/gate/gate.pl/$1
 RewriteRule ^vcms/?$ /cgi-bin/vcms/cmlsrv.pl
 
 
-
+### VCMS START ###
+### VCMS END ###
