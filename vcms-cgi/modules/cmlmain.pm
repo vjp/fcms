@@ -81,8 +81,8 @@ sub set_hru ($$)
    		my $start=$1;
    		my $dyn=$2;
    		my $end=$3;
-   		unless ($dyn=~s/RewriteRule (.+?) $hrukey/RewriteRule ^$redirectvalue $hrukey/s) {
-      		$dyn.="\nRewriteRule ^$redirectvalue $hrukey";
+   		unless ($dyn=~s/RewriteRule (\S+?) $redirectvalue\s*(\n|$)/RewriteRule ^$hrukey\/\?\$ $redirectvalue$2/gs) {
+      		$dyn.="\nRewriteRule ^$hrukey\/\?\$ $redirectvalue";
    		}
    		"$start$dyn$end";
 	}es;
