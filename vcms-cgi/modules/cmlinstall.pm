@@ -59,6 +59,15 @@ addobject({convertname=>1,upkey=>'CONTENT',key=>'ARTICLES',name=>'Статьи'});
 addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',key=>'ARTICLETEXT',evl=>'n'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
+addprm({convertname=>1,objkey=>'ARTICLES',name=>'ЧПУ-ключ',type=>'TEXT',key=>'HRUKEY',evl=>'n'});
+addmethod ({convertname=>1,objkey=>'ARTICLES',key=>'SETHRUKEY',name=>'Установка ЧПУ-ключа',lflag=>1,script=>q(
+my $id=p(_ID);
+my $key=p(HRUKEY);
+my $rd="/_ARTICLE/$id";
+set_hru($key,$rd);
+)});
+setprmextra({pkey=>'HRUKEY',extra=>'onchange',value=>'SETHRUKEY'});
+
 
 addobject({convertname=>1,upkey=>'ARTICLES',key=>'SPECARTICLES',name=>'Специальные статьи'});
 
