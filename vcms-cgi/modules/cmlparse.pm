@@ -1182,12 +1182,14 @@ sub tag_actionlink {
 		);
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY};
+		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr=$pl->{collectdata}?q($(this).up('form').serialize(true)):'{}'; 	    	
  	    	my $onclick=qq(onclick="execute('$pl->{method}',$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY};
+		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
 			my $dtstr=$pl->{collectdata}?q($(this).up('form').serialize(true)):'{}';
@@ -1195,8 +1197,7 @@ sub tag_actionlink {
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	}			
 	
-	
-	$title=&cmlcalc::p('_NAME',$iid) unless $title;
+	$title=&cmlcalc::p('_NAME',$iid) unless $title;	 
 	$title=$pl->{action} unless $title;
 	
 	
