@@ -1082,6 +1082,7 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
+		'forcereadonly',
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1193,14 +1194,14 @@ sub tag_actionlink {
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
 		);
 	} elsif ($pl->{method}) {
-		    return undef if $cmlcalc::ENV->{READONLY};
+		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr=$pl->{collectdata}?q($(this).up('form').serialize(true)):'{}'; 	    	
  	    	my $onclick=qq(onclick="execute('$pl->{method}',$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
-		    return undef if $cmlcalc::ENV->{READONLY};
+		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
