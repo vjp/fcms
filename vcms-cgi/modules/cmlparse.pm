@@ -971,6 +971,7 @@ sub tag_use
 		'uname','key','param','prm',
 		'paramtab','idexpr',
 		'validupkey','validupexpr','validexpr','var',
+		'readonly','readonlyexpr',
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -1049,8 +1050,19 @@ sub tag_use
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
 		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
-	}	
-    return cmlparser({data=>$_[0]->{data},inner=>$inner});
+	}
+	my $setreadonly=$pl->{readonly} && ($pl->{readonly} ne 'NULL') && !$cmlcalc::ENV->{READONLY};
+	if ($pl->{readonlyexpr}) {
+		my $v=&cmlcalc::calculate({id=>$id,expr=>$pl->{'readonlyexpr'}})->{value};
+		$setreadonly=1 if $v && ($v ne 'NULL');
+	} 
+	
+		
+	$cmlcalc::ENV->{READONLY}=1 if $setreadonly;
+    my $body=cmlparser({data=>$_[0]->{data},inner=>$inner});	
+	$cmlcalc::ENV->{READONLY}=0 if $setreadonly;
+	
+    return $body;
 }
 
 
