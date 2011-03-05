@@ -60,6 +60,8 @@ addprm({convertname=>1,objkey=>'ARTICLES',name=>'Текст статьи',type=>'LONGTEXT',
 setprmextra({pkey=>'ARTICLETEXT',extra=>'parse',value=>'y'});
 setprmextra({pkey=>'ARTICLETEXT',extra=>'visual',value=>'y'});
 addprm({convertname=>1,objkey=>'ARTICLES',name=>'ЧПУ-ключ',type=>'TEXT',key=>'HRUKEY',evl=>'n'});
+addprm({convertname=>1,objkey=>'ARTICLES',name=>'META-keywords',type=>'TEXT',key=>'KEYWORDS',evl=>'n'});
+addprm({convertname=>1,objkey=>'ARTICLES',name=>'META-description',type=>'TEXT',key=>'DESCRIPTION',evl=>'n'});
 addmethod ({convertname=>1,objkey=>'ARTICLES',key=>'SETHRUKEY',name=>'Установка ЧПУ-ключа',lflag=>1,script=>q(
 my $id=p(_ID);
 my $key=p(HRUKEY);
@@ -154,7 +156,9 @@ setvalue({key=>'DESIGN',pkey=>'HTACCESS',value=>'.htaccess'});
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Картинки',type=>'LIST',key=>'PICLINKS',upd=>'n',defval=>'backref(id(GALLERY),PICLINK)'});
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Файлы',type=>'LIST',key=>'FILELINKS',upd=>'n',defval=>'backref(id(FILEARCHIVE),FILELINK)'});
-addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'$CGIPARAM->{1}?p(_NAME,$CGIPARAM->{1}):p(_NAME)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Заголовок',type=>'TEXT',key=>'TITLE',defval=>'p(_NAME,cgi(1)) if cgi(1)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'META-Keywords',type=>'TEXT',key=>'KEYWORDS',defval=>'p(KEYWORDS,cgi(1)) if cgi(1)'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'META-Description',type=>'TEXT',key=>'DESCRIPTION',defval=>'p(DESCRIPTION,cgi(1)) if cgi(1)'});
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Хост для поиска',type=>'TEXT',key=>'SEARCHSITE',upd=>'y',evl=>'n',self=>1});
 setvalue({key=>'DESIGN',pkey=>'SEARCHSITE',value=>$ENV{SERVER_NAME}});
@@ -252,7 +256,12 @@ addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка
 setvalue({key=>'SITEHEADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <html>
 <head>
-<title><cml:text key='_prm:view_' prm='TITLE'/></title>
+<title>
+<cml:use  key='_prm:view_'>
+	<cml:text prm='TITLE'/></title>
+    <cml:META NAME="keywords" content="_cml:KEYWORDS_"/>
+    <cml:META NAME="description" content="_cml:DESCRIPTION_"/>
+</cml:use>    
 <cml:include key='INITSCRIPTS'/>
 </head>
 <body>
@@ -495,6 +504,8 @@ setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
       <table>
           <tr><td>Наименование: </td><td><cml:inputtext param='_NAME' size='100'/> <cml:a href='/_ARTICLE/_cml:_ID_' target='_blank'>Перейти</cml:a></td></tr>
           <tr><td>ЧПУ-ключ: </td><td><cml:inputtext param='HRUKEY' size='100'/> <cml:a href='/_cml:HRUKEY_' target='_blank'>Протестировать ЧПУ</cml:a></td></tr>
+          <tr><td>META Keywords: </td><td><cml:inputtext size='100' param='KEYWORDS'/></td></tr>                    
+          <tr><td>META Description: </td><td><cml:inputtext cols='100' rows='3' param='DESCRIPTION'/></td></tr>              
           <tr><td>Текст статьи: </td><td><cml:inputtext param='ARTICLETEXT'/></td></tr>          
           <tr><td colspan=2><cml:changebutton/></td></tr>
       </table>
