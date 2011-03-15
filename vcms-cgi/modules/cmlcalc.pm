@@ -454,9 +454,9 @@ sub prmtype	{
 
 
 sub id {
-	&cmlmain::checkload({key=>$_[0]});
-	return $cmlmain::nobj->{$_[0]}->{id};
+	return &cmlmain::checkload({key=>$_[0]});
 }	
+
 sub position {
 	my $i=1;
 	my @r;

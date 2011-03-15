@@ -19,7 +19,7 @@ BEGIN
   
  @ISA    = 'Exporter';
  @EXPORT = qw(
-              $lobj $nlobj $obj  $vobj $nobj $tobj $tree $ltree $prm  $method $lmethod %ptype @ptypes $dbh
+              $lobj $nlobj $obj  $vobj $nobj $kobj $tobj $tree $ltree $prm  $method $lmethod %ptype @ptypes $dbh
 
               &checkload	&defaultvalue	&uparamlist &lparamlist
               
@@ -588,7 +588,7 @@ sub edit {
  	   $id) || die $dbh->errstr;
  	   
  	   
-  $nobj->{$obj->{$id}->{key}}=$obj->{$id};
+    $nobj->{$obj->{$id}->{key}}=$obj->{$id};
  
  	if ($_[0]->{lowtemplate}) {
  		  for (@{$tree->{$id}}) {
@@ -2180,7 +2180,10 @@ sub buildlowtree
     	$lobj->{$item->{id}}->{template}=$item->{template};
     	$lobj->{$item->{id}}->{indx}=$item->{indx};
     	$lobj->{$item->{id}}->{lang}=$obj->{$upobj}->{lang};
-    	$nobj->{$item->{keyname}}=$lobj->{$item->{id}} if $item->{keyname};
+    	if ($item->{keyname}) {
+    		$nobj->{$item->{keyname}}=$lobj->{$item->{id}};
+    		$kobj->{$upobj}->{$item->{keyname}}=$lobj->{$item->{id}};
+    	}	
     }	
    }
    
@@ -2245,59 +2248,57 @@ sub buildtabtree {
 
 sub checkload
 {
-	
-
 	my $t=time;
-  if ($_[0]->{tabkey})   {
-  	unless ($tobj->{$_[0]->{id}}->{$_[0]->{pkey}}->{vals}->{$_[0]->{tabkey}})  {
-  		buildtabtree({id=>$_[0]->{id},pkey=>$_[0]->{pkey},tabkey=>$_[0]->{tabkey}})
-  	}	
-  }
-  
-  
-  elsif ($_[0]->{id})
-  {
-   if ($_[0]->{buildtree}) {
-      my $sthO=$dbh->prepare("SELECT upobj FROM ${DBPREFIX}objects WHERE id=?");
-      $sthO->execute($_[0]->{id}) || die $dbh->errstr;
-      $upobj=$sthO->fetchrow();
-   	  buildlowtree($upobj)
-   }
-  
-   	
-   elsif (!$lobj->{$_[0]->{id}}->{id})
-   {
-   
-   	
-   	
-    my $sthO=$dbh->prepare("SELECT upobj FROM ${DBPREFIX}objects WHERE id=?");
-    $sthO->execute($_[0]->{id}) || die $dbh->errstr;
-    $upobj=$sthO->fetchrow();
-    return $upobj if $_[0]->{onlyup};
-    buildlowtree($upobj,$_[0]->{id});
-   }
-   return $lobj->{$_[0]->{id}}->{upobj};
-  }
-  elsif ($_[0]->{key})
-  {
-   unless ($nobj->{$_[0]->{key}})
-   {
-    my $sthK=$dbh->prepare("SELECT upobj,id FROM ${DBPREFIX}objects WHERE keyname=?");
-    $sthK->execute($_[0]->{key}) || die $dbh->errstr;
-    ($upobj,$oid)=$sthK->fetchrow();
-    buildlowtree($upobj,$oid);
-   }
-   return $nobj->{$_[0]->{key}}->{ind};
-  }
-  elsif ($_[0]->{uid})
-  {
-   #unless ($ltree->{$_[0]->{uid}})
-   #{
-    buildlowtree($_[0]->{uid},undef,$_[0]->{limit});
-   #}
-  }
+	my $upobj;
+  	if ($_[0]->{tabkey})   {
+  		unless ($tobj->{$_[0]->{id}}->{$_[0]->{pkey}}->{vals}->{$_[0]->{tabkey}})  {
+  			buildtabtree({id=>$_[0]->{id},pkey=>$_[0]->{pkey},tabkey=>$_[0]->{tabkey}})
+  		}	
+  	}  elsif ($_[0]->{id})   {
+   		if ($_[0]->{buildtree}) {
+      		my $sthO=$dbh->prepare("SELECT upobj FROM ${DBPREFIX}objects WHERE id=?");
+      		$sthO->execute($_[0]->{id}) || die $dbh->errstr;
+      		$upobj=$sthO->fetchrow();
+   	  		buildlowtree($upobj)
+   		}   elsif (!$lobj->{$_[0]->{id}}->{id})   {
+    		my $sthO=$dbh->prepare("SELECT upobj FROM ${DBPREFIX}objects WHERE id=?");
+    		$sthO->execute($_[0]->{id}) || die $dbh->errstr;
+    		$upobj=$sthO->fetchrow();
+    		return $upobj if $_[0]->{onlyup};
+    		buildlowtree($upobj,$_[0]->{id});
+   		}
+   		return $lobj->{$_[0]->{id}}->{upobj};
+  	} elsif ($_[0]->{key})   {
+  		if ($_[0]->{key}=~/(.+)\/(.+)/) {
+  			my $uid=$nobj->{$1}->{ind};
+  			my $key=$2;
+  			unless ($kobj->{$uid}->{$key}) {
+   				my $sthK=$dbh->prepare("SELECT id FROM ${DBPREFIX}objects WHERE upobj=? AND keyname=?");
+    			$sthK->execute($uid,$key) || die $dbh->errstr;
+    			(my $oid)=$sthK->fetchrow();
+    			buildlowtree($uid,$oid);
+  			}
+  			$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
+  			$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+  			return $kobj->{$uid}->{$key}->{id};
+  				
+  		} else {
+   			unless ($nobj->{$_[0]->{key}})    {
+    			my $sthK=$dbh->prepare("SELECT upobj,id FROM ${DBPREFIX}objects WHERE keyname=?");
+    			$sthK->execute($_[0]->{key}) || die $dbh->errstr;
+    			($upobj,$oid)=$sthK->fetchrow();
+    			buildlowtree($upobj,$oid);
+   			}
+   			$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
+  			$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+   			return $nobj->{$_[0]->{key}}->{id};
+   			
+  		}	
+  	}   elsif ($_[0]->{uid})   {
+    	buildlowtree($_[0]->{uid},undef,$_[0]->{limit});
+  	}
 	$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
-  $cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+  	$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
 
 
 }
