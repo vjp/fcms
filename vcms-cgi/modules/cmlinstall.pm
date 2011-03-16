@@ -797,7 +797,7 @@ my $bmv=qq(<html>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
 
 <script src="/js/calendar_date_select/calendar_date_select.js" type="text/javascript"></script>
-<script src="/js/calendar_date_select/format_db.js" type="text/javascript"></script>
+<script src="/js/calendar_date_select/format_db_e.js" type="text/javascript"></script>
 
 <link href="/css/calendar_date_select/red.css" rel="stylesheet" type="text/css" />
 
@@ -808,8 +808,8 @@ my $bmv=qq(<html>
     "Today": "Сегодня",
     "Clear": "Очистить" 
   };
-  Date.weekdays = $w("пн вт ср чт пт сб вс");
-  Date.months = $w("Январь Февраль Март Апрель Май Июнь Июль Август Сенятбрь Октябрь Ноябрь Декабрь" );
+  Date.weekdays = \$w("пн вт ср чт пт сб вс");
+  Date.months = \$w("Январь Февраль Март Апрель Май Июнь Июль Август Сенятбрь Октябрь Ноябрь Декабрь" );
 </script>
 
 <cml:include key='MCEINIT'/>
