@@ -69,13 +69,15 @@ my $rd="/_ARTICLE/$id";
 set_hru($key,$rd);
 )});
 setprmextra({pkey=>'HRUKEY',extra=>'onchange',value=>'SETHRUKEY'});
-
-
 addobject({convertname=>1,upkey=>'ARTICLES',key=>'SPECARTICLES',name=>'Специальные статьи'});
-
 addlowobject({convertname=>1,upobjkey=>'SPECARTICLES',key=>'ARTICLE_404',name=>'Страница не найдена'});
 setvalue({key=>'ARTICLE_404',pkey=>'ARTICLETEXT',convert=>1,value=>'Страница не найдена'});
 
+
+addobject({convertname=>1,upkey=>'CONTENT',key=>'NEWS',name=>'Новости'});
+addprm({convertname=>1,objkey=>'NEWS',name=>'Текст новости',type=>'LONGTEXT',key=>'NEWSTTEXT',evl=>'n'});
+addprm({convertname=>1,objkey=>'NEWS',name=>'Дата новости',type=>'DATE',key=>'NEWSDATE',evl=>'n'});
+addprm({convertname=>1,objkey=>'NEWS',name=>'Ссылка новости',type=>'TEXT',key=>'NEWSLINK',evl=>'n'});
 
 
 
@@ -146,6 +148,8 @@ addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Ссылка на раздел',type=>'LIS
 addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT',key=>'ARCHIVEFILEDESCR',evl=>'n'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'rows',value=>'3'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
+
+
 
 
 
