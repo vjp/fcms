@@ -1097,7 +1097,7 @@ setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <b><cml:actionlink action='LISTEDIT' ukey='ARTICLES'><cml:text param='_NAME'/></cml:actionlink></b>
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:list expr='lowlist()'>
-  <cml:menuitem action="MENULIST"delete="1"/>
+  <cml:menuitem action="MENULIST" delete="1"/>
 </cml:list>
 </table>
 <hr/>
