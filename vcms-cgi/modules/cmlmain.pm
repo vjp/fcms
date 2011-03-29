@@ -79,7 +79,7 @@ sub set_hru ($$)
 	open (FC, "<$GLOBAL->{WWWPATH}/.htaccess");
 	read (FC,$fcontent,-s FC);
 	close(FC); 
-	$fcontent=~s{(### VCMS START ###\n)(.*?)(\n### VCMS END ###)}{
+	$fcontent=~s{(### VCMS START ###)(\n?.*?)(\n### VCMS END ###)}{
    		my $start=$1;
    		my $dyn=$2;
    		my $end=$3;
