@@ -745,12 +745,15 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
 
+Отладка:
 <cml:if expr='dev()'>
-DEV ON <a href="/" target="_top">>></a> <a href="#" onclick="setCookie('dev','0');window.location.reload();return false">OFF</a>
+<a href="#" onclick="setCookie('dev','0');window.location.reload();return false"><img src='/cmsimg/save.gif' alt='Отладка включена' title='Отладка включена'/></a>
 </cml:if>
 <cml:else>
-DEV OFF <a href="/" target="_top">>></a> <a href="#" onclick="setCookie('dev','1');window.location.reload();return false">ON</a>
+<a href="#" onclick="setCookie('dev','1');window.location.reload();return false"><img src='/cmsimg/delete.png' alt='Отладка выключена' title='Отладка выключена'/></a>
 </cml:else>
+<a href="/" target="_top">На сайт</a> 
+
 
 
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
