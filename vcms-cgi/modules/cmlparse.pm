@@ -970,7 +970,7 @@ sub tag_use
 		'id','idcgi','namecgi',
 		'uname','key','param','prm',
 		'paramtab','idexpr',
-		'validupkey','validupexpr','validexpr','var',
+		'validupkey','validupexpr','validexpr','var','env',
 		'readonly','readonlyexpr',
 	]);
 	
@@ -1000,6 +1000,8 @@ sub tag_use
 	}
 	
 	$cmlcalc::ENV->{$pl->{var}}=$id if $pl->{var};
+	$cmlcalc::ENV->{$pl->{env}}=$id if $pl->{env};
+	
 	if       ($pl->{param} || $pl->{prm})       {
 		$paramname=$pl->{param} || $pl->{prm};
 		if ($cmlmain::prm->{$paramname}->{type} eq 'MATRIX')  {
