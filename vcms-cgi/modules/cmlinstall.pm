@@ -514,6 +514,7 @@ setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
           <tr><td colspan=2><cml:changebutton/></td></tr>
       </table>
   </cml:form>
+  <cml:include key='MCEPHOTO'/>
   </cml:use>
 )});
 
