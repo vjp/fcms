@@ -748,10 +748,10 @@ h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-si
 
 Отладка:
 <cml:if expr='dev()'>
-<a href="#" onclick="setCookie('dev','0');window.location.reload();return false"><img src='/cmsimg/save.gif' alt='Отладка включена' title='Отладка включена'/></a>
+<a href="#" onclick="setCookie('dev','0');window.location.reload();return false"><img border='0' src='/cmsimg/save.gif' alt='Отладка включена' title='Отладка включена'/></a>
 </cml:if>
 <cml:else>
-<a href="#" onclick="setCookie('dev','1');window.location.reload();return false"><img src='/cmsimg/delete.png' alt='Отладка выключена' title='Отладка выключена'/></a>
+<a href="#" onclick="setCookie('dev','1');window.location.reload();return false"><img border='0' src='/cmsimg/delete.png' alt='Отладка выключена' title='Отладка выключена'/></a>
 </cml:else>
 <a href="/" target="_top">На сайт</a> 
 
