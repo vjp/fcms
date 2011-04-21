@@ -304,7 +304,7 @@ sub tag_tr {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['colorswitcher']);
+	my $pl=fetchparam(\$param,['colorswitcher','csv']);
 	if ($pl->{'colorswitcher'}) {
 		my @colors=split(';',$pl->{'colorswitcher'});
 		my $index=$cmlcalc::ROWID % scalar @colors;
@@ -312,6 +312,10 @@ sub tag_tr {
 	}
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	$cmlcalc::ROWID++;
+	if ($pl->{csv}) {
+		push (@cmlcalc::CSVROWS,join(';',@cmlcalc::CSVCOLS));
+		undef @cmlcalc::CSVCOLS;
+	}	
 	return "<tr $param>$body</tr>";
 }
 
