@@ -92,7 +92,11 @@ my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
 	$v=&cmlcalc::calculate({key=>'USERMENU',expr=>"p($prm)"});
 }	elsif (param('body') && param('body') ne 'NULL') {
-	$v=&cmlcalc::calculate({key=>$cmlcalc::ENV->{NOFRAMES}?'USERCMSTEMPLNOFRAMES':'USERMAIN',expr=>"p($prm)"});
+	$v=&cmlcalc::calculate({
+		key=>$cmlcalc::ENV->{NOFRAMES}?'USERCMSTEMPLNOFRAMES':'USERMAIN',
+		expr=>"p($prm)",
+		csv=>param('csv'),
+	});
 } elsif (param('view')) {
  	$v=&cmlcalc::calculate({
  		key=>param('view'),
