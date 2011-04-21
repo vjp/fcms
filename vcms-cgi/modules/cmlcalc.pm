@@ -251,7 +251,7 @@ sub calculate 	{
         	});
         }   	
 
-    if ($_[0]->{csv} && @cmlcalc::CSVROWS) {
+    if ($_[0]->{csv}) {
     	$xvalue->{value}=join("\r\n",@cmlcalc::CSVROWS);
     }
     return $xvalue;	
