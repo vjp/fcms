@@ -73,6 +73,8 @@ sub initparser
     	'calendar'=>1,
     	'table'=>1,
     	'tr'=>1,
+    	'td'=>1,
+    	'th'=>1,
     	'groupheader'=>1,
     	'acc'=>1,
  	);
@@ -318,6 +320,28 @@ sub tag_tr {
 	}	
 	return "<tr $param>$body</tr>";
 }
+
+
+sub tag_td {
+	my $param=$_[0]->{param};
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['th','csv']);
+	my $body=cmlparser({data=>$data,inner=>$inner});
+	my $tg=($pl->{th} || $inner->{th})?'th':'td';
+	if ($pl->{csv}) {
+		push (@cmlcalc::CSVCOLS, '"'.$body.'"');
+	}	
+	return "<$tg $param>$body</$tg>";
+}
+
+sub tag_th {
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	$inner->{th}=1;
+	return tag_td({data=>$_[0]->{data},inner=>$inner,param=>$_[0]->{param}})
+}
+
+
 
 sub tag_pagination {
 	my $param=$_[0]->{param};
