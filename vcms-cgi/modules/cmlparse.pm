@@ -1825,7 +1825,7 @@ sub tag_text {
     	my $ptype;
         my $dfrmt;
         
-        my $pl=fetchparam(\$param,[	'br' ]);
+        my $pl=fetchparam(\$param,[	'br','csv' ]);
         
     	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
     	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
@@ -1888,6 +1888,7 @@ sub tag_text {
   	
   		$result=~s/\n/<br>/g if $pl->{'br'};
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
+        push (@cmlcalc::CSVCOLS, '"'.$result.'"') if $pl->{csv};
 		return $result;
 }
 
@@ -1962,7 +1963,7 @@ sub tag_date {
 	my $pl=fetchparam(\$param,[
 		'param','prm','expr','name','key',
 		'ukey','uid','namecgi','idcgi','id',
-		'format','value',
+		'format','value','csv'
 	]);
 	
     my   $pkey=$pl->{param} || $pl->{prm};
@@ -2014,8 +2015,10 @@ sub tag_date {
         $result=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
         $result=$result->{value} if ref $result eq 'HASH';
     }
-  	return undef unless $result;
-	return &cmlmain::enc(strftime $frmt,localtime($result));
+    $result=&cmlmain::enc(strftime $frmt,localtime($result)) if $result;
+    push (@cmlcalc::CSVCOLS, '"'.$result.'"') if $pl->{csv};
+  	return $result;
+
 	
 }
 
