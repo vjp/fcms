@@ -277,10 +277,12 @@ sub fetchparam {
 
 sub tag_csvcol {
 	my $data=$_[0]->{data};
+	my $param=$_[0]->{param};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['only']);
 	my $value=cmlparser({data=>$data,inner=>$inner});
 	push (@cmlcalc::CSVCOLS, '"'.$value.'"');
-	return $value;
+	return $pl->{only}?undef:$value;
 }
 
 sub tag_csvrow {
@@ -2286,7 +2288,7 @@ sub tag_inputtext {
   	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
-  		'elementid','visual'
+  		'elementid','visual','csv'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2336,6 +2338,8 @@ sub tag_inputtext {
 	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
 		$value = $cmlcalc::CGIPARAM->{$name}
 	}
+	push (@cmlcalc::CSVCOLS, '"'.$value.'"') if $pl->{csv};
+	
 	return $value if $access_denied;
 	
 	
@@ -2502,10 +2506,13 @@ sub tag_checkbox {
 	my $param=$_[0]->{param};
 	my $id=$_[0]->{inner}->{objid};
 	
-	my $pl=fetchparam($param,['param','prm','name','value','nohidden']);
+	my $pl=fetchparam($param,['param','prm','name','value','nohidden','csv']);
 	my $prm=$pl->{prm} || $pl->{param};
 	my $value=$pl->{value} || 1;	
 	my $checked=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1?'checked':'';
+	
+	push (@cmlcalc::CSVCOLS, $checked?'"+"':'"-"') if $pl->{csv};
+	
     if ($cmlcalc::ENV->{READONLY}) {
     	return $checked?"+":"-";
     }
