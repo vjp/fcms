@@ -590,7 +590,7 @@ sub tag_select {
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
-  		'elementid'
+  		'elementid','csv'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -642,7 +642,9 @@ sub tag_select {
 	undef $inner->{selectedlist};
   	if (defined $sexpr) {
   		my $v=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value} || '';
+  		push (@cmlcalc::CSVCOLS, '"'.&cmlcalc::p(_NAME,$v).'"') if $pl->{csv};
   		for (split(';',$v)) {$inner->{selectedlist}->{$_}=1}
+
   	} elsif ($cmlcalc::CGIPARAM->{$name}) {
   	 	$inner->{selectedlist}->{$cmlcalc::CGIPARAM->{$name}}=1
   	} else {
