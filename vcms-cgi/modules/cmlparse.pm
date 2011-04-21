@@ -279,10 +279,10 @@ sub tag_csvcol {
 	my $data=$_[0]->{data};
 	my $param=$_[0]->{param};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['only','hidden']);
+	my $pl=fetchparam(\$param,['hidden']);
 	my $value=cmlparser({data=>$data,inner=>$inner});
 	push (@cmlcalc::CSVCOLS, '"'.$value.'"');
-	return $pl->{only} || $pl->{hidden}?undef:$value;
+	return $pl->{hidden}?undef:$value;
 }
 
 sub tag_csvrow {
