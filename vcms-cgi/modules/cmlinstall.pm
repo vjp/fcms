@@ -930,7 +930,12 @@ $bm=qq(
 <cml:text param='_NAME'/><br>
 <cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
 <table>
-<tr><th></th><th>№</th><th>Наименование</th><th></th></tr>
+<tr>
+	<th></th>
+	<th>№</th>
+	<th>Наименование</th>
+	<th></th>
+</tr>
 <cml:list expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
 <tr>
 <td><cml:deletebutton/></td>
