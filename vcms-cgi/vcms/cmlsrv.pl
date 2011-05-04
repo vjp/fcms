@@ -526,7 +526,7 @@ sub viewlow
  
  print enc('Дерево объекта '),a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
  print a({-href=>"?action=addlow&id=$id&objid=0"},'(+)');
- print a({-href=>"?action=clearlow&id=$id&objid=0"},'(X)');
+ print a({-href=>"?action=clearlow&id=$id&objid=0",-onclick=>enc("return confirm('Подтвердите удаление объекта')")},'(X)');
  print br;
  if ($all) {
  	checkload({uid=>$id});
@@ -555,7 +555,9 @@ sub viewtree
    	if ($obj->{$_}->{key}) {$name.=" ($obj->{$_}->{key})"}
    	
     print "<nobr>$sep";
-    unless ($isupper) {print "<a href='?action=delete&id=$_' class=ldel>(X)</a>"}
+  
+    print a({-href=>"?action=delete&id=$_",-class=>'ldel',-onclick=>enc("return confirm('Подтвердите удаление объекта')")},'(X)')  unless $isupper;
+    
     print "<a href='?action=add&id=$_' class=ladd target=mainbody>(+)</a>";
     unless ($isupper) {print enc("<a href='#' onClick='var target=prompt(\"Скопировать в\",\"\");location.href=\"?action=copy&id=u$_&to=\"+target' class=ladd>(C)</a>")}
     print "<a href='?action=editform&id=$_' class=lmenu target=mainbody>($_)$name</a><br></nobr>";
