@@ -1203,6 +1203,7 @@ addprm({convertname=>1,objkey=>'CLICKS',name=>'Счетчик',type=>'LIST',key=>'CLLIN
 addobject({convertname=>1,upkey=>'STAT',key=>'ERRORS',name=>'Ошибки'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'URL',type=>'TEXT',key=>'ERRORURL',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'IP',type=>'TEXT',key=>'ERRORIP',evl=>'n'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'Страница ошибки',type=>'TEXT',key=>'ERRORPAGE',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Ошибка',type=>'TEXT',key=>'ERRORMESSAGE',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'UserAgent',type=>'TEXT',key=>'ERRORUA',evl=>'n'});
 addprm({convertname=>1,objkey=>'ERRORS',name=>'Время',type=>'DATE',key=>'ERRORTIME',evl=>'n'});
