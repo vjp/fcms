@@ -1270,8 +1270,7 @@ sub init	{
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
  	dbconnect({dbname=>$DBNAME,dbuser=>$DBUSER,dbpassword=>$DBPASSWORD,dbhost=>$DBHOST});
- 	
-	$dbh->do($UTF?"SET NAMES utf8":"SET NAMES cp1251"); 
+	$dbh->do("SET NAMES cp1251") unless ($UTF);
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
  	$sthI =$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
