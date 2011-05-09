@@ -50,7 +50,7 @@ function getElementsByTagAndClass (tagName,className) {
 
 
 function execute(func,data,callback,url) {
-	new Ajax.Request(url || '/cgi-bin/ajax-json.pl', {
+	new Ajax.Request(url || ajax_url || '/cgi-bin/ajax-json.pl', {
 		method:'post',	
 		parameters: {func: func, data: Object.toJSON(data)},
 		onSuccess: function(transport) {
@@ -70,7 +70,7 @@ function defcallback(json){
 }   
 
 function lexecute(func,objid,data,callback,url) {
-	new Ajax.Request(url || '/cgi-bin/ajax-json.pl', {
+	new Ajax.Request(url || ajax_url || '/cgi-bin/ajax-json.pl', {
 		method:'post',	
 		parameters: {
 			lfunc: func,
