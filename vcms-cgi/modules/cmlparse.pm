@@ -486,7 +486,16 @@ sub tag_menuitem	{
 	
 	undef $targetstr if $cmlcalc::ENV->{NOFRAMES};
 	undef $targetstr_ico if $cmlcalc::ENV->{NOFRAMES};
-	my $mtext=qq(
+	my $mtext=$pl->{action} eq 'NO'?
+	qq(
+		<tr>
+		<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
+		<td bgcolor="#FFFFFF" width="100%" colspan="2">$itext</td>
+		<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
+		</tr>
+	)
+	:
+	qq(
 		<tr>
 		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
 		<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
