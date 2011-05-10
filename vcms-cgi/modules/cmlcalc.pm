@@ -798,6 +798,18 @@ sub lowelms {
  	return join(';',(@retlist,@xlist));
 }
 
+sub try ($$$) {
+	my ($expr,$condition,$count)=@_;
+	for (my $i=1;$i<=$count;$i++) {
+		my $v=&calculate({id=>$OBJID->{ind},expr=>$expr})->{value};
+		my $cv=&calculate({id=>$v,expr=>$condition})->{value};
+		return $v if $cv;
+	}
+	return $undef;
+	
+}
+
+
 sub lrnd {
 	my $ind;
 	my $uid;
