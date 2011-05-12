@@ -1125,11 +1125,11 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
-		'forcereadonly','jsdata',
+		'forcereadonly','jsdata','type',
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
-	  	
+	$pl->{button}=1 if $pl->{type} eq 'button';  	
 	$pl->{action}='del' if lc($pl->{action}) eq 'delete';
 	$pl->{action}=uc($pl->{action});
 	
