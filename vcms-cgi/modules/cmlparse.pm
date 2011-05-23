@@ -2219,10 +2219,11 @@ sub tag_inputpic {
 		$name="_o${id}_f${prm}";
 	} else {
 		$name="_f$prm";
-	}
-	
-	
-  	return tag_img({data=>$data,inner=>$inner,param=>$_[0]->{param}})."<input type='file' $param name='$name'>";
+	}tag_list({data=>$data,inner=>$inner,param=>$param});
+
+  	return tag_img({data=>$data,inner=>$inner,param=>$_[0]->{param}}).
+  	       tag_deletebutton({param=>" prm='$prm' id='$id' ",inner=>$inner}).
+  		   "<input type='file' $param name='$name'>";
 }
 
 sub tag_inputparam {
@@ -2550,9 +2551,10 @@ sub tag_deletebutton {
 	my $id=$_[0]->{inner}->{objid};
   	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid','alert']);
   	$pl->{prm}=$pl->{param} if $pl->{param};
-    	$pl->{method}=$pl->{parser} if $pl->{parser};
-    	my $parseid=$pl->{parseid} || $_[0]->{inner}->{objid};
-    	my @hlist;
+    $pl->{method}=$pl->{parser} if $pl->{parser};
+    my $parseid=$pl->{parseid} || $_[0]->{inner}->{objid};
+    
+    my @hlist;
 	push(@hlist,"parseid=$parseid");
 	if ($pl->{prm}) {
 		return undef unless &cmlcalc::p($pl->{prm},$_[0]->{inner}->{objid});
@@ -2580,6 +2582,8 @@ sub tag_deletebutton {
 	my $scriptjs;
 	if ($pl->{method}) {
 		$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
+	}elsif ($pl->{prm}) {	
+		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}

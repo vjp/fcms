@@ -57,3 +57,13 @@ function addobject (up,link,linkval,name,upobj) {
             		ajax_call('execute', dt, alertreload_callback);
             	}	
  }
+
+ 
+ function setvalue (id,prm,value) {
+     var dt={
+         id: id,
+         prm: prm,
+         value: value
+     };
+     ajax_call('setvalue', dt, alertreload_callback);
+}
