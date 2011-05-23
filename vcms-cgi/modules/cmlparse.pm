@@ -2553,24 +2553,11 @@ sub tag_deletebutton {
   	$pl->{prm}=$pl->{param} if $pl->{param};
     $pl->{method}=$pl->{parser} if $pl->{parser};
     my $parseid=$pl->{parseid} || $_[0]->{inner}->{objid};
+
+    return undef if $pl->{prm} && !&cmlcalc::p($pl->{prm},$_[0]->{inner}->{objid});
+
     
-    my @hlist;
-	push(@hlist,"parseid=$parseid");
-	if ($pl->{prm}) {
-		return undef unless &cmlcalc::p($pl->{prm},$_[0]->{inner}->{objid});
-		push(@hlist,"parsemethod=BASECLEARPARAMMETHOD");
-		push(@hlist,"prm=$pl->{prm}");
-	} elsif ($pl->{method})	{
-		push(@hlist,"parsemethod=$pl->{method}");
-	} else {
-		push(@hlist,"parsemethod=BASEDELMETHOD");
-	}	
-	my @plist=('view','menu','body','ukey','id','page','orderby','ordertype','editprm','piclistprm','filelistprm','childlistprm','childukey','listprm','link');
-	for (@plist) {
-		push(@hlist,"$_=$cmlcalc::CGIPARAM->{$_}") if $cmlcalc::CGIPARAM->{$_};
-	}	
-	push (@hlist,"link=$pl->{link}") if $pl->{link};
-	
+   
 	
   	my $hstr=join('&',@hlist);
   	
