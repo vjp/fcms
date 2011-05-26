@@ -657,8 +657,8 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENU',name=>'Шаблон меню'});
 setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 <CML:INCLUDE name='BASEMENUHEADER'/>
-<CML:INCLUDE name='CMSHEADMENU'/>
 <CML:INCLUDE name='_prm:menu_'/>
+<CML:INCLUDE name='CMSHEADMENU'/>
 <CML:INCLUDE name='BASEMENUFOOTER'/>
 "});
 
@@ -667,8 +667,8 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMENU',name=>'Шаблон меню'});
 setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
 <CML:INCLUDE name='USERMENUHEADER'/>
-<CML:INCLUDE name='USERHEADMENU'/>
 <CML:INCLUDE name='_prm:menu_'/>
+<CML:INCLUDE name='USERHEADMENU'/>
 <CML:INCLUDE name='BASEMENUFOOTER'/>
 )});
 
