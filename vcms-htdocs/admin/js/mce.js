@@ -2,6 +2,14 @@ function insertimage (text){
         tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
         tinyMCE.execCommand('mceInsertContent', false, ''); 
     }
+
+
+function insertbwimage (text){ 
+    tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"  onload="javascript:prepareMouseOverImage(this, this.src);"/> '); 
+    tinyMCE.execCommand('mceInsertContent', false, ''); 
+}
+
+
     function insertlink (src,name){ 
         tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> '); 
         tinyMCE.execCommand('mceInsertContent', false, ''); 
