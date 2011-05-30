@@ -198,3 +198,67 @@ function multisetsingleobj (frm,id,fcallback,back,method) {
 }
 
 
+function prepareMouseOverImage(image, originalURL)
+{
+	image.mouseOverImage=originalURL;
+	image.onload=function(){return true;};
+	image.normalImage=grayscale(image, false);
+ 
+	image.onmouseover=function()
+	{
+	//alert("a");
+		this.src=this.mouseOverImage;
+	}
+ 
+	image.onmouseout=function()
+	{
+//	alert(this.normalImage.src);
+		this.src=this.normalImage;
+	}
+	image.src=image.normalImage;
+}
+ 
+ 
+function grayscale(image, bPlaceImage)
+{
+  var myCanvas=document.createElement("canvas");
+  var myCanvasContext=myCanvas.getContext("2d");
+ 
+  var imgWidth=image.width;
+  var imgHeight=image.height;
+  // You'll get some string error if you fail to specify the dimensions
+  myCanvas.width= imgWidth;
+  myCanvas.height=imgHeight;
+//  alert(imgWidth);
+  myCanvasContext.drawImage(image,0,0);
+ 
+  // The getImageData() function cannot be called if the image is not from the same domain.
+  // You'll get security error
+  var imageData=myCanvasContext.getImageData(0,0, imgWidth, imgHeight);
+  for (i=0; i<imageData.height; i++)
+  {
+    for (j=0; j<imageData.width; j++)
+    {
+	  var index=(i*4)*imageData.width+(j*4);
+	  var red=imageData.data[index];
+	  var green=imageData.data[index+1];
+	  var blue=imageData.data[index+2];
+	  var alpha=imageData.data[index+3];
+	  var average=(red+green+blue)/3;
+   	  imageData.data[index]=average;
+   	  imageData.data[index+1]=average;
+   	  imageData.data[index+2]=average;
+   	  imageData.data[index+3]=alpha;
+	}
+  }
+  myCanvasContext.putImageData(imageData,0,0,0,0, imageData.width, imageData.height);
+ // myCanvasContext.drawIMage(imageData,0,0);//,0,0, imageData.width, imageData.height);
+ 
+  if (bPlaceImage)
+  {
+	  var myDiv=document.createElement("div");
+	  myDiv.appendChild(myCanvas);
+	  image.parentNode.appendChild(myCanvas);//, image);
+  }
+  return myCanvas.toDataURL();
+}
