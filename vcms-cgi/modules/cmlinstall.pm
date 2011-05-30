@@ -886,7 +886,10 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         theme_advanced_toolbar_location : "top", 
         content_css : "/css/mce.css", 
         apply_source_formatting: true,
+        
         extended_valid_elements : "div[id|style|class]",
+        extended_valid_elements : "img[onload|src]",
+        
         language : "ru" 
     
     });
