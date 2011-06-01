@@ -1,11 +1,11 @@
 function insertimage (text){ 
-        tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"/> '); 
+        tinyMCE.execCommand('mceInsertContent', false, ' <img border="0" src="'+text+'"/> '); 
         tinyMCE.execCommand('mceInsertContent', false, ''); 
     }
 
 
 function insertbwimage (text){ 
-    tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"  onload="javascript:prepareMouseOverImage(this, this.src);"/> '); 
+    tinyMCE.execCommand('mceInsertContent', false, ' <img src="'+text+'"  border="0" onload="javascript:prepareMouseOverImage(this, this.src);"/> '); 
     tinyMCE.execCommand('mceInsertContent', false, ''); 
 }
 
