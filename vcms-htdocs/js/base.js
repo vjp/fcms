@@ -202,20 +202,19 @@ function prepareMouseOverImage(image, originalURL)
 {
 	image.mouseOverImage=originalURL;
 	image.onload=function(){return true;};
-	image.normalImage=grayscale(image, false);
- 
-	image.onmouseover=function()
-	{
-	//alert("a");
-		this.src=this.mouseOverImage;
+	try {
+		image.normalImage=grayscale(image, false);
+		image.onmouseover=function()
+		{
+			this.src=this.mouseOverImage;
+		}
+		image.onmouseout=function()
+		{
+			this.src=this.normalImage;
+		}
+		image.src=image.normalImage;
 	}
- 
-	image.onmouseout=function()
-	{
-//	alert(this.normalImage.src);
-		this.src=this.normalImage;
-	}
-	image.src=image.normalImage;
+	catch(e) { }
 }
  
  
