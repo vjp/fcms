@@ -15,6 +15,7 @@ BEGIN
  use File::Copy; 
  use Encode;
  use Net::IDN::Punycode::PP qw(:all);
+ use URI::Escape;
 
   
  @ISA    = 'Exporter';
@@ -75,6 +76,9 @@ sub set_hru ($$)
 	my ($hrukey,$redirectvalue)=@_;
 	$hrukey=~s/^\///;
 	$hrukey=~s/\/$//;
+    $hrukey=join('/', map {uri_escape($_)} split ('/',$hrukey) );
+
+	
 	return unless $hrukey;
 	open (FC, "<$GLOBAL->{WWWPATH}/.htaccess");
 	read (FC,$fcontent,-s FC);
