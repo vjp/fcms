@@ -888,7 +888,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         apply_source_formatting: true,
         
         extended_valid_elements : "div[id|style|class]",
-        extended_valid_elements : "img[onload|src|border]",
+        extended_valid_elements : "img[onload|src|border|onmouseover|onmouseout]",
         
         language : "ru" 
     

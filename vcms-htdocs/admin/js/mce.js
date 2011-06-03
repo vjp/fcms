@@ -1,5 +1,9 @@
-function insertimage (text){ 
-        tinyMCE.execCommand('mceInsertContent', false, ' <img border="0" src="'+text+'"/> '); 
+function insertimage (text,alttext){ 
+        if (alttext) {
+        	tinyMCE.execCommand('mceInsertContent', false, ' <img border="0" src="'+text+'" onmouseover="this.src=\''+alttext+'\'" onmouseout="this.src=\''+text+'\'"/> ');
+        } else { 
+        	tinyMCE.execCommand('mceInsertContent', false, ' <img border="0" src="'+text+'"/> ');
+        }	 
         tinyMCE.execCommand('mceInsertContent', false, ''); 
     }
 
