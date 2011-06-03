@@ -1562,7 +1562,7 @@ sub tag_img 	{
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
 		'alt','altparam','altprm', 'path', 'src', 'hintprm',
-		'elementid' 
+		'elementid','onmouseoverparam', 
 	]);
 	
 
@@ -1606,6 +1606,18 @@ sub tag_img 	{
 		}	
 	}
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
+	
+	my $omestr;
+	if ($pl->{onmouseoverparam}) {
+		my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>"p($pl->{onmouseoverparam})"});
+		if ($v->{value}) {
+			my $pstr=$path eq 'absolute' ? $cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
+			my $omesrc="$pstr/$v->{value}";
+			$omestr="onmouseover='this.src=\"$omesrc\"' onmouseout='this.src=\"$src\"'";
+		}	
+	}
+	
+	
 	if ($pl->{hintprm}) {
 		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
 		my $hintinit=qq(<script>
@@ -1613,10 +1625,10 @@ sub tag_img 	{
 		</script>
 		);
 		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
-		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr>";	
+		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr>";	
 
 	} else {
-		return "<img src='$src' $param alt='$alt' title='$alt' $idstr>";	
+		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr>";	
 	}
 	
 	
