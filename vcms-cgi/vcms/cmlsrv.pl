@@ -129,11 +129,12 @@ if ($action) {
 	    	if (!param('password')) {alert (enc('Пароль не задан'))}
 	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
 				else {
-					if (adduser(param('nusername'),param('password'),param('group'))) {
+					my ($uid,$err)=adduser(param('nusername'),param('password'),param('group'));
+					if ($uid) {
 						alert(enc('Пользователь добавлен'));
 						$cf=1;
 					} else {
-						alert(enc('Ошибка'));
+						alert(enc("Ошибка создания пользователя: $err"));
 					}		
 				}	    	
 	    }
