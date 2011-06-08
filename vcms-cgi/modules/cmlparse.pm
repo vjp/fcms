@@ -1780,7 +1780,7 @@ sub tag_include {
 	my $pl=fetchparam(\$param,[
 		'id','idexpr','notfound','idcgi','name',
 		'key','namecgi','param','prm','readonly','set404',
-		'validupkey','validexpr','validupexpr',
+		'validupkey','validexpr','validupexpr','validkey',
 	]);
 	
   	if  ($pl->{id})       {
@@ -1815,8 +1815,9 @@ sub tag_include {
 		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
 	} 	elsif ($pl->{'validexpr'}) {
 		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1;
-	}	 	 
-    
+	} 	elsif ($pl->{'validkey'}) {
+		$e404=1 unless &cmlcalc::id($key);	 	 
+	}
   
    if ($pl->{'set404'} || $e404)       {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
