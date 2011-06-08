@@ -2542,8 +2542,10 @@ sub loaduserlist {
 sub adduser {
 	my ($login,$password,$group,$fio)=@_;
 	if ($login!~/^[a-zA-Z][a-zA-Z0-9_]+$/) {
-		message('Неправильные символы в логине');
-		return undef;
+		return (undef,'Неправильные символы в логине');
+	}
+	if (&cmlcalc::id("SU_$login")) {
+		return (undef,'Пользователь с таким логином существует');
 	}
 	my $upkey='SYSTEMUSERS';
 	$upkey.="_$group" if $group;
@@ -2556,7 +2558,7 @@ sub adduser {
 	my $sth=$dbh->prepare("INSERT INTO ${DBPREFIX}users (login,password,`group`,objid) VALUES (?,ENCRYPT(?),?,?)");
 	$sth->execute ($login,$password,$group,$oid) || die $dbh->errstr;
 	if ($PASSFILE) {writepassfile()}
-	return $oid;
+	return ($oid,undef);
 }	
 
 
