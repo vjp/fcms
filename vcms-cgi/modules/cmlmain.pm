@@ -62,7 +62,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &export_db &recover_object
+              &import_db &import_static &export_db &recover_object
               
               &compile_date  &set_hru
              );
@@ -105,6 +105,14 @@ sub import_db (;$)
 	$filename ||= 'db.gz';
 	`gzip -d -c $filename | mysql -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
 }
+
+sub import_static (;$)
+{
+	my ($filename)=@_;
+	$filename ||= 'docs.tar.gz';
+    `tar -xzf $filename -C $GLOBAL->{WWWPATH}`;
+}
+
 
 sub export_db (;$)
 {
