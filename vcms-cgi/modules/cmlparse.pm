@@ -1781,6 +1781,7 @@ sub tag_include {
 		'id','idexpr','notfound','idcgi','name',
 		'key','namecgi','param','prm','readonly','set404',
 		'validupkey','validexpr','validupexpr','validkey',
+		'validempty',
 	]);
 	
   	if  ($pl->{id})       {
@@ -1814,7 +1815,7 @@ sub tag_include {
 	} 	elsif ($pl->{'validupexpr'}) {
 		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
 	} 	elsif ($pl->{'validexpr'}) {
-		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1;
+		$e404=1 if &cmlcalc::calculate({id=>$id,key=>$key,expr=>$pl->{'validexpr'}})->{value} ne 1;
 	} 	elsif ($pl->{'validkey'}) {
 		$e404=1 unless &cmlcalc::id($key);	 	 
 	}
@@ -1836,7 +1837,11 @@ sub tag_include {
 			$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 			$cmlcalc::STOPCACHE=1;
 		}	
-		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}}); 
+		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}});
+	} elsif ($pl->{validempty}) {
+		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+		$cmlcalc::STOPCACHE=1;
+		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner,readonly=>$pl->{readonly}});
 	}	else {
 		return undef
 	}
