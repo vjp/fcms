@@ -879,7 +879,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         convert_urls : false,
         theme : "advanced", 
         theme_advanced_styles : "Без рамки=imlink;Без подчеркивания=noundlink", 
-        plugins : "paste,fullscreen,table,style,advlink",
+        plugins : "paste,fullscreen,table,style,advlink,advimage",
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,|,forecolor,backcolor,|,sub,sup,|,link,unlink,anchor,image,cleanup,help,code",
         theme_advanced_buttons2 : "fullscreen,|,styleprops,|,tablecontrols,|,hr,removeformat,visualaid,|,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo",
         theme_advanced_buttons3 : "",
