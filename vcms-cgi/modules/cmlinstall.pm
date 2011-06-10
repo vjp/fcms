@@ -290,7 +290,8 @@ setvalue({key=>'SEARCHBLOCK',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'NOTFOUND',name=>'Страница не найдена'});
 setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
-Страница не найдена
+<cml:include key='ARTICLE_404' prm='ARTICLETEXT' notfound='1'/>
+<cml:execute method='ERR404PARSER'/>
 )});
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
@@ -388,7 +389,7 @@ setvalue({convert=>1,key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Ошибка'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STATPAGE',name=>'Страница для статистики'});
 setvalue({convert=>1,key=>'STATPAGE',pkey=>'PAGETEMPLATE',value=>'SUCCESS STAT'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERROR404',name=>'Cтраница не найдена'});
-setvalue({convert=>1,key=>'ERROR404',pkey=>'PAGETEMPLATE',value=>qq(<cml:include key='ARTICLE_404' prm='ARTICLETEXT' notfound='1'/><cml:execute method='ERR404PARSER'/>)});
+setvalue({convert=>1,key=>'ERROR404',pkey=>'PAGETEMPLATE',value=>qq(<cml:include key='NOTFOUND'/>)});
 
 
 
