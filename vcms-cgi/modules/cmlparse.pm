@@ -2225,7 +2225,7 @@ sub tag_inputpic {
   	my $inner; %{$inner}=%{$_[0]->{inner}};
 	
 	my $pl=fetchparam(\$param,[
-		'param','prm','name','id','delbutton'
+		'param','prm','name','id','delbutton','deletebutton'
   	]);
 
   	my $id=$pl->{id} || $_[0]->{inner}->{objid};
@@ -2238,7 +2238,7 @@ sub tag_inputpic {
 	} else {
 		$name="_f$prm";
 	}tag_list({data=>$data,inner=>$inner,param=>$param});
-    my $delstr=$pl->{delbutton}?tag_deletebutton({param=>" prm='$prm' id='$id' ",inner=>$inner}):'';
+    my $delstr=($pl->{delbutton} || $pl->{deletebutton})?tag_deletebutton({param=>" prm='$prm' id='$id' ",inner=>$inner}):'';
   	return tag_img({data=>$data,inner=>$inner,param=>$_[0]->{param}}).
   		   "$delstr<input type='file' $param name='$name'>";
 }
