@@ -446,10 +446,10 @@ sub tag_menuitem	{
 		}
 			
 	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {
-		my $ukey=&cmlcalc::p(_KEY,$id);
+		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
 		$pl->{href}="body=LISTEDIT_${ukey}&ukey=$ukey";
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'LISTVIEW';
-		for (qw (orderby ordertype)) {
+		for (qw (orderby ordertype listprm link)) {
 			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 		}
 	}
