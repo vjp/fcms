@@ -76,21 +76,23 @@ sub set_hru ($$)
 	my ($hrukey,$redirectvalue)=@_;
 	$hrukey=~s/^\///;
 	$hrukey=~s/\/$//;
-    $hrukey=join('/', map {uri_escape($_)} split ('/',$hrukey) );
-
-	
 	return unless $hrukey;
 	open (FC, "<$GLOBAL->{WWWPATH}/.htaccess");
 	read (FC,$fcontent,-s FC);
 	close(FC); 
+	
 	$fcontent=~s{(### VCMS START ###)(\n?.*?)(\n### VCMS END ###)}{
    		my $start=$1;
-   		my $dyn=$2;
+   		my @dyn=split(/\n/,$2);
    		my $end=$3;
-   		unless ($dyn=~s/RewriteRule (\S+?) $redirectvalue\s*(\n|$)/RewriteRule ^$hrukey\/\?\$ $redirectvalue$2/gs) {
-      		$dyn.="\nRewriteRule ^$hrukey\/\?\$ $redirectvalue";
-   		}
-   		"$start$dyn$end";
+   		my @rdyn;
+   		for (@dyn) {
+   			next if /RewriteRule (\S+?) $redirectvalue\s*/;
+   			next if /RewriteRule \^$hrukey\/\?\$ (\S+)/;
+   			push (@rdyn,$_);
+   		}	 
+   		push (@rdyn,"RewriteRule ^$hrukey\/\?\$ $redirectvalue");
+   		$start.join ("\n",@rdyn).$end;
 	}es;
 	open (FC, ">$GLOBAL->{WWWPATH}/.htaccess");
 	print FC $fcontent;
