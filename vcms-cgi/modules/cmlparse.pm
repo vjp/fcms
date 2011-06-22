@@ -1191,7 +1191,7 @@ sub tag_actionlink {
 		return undef if $access_denied && $pl->{action} eq 'EDIT'; 	
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
-		my $kn=$pl->{upkey} || $cmlmain::obj->{$tid}->{key};
+		my $kn=$pl->{upkey} || $pl->{ukey} || $cmlmain::obj->{$tid}->{key};
 		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
@@ -2612,7 +2612,7 @@ sub tag_changebutton {
   	
 	my $onclickstr;
 	
-	if ($pl->{'ajax'}){
+	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'} || $pl->{'method'}){
 		if ($_[0]->{inner}->{matrix}) {
 			$onclickstr=qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
 		}else {
