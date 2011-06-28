@@ -30,6 +30,7 @@ function addobject (up,link,linkval,name,upobj) {
                 var dt={
                     up: up,
                     link: link,
+                    name: name,
                     linkval: linkval,
                     upobj: upobj
                 };
