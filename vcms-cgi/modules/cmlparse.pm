@@ -1125,7 +1125,7 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
-		'forcereadonly','jsdata','type',
+		'forcereadonly','jsdata','type','setname'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1230,7 +1230,7 @@ sub tag_actionlink {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
 		return qq(
-		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","","")'>$title</a>
+		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","")'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
