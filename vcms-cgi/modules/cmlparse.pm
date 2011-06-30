@@ -2495,7 +2495,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange']);
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if ($prm) {
@@ -2525,7 +2525,7 @@ sub tag_calendar {
 	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":''; 
 	return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr/>
-	         <input value="$fvalue" size='$size' onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000)">
+	         <input value="$fvalue" size='$size' onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000);$pl->{onchange}">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
 }	
