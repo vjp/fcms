@@ -354,7 +354,7 @@ sub tag_pagination {
 	]);
 	delete $pl->{page} if $pl->{page} eq 'NULL';
 	my $container=$pl->{container} || $pl->{limit};
-	my $pid=$cmlcalc::CGIPARAM->{pagenum} || $pl->{page} || 1;
+	my $pid=$cmlcalc::CGIPARAM->{pagenum} || $cmlcalc::CGIPARAM->{page} || $pl->{page} || 1;
 	my $rtext = qq(
 		<cml:list container='$container' $param>
 			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX'/> </cml:if>
