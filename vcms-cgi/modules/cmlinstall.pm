@@ -14,7 +14,7 @@ sub install_cron ($){
 	my $period= shift || 15;
 	my $path=cwd();
 	system('crontab -r');
-	system("echo '$period * * * * $path/autorun.pl' | crontab -");
+	system("echo '$period * * * * cd $path && ./autorun.pl' | crontab -");
 }
 
 sub install_structure {
