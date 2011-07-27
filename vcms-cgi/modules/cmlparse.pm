@@ -77,6 +77,7 @@ sub initparser
     	'th'=>1,
     	'groupheader'=>1,
     	'acc'=>1,
+    	'button'=>1,
  	);
 }
 
@@ -1108,9 +1109,11 @@ sub tag_use
     return $body;
 }
 
+sub tag_button {
+	return tag_actionlink({data=>$_[0]->{data},inner=>$_[0]->{inner},param=>"$_[0]->{param} button='1'"})
+}
 
 sub tag_actionlink {
-	use strict;
 	my $param=$_[0]->{param};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	
@@ -1213,7 +1216,8 @@ sub tag_actionlink {
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
 		$hrf.='&'.$pl->{href} if $pl->{href};
- 		return "<a href='$hrf' $param $tstr>$title</a>";
+		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title'/>):"<a href='$hrf' $param $tstr>$title</a>";
+
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
    	 	$pl->{template}='BASEARTICLE' unless $pl->{template};
