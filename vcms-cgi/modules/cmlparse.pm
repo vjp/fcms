@@ -1216,7 +1216,7 @@ sub tag_actionlink {
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
 		$hrf.='&'.$pl->{href} if $pl->{href};
-		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title'/>):"<a href='$hrf' $param $tstr>$title</a>";
+		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>";
 
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
    	 	&cmlmain::checkload({id=>$pl->{id}});
@@ -1248,7 +1248,7 @@ sub tag_actionlink {
  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 	    	 	    	
  	    	my $onclick=qq(onclick="execute('$pl->{method}',$dtstr, $callback)");
-			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
+			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
@@ -1258,7 +1258,7 @@ sub tag_actionlink {
  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 	    	 	    	
 			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
-			return $pl->{button}?"<input type='button' $onclick value='$title'/>":"<a href='#' $onclick>$title</a>";
+			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	}			
 	
 	$title=&cmlcalc::p('_NAME',$iid) unless $title;	 
