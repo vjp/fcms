@@ -2530,7 +2530,7 @@ sub tag_calendar {
 	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":''; 
 	return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr/>
-	         <input value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=parseInt(this.calendar_date_select.selected_date.getTime()/1000);$pl->{onchange}">
+	         <input value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
 }	
