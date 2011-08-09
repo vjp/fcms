@@ -472,6 +472,7 @@ sub tag_menuitem	{
 		$itext=&cmlcalc::p(_NAME,$id);
 	}
 	$href.="&id=$id";	 
+	$icohref.="&id=$id";	 
 	$itext='пустой' unless $itext;
 	$itext="<b>$itext</b>" if $pl->{head};
 	my $hcol=$pl->{head}?'#FFFFFF':'#dedede';
