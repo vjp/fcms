@@ -24,6 +24,9 @@ check_session();
 my $prms=decode_json($data);
 if (ref $prms eq 'HASH') {
 	unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
+		if (ref $prms->{$_} eq 'ARRAY' && ref $prms->{$_}->[1] eq 'ARRAY') {
+		    	$prms->{$_}=join(';',@{$prms->{$_}->[1]})	
+		}
 		$prms->{$_} = Encode::encode('cp1251',$prms->{$_}) for keys %$prms;
 	}	
 	$cmlcalc::CGIPARAM=$prms;
