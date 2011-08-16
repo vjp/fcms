@@ -2655,6 +2655,18 @@ sub tag_dev {
 sub tag_if {
 	
 	my $param=$_[0]->{param};
+	undef $_[0]->{uinner}->{cond};
+	
+	my $pl=fetchparam(\$param,['readonly']);
+	if ($pl->{readonly}) {
+		if ($cmlcalc::CGIPARAM->{readonly}) {
+			$_[0]->{uinner}->{cond}=1; 
+			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}})
+		} else {
+			return undef;
+		}	 
+	}
+	
 	my $key;
 	my $ukey;
 	my $uid;
@@ -2675,7 +2687,7 @@ sub tag_if {
 	if ($param=~s/(\W)selected=(['"])(.+?)\2/$1/i)      {
 		my $cond=$_[0]->{inner}->{selected};
 		$cond=!$cond if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if ($cond) {
 			$_[0]->{uinner}->{cond}=$cond; 
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
@@ -2683,7 +2695,7 @@ sub tag_if {
 	} elsif ($param=~s/(\W)cgiparamexist=(['"])(.+?)\2/$1/i)      {
 		my $cond=$cmlcalc::CGIPARAM->{$3} ne '';
 		$cond=!$cond if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if ($cond) {
 			$_[0]->{uinner}->{cond}=1; 
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
@@ -2691,7 +2703,7 @@ sub tag_if {
 	} elsif ($param=~s/(\W)view=(['"])(.+?)\2/$1/i)      {
 		my $cond=$cmlcalc::CGIPARAM->{view} eq $3;
 		$cond=!$cond if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if ($cond) {
 			$_[0]->{uinner}->{cond}=1; 
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
@@ -2700,7 +2712,7 @@ sub tag_if {
         $param=~s/(\W)prm=(['"])(.+?)\2/$1/i   )  {
 		my $cond="p($3)";
 		$cond="!$cond" if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if (&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$cond,uid=>$uid})->{value}){
 			$_[0]->{uinner}->{cond}=1; 
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
@@ -2708,7 +2720,7 @@ sub tag_if {
 	} elsif ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i)      {
 		my $cond=$3;
 		$cond="!$cond" if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if (&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$cond,uid=>$uid})->{value})	{
 			$_[0]->{uinner}->{cond}=1;
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
@@ -2717,7 +2729,7 @@ sub tag_if {
 		my $cond=$3;
 		undef $cond if $cond eq 'NULL';
 		$cond="!$cond" if $not;
-		undef $_[0]->{uinner}->{cond};
+		
 		if ($cond)	{
 			$_[0]->{uinner}->{cond}=1;
 			return cmlparser ({data=>$_[0]->{data},inner=>$_[0]->{inner}}) 
