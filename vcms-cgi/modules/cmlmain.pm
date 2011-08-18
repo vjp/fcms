@@ -2660,7 +2660,7 @@ sub tocache {
 	my %inserted;
 	for (@$links) {
 		if ($_ && !$inserted{$_}) {
-			$sthLC->execute($key,$_,$dev,$lang) || die $dbh->errstr;
+			$sthLC->execute($key,$_,$dev,$lang) || warn $dbh->errstr;
 			$inserted{$_}=1;
 		}	
 	}
