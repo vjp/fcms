@@ -432,9 +432,9 @@ sub tag_menuitem	{
 			$targetstr='';
 			unless ($pl->{icohref}) {
 				if ($pl->{'childukey'} && $pl->{'key'}) {
-					$pl->{icohref}="body=LISTEDIT_$pl->{key}&id=$id";
+					$pl->{icohref}="body=LISTEDIT_$pl->{key}";
 				} else {
-					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$upkey&id=$id":"body=LISTEDIT_$ukey&id=$id"
+					$pl->{icohref}=$pl->{listprm}?"body=EDIT_$upkey":"body=LISTEDIT_$ukey"
 				}
 				for (qw (orderby ordertype)) {
 					$pl->{icohref}.="&$_=$pl->{$_}" if $pl->{$_};
@@ -443,7 +443,7 @@ sub tag_menuitem	{
 		} else {
 			my $bodykey=$pl->{templatekey} && $pl->{templatekey} ne 'NULL'?$pl->{templatekey}:'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 			$pl->{href}="body=$bodykey";
-			$pl->{icohref}="body=$bodykey&id=$id" unless $pl->{icohref};
+			$pl->{icohref}="body=$bodykey" unless $pl->{icohref};
 		}
 			
 	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {
