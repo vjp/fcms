@@ -742,7 +742,7 @@ sub tag_list  	{
   			'selected','selexpr',
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
-  			'headerprm','headerexpr',
+  			'headerprm','headerexpr','var',
   		]);
   		$container=$pl->{'container'}||1;
   		
@@ -889,7 +889,8 @@ sub tag_list  	{
 
   			
  			$inner->{objid}=$splist[$i];
- 			
+ 			$cmlcalc::ENV->{$pl->{var}}=$splist[$i] if $pl->{var};
+
  			undef $inner->{needheader};
  			if ($pl->{headerprm} || $pl->{headerexpr}) {
  				my $hexpr=$pl->{headerprm}?"p($pl->{headerprm})":$pl->{headerexpr};
