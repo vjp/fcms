@@ -272,6 +272,14 @@ sub fetchparam {
 	return $rstr;
 }
 
+sub process_csvcols () {
+	push (@cmlcalc::CSVROWS,join(';',map {
+		$_=~s/"/'/gs;
+		$_='"'.$_.'"';
+	}@cmlcalc::CSVCOLS));
+	undef @cmlcalc::CSVCOLS;	
+}
+
 
 ############################### Обработчики тегов
 
@@ -282,7 +290,7 @@ sub tag_csvcol {
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $pl=fetchparam(\$param,['hidden']);
 	my $value=cmlparser({data=>$data,inner=>$inner});
-	push (@cmlcalc::CSVCOLS, '"'.$value.'"');
+	push (@cmlcalc::CSVCOLS, $value);
 	return $pl->{hidden}?undef:$value;
 }
 
@@ -290,8 +298,7 @@ sub tag_csvrow {
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $value=cmlparser({data=>$data,inner=>$inner});
-	push (@cmlcalc::CSVROWS,join(';',@cmlcalc::CSVCOLS));
-	undef @cmlcalc::CSVCOLS;
+	process_csvcols();
 	return $value;
 }
 
@@ -318,8 +325,7 @@ sub tag_tr {
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	$cmlcalc::ROWID++;
 	if ($pl->{csv}) {
-		push (@cmlcalc::CSVROWS,join(';',@cmlcalc::CSVCOLS));
-		undef @cmlcalc::CSVCOLS;
+		process_csvcols();
 	}	
 	return "<tr $param>$body</tr>";
 }
@@ -333,7 +339,7 @@ sub tag_td {
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	my $tg=($pl->{th} || $inner->{th})?'th':'td';
 	if ($pl->{csv}) {
-		push (@cmlcalc::CSVCOLS, '"'.$body.'"');
+		push (@cmlcalc::CSVCOLS, $body);
 	}	
 	return "<$tg $param>$body</$tg>";
 }
@@ -655,7 +661,7 @@ sub tag_select {
 	undef $inner->{selectedlist};
   	if (defined $sexpr) {
   		my $v=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value} || '';
-  		push (@cmlcalc::CSVCOLS, '"'.&cmlcalc::p(_NAME,$v).'"') if $pl->{csv};
+  		push (@cmlcalc::CSVCOLS, &cmlcalc::p(_NAME,$v) ) if $pl->{csv};
   		for (split(';',$v)) {$inner->{selectedlist}->{$_}=1}
 
   	} elsif ($cmlcalc::CGIPARAM->{$name}) {
@@ -1929,7 +1935,7 @@ sub tag_text {
   	
   		$result=~s/\n/<br>/g if $pl->{'br'};
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
-        push (@cmlcalc::CSVCOLS, '"'.$result.'"') if $pl->{csv};
+        push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
 		return $result;
 }
 
@@ -2057,7 +2063,7 @@ sub tag_date {
         $result=$result->{value} if ref $result eq 'HASH';
     }
     $result=&cmlmain::enc(strftime $frmt,localtime($result)) if $result;
-    push (@cmlcalc::CSVCOLS, '"'.$result.'"') if $pl->{csv};
+    push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
   	return $result;
 
 	
@@ -2375,7 +2381,7 @@ sub tag_inputtext {
 	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
 		$value = $cmlcalc::CGIPARAM->{$name}
 	}
-	push (@cmlcalc::CSVCOLS, '"'.$value.'"') if $pl->{csv};
+	push (@cmlcalc::CSVCOLS, $value ) if $pl->{csv};
 	
 	return $value if $access_denied;
 	
@@ -2549,7 +2555,7 @@ sub tag_checkbox {
 	my $value=$pl->{value} || 1;	
 	my $checked=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1?'checked':'';
 	
-	push (@cmlcalc::CSVCOLS, $checked?'"+"':'"-"') if $pl->{csv};
+	push (@cmlcalc::CSVCOLS, $checked?'+':'-') if $pl->{csv};
 	
     if ($cmlcalc::ENV->{READONLY}) {
     	return $checked?"+":"-";
