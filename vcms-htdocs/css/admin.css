@@ -3,8 +3,8 @@ body {scrollbar-base-color: #000066; scrollbar-arrow-color: #ffffff; scrollbar-h
 a:,a:link, a:visited {font-family: Tahoma, sans-serif; color: #1E609C; text-decoration: underline;}
 a:active, a:hover {font-family: Tahoma, sans-serif;  color: #9C1E1E; text-decoration: none;}
 hr {border: 0; width: 100%; color: #770000; background-color: #D96926; height: 2px;}
-li {font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}
-ul {font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
+/*li {font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}*/
+/*ul {font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}*/
 input, select {font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
 small, .small {font-family: Tahoma, sans-serif; font-size: 9px; color: #565B64; font-weight : normal;}
 h1, h2, h3, h4, h5, h6 {font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
