@@ -592,7 +592,7 @@ sub p	{
  		if (ref $oid eq 'HASH') {$ind=$oid->{value}}
  		else 			 {
  			if ($oid=~/;/) {
- 				return join(';',map {calc($_,"p($pkey)")} split(';',$oid) );
+ 				return join(';', grep {$_} map {calc($_,"p($pkey)")} split(';',$oid) );
  			}	
  			return calc($oid,"p($pkey)");
  		}	
