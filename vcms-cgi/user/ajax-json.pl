@@ -15,7 +15,6 @@ use CGI::Carp qw /fatalsToBrowser/;
 start('..');
 
 my $json = new JSON::PP;
-print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 my $data=param('data') || $json->encode ([]);
 my $func=param('func');
 check_session();
@@ -56,5 +55,14 @@ if (ref $result ne 'HASH') {
 		message=>enc("Ошибка выполнения. Метод: $func Ошибка: ").$result,
 	});
 }
+my @cookies;
+push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+#print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
+print header(
+	-type=>'application/json',
+	-cookie=>\@cookies, 
+	-charset=>$GLOBAL->{CODEPAGE},
+);
+
 print $json->encode ($result);
 
