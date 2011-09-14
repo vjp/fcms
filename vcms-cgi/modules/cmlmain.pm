@@ -292,8 +292,12 @@ sub check_auth ($$)
 		$cmlcalc::ENV->{'USERID'}=$objid;
 		return (1,$ck);
 	} elsif ($sid && ! ($flag & 1)) {
+		undef $cmlcalc::ENV->{'LOGIN'};
+		undef $cmlcalc::ENV->{'USERID'};		
 		return (0,1); 	
 	} else {
+		undef $cmlcalc::ENV->{'LOGIN'};
+		undef $cmlcalc::ENV->{'USERID'};		
 		return (0,0);
 	}
 	
