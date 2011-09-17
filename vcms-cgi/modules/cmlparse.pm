@@ -1224,6 +1224,7 @@ sub tag_actionlink {
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
 		$hrf.='&'.$pl->{href} if $pl->{href};
+		$title=&cmlcalc::p('_NAME',&cmlcalc::id($ukey)) unless $title;	
 		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>";
 
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
