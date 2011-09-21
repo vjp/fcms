@@ -2681,6 +2681,7 @@ sub fastsearch {
 	my $like=$_[0]->{like};
 	my $up=$_[0]->{up};
 	my $clause=$_[0]->{clause};
+	my $filterlist=$_[0]->{filterlist};
 	my $sthSRC;
 	
 	if ($clause) {
@@ -2712,6 +2713,13 @@ sub fastsearch {
 	if ($up) {
 		 @rlist = grep {isupper({up=>$up,low=>$_})} @rlist;
 	}
+	if ($_[0]->{filterlist}) {
+		my $h;
+		$h->{$_}=1 for @$filterlist;
+		@rlist=grep {$h->{$_}} @rlist; 
+	}
+	
+	
 	return sort {$lobj->{$a}->{indx}<=>$lobj->{$b}->{indx}} @rlist;
 }	
 
