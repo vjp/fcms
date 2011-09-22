@@ -98,7 +98,12 @@ sub setenv
 	$cmlcalc::ENV->{$prm}=join(';',@_);
 }
 
-
+sub setenvhash 
+{
+	my ($name)=shift @_;
+	my ($key)=shift @_;
+	$cmlcalc::ENV->{$name}->{$key}=join(';',@_);
+}
 
 sub add ($;$){
 	my ($up,$prms)=@_;
@@ -494,9 +499,14 @@ sub l {
 	push(@l,split(/;/,$_)) for @_;
 	return @l;
 }
-sub env {
+sub env ($) {
 	return $cmlcalc::ENV->{$_[0]};
 }
+
+sub envhash($$) {
+	return $cmlcalc::ENV->{$_[0]}->{$_[1]};
+}
+
 sub cgi {
 	return $cmlcalc::CGIPARAM->{$_[0]};
 }
