@@ -92,10 +92,10 @@ sub setv {
 }
 
 
-sub setenv ($$)
+sub setenv 
 {
-	my ($prm,$val)=@_;
-	$cmlcalc::ENV->{$prm}=$val;
+	my ($prm)=shift @_;
+	$cmlcalc::ENV->{$prm}=join(';',@_);
 }
 
 
