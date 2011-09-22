@@ -503,8 +503,11 @@ sub env ($) {
 	return $cmlcalc::ENV->{$_[0]};
 }
 
-sub envhash($$) {
-	return $cmlcalc::ENV->{$_[0]}->{$_[1]};
+sub envhash($;$) {
+	my ($name,$key)=@_;
+
+	$key ||=$OBJID->{id};
+	return $cmlcalc::ENV->{$name}->{$key};
 }
 
 sub cgi {
