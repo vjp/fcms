@@ -79,7 +79,7 @@ sub editprmform {
 	my $ss;
 	
 	my $extra=&{$ptype{$prm->{$pkey}->{type}}->{extra}}({pkey=>$pkey});
-	print_top();
+	print_top("P: $pkey"); 
 	print q(
 	 <script language="javascript" type="text/javascript">
 			editAreaLoader.init({
