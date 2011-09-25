@@ -2714,9 +2714,11 @@ sub fastsearch {
 		 @rlist = grep {isupper({up=>$up,low=>$_})} @rlist;
 	}
 	if ($_[0]->{filterlist}) {
-		my $h;
-		$h->{$_}=1 for @$filterlist;
-		@rlist=grep {$h->{$_}} @rlist; 
+		for my $currfilter (@{$_[0]->{filterlist}}) {
+			my $h;
+			$h->{$_}=1 for @$currfilter;
+			@rlist=grep {$h->{$_}} @rlist;
+		}	 
 	}
 	
 	
