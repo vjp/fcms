@@ -1268,7 +1268,9 @@ sub tag_actionlink {
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 	    	 	    	
 			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
-	}			
+	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
+		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
+	}				
 	
 	$title=&cmlcalc::p('_NAME',$iid) unless $title;	 
 	$title=$pl->{action} unless $title;
