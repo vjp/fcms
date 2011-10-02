@@ -204,7 +204,7 @@ sub statclick ($;$$)
 sub change_pass_user ($$) 
 {
 	my ($password,$objid)=@_;
-	my $sth1=$dbh->prepare("UPDATE  ${DBPREFIX}auth SET pwd=password(?), flag=flag|1  WHERE objid=?");
+	my $sth1=$dbh->prepare("UPDATE  ${DBPREFIX}auth SET pwd=password(?), flag=flag|1, scookie=''  WHERE objid=?");
 	$sth1->execute($password,$objid) || die $dbh->errstr();
 	return 1;
 }	
