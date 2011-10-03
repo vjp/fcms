@@ -577,13 +577,10 @@ sub html ($;$$)
 	}
 }
 
-sub iterator ()
-{
-	return ++$cmlcalc::ITERATOR;
-}
 
-sub inc ($;$$) {
+sub inc (;$$$) {
 	my ($pkey,$oid,$icount)=@_;
+	return ++$cmlcalc::INCREMENT unless $pkey;
 	$icount ||= 1;
 	my $val=p($pkey,$oid)+$icount;
 	set($oid || p(_ID),$pkey,$val);
