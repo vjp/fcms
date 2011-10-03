@@ -308,9 +308,9 @@ sub check_auth ($$;$)
 sub check_password ($)
 {
 	my ($password)=@_;
-	return (0,0) unless $cmlcalc::ENV->{'USERID'};
+	return (0,0) unless $cmlcalc::ENV->{'AUTHUSERID'};
 	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE objid=? and pwd=password(?)");
-	$sth1->execute($cmlcalc::ENV->{'USERID'},$password);
+	$sth1->execute($cmlcalc::ENV->{'AUTHUSERID'},$password);
 	my ($sid,$flag)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
 		return (1,0);
