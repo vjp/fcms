@@ -80,6 +80,7 @@ if (param('csv')) {
 		-attachment=>'export.csv',
 	);
 } else {
+	push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
 	print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
 }	
 
