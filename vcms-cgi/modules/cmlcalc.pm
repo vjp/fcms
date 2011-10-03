@@ -577,6 +577,11 @@ sub html ($;$$)
 	}
 }
 
+sub iterator ()
+{
+	return ++$cmlcalc::ITERATOR;
+}
+
 sub inc ($;$$) {
 	my ($pkey,$oid,$icount)=@_;
 	$icount ||= 1;
