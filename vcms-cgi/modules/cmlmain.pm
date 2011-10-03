@@ -291,15 +291,15 @@ sub check_auth ($$;$)
 		}	
 		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
 		$cmlcalc::ENV->{'LOGIN'}=$login;
-		$cmlcalc::ENV->{'USERID'}=$objid;
+		$cmlcalc::ENV->{'AUTHUSERID'}=$objid;
 		return (1,$ck);
 	} elsif ($sid && ! ($flag & 1)) {
 		undef $cmlcalc::ENV->{'LOGIN'};
-		undef $cmlcalc::ENV->{'USERID'};		
+		undef $cmlcalc::ENV->{'AUTHUSERID'};		
 		return (0,1); 	
 	} else {
 		undef $cmlcalc::ENV->{'LOGIN'};
-		undef $cmlcalc::ENV->{'USERID'};		
+		undef $cmlcalc::ENV->{'AUTHUSERID'};		
 		return (0,0);
 	}
 	
@@ -328,7 +328,7 @@ sub check_session ()
 	my ($sid)=$sth1->fetchrow();
 	if ($sid) {
 		$cmlcalc::ENV->{'LOGIN'}=$auth_data->{'login'};
-		$cmlcalc::ENV->{'USERID'}=$sid;
+		$cmlcalc::ENV->{'AUTHUSERID'}=$sid;
 		return 1;
 	} else {
 		return 0;
