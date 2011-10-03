@@ -277,17 +277,19 @@ sub check_user ($;$)
 	return $objid;
 }	
 
-sub check_auth ($$)
+sub check_auth ($$;$)
 {
-	my ($login,$password)=@_;
-	my $sth1=$dbh->prepare("SELECT id,flag,objid FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
+	my ($login,$password,$multisession)=@_;
+	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
 	$sth1->execute($login,$password) || die $dbh->errstr();
-	my ($sid,$flag,$objid)=$sth1->fetchrow();
+	my ($sid,$flag,$objid,$scookie)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
-		my $ck=int(rand(1000000000));
-		my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
-		$sth2->execute($ck,$sid) || die $dbh->errstr();
-		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$ck});
+		if (!$scookie || !$multisession) {
+			$scookie=int(rand(1000000000));
+			my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
+			$sth2->execute($scookie,$sid) || die $dbh->errstr();
+		}	
+		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
 		$cmlcalc::ENV->{'LOGIN'}=$login;
 		$cmlcalc::ENV->{'USERID'}=$objid;
 		return (1,$ck);
