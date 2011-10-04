@@ -2684,6 +2684,7 @@ sub fastsearch {
 	my $up=$_[0]->{up};
 	my $clause=$_[0]->{clause};
 	my $filterlist=$_[0]->{filterlist};
+	my $skiplist=$_[0]->{skiplist};
 	my $sthSRC;
 	
 	if ($clause) {
@@ -2723,6 +2724,11 @@ sub fastsearch {
 		}	 
 	}
 	
+	if ($_[0]->{skiplist}) {
+		my $h;
+		$h->{$_}=1 for @{$_[0]->{skiplist}};
+		@rlist=grep {!$h->{$_}} @rlist;
+	}
 	
 	return sort {$lobj->{$a}->{indx}<=>$lobj->{$b}->{indx}} @rlist;
 }	
