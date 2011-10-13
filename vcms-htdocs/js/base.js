@@ -261,3 +261,75 @@ function grayscale(image, bPlaceImage)
   }
   return myCanvas.toDataURL();
 }
+
+
+
+
+function render_scrollable_table(id, scroll_height) {
+    var container  = $(id);
+    var tbl_orig   = container.select('table').first();
+    tbl_orig.setStyle({'width':(tbl_orig.getWidth())-18 +'px'});
+    var tbl_header = tbl_orig.select('thead').first();
+    var tbl_body   = tbl_orig.select('tbody').first();
+    if (typeof tbl_header != 'undefined' && typeof tbl_body != 'undefined') {
+    
+        // Remove the tbody style so we can get the height of the actual rows.
+        tbl_body.setStyle({'height': null});
+        var actual_height = tbl_body.getHeight();
+
+        // Get the width of the table.
+        var total_width = tbl_orig.getWidth();
+
+        // Set the width of the container div.
+       
+        container.setStyle({'width': total_width + 'px'});
+
+        // Don't add the fixed height and scroll box if there isn't enough content to scroll.
+        if (actual_height > scroll_height) {
+            var col_widths = new Array();
+
+            // Add fixed widths to the table header columns.
+            tbl_header.select('td','th').each(function(item, index) {
+                col_widths[index] = item.getWidth();
+                item.writeAttribute({'width': col_widths[index]});
+            });
+            
+  
+            // Add fixed widths to the table body columns.
+            tbl_body.select('tr').each(function(item, index) {
+                if (item.select('td').length==col_widths.length) {
+                   item.select('td').each(function(item, index) {
+                      item.writeAttribute({'width': col_widths[index]});
+                   });
+                }
+            });
+
+
+            // Remove header and body from the original table.
+            var tmp_header = tbl_header.remove();
+            var tmp_body   = tbl_body.remove();
+
+            // Update the width of the container div.
+            container.setStyle({'width': (total_width + 18) + 'px'});
+
+            // Create table to hold the scrollable body.
+            var tmp_tbl_body = $(tbl_orig.cloneNode(true));
+            tmp_tbl_body.insert(tmp_body);
+            tmp_tbl_body.setStyle({'height': scroll_height + 'px'});
+
+            // Add fixed header back into the DOM.
+            var tmp_tbl_header = $(tbl_orig.cloneNode(true));
+            tmp_tbl_header.insert(tmp_header);
+            container.insert(tmp_tbl_header);
+
+            // Add scrollable body into the DOM.
+            var scroll_box = new Element('div', {'style': 'height: ' + scroll_height + 'px; overflow: auto;'});
+            scroll_box.insert(tmp_tbl_body);
+            container.insert(scroll_box);
+
+            // Remove original table.
+            tbl_orig.remove();
+        }
+    }
+}
+
