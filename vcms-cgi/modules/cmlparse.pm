@@ -78,6 +78,7 @@ sub initparser
     	'groupheader'=>1,
     	'acc'=>1,
     	'button'=>1,
+    	'flag'=>1,
  	);
 }
 
@@ -282,6 +283,18 @@ sub process_csvcols () {
 
 
 ############################### Обработчики тегов
+
+sub tag_flag {
+	my $data=$_[0]->{data};
+	my $param=$_[0]->{param};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['prm','param','expr','id']);
+	my $prm=$pl->{param} || $pl->{prm};
+	my $expr=$pl->{expr};
+	$expr="p($prm)" if $prm;
+	my $id=$pl->{id} || $inner->{objid};	
+    return &cmlcalc::calculate({id=>$id,expr=>$expr})->{value}?"<image src='$cmlmain::OKIMAGEURL'/>":'';
+}
 
 
 sub tag_csvcol {
@@ -1175,6 +1188,8 @@ sub tag_actionlink {
 	}
 	$inner->{objid}=$iid;
 	$title=$pl->{title};
+	$title="<image src='$cmlmain::UNDOIMAGEURL'/>" if !$title && $pl->{action} eq 'UNDO';
+	
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
@@ -1195,6 +1210,9 @@ sub tag_actionlink {
      	 }
     );
     return undef if $access_denied && $pl->{action} eq 'ADD'; 	
+    
+    
+    
 	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW' || $pl->{action} eq 'EDITVIEW') {
 		if ($pl->{action} eq 'EDITVIEW') {
 			$pl->{action}=$access_denied?'VIEW':'EDIT';	
@@ -1271,6 +1289,8 @@ sub tag_actionlink {
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
 	}				
+	
+	
 	
 	$title=&cmlcalc::p('_NAME',$iid) unless $title;	 
 	$title=$pl->{action} unless $title;
