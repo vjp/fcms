@@ -1149,7 +1149,7 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
-		'forcereadonly','jsdata','type','setname'
+		'forcereadonly','jsdata','type','setname','confirm'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1273,8 +1273,9 @@ sub tag_actionlink {
  	    	my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr='{}';
  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
- 	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 	    	 	    	
- 	    	my $onclick=qq(onclick="execute('$pl->{method}',$dtstr, $callback)");
+ 	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'';	    	 	    	
+ 	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
@@ -1283,8 +1284,9 @@ sub tag_actionlink {
 			my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr='{}';
  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
- 	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 	    	 	    	
-			my $onclick=qq(onclick="lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
+ 	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'';	 	    	 	    	
+			my $onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
