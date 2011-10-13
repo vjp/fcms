@@ -264,7 +264,7 @@ function grayscale(image, bPlaceImage)
 
 
 
-
+// (c) http://www.chrisnetonline.com/lab/scrollabletable/
 function render_scrollable_table(id, scroll_height) {
     var container  = $(id);
     var tbl_orig   = container.select('table').first();
