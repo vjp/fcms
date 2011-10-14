@@ -22,6 +22,7 @@ $SAVEBUTTONURL='/cmsimg/save.gif';
 $PLUSBUTTONURL='/cmsimg/plus.gif';
 $UNDOIMAGEURL='/cmsimg/undo.png';
 $OKIMAGEURL='/cmsimg/button_ok.png';
+$OKLTIMAGEURL='/cmsimg/button_ok_lt.png';
 
 
 $DOUBLECONFIRM=0;
