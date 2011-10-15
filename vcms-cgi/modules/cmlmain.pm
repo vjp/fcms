@@ -1098,19 +1098,20 @@ sub setvalue  {
 		setvalue({id=>$id,uid=>$uid,pkey=>$pkey,value=>$fname});
 		return 1;
  	}
- 	if ($append && $prm->{$pkey}->{type} eq 'LIST') {
- 		my $old_value=&cmlcalc::p($pkey,$id);
- 		if ($old_value) {
- 		    my @v=split(';',$old_value);
- 		    my @av=split(';',$value);
- 		    for my $add_v (@av) {
- 		    	unless (grep{$_ eq $add_v}@v) {
- 		    		push(@v,$add_v);
- 		    	}	
- 		    }	
- 		    $value=join(';',@v);
- 		}
- 	}
+ 	my $old_value;
+ 	$old_value=&cmlcalc::p($pkey,$id) if ($append && $prm->{$pkey}->{type} eq 'LIST') || $prm->{$pkey}->{extra}->{onchange};
+ 		
+ 	
+ 	if (($append && $prm->{$pkey}->{type} eq 'LIST') && $old_value) {
+ 	    my @v=split(';',$old_value);
+ 	    my @av=split(';',$value);
+ 	    for my $add_v (@av) {
+ 	    	unless (grep{$_ eq $add_v}@v) {
+ 	    		push(@v,$add_v);
+ 	    	}	
+ 	    }	
+ 	    $value=join(';',@v);
+	}
  	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
@@ -1269,7 +1270,7 @@ sub setvalue  {
 			}	
 		}
 	} 
-  	if ($prm->{$pkey}->{extra}->{onchange} && !$noonchange) {
+  	if ($prm->{$pkey}->{extra}->{onchange} && !$noonchange && ($value ne $old_value)) {
   		if ($id) {$OBJECT=$obj->{$id}}
   	 	if ($uid) {$OBJECT=$lobj->{$uid}}
   	 	cmlcalc::execute({lmethod=>$prm->{$pkey}->{extra}->{onchange},id=>$id});
