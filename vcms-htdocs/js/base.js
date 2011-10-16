@@ -333,3 +333,13 @@ function render_scrollable_table(id, scroll_height) {
     }
 }
 
+
+function blink (id) {
+    var i = document.getElementById(id);
+    if(i.style.visibility=='hidden') {
+        i.style.visibility='visible';
+    } else {
+        i.style.visibility='hidden';
+    }
+    setTimeout("blink('"+id+"')",1000);
+}

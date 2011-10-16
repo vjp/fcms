@@ -1600,7 +1600,7 @@ sub tag_img 	{
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
 		'alt','altparam','altprm', 'path', 'src', 'hintprm',
-		'elementid','onmouseoverparam', 
+		'elementid','onmouseoverparam','blink' 
 	]);
 	
 
@@ -1643,7 +1643,7 @@ sub tag_img 	{
 			$src="$pstr/$v->{value}";
 		}	
 	}
-	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
+	
 	
 	my $omestr;
 	if ($pl->{onmouseoverparam}) {
@@ -1654,7 +1654,9 @@ sub tag_img 	{
 			$omestr="onmouseover='this.src=\"$omesrc\"' onmouseout='this.src=\"$src\"'";
 		}	
 	}
-	
+	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
+    my $blstr=($pl->{blink} && $pl->{elementid})?"<script>blink('$pl->{elementid}')</script>":'';
+
 	
 	if ($pl->{hintprm}) {
 		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
@@ -1663,10 +1665,10 @@ sub tag_img 	{
 		</script>
 		);
 		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
-		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr>";	
+		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr>$blstr";	
 
 	} else {
-		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr>";	
+		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr>$blstr";	
 	}
 	
 	
