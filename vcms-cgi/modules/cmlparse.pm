@@ -1189,7 +1189,7 @@ sub tag_actionlink {
 	}
 	$inner->{objid}=$iid;
 	$title=$pl->{title};
-	$title="<image src='$cmlmain::UNDOIMAGEURL'/>" if !$title && $pl->{action} eq 'UNDO';
+	$title="<image src='$cmlmain::UNDOIMAGEURL' border='0'/>" if !$title && $pl->{action} eq 'UNDO';
 	
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
