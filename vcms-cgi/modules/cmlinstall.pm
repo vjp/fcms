@@ -805,6 +805,7 @@ my $bmv=qq(<html>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
+<script language="javascript" type="text/javascript" src="/jscolor/jscolor.js"></script>
 
 <script src="/js/calendar_date_select/calendar_date_select.js" type="text/javascript"></script>
 <script src="/js/calendar_date_select/format_db_e.js" type="text/javascript"></script>

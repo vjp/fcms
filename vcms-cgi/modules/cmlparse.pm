@@ -2359,7 +2359,7 @@ sub tag_inputtext {
   	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
-  		'elementid','visual','csv'
+  		'elementid','visual','csv','color'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2437,11 +2437,11 @@ sub tag_inputtext {
   	}
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
   	
-  	
+  	my $clrstr=$pl->{color}?"class='color'":'';
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
- 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr/>);
+ 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
