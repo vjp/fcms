@@ -326,9 +326,14 @@ sub tag_table {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['scrollheight']);
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	$cmlcalc::ROWID=0;
-	return "<table $param>$body</table>";
+	my $ttext;
+	$ttext.='<div id="scroller" class="scrollable_table">' if $pl->{scrollheight};
+	$ttext.="<table $param>$body</table>";
+	$ttext.="</div><script type='text/javascript'>render_scrollable_table('scroller', $pl->{scrollheight});</script>"; 
+	return $ttext;
 }
 
 
