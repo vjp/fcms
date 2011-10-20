@@ -777,9 +777,11 @@ sub tag_list  	{
   			'selected','selexpr',
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
-  			'headerprm','headerexpr','var',
+  			'headerprm','headerexpr','var','tbody'
   		]);
   		$container=$pl->{'container'}||1;
+  		
+  		$body.='<tbody>' if $pl->{tbody};
   		
   		$limit=$pl->{limit};
   		if ($pl->{start}) {
@@ -959,6 +961,7 @@ sub tag_list  	{
   			}	
 		}	  
 	}
+	$body.='</tbody>' if $pl->{tbody};
   	return  $body;
   
   	 
