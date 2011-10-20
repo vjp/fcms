@@ -288,12 +288,13 @@ sub tag_flag {
 	my $data=$_[0]->{data};
 	my $param=$_[0]->{param};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['prm','param','expr','id','light']);
+	my $pl=fetchparam(\$param,['prm','param','expr','id','light','lightexpr']);
 	my $prm=$pl->{param} || $pl->{prm};
 	my $expr=$pl->{expr};
 	$expr="p($prm)" if $prm;
 	my $id=$pl->{id} || $inner->{objid};	
 	my $iurl=$pl->{light}?$cmlmain::OKLTIMAGEURL:$cmlmain::OKIMAGEURL;
+	$iurl=$cmlmain::OKLTIMAGEURL if $pl->{lightexpr} && &cmlcalc::calculate({id=>$id,expr=>$pl->{lightexpr}})->{value};
 	my $value=&cmlcalc::calculate({id=>$id,expr=>$expr})->{value};
 	if ($cmlcalc::CSVMODE) {
 		return $value?'+':'';
