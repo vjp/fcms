@@ -14,7 +14,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS $ROWID);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS $ROWID  $CSVMODE);
 }
 
 sub initcalc
@@ -150,6 +150,7 @@ sub calculate 	{
 		$PARID=$_[0]->{parent};
 		$CALCLANG=$_[0]->{lang};
 		$DEBUG=$_[0]->{debug};
+		$CSVMODE=1 if $_[0]->{csv};
  		if    ($_[0]->{tabpkey})  {
  			$indx=$_[0]->{tabkey};
  			$id=$_[0]->{id};

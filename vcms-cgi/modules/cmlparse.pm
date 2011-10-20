@@ -294,7 +294,12 @@ sub tag_flag {
 	$expr="p($prm)" if $prm;
 	my $id=$pl->{id} || $inner->{objid};	
 	my $iurl=$pl->{light}?$cmlmain::OKLTIMAGEURL:$cmlmain::OKIMAGEURL;
-    return &cmlcalc::calculate({id=>$id,expr=>$expr})->{value}?"<image src='$iurl'/>":'';
+	my $value=&cmlcalc::calculate({id=>$id,expr=>$expr})->{value};
+	if ($cmlcalc::CSVMODE) {
+		return $value?'+':'';
+	} else {
+    	return $value?"<image src='$iurl'/>":'';
+	}	
 }
 
 
