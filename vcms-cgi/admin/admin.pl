@@ -103,7 +103,11 @@ my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
 	$v=&cmlcalc::calculate({key=>'BASEMENU',expr=>"p($prm)"});
 }	elsif (param('body') && param('body') ne 'NULL') {
-	$v=&cmlcalc::calculate({key=>'BASEMAIN',expr=>"p($prm)"});
+	$v=&cmlcalc::calculate({
+		key=>'BASEMAIN',
+		expr=>"p($prm)",
+		csv=>param('csv'),
+	});
 } elsif (param('view')) {
 	
  	$v=&cmlcalc::calculate({
