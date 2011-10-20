@@ -295,7 +295,7 @@ sub tag_flag {
 	my $id=$pl->{id} || $inner->{objid};	
 	my $iurl=$pl->{light}?$cmlmain::OKLTIMAGEURL:$cmlmain::OKIMAGEURL;
 	$iurl=$cmlmain::OKLTIMAGEURL if $pl->{lightexpr} && &cmlcalc::calculate({id=>$id,expr=>$pl->{lightexpr}})->{value};
-	my $value=&cmlcalc::calculate({id=>$id,expr=>$expr})->{value};
+	my $value=$expr?&cmlcalc::calculate({id=>$id,expr=>$expr})->{value}:1;
 	if ($cmlcalc::CSVMODE) {
 		return $value?'+':'';
 	} else {
