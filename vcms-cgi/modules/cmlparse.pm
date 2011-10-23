@@ -79,6 +79,7 @@ sub initparser
     	'acc'=>1,
     	'button'=>1,
     	'flag'=>1,
+    	'bold'=>1,
  	);
 }
 
@@ -303,6 +304,18 @@ sub tag_flag {
 	}	
 }
 
+sub tag_bold {
+	my $data=$_[0]->{data};
+	my $param=$_[0]->{param};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['prm','param','expr','id']);
+	my $prm=$pl->{param} || $pl->{prm};
+	my $expr=$pl->{expr};
+	$expr="p($prm)" if $prm;
+	my $id=$pl->{id} || $inner->{objid};	
+    my $result=cmlparser({data=>$data,inner=>$inner});
+    return cmlcalc::calculate({id=>$id,expr=>$expr})->{value}?"<b>$result</b>":$result;
+}
 
 sub tag_csvcol {
 	my $data=$_[0]->{data};
