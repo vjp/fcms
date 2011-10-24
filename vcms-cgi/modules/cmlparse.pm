@@ -1685,7 +1685,7 @@ sub tag_img 	{
 			$omestr="onmouseover='this.src=\"$omesrc\"' onmouseout='this.src=\"$src\"'";
 		}	
 	}
-	$pl->{elementid}="img$id" if $pl->{blink} && !$pl->{elementid};
+	$pl->{elementid}="img$_[0]->{inner}->{objid}" if $pl->{blink} && !$pl->{elementid};
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
     my $blstr=($pl->{blink} && $pl->{elementid})?"<script>blink('$pl->{elementid}')</script>":'';
 
