@@ -910,6 +910,20 @@ setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEFILES',name=>'Вставка файлов в визивиг'});
+setvalue({convert=>1,key=>'MCEFILES',pkey=>'PAGETEMPLATE',value=>qq(
+<table><tr>
+    <cml:list prm='FILELINKS'>
+        <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertlink('_global:FILEURL_/_cml:ARCHIVEFILE_','_cml:_NAME_')"><cml:text prm='_NAME'/></cml:a></td>
+    </cml:list>
+</tr></table>
+<cml:form insertinto='_id:FILEARCHIVE_' link='FILELINK'>
+     Имя  <cml:inputtext prm='_NAME'/> Файл <cml:inputfile param='ARCHIVEFILE'/>
+     <input type='submit' value='Новый файл'>
+</cml:form>
+)});
+
+
 
 my $bmf=qq(
 </td></tr></table>
