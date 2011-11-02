@@ -15,7 +15,7 @@ function insertbwimage (text){
 
 
     function insertlink (src,name){ 
-        tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'"/>'+name+'</a> '); 
+        tinyMCE.execCommand('mceInsertContent', false, ' <a href="'+src+'">'+name+'</a> '); 
         tinyMCE.execCommand('mceInsertContent', false, ''); 
     } 
     function insertvideo (id,pic){ 
