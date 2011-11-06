@@ -8,7 +8,7 @@ BEGIN
  use cmlmain;
  use Cwd;
  @ISA    = 'Exporter';
- @EXPORT = qw(&install_structure &install_mce &install_db);
+ @EXPORT = qw(&install_structure &install_mce &install_db &create_db);
 }
 sub install_cron ($){
 	my $period= shift || 15;
@@ -1247,7 +1247,12 @@ alert(enc('Структура создана успешно'));
 	
 }
 
-
+sub create_db ($$$;$)
+{
+	my ($db_name,$db_user,$db_password,$db_host)=@_;
+	my $dbh=DBI->connect("DBI:mysql:mysql:$db_host",$db_user,$db_password) || die $DBI::errstr;
+	$dbh->do("CREATE DATABASE $db_name");
+}
 
 
 sub install_db ($$) {
