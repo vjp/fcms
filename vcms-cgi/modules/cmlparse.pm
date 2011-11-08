@@ -1376,7 +1376,7 @@ sub tag_a	{
 	my $param=$_[0]->{param};
 
 	my $pl=fetchparam(\$param,[
-		'mode','name','href','pagenum',
+		'mode','href','pagenum',
 		'parser','adminparser',
 		'extraprm','adminextraprm',
 		'param','prm','expr','id',
@@ -1387,9 +1387,7 @@ sub tag_a	{
 	my $ql;
 	my @qls;
 	my $mode=$pl->{'mode'} || ''; 
-	if ($pl->{'name'}) {
-		$ql="/view/$pl->{'name'}" 	
-	} elsif ($pl->{'href'}) {	
+    if ($pl->{'href'}) {	
 		$ql=$pl->{'href'};
 		if ($ql!~/^(http|mailto|\/|\?)/ && $ql ne '#') {$ql="http://$ql"}
 	} elsif ($pl->{'pagenum'}) {
