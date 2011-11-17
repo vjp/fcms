@@ -2693,7 +2693,11 @@ sub tag_changebutton {
 		}	
 	}	
 	if ($pl->{title}) {
-		return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
+		if ($onclickstr) {
+			return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
+		} else {
+			return "<input type='submit' value='$pl->{title}' $param/>";
+		}	
 	} else {	
 		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param/>";
 	}	
