@@ -10,7 +10,7 @@ BEGIN
  	@ISA    = 'Exporter';
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
- 		&create_db &populate_db
+ 		&create_db &populate_db &unpack_scripts
  	);
 }
 sub install_cron ($){
@@ -1262,6 +1262,12 @@ sub populate_db ($$$$;$)
 	my ($db_file,$db_name,$db_user,$db_password,$db_host)=@_;
 	my $hstr=$db_host?"-h$db_host":'';
 	`gzip -d -c $db_file | mysql $hstr -u$db_user -p$db_password $db_name`;
+}
+
+sub unpack_scripts ($$)
+{
+	my ($fname,$dir)=@_;
+    `tar -xzf $fname -C $dir`;	
 }
 
 
