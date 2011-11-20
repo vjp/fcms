@@ -10,7 +10,7 @@ BEGIN
  	@ISA    = 'Exporter';
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
- 		&create_db &populate_db &unpack_scripts
+ 		&create_db &create_db_user &populate_db &unpack_scripts &create_config
  	);
 }
 sub install_cron ($){
@@ -1254,7 +1254,7 @@ sub create_db ($$$;$)
 {
 	my ($db_name,$db_user,$db_password,$db_host)=@_;
 	my $dbh=DBI->connect("DBI:mysql:mysql:$db_host",$db_user,$db_password) || die $DBI::errstr;
-	$dbh->do("CREATE DATABASE $db_name");
+	$dbh->do("CREATE DATABASE $db_name") || die $dbh->errstr;
 }
 
 sub populate_db ($$$$;$)
@@ -1264,13 +1264,64 @@ sub populate_db ($$$$;$)
 	`gzip -d -c $db_file | mysql $hstr -u$db_user -p$db_password $db_name`;
 }
 
+sub create_db_user ($$$$$;$)
+{
+	my ($db_name,$admin_db_user,$admin_db_password,$db_user,$db_password,$db_host)=@_;
+	my $dbh=DBI->connect("DBI:mysql:mysql:$db_host",$admin_db_user,$admin_db_password) || die $DBI::errstr;
+	$db_host='localhost' unless $db_host;
+	$dbh->do("GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}\@'$db_host' IDENTIFIED BY '${db_password}'") || die $dbh->errstr;
+	$dbh->do("FLUSH PRIVILEGES") || die $dbh->errstr;		
+}
+
 sub unpack_scripts ($$)
 {
 	my ($fname,$dir)=@_;
     `tar -xzf $fname -C $dir`;	
 }
 
-
+sub create_config ($$)
+{
+	my ($cgidir,$attrs)=@_;
+	open (CF,"<$cgidir/conf.template") || return (0,"cant open conf.template $!");
+	my $cnf;
+	read(CF,$cnf,-s "$cgidir/conf.template");
+	return (0,'no conf.template') unless $cnf;
+	close (CF);
+	$cnf=~s/<thisdir>/$cgidir/g;
+	
+	$attrs->{UTF}=0 unless defined $attrs->{UTF};
+	$attrs->{CACHE}=1 unless defined $attrs->{CACHE};
+	$attrs->{MULTIDOMAIN}=0 unless defined $attrs->{MULTIDOMAIN};
+	$attrs->{DBPREFIX}='' unless defined $attrs->{DBPREFIX};
+	$attrs->{DBHOST}='localhost' unless defined $attrs->{DBHOST};
+	
+	$cnf=~s/<dbhost>/$attrs->{DBHOST}/g;
+	$cnf=~s/<utf>/$attrs->{UTF}/g;
+	$cnf=~s/<cache>/$attrs->{CACHE}/g;
+	$cnf=~s/<multidomain>/$attrs->{MULTIDOMAIN}/g;
+	$cnf=~s/<dbprefix>/$attrs->{DBPREFIX}/g;	
+	
+	
+	return (0,'no attr DBNAME') unless $attrs->{DBNAME};
+	$cnf=~s/<dbname>/$attrs->{DBNAME}/g;
+	
+	return (0,'no attr DBUSER') unless $attrs->{DBUSER};
+	$cnf=~s/<dbuser>/$attrs->{DBUSER}/g;
+	
+	return (0,'no attr DBPASSWORD') unless $attrs->{DBPASSWORD};
+	$cnf=~s/<dbpassword>/$attrs->{DBPASSWORD}/g;
+	
+	
+	$cnf=~s/<domainname>/$attrs->{DOMAINNAME}/g;
+	$cnf=~s/<abspath>/$attrs->{ABSPATH}/g;
+	$cnf=~s/<rootpath>/$attrs->{ROOTPATH}/g;
+	
+	open (CW,">$cgidir/conf");
+	print CW $cnf;
+	close CW;
+	return 1;
+	
+}
 
 
 
