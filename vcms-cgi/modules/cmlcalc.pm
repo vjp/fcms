@@ -1012,7 +1012,8 @@ sub baselparser (;$)
 		$id=$CGIPARAM->{id}
 	}
 	my $changed;
-
+    my $ov;
+    my $nv;
 	my $dt_collector;
 	for my $cgiprm (keys %$CGIPARAM) {
 		my $value=$CGIPARAM->{$cgiprm};
@@ -1028,7 +1029,10 @@ sub baselparser (;$)
 			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
 				$value=1;
 			}
-			if (p($prm,$id) ne $value) {
+			my $oldval=p($prm,$id);
+			$ov->{$id}->{$prm}=$oldval;
+			$nv->{$id}->{$prm}=$value;			
+			if ($oldval ne $value) {
 				setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
@@ -1073,6 +1077,8 @@ sub baselparser (;$)
 		objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id},
 		back=>$CGIPARAM->{back},
 		changed=>$changed,
+		oldval=>$ov,
+		newval=>$nv,
 	});
 }
 
