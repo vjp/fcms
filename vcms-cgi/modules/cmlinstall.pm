@@ -10,7 +10,7 @@ BEGIN
  	@ISA    = 'Exporter';
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
- 		&create_db &create_db_user &populate_db &unpack_scripts &create_config
+ 		&create_db &create_db_user &populate_db &unpack_file &create_config
  	);
 }
 sub install_cron ($){
@@ -1273,7 +1273,7 @@ sub create_db_user ($$$$$;$)
 	$dbh->do("FLUSH PRIVILEGES") || die $dbh->errstr;		
 }
 
-sub unpack_scripts ($$)
+sub unpack_file ($$)
 {
 	my ($fname,$dir)=@_;
     `tar -xzf $fname -C $dir`;	
