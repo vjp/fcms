@@ -83,6 +83,7 @@ sub set_hru ($$)
 	
 	$fcontent=~s{(### VCMS START ###)(\n?.*?)(\n### VCMS END ###)}{
    		my $start=$1;
+   		$start="$start\n" unless $2;
    		my @dyn=split(/\n/,$2);
    		my $end=$3;
    		my @rdyn;
