@@ -445,7 +445,7 @@ sub tag_menuitem	{
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
-		'addupkey','addlink','deleteexpr'
+		'addupkey','addlink','deleteexpr','addmethod'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -530,7 +530,7 @@ sub tag_menuitem	{
 	my $estr=&cmlmain::enc('Редактировать');
 	my $addlink;
 	if ($pl->{addupkey}) {
-		$addlink=qq(<td bgcolor="$hcol" width="16"><cml:actionlink action='add' upkey='$pl->{addupkey}' link='$pl->{addlink}'><img src='$cmlmain::PLUSBUTTONURL' border='0'></cml:actionlink></td>);
+		$addlink=qq(<td bgcolor="$hcol" width="16"><cml:actionlink action='add' upkey='$pl->{addupkey}' link='$pl->{addlink}' method='$pl->{addmethod}'><img src='$cmlmain::PLUSBUTTONURL' border='0'></cml:actionlink></td>);
 	}else {
 		$addlink=qq(<td bgcolor="$hcol"></td>);
 	}
