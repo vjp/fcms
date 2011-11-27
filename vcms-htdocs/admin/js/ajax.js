@@ -26,13 +26,14 @@ function deletealllow (id) {
 
 
 
-function addobject (up,link,linkval,name,upobj) {
+function addobject (up,link,linkval,name,upobj,method) {
                 var dt={
                     up: up,
                     link: link,
                     name: name,
                     linkval: linkval,
-                    upobj: upobj
+                    upobj: upobj,
+                    method:method
                 };
                 ajax_call('addobject', dt, alertreload_callback);
 }

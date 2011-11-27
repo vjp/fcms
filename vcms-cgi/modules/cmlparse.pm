@@ -1294,7 +1294,7 @@ sub tag_actionlink {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
 		return qq(
-		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","")'>$title</a>
+		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","","$pl->{method}")'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(

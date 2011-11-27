@@ -53,7 +53,17 @@ sub ajax_addobject ($)
 		if ($r->{link}) {    
 			setvalue ({id=>$newid,prm=>$r->{link},value=>$r->{linkval}});
 		}
+		if ($r->{method}) {
+			my $result=execute({lmethod=>$r->{method},id=>$newid});
+			if (ref $result ne 'HASH') {
+			 	return ({
+					status=>0,
+					message=>enc("Ошибка выполнения. Объект:$r->{id} Метод нижних объектов:$r->{lmethod} : ").$result,
+				});
+			}	
+		}
 		return ({status=>enc("Новый объект создан")});
+
 }
 
 
