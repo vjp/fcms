@@ -1182,7 +1182,7 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
-		'forcereadonly','jsdata','type','setname','confirm'
+		'forcereadonly','jsdata','type','setname','confirm', 'hidden'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1230,6 +1230,8 @@ sub tag_actionlink {
 	my $rd='reloadPage()';
 	$rd="location.href='$pl->{redir}';" if $pl->{redir};
 	$rd="location.href=json.$pl->{redirvar};" if $pl->{redirvar};
+	
+    my $clstr=$pl->{hidden}?'style="display:none"':'';
 		
 	my $defajaxcallback=qq(
 		function(json) {
@@ -1305,11 +1307,11 @@ sub tag_actionlink {
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr='{}';
- 	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
+  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
  	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'';	    	 	    	
  	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback)");
-			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
+			return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
@@ -2673,13 +2675,14 @@ sub tag_deletebutton {
 sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method']);
+  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid']);
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?$pl->{callback}:'undefined';
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
   	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
-  	
+  	my $clstr=$pl->{hidden}?'style="display:none"':'';
+  	my $elementid=$pl->{elementid}?"id='$pl->{elementid}'":'';
   	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
   	
 	my $onclickstr;
@@ -2694,12 +2697,12 @@ sub tag_changebutton {
 	}	
 	if ($pl->{title}) {
 		if ($onclickstr) {
-			return "<input type='button' value='$pl->{title}' $onclickstr $param/>";
+			return "<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
 		} else {
-			return "<input type='submit' value='$pl->{title}' $param/>";
+			return "<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
 		}	
 	} else {	
-		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param/>";
+		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param $clstr $elementid/>";
 	}	
 	
 }	
