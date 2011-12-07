@@ -2394,7 +2394,7 @@ sub tag_inputtext {
   	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
-  		'elementid','visual','csv','color'
+  		'elementid','visual','csv','color','textcolor'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2473,15 +2473,17 @@ sub tag_inputtext {
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
   	
   	my $clrstr=$pl->{color}?"class='color'":'';
+  	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';
+  	
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
- 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr/>);
+ 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
 	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
-		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea>);
+		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea $fcstr>);
 	}	
 }	
 
