@@ -1268,6 +1268,7 @@ sub tag_actionlink {
 			$title="<img src='$imgurl' border='0'/>";
 		} 
 	 	return "<a href='$href' $param>$title</a>";
+	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>"
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
