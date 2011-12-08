@@ -1249,6 +1249,7 @@ sub tag_actionlink {
     
     
 	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW' || $pl->{action} eq 'EDITVIEW') {
+		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		if ($pl->{action} eq 'EDITVIEW') {
 			$pl->{action}=$access_denied?'VIEW':'EDIT';	
 		}
@@ -1267,8 +1268,7 @@ sub tag_actionlink {
 			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
 			$title="<img src='$imgurl' border='0'/>";
 		} 
-	 	return "<a href='$href' $param>$title</a>";
-	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>"
+	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$href"' value='$title' $param/>):"<a href='$href' $param $tstr>$title</a>"
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
