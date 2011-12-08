@@ -539,6 +539,14 @@ sub equal {
 	return $_[0] eq $_[1];
 }
 
+sub calcgt {
+	return $_[0] > $_[1];
+}
+
+sub calclt {
+	return $_[0] < $_[1];
+}
+
 sub iscurrent {
 	my ($prm,$cgiprmname)=@_;
 	$prm = '_ID' unless $prm;
