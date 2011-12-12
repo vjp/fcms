@@ -2624,7 +2624,7 @@ sub tag_checkbox {
 	push (@cmlcalc::CSVCOLS, $checked?'+':'-') if $pl->{csv};
 	
     if ($cmlcalc::ENV->{READONLY}) {
-    	return $checked?"+":"-";
+    	return $checked?"<img src='$cmlmain::OKIMAGEURL'>":"-";
     }
 	my $name;
 	if ($pl->{name}) {
