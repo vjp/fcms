@@ -793,10 +793,10 @@ setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMA
 
 my $bmv=qq(<html>
 <head>
-<link rel=stylesheet type=text/css href="/css/admin.css">
-</head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
+<link rel=stylesheet type=text/css href="/css/admin.css" />
+<link rel="stylesheet" type="text/css" href="/css/PopIt.css" />
+<link rel="stylesheet" type="text/css" href="/css/calendar_date_select/red.css"  />
 <script>
   var lbLabelImage="‘ото";
   var lbLabelOf="из";
@@ -809,11 +809,12 @@ my $bmv=qq(<html>
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
 <script language="javascript" type="text/javascript" src="/jscolor/jscolor.js"></script>
+<script language="javascript" type="text/javascript" src="/js/scriptaculous.js?load=effects,builder,dragdrop" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src='/js/PopIt.js'></script>
+<script language="javascript" type="text/javascript" src="/js/calendar_date_select/calendar_date_select.js"></script>
+<script language="javascript" type="text/javascript" src="/js/calendar_date_select/format_db_e.js"></script>
 
-<script src="/js/calendar_date_select/calendar_date_select.js" type="text/javascript"></script>
-<script src="/js/calendar_date_select/format_db_e.js" type="text/javascript"></script>
 
-<link href="/css/calendar_date_select/red.css" rel="stylesheet" type="text/css" />
 
 <script>
   _translations = {
@@ -828,6 +829,11 @@ my $bmv=qq(<html>
 
 <cml:include key='MCEINIT'/>
 <cml:include key='INITHINTS'/>
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
+
 
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
