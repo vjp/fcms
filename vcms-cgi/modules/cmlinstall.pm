@@ -794,7 +794,7 @@ setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMA
 my $bmv=qq(<html>
 <head>
 
-<link rel=stylesheet type=text/css href="/css/admin.css" />
+<link rel="stylesheet" type="text/css" href="/css/admin.css" />
 <link rel="stylesheet" type="text/css" href="/css/PopIt.css" />
 <link rel="stylesheet" type="text/css" href="/css/calendar_date_select/red.css"  />
 <script>
@@ -806,16 +806,12 @@ my $bmv=qq(<html>
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-<script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
 <script language="javascript" type="text/javascript" src="/jscolor/jscolor.js"></script>
 <script language="javascript" type="text/javascript" src="/js/scriptaculous.js?load=effects,builder,dragdrop" type="text/javascript"></script>
 <script language="javascript" type="text/javascript" src='/js/PopIt.js'></script>
 <script language="javascript" type="text/javascript" src="/js/calendar_date_select/calendar_date_select.js"></script>
 <script language="javascript" type="text/javascript" src="/js/calendar_date_select/format_db_e.js"></script>
-
-
-
 <script>
   _translations = {
     "OK": "OK",
@@ -826,6 +822,8 @@ my $bmv=qq(<html>
   Date.weekdays = \$w("пн вт ср чт пт сб вс");
   Date.months = \$w("Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь" );
 </script>
+
+<script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
 
 <cml:include key='MCEINIT'/>
 <cml:include key='INITHINTS'/>
