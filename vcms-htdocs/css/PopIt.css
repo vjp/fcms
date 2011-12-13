@@ -1,0 +1,204 @@
+/*
+
+Copyright (c) 2009 Michael Harris michael@harrisdev.net
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+If you do choose to use this,
+please drop me an email at michael@harrisdev.net
+I would like to see where this ends up :)
+
+*/
+
+.ModalShim
+{
+	position:absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+
+	background-color: #CCCCCC;
+}
+
+.popIt
+{
+	position: absolute;
+	padding-bottom:42px;
+	-moz-user-select: none;
+	cursor: default;
+	min-width: 200px;
+	min-height: 150px;
+	border-width: 1px;
+	border-style: outset inset inset outset;
+	border-color: #333333;
+	color: black;
+}
+
+.popIt .TitleBar
+{
+	text-align:center;
+	height: 21px;
+	font-weight: bold;
+
+	padding-left: 20px;
+	color: #FFFFFF;
+	background-color: #CD8942;
+	border-bottom: solid 1px #333333;
+}
+
+.popIt .Controls
+{
+	float: right;
+}
+
+.popIt .Content
+{
+	padding-left: 20px;
+	padding-right: 20px;
+	overflow: auto;
+	height: 100%;
+	background-color: #FFFFFF;	
+}
+
+.popIt .ContentIFrame
+{
+	width: 100%;
+	height: 100%;
+	border:none;
+	margin-bottom: -20px;
+}
+
+.popIt .Status
+{
+	height: 20px;
+	padding-left: 40px;
+	padding-right: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	
+	background-color: #EFEBE7;
+	color: #AAAAAA;
+}
+
+.popIt .leftResize
+{
+	position:absolute;
+	background-color: transparent;
+	background-image: url('../images/1x1transparent.png');
+	height: 100%;
+	width: 10px;
+	top: 0;
+	left: -10px;
+	cursor:w-resize;
+}
+
+.popIt .topResize
+{
+	position:absolute;
+	background-color: transparent;
+	background-image: url('../images/1x1transparent.png');
+	width: 100%;
+	height: 10px;
+	cursor: n-resize;
+	top: -10px;
+}
+
+.popIt .bottomResize
+{
+	position:absolute;
+	background-color: transparent;
+	background-image: url('../images/1x1transparent.png');
+	width: 100%;
+	height: 10px;
+	bottom: -10px;
+	cursor: s-resize;
+}
+
+.popIt .rightResize
+{
+	position:absolute;
+	background-color: transparent;
+	background-image: url('../images/1x1transparent.png');
+	width: 10px;
+	right: -10px;
+	height: 100%;
+	top: 0;
+	cursor: e-resize;
+}
+
+.popIt .resizingLR
+{
+	border-left: dashed;
+	
+}
+
+.popIt .resizingTB
+{
+	border-top: dashed;
+}
+
+.popIt .shim
+{
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	top: 0;
+	left: 0;
+	
+	background-color: #DDDDDD;
+}
+
+.popIt .minimizeButton, .popIt .maximizeButton, .popIt .restoreButton, .popIt .closeButton
+{
+	width: 25px;
+	height: 20px;
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	margin: 2px 0 0 2px;
+	cursor: pointer;
+	background-image: url('../images/buttons.png');
+}
+
+.popIt .minimizeButton
+{
+
+	background-position: -10px -10px;
+}
+
+.popIt .maximizeButton
+{
+	background-position: -10px -48px;
+}
+
+.popIt .restoreButton
+{
+	background-position: -10px -86px;
+}
+
+.popIt .closeButton
+{
+	background-position: -10px -124px;
+}
