@@ -1182,7 +1182,8 @@ sub tag_actionlink {
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
-		'forcereadonly','jsdata','type','setname','confirm', 'hidden'
+		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
+		'width','height',
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1326,6 +1327,10 @@ sub tag_actionlink {
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
+	} elsif ($pl->{action} eq 'OPENWINDOW') {
+		    my $width=$pl->{width} || 600;
+		    my $height=$pl->{height} || 400;
+		    return qq(<a href='#' onclick="openPopup('/__$pl->{template}?id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	}				
 	
 	

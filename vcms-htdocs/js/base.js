@@ -343,3 +343,11 @@ function blink (id) {
     }
     setTimeout("blink('"+id+"')",1000);
 }
+
+
+function openPopup(url,wndprops) {
+	var wndobj={};
+	if (wndprops) wndobj=wndprops;
+	wndobj.isUrl=true;
+    var ppIt = new PopIt(url,wndobj);
+}
