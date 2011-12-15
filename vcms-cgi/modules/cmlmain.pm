@@ -481,6 +481,7 @@ sub setprmextra
 {
   my $sth=$dbh->prepare("REPLACE ${DBPREFIX}extraprm (pkey,extra,value) VALUES (?,?,?)");
   $sth->execute($_[0]->{pkey},$_[0]->{extra},$_[0]->{value}) || die $dbh->errstr;
+  fsindexcreate($pkey) if ($_[0]->{extra} eq 'srch') && ($_[0]->{value} eq 'y') && ($prm->{$_[0]->{pkey}}->{extra}->{$_[0]->{extra}} ne 'y');
   $prm->{$_[0]->{pkey}}->{extra}->{$_[0]->{extra}}=$_[0]->{value};
 }
 
