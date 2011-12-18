@@ -1451,6 +1451,7 @@ sub tag_a	{
  		my $v=&cmlcalc::calculate({id=>$id,expr=>$expr});
  		if ($v->{type} eq 'FILE' || $cmlmain::prm->{$prm}->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
  		else {
+ 			return cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}) unless $v->{value};
  			$ql=$v->{value};
  			if ($ql!~/^(http|\/|\?)/) { 
  				if ($ql=~/\@/) {
