@@ -51,7 +51,7 @@ my $xs= $qs;
 $qs=~s/;/&/g;
 $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
-
+$cmlcalc::ENV->{QUERYSTRING}=$qs;
 
 if(param('parsemethod')) {
 	my $id;
