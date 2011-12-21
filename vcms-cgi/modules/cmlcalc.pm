@@ -19,46 +19,21 @@ BEGIN
 
 sub initcalc
 {
-
-  $gtype{TEXT}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{FLAG}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{NUMBER}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{LONGTEXT}={
-                 retvalue   =>\&retmemo
-               };
-  $gtype{DATE}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{LIST}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{MATRIX}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{PICTURE}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{FILE}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{VIDEO}={
-                 retvalue   =>\&rettext
-               };
-  $gtype{SCRIPT}={
-                 retvalue   =>\&retempty
-               };
-  $gtype{FILELINK}={
-                 retvalue   =>\&rettext
-               };
-                 
-
-
+  %gtype=(
+  	TEXT	=>	{retvalue   =>\&rettext},
+  	FLAG	=>	{retvalue   =>\&rettext},
+  	NUMBER	=>	{retvalue   =>\&rettext},
+  	LONGTEXT=>  {retvalue   =>\&retmemo},
+  	DATE	=>	{retvalue   =>\&rettext},
+  	LIST	=>	{retvalue   =>\&rettext},
+  	MATRIX	=>	{retvalue   =>\&rettext},
+  	PICTURE	=>	{retvalue   =>\&rettext},
+  	FILE	=>	{retvalue   =>\&rettext},
+  	VIDEO 	=>	{retvalue   =>\&rettext},
+  	AUDIO	=>	{retvalue   =>\&rettext},
+  	SCRIPT	=>	{retvalue   =>\&retempty},
+  	FILELINK=>	{retvalue   =>\&rettext},
+  );
 }
 
 sub jsoncookie ($) {

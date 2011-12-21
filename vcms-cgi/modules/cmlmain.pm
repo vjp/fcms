@@ -67,8 +67,10 @@ BEGIN
               &compile_date  &set_hru
              );
 
-
+   @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
 }
+	
+
 
 
 sub set_hru ($$)
@@ -1962,7 +1964,7 @@ sub buildparam 	{
 
   	
   	
-	@ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK'  );
+
 	
 }
 

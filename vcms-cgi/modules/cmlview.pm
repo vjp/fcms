@@ -1410,6 +1410,16 @@ sub buildvparam {
                  extraparse =>\&cmlview::emptysub,
         };
 
+   $ptype{AUDIO}={
+                 name       =>enc('ћузыка'),
+                 editview   =>\&cmlview::editfile,
+                 setvalue   =>\&cmlview::setpicture,
+                 extra      =>\&cmlview::emptysub,
+                 extraparse =>\&cmlview::emptysub,
+        };
+
+
+
 	$ptype{FILELINK}={
                  name       =>enc('—сылка на файл'),
                  editview   =>\&cmlview::editfilelink,
