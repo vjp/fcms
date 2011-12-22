@@ -807,6 +807,7 @@ my $bmv=qq(<html>
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
+<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
 <script language="javascript" type="text/javascript" src="/jscolor/jscolor.js"></script>
 <script language="javascript" type="text/javascript" src="/js/scriptaculous.js?load=effects,builder,dragdrop" type="text/javascript"></script>
 <script language="javascript" type="text/javascript" src='/js/PopIt.js'></script>
