@@ -80,6 +80,7 @@ sub initparser
     	'button'=>1,
     	'flag'=>1,
     	'bold'=>1,
+    	'audio'=>1,
  	);
 }
 
@@ -1822,6 +1823,58 @@ sub tag_video 	{
      </script>
 	);
 
+}	
+
+
+sub tag_audio 	{
+	my $param=$_[0]->{param};
+
+	my $key;
+	my $src;
+	
+	my $path='relative';
+	my $pl=fetchparam(\$param,[
+		'id','name','key', 'param' ,'prm','expr','path' 
+	]);
+	
+	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
+	$key= $pl->{'name'} if $pl->{'name'};
+	if ($pl->{'key'}) {
+		$key=$pl->{'key'};
+		undef $id;
+	}
+	my $pkey=$pl->{'prm'} || $pl->{'param'};
+	my $expr;
+	$expr=$pl->{'expr'} if $pl->{'expr'};
+	$expr="p('$pkey')" if $pkey;
+	$expr="p(AUDIO)" unless $expr;
+
+	my $v=&cmlcalc::calculate({key=>$key,id=>$id,expr=>$expr});
+	unless ($v->{value}) {
+		return undef
+	}
+	my $pstr=$path eq 'absolute'?$cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
+	$src="$pstr/$v->{value}";
+
+	
+    my $divname=$v->{value};
+    $divname=~s/\./_/g;
+    
+    return qq(
+        <div id="aplayerDiv_$divname"></div>
+    	<script type="text/javascript">
+			var flashvars = {
+			  mp3: "$src"
+			};
+			var params = {
+			  wmode: "transparent"
+			};
+			var attributes = {
+			  id: "dewplayer"
+			};
+			swfobject.embedSWF("/swf/dewplayer-vol.swf", "aplayerDiv_$divname", "240", "20", "9.0.0", false, flashvars, params, attributes);
+		</script>
+    );
 }	
 
 
