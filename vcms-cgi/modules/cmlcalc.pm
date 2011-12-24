@@ -981,16 +981,17 @@ sub baselparser (;$)
 {
 	my ($opts)=@_;
 	my $id;
-	if ( $opts && $opts->{id}) {
-	    $id=$opts->{id};
-	}elsif ($CGIPARAM->{parseid}) {	
-		$id=$CGIPARAM->{parseid};
-	} elsif ($CGIPARAM->{insertinto}) {	
+	if ($CGIPARAM->{insertinto}) {	
 		my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
 		$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
 		if ($CGIPARAM->{link}) {		
 			setvalue({id=>$id,prm=>$CGIPARAM->{link},value=>$lid}); 	
 		}
+	} elsif ( $opts && $opts->{id}) {
+	    $id=$opts->{id};
+	} elsif ($CGIPARAM->{parseid}) {	
+		$id=$CGIPARAM->{parseid};
+		
 	} else {
 		$id=$CGIPARAM->{id}
 	}

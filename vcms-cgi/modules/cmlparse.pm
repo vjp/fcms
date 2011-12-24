@@ -266,9 +266,9 @@ sub fetchparam {
 	my $rstr;
 	for (@$plist) {
 		if (ref $pstr eq 'SCALAR') {
-			if ($$pstr=~s/(\W)$_=(['"])(.+?)\2/$1/i)      {$rstr->{$_}=$3 }
+			if ($$pstr=~s/(\W)$_=(['"])(.*?)\2/$1/i)      {$rstr->{$_}=$3 }
 		} else {
-			if ($pstr=~s/(\W)$_=(['"])(.+?)\2/$1/i)      {$rstr->{$_}=$3 }
+			if ($pstr=~s/(\W)$_=(['"])(.*?)\2/$1/i)      {$rstr->{$_}=$3 }
 		}	
 	}
 	$$pstr=~s/(\W)html(\w+=)/$1$2/ig if ref $pstr eq 'SCALAR';
@@ -2333,10 +2333,12 @@ sub tag_form {
 	
 		if ($pl->{'postparser'}) {$data.="<input type='hidden' name='postparser' value='$pl->{postparser}'>";}
 		if ($pl->{'preparser'}) {$data.="<input type='hidden' name='preparser' value='$pl->{preparser}'>";}
-		if ($pl->{'insertinto'}) {$data.="<input type='hidden' name='insertinto' value='$pl->{insertinto}'>";}
-		if ($pl->{'link'}) {$data.="<input type='hidden' name='link' value='$pl->{link}'>";}
 		if ($pl->{'alert'}) {$data.="<input type='hidden' name='alerttext' value='$pl->{alert}>"}
 		if ($renameprm) {$data.="<input type='hidden' name='renameprm' value='$renameprm'>"}
+		
+		$data.="<input type='hidden' name='$_' value='$pl->{$_}'>" for grep {$pl->{$_}} ('insertinto','link');
+		
+		
     }
     
 	for my $p qw( editprm piclistprm filelistprm ukey back iframe) {
@@ -2467,7 +2469,7 @@ sub tag_inputtext {
 
 
 	my $value;  	  
-  	if ($pl->{value})   { 	
+  	if (defined $pl->{value})   { 	
   		$value=$pl->{value}      	
 	} elsif ($pl->{expr})   { 	
   		$value=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}})->{value}      	
