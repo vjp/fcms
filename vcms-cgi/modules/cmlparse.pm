@@ -2634,10 +2634,12 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value']);
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
-	if ($prm) {
+	if (defined $pl->{value}) {
+			$value=$pl->{value}
+	} elsif ($prm) {
 			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
 	}
 	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
