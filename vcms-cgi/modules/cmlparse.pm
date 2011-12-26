@@ -2938,7 +2938,7 @@ sub uploadprmfile
  }	
   
  $fname =~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
- $fname =~s{[à-ÿÀ-ß\"\s\'\#]}{}g;
+ $fname =~s{[à-ÿÀ-ß\"\s\'\#\+]}{}g;
 
  $fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
 
