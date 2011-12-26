@@ -2456,7 +2456,8 @@ sub tag_inputtext {
   	my $pl=fetchparam(\$param,[
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
-  		'elementid','visual','csv','color','textcolor'
+  		'elementid','visual','csv','color','textcolor',
+  		'notnull'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
