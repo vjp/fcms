@@ -81,6 +81,7 @@ sub initparser
     	'flag'=>1,
     	'bold'=>1,
     	'audio'=>1,
+    	'inputaudio'=>1,
  	);
 }
 
@@ -2374,11 +2375,38 @@ sub tag_inputpic {
 		$name="_o${id}_f${prm}";
 	} else {
 		$name="_f$prm";
-	}tag_list({data=>$data,inner=>$inner,param=>$param});
+	}
+	tag_list({data=>$data,inner=>$inner,param=>$param});
     my $delstr=($pl->{delbutton} || $pl->{deletebutton})?tag_deletebutton({param=>" prm='$prm' id='$id' ",inner=>$inner}):'';
   	return tag_img({data=>$data,inner=>$inner,param=>$_[0]->{param}}).
   		   "$delstr<input type='file' $param name='$name'>";
 }
+
+sub tag_inputaudio {
+	my $param=$_[0]->{param};
+	my $data=$_[0]->{data};
+  	my $inner; %{$inner}=%{$_[0]->{inner}};
+	
+	my $pl=fetchparam(\$param,[
+		'param','prm','name','id','delbutton','deletebutton'
+  	]);
+
+  	my $id=$pl->{id} || $_[0]->{inner}->{objid};
+	my $prm=$pl->{param}||$pl->{prm}||'PIC';
+	
+	if ($pl->{name}) {
+		$name=$pl->{name}
+	} elsif ($_[0]->{inner}->{matrix}) {
+		$name="_o${id}_f${prm}";
+	} else {
+		$name="_f$prm";
+	}
+	tag_list({data=>$data,inner=>$inner,param=>$param});
+    my $delstr=($pl->{delbutton} || $pl->{deletebutton})?tag_deletebutton({param=>" prm='$prm' id='$id' ",inner=>$inner}):'';
+  	return tag_audio({data=>$data,inner=>$inner,param=>$_[0]->{param}}).
+  		   "$delstr<input type='file' $param name='$name'>";
+}
+
 
 sub tag_inputparam {
 	my $param=$_[0]->{param};
