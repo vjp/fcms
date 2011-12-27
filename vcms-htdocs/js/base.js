@@ -192,6 +192,15 @@ function multiset (frm,fcallback,back,method) {
 }
 
 function multisetsingleobj (frm,id,fcallback,back,method) {
+	var nnattr=$(frm).up('form').select('input[notnull="1"]');
+	for (i=0;i<nnattr.length;i++) {
+		inp=nnattr[i];
+	    if (!inp.value) {
+	    	alert (inp.attributes['prmname'].value+' required');
+	    	inp.activate();
+	    	return false;
+	    }
+	}
 	var dt=$(frm).up('form').serialize(true);
 	dt.back=back;
 	lexecute(method || 'BASELPARSER',id,dt,fcallback || setMVCallback);

@@ -2565,16 +2565,17 @@ sub tag_inputtext {
   	
   	my $clrstr=$pl->{color}?"class='color'":'';
   	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';
-  	
+  	my $prmname=$cmlmain::prm->{$prm}->{name};
+  	my $nnstr=$pl->{notnull}?"notnull='1'":'';
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
- 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr/>);
+ 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
 	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
-		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea $fcstr>);
+		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea $fcstr prmname="$prmname" $nnstr>);
 	}	
 }	
 
