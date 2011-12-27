@@ -46,7 +46,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 
 
 
-my $qs=url(-relative=>1,-path_info=>1,-query=>1,);
+my $qs=url(-relative=>1,-path_info=>1,-query=>1);
 
 my $xs= $qs;
 
@@ -54,7 +54,7 @@ $qs=~s/;/&/g;
 $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
 $cmlcalc::ENV->{QUERYSTRING}=$qs;
-$cmlcalc::ENV->{URL}=url();
+$cmlcalc::ENV->{URL}=url(-path_info=>1,-query=>1);
 
 if(param('parsemethod')) {
 	my $id;
