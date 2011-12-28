@@ -654,7 +654,7 @@ sub tag_select {
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
-  		'elementid','csv'
+  		'elementid','csv','notnull'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -665,6 +665,7 @@ sub tag_select {
 		$sexpr="p($pl->{'selected'})";
 	}
   	my $prm=$pl->{'param'} || $pl->{'prm'};
+  	my $prmname;
   	if ($pl->{'prmexpr'}) {
     		$prm=&cmlcalc::calculate({id=>$id,expr=>$pl->{'prmexpr'}})->{value};
   	}   
@@ -677,6 +678,7 @@ sub tag_select {
 	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  	$inner->{expr}=$expr;
 	  	$multiple='multiple' if $cmlmain::prm->{$prm}->{extra}->{single} ne 'y';
+	  	$prmname=$cmlmain::prm->{$prm}->{name};
 	} 
 	if (!$inner->{expr} && $pl->{expr}) {
 		$inner->{expr}=$pl->{expr} if $pl->{expr};
@@ -721,10 +723,12 @@ sub tag_select {
   	
   	my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
   	my $idtxt=$pl->{elementid}?"id='$pl->{elementid}'":"";
+  	my $nnstr=$pl->{notnull}?"notnull='1'":'';
+  	my $pnstr=$prmname?"prmname='$prmname'":'';
   	my $itext=$_[0]->{data}?
   		cmlparser({data=>$_[0]->{data},inner=>$inner}):
   		tag_list({data=>$data,inner=>$inner,param=>$param});
-  	return $access_denied?&cmlcalc::p(_NAME,&cmlcalc::p($prm,$id)) :"$hd<select name='$name' $param $multiple $idtxt>$defopt\n$itext</select>";
+  	return $access_denied?&cmlcalc::p(_NAME,&cmlcalc::p($prm,$id)) :"$hd<select name='$name' $param $multiple $idtxt $nnstr $pnstr>$defopt\n$itext</select>";
 
 }	
 
@@ -2664,7 +2668,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull']);
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if (defined $pl->{value}) {
@@ -2694,9 +2698,11 @@ sub tag_calendar {
 		$name="_p$prm";
 	}
 	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":'';
-	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":''; 
+	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":'';
+	my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
+	my $prmname=$cmlmain::prm->{$prm}->{name};
 	return qq(
-			 <input type="hidden" value="$value" name="$name" $idstr/>
+			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
 	         <input value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );

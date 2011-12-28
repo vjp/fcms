@@ -192,7 +192,7 @@ function multiset (frm,fcallback,back,method) {
 }
 
 function multisetsingleobj (frm,id,fcallback,back,method) {
-	var nnattr=$(frm).up('form').select('input[notnull="1"]');
+	var nnattr=$(frm).up('form').select('input[notnull="1"]','select[notnull="1"]');
 	for (i=0;i<nnattr.length;i++) {
 		inp=nnattr[i];
 	    if (!inp.value) {
