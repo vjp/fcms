@@ -2512,6 +2512,9 @@ sub tag_inputtext {
 	my $cols;
 	my $mode='input';
 	my $prm=$pl->{param} || $pl->{prm} || '';
+  	if ($pl->{prmexpr})      { 
+    		$prm=&cmlcalc::calculate({id=>$id,expr=>$pl->{prmexpr}})->{value};
+  	}   
 	if ($prm)      {	
  		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {
  			$mode='textarea'; 
@@ -2520,9 +2523,6 @@ sub tag_inputtext {
  		}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}
 	}
-  	if ($pl->{prmexpr})      { 
-    		$prm=&cmlcalc::calculate({id=>$id,expr=>$pl->{prmexpr}})->{value};
-  	}   
   
 
   	my $name;
@@ -2571,15 +2571,16 @@ sub tag_inputtext {
   	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';
   	my $prmname=$cmlmain::prm->{$prm}->{name};
   	my $nnstr=$pl->{notnull}?"notnull='1'":'';
+  	my $dstr=$cmlmain::prm->{$prm}->{type} eq 'NUMBER'?"checkdigit='1'":''; 
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
- 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr/>);
+ 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr $dstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
 	    $tidstr="id='$pl->{textareaid}'" if $pl->{textareaid};
-		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls>$ev</textarea $fcstr prmname="$prmname" $nnstr>);
+		return qq(<textarea hasdata="1" rows="$rows" cols="$cols" $param name="$name" $tidstr $cls  prmname="$prmname" $nnstr $dstr  $fcstr>$ev</textarea>);
 	}	
 }	
 

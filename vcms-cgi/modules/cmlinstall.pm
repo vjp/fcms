@@ -240,6 +240,8 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbLabelOf="из";
   var lbError="Ошибка";
   var lbSuccess="Успех";
+  var lbRequired="Необходимо заполнить поле";
+  var lbDigit="Введите числовое значение в поле";   
   var  ajax_url = '/cgi-bin/user/ajax-json.pl';
 </script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
@@ -802,6 +804,8 @@ my $bmv=qq(<html>
   var lbLabelOf="из";
   var lbError="Ошибка";
   var lbSuccess="Успех";
+  var lbRequired="Необходимо заполнить поле";
+  var lbDigit="Введите числовое значение в поле"; 
 </script>
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
