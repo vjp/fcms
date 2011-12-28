@@ -221,6 +221,18 @@ setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 </cml:execute>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'JSDICTIONARY',name=>'JS-словарь'});
+setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<script>
+  var lbLabelImage="Фото";
+  var lbLabelOf="из";
+  var lbError="Ошибка";
+  var lbSuccess="Успех";
+  var lbRequired="Необходимо заполнить поле";
+  var lbDigit="Введите числовое значение в поле";   
+</script>
+)});
+
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'INITSCRIPTS',name=>'Инициализационная секция'});
 setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
@@ -235,13 +247,8 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <script type="text/javascript" src="/js/flowplayer.js"></script>
 
 <script src="/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
+<cml:include key='JSDICTIONARY'/>
 <script>
-  var lbLabelImage="Фото";
-  var lbLabelOf="из";
-  var lbError="Ошибка";
-  var lbSuccess="Успех";
-  var lbRequired="Необходимо заполнить поле";
-  var lbDigit="Введите числовое значение в поле";   
   var  ajax_url = '/cgi-bin/user/ajax-json.pl';
 </script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
@@ -799,15 +806,7 @@ my $bmv=qq(<html>
 <link rel="stylesheet" type="text/css" href="/css/admin.css" />
 <link rel="stylesheet" type="text/css" href="/css/PopIt.css" />
 <link rel="stylesheet" type="text/css" href="/css/calendar_date_select/red.css"  />
-<script>
-  var lbLabelImage="Фото";
-  var lbLabelOf="из";
-  var lbError="Ошибка";
-  var lbSuccess="Успех";
-  var lbRequired="Необходимо заполнить поле";
-  var lbDigit="Введите числовое значение в поле"; 
-</script>
-
+<cml:include key='JSDICTIONARY'/>
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
 <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
 <script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
