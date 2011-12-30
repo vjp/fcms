@@ -2673,7 +2673,8 @@ sub tag_calendar {
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if (defined $pl->{value}) {
-			$value=$pl->{value}
+			$value=$pl->{value};
+			undef ($value) if $value eq 'NULL';
 	} elsif ($prm) {
 			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
 	}
