@@ -1058,7 +1058,7 @@ sub baselparser (;$)
 	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
 	return ({
 		status=>1,
-		objid=>$CGIPARAM->{parseid} || $CGIPARAM->{id},
+		objid=>$id,
 		back=>$CGIPARAM->{back},
 		changed=>$changed,
 		oldval=>$ov,
