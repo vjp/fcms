@@ -61,6 +61,18 @@ sub set {
 	}	
 }
 
+sub app {
+	my ($id,$prm,$val)=@_;
+	if (ref $prm eq 'HASH') {
+		&cmlmain::setvalue({id=>$id,prm=>$_,value=>$prm->{$_},append=>1}) for keys %$prm;
+		return 1;	
+	} else {
+		return &cmlmain::setvalue({id=>$id,prm=>$prm,value=>$val,append=>1});
+	}	
+}
+
+
+
 sub setv {
 	my ($id,$prm,$val)=@_;
 	$VPARAM->{$id}->{$prm}=$val;

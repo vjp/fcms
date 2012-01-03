@@ -1103,7 +1103,7 @@ sub setvalue  {
 		return 1;
  	}
  	my $old_value;
- 	$old_value=&cmlcalc::p($pkey,$id) if ($append && $prm->{$pkey}->{type} eq 'LIST') || $prm->{$pkey}->{extra}->{onchange};
+ 	$old_value=&cmlcalc::p($pkey,$id) if ($append && ($prm->{$pkey}->{type} eq 'LIST' || $prm->{$pkey}->{type} eq 'NUMBER')) || $prm->{$pkey}->{extra}->{onchange};
  		
  	
  	if (($append && $prm->{$pkey}->{type} eq 'LIST') && $old_value) {
@@ -1116,6 +1116,11 @@ sub setvalue  {
  	    }	
  	    $value=join(';',@v);
 	}
+
+ 	if ($append && $prm->{$pkey}->{type} eq 'NUMBER') {
+ 	    $value=$old_value+$value;
+	}
+
  	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
