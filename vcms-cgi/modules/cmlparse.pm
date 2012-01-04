@@ -356,11 +356,15 @@ sub tag_tr {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['colorswitcher','csv','header']);
+	my $pl=fetchparam(\$param,['colorswitcher','csv','header','colorexpr']);
+	my $id=$inner->{objid};
 	if ($pl->{'colorswitcher'}) {
 		my @colors=split(';',$pl->{'colorswitcher'});
 		my $index=$cmlcalc::ROWID % scalar @colors;
 		$param.=" bgcolor='$colors[$index]'";
+	} elsif ($pl->{'colorexpr'}) {
+		my $clr= &cmlcalc::calc($id,$pl->{colorexpr});
+		$param.=" bgcolor='$clr'";
 	}
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	$cmlcalc::ROWID++;
