@@ -2819,14 +2819,16 @@ sub tag_changebutton {
 
 sub tag_savebutton {
 	my $param=$_[0]->{param};
-  	my $pl=fetchparam($param,['prm','id','callback','label']);
+  	my $pl=fetchparam($param,['prm','id','callback','label','title','reload']);
   	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
   	my $imgsrc=$pl->{'label'}?$cmlmain::POSTBUTTONURL:$cmlmain::SAVEBUTTONURL;
-  	if ($pl->{callback}) {
-  		return qq(<input type="image" src="$imgsrc" value="+" onclick="set('$id','$pl->{prm}',$pl->{callback});return false"/>);
-  	} else { 
-  		return qq(<input type="image" src="$imgsrc" value="+" onclick="set('$id','$pl->{prm}');return false"/>);
-  	}	
+  	my $clbstr=$pl->{'callback'}?"$pl->{callback}":'undefined';
+  	my $needreload=$pl->{'reload'}?1:0;
+  	if ($pl->{title}) {
+			return qq(<input type="button" value="$pl->{title}" onclick="set('$id','$pl->{prm}',$clbstr,$needreload);return false"/>);
+  	} else {
+  		    return qq(<input type="image" src="$imgsrc" value="+" onclick="set('$id','$pl->{prm}',$clbstr,$needreload);return false"/>);
+  	}
 }
 
 

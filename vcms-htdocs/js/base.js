@@ -152,6 +152,7 @@ function logout () {
 function setVCallback (json) {
 	if (json.status) {
 		alert(lbSuccess);
+		if (json.reload) reloadPage();
     } else {
         alert(lbError+': '+json.message);
     }   
@@ -175,11 +176,16 @@ function setMVCallback (json) {
 
 
 
-function set (objid,prm,fcallback) {
-	var inputid='_o'+objid+'_p'+prm;
+function set (objid,prm,fcallback,reload) {
+	var oinputid='_o'+objid+'_p'+prm;
+	var pinputid='_p'+prm;
+	var val;
+	if ($(oinputid)) val=$(oinputid).value;
+	if ($(pinputid)) val=$(pinputid).value;
 	var dt={
             prm     : prm,
-            value   : $(inputid).value
+            value   : val,
+            reload  : reload,
     };
 	lexecute('BASESAVEMETHOD',objid,dt,fcallback || setVCallback);
 
