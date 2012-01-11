@@ -1201,6 +1201,7 @@ my $result;
 $result->{'status'}=1;
 $result->{'newvalue'}=$CGIPARAM->{value};
 $result->{'prm'}=$CGIPARAM->{prm};
+$result->{'reload'}=$CGIPARAM->{reload};
 return $result;
 )});
 
