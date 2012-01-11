@@ -2703,7 +2703,7 @@ sub tag_calendar {
 	} else {
 		$name="_p$prm";
 	}
-	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":'';
+	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":"id='$name'";
 	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":'';
 	my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
 	my $prmname=$cmlmain::prm->{$prm}->{name};
