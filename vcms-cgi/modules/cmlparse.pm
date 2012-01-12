@@ -2493,7 +2493,7 @@ sub tag_inputtext {
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
   		'elementid','visual','csv','color','textcolor',
-  		'notnull'
+  		'notnull','isnumber'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2575,7 +2575,7 @@ sub tag_inputtext {
   	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';
   	my $prmname=$cmlmain::prm->{$prm}->{name};
   	my $nnstr=$pl->{notnull}?"notnull='1'":'';
-  	my $dstr=$cmlmain::prm->{$prm}->{type} eq 'NUMBER'?"checkdigit='1'":''; 
+  	my $dstr=$pl->{isnumber}?"checkdigit='1'":''; 
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
