@@ -2606,12 +2606,12 @@ sub edituser {
 
 
 
-sub deluser {
-	my $login=$_[0];
+sub deluser ($;$){
+	my ($login,$nodelobj)=@_;
 	my $sth=$dbh->prepare("DELETE FROM ${DBPREFIX}users WHERE login=?");
 	$sth->execute ($login) || die $dbh->errstr;
 	if ($PASSFILE) {writepassfile()}
-	deletelowobject(&cmlcalc::id("SU_$login"));
+	deletelowobject(&cmlcalc::id("SU_$login")) unless $nodelobj;
 }	
 
 sub writepassfile {
