@@ -149,6 +149,7 @@ sub ajax_ok(;$)
 	return {
 		'status'=>1,
 		'message'=>$message || enc('Успешно'),	
+		'back'=>$CGIPARAM->{back}
 	}
 }
 
