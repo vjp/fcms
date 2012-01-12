@@ -185,7 +185,7 @@ function set (objid,prm,fcallback,reload) {
 	var dt={
             prm     : prm,
             value   : val,
-            reload  : reload,
+            reload  : reload
     };
 	lexecute('BASESAVEMETHOD',objid,dt,fcallback || setVCallback);
 
