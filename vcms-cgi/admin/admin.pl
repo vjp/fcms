@@ -54,7 +54,7 @@ $qs=~s/;/&/g;
 $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
 $cmlcalc::ENV->{QUERYSTRING}=$qs;
-$cmlcalc::ENV->{URL}=url(-path_info=>1,-query=>1);
+$cmlcalc::ENV->{URL}=$ENV{REQUEST_URI};
 
 if(param('parsemethod')) {
 	my $id;
