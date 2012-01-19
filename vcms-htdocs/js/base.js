@@ -181,7 +181,7 @@ function set (objid,prm,fcallback,reload) {
 	var pinputid='_p'+prm;
 	var val;
 	if ($(oinputid)) val=$(oinputid).value;
-	if ($(pinputid)) val=$(pinputid).value;
+	else if ($(pinputid)) val=$(pinputid).value;
 	var dt={
             prm     : prm,
             value   : val,
