@@ -78,6 +78,14 @@ sub setv {
 	$VPARAM->{$id}->{$prm}=$val;
 }
 
+sub fix ($$) {
+	my ($id,$prm)=@_;
+	cmlmain::checkload({id=>$id});
+	my $v=defaultvalue({id=>$id,pkey=>$pkey});
+	set ($id,$prm,$v->{value});
+	return $v->{value};
+}
+
 
 sub setenv 
 {
