@@ -2005,7 +2005,7 @@ sub tag_text {
     	my $ptype;
         my $dfrmt;
         
-        my $pl=fetchparam(\$param,[	'br','csv','color', 'default' ]);
+        my $pl=fetchparam(\$param,[	'br','csv','color', 'default', 'bold' ]);
         
     	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
     	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
@@ -2070,6 +2070,7 @@ sub tag_text {
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
         $result=$pl->{default} if !$result && $pl->{default};
         push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
+        $result="<b>$result</b>" if $pl->{bold} && !$cmlcalc::CSVMODE;
         $result="<font color='$pl->{color}'>$result</font>" if $pl->{color};
 		return $result;
 }
