@@ -313,10 +313,13 @@ sub tag_bold {
 	my $pl=fetchparam(\$param,['prm','param','expr','id']);
 	my $prm=$pl->{param} || $pl->{prm};
 	my $expr=$pl->{expr};
+	my $bold=($prm || $expr)?0:1;
 	$expr="p($prm)" if $prm;
 	my $id=$pl->{id} || $inner->{objid};	
     my $result=cmlparser({data=>$data,inner=>$inner});
-    return cmlcalc::calculate({id=>$id,expr=>$expr})->{value}?"<b>$result</b>":$result;
+    $bold=1 if cmlcalc::calculate({id=>$id,expr=>$expr})->{value}; 
+    return $result if $cmlcalc::CSVMODE;
+    return $bold?"<b>$result</b>":$result;
 }
 
 sub tag_csvcol {
