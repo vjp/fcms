@@ -386,10 +386,13 @@ sub tag_td {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['th','csv']);
+	my $pl=fetchparam(\$param,['th','csv','csvmoney']);
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	my $tg=($pl->{th} || $inner->{th})?'th':'td';
-	if ($pl->{csv}) {
+	if ($pl->{csv} || $pl->{csvmoney}) {
+		if ($pl->{csvmoney}) {
+			$body=sprintf('%.2f',$body); $body=~s/\./,/g;  
+		}
 		push (@cmlcalc::CSVCOLS, $body);
 	}	
 	return "<$tg $param>$body</$tg>";
