@@ -89,15 +89,25 @@ sub fix ($$) {
 
 sub setenv 
 {
-	my ($prm)=shift @_;
-	$cmlcalc::ENV->{$prm}=join(';',@_);
+	if (ref $_[1] eq 'HASH') {
+		setenvhash(@_);
+	} else {
+		my ($prm)=shift @_;
+		$cmlcalc::ENV->{$prm}=join(';',@_);
+	}	
 }
 
 sub setenvhash 
 {
 	my ($name)=shift @_;
 	my ($key)=shift @_;
-	$cmlcalc::ENV->{$name}->{$key}=join(';',@_);
+	if (ref $key eq 'HASH') {
+		for my $hkey (keys %$key) {
+			$cmlcalc::ENV->{$name}->{$hkey}=(ref $key->{$hkey} eq 'ARRAY')?join(';',@{$key->{$hkey}}):$key->{$hkey};
+		}	
+	} else {
+		$cmlcalc::ENV->{$name}->{$key}=join(';',@_);
+	}	
 }
 
 sub add ($;$){
