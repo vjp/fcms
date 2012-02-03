@@ -36,7 +36,7 @@ var hasClass = (function (){
 	return function (element, className){
 		return (reCache[className] ? reCache[className] : (reCache[className] = new RegExp("(?:\\s|^)" + className + "(?:\\s|$)"))).test(element.className)
 	}
-})()
+})();
 
 
 function getElementsByTagAndClass (tagName,className) {
