@@ -376,3 +376,16 @@ function openPopup(url,wndprops) {
 	wndobj.isUrl=true;
     var ppIt = new PopIt(url,wndobj);
 }
+
+
+function jsErrHandler(message, url, line)
+{
+    if (navigator.userAgent.search('Firefox') != -1 && message === 'Error loading script') {
+        return true;
+    }
+    new Ajax.Request('/cgi-bin/ajax-json.pl', {
+            method:'post',  
+            parameters: {func: 'JSERROR', data: Object.toJSON({message:message,url:url,line:line,ua:navigator.userAgent})}
+    });
+    return true;
+}
