@@ -31,6 +31,7 @@ addobject({convertname=>1,forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'GATE',name=>'Внешний интерфейс'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'STAT',name=>'Статистика'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'TASKTRACKER',name=>'Задачи'});
 
 
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
