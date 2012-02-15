@@ -25,6 +25,13 @@ function deletealllow (id) {
 }    
 
 
+function resort (id) {
+    var dt={
+        id: id
+    };
+    ajax_call('resort', dt, alertreload_callback);
+}    
+
 
 function addobject (up,link,linkval,name,upobj,method) {
                 var dt={

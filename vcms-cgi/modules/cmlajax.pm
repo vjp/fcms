@@ -96,6 +96,17 @@ sub ajax_deletealllow($)
 	}
 }
 
+
+sub ajax_resort($)
+{
+	my ($r)=@_;
+	if ($r->{id}) {
+		&cmlcalc::resort(&cmlcalc::lowlist($r->{id}));
+		return ({status=>enc('Пересортировано')});
+	}
+}
+
+
 sub ajax_console ($)
 {
 	my ($r)=@_;

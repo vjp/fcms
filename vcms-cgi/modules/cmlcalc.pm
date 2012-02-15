@@ -9,7 +9,6 @@ BEGIN
  use Time::Local;
  use JSON::PP;
  use POSIX;
- 
  eval {require Time::HiRes };
 
  @ISA = 'Exporter';
@@ -1009,9 +1008,10 @@ sub uploadfile
 
 sub resort ($)
 {
+	use locale;
 	my ($ids)=@_;
 	my $index=0;
-	return map {set($_,'_INDEX',++$index)} sort{ p('_NAME',$a) cmp p('_NAME',$b) } split (/;/,$ids);
+	return map {set($_,'_INDEX',++$index)} sort{ uc(p('_NAME',$a)) cmp uc(p('_NAME',$b)) } split (/;/,$ids);
 }
 
 
