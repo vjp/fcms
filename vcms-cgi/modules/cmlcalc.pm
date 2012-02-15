@@ -1007,6 +1007,14 @@ sub uploadfile
 }
 
 
+sub resort ($)
+{
+	my ($ids)=@_;
+	my $index=0;
+	return map {set($_,'_INDEX',++$index)} sort{ p('_NAME',$a) cmp p('_NAME',$b) } split (/;/,$ids);
+}
+
+
 sub baselparser (;$)
 {
 	my ($opts)=@_;
