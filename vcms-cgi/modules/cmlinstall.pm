@@ -7,10 +7,12 @@ BEGIN
  	use Exporter();
  	use cmlmain;
  	use Cwd;
+ 	use File::Copy qw/cp/;
  	@ISA    = 'Exporter';
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
  		&create_db &create_db_user &populate_db &unpack_file &create_config
+ 		&copy_site
  	);
 }
 sub install_cron ($){
@@ -1252,11 +1254,31 @@ alert(enc('Структура создана успешно'));
 	
 }
 
+
+sub copy_site ($$)
+{
+	my ($rootconf,$siteconf)=@_;
+	cmlinstall::create_db($siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass});
+	return (0,"no db file $rootconf->{sourcedir}/db.gz") unless -s "$rootconf->{sourcedir}/db.gz"; 
+	cmlinstall::populate_db("$rootconf->{sourcedir}/db.gz",$siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass});
+	cmlinstall::unpack_file("$rootconf->{sourcedir}/cgi.tar.gz","$siteconf->{basedir}/public_html/cgi-bin");
+	cmlinstall::unpack_file("$rootconf->{sourcedir}/html.tar.gz","$siteconf->{basedir}/public_html");
+	cmlinstall::unpack_file("$rootconf->{sourcedir}/static.tar.gz","$siteconf->{basedir}/public_html");
+	cmlinstall::create_db_user($siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass},$siteconf->{dbuser},$siteconf->{dbpass});
+	cmlinstall::create_config("$siteconf->{basedir}/public_html/cgi-bin",{
+		DBNAME=>$siteconf->{dbname},
+		DBUSER=>$siteconf->{dbuser},
+		DBPASSWORD=>$siteconf->{dbpass},
+	});
+}
+
+
+
 sub create_db ($$$;$)
 {
 	my ($db_name,$db_user,$db_password,$db_host)=@_;
 	my $dbh=DBI->connect("DBI:mysql:mysql:$db_host",$db_user,$db_password) || die $DBI::errstr;
-	$dbh->do("CREATE DATABASE $db_name") || die $dbh->errstr;
+	$dbh->do("CREATE DATABASE IF NOT EXISTS $db_name") || die $dbh->errstr;
 }
 
 sub populate_db ($$$$;$)
