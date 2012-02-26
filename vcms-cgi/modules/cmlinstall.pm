@@ -1269,6 +1269,8 @@ sub copy_site ($$)
 		DBNAME=>$siteconf->{dbname},
 		DBUSER=>$siteconf->{dbuser},
 		DBPASSWORD=>$siteconf->{dbpass},
+		ABSPATH=>$siteconf->{basedir},
+		DOMAINNAME=>$siteconf->{domain},
 	});
 }
 
