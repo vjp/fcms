@@ -44,6 +44,6 @@ $GRPFILE='<abspath>.htgroup';
 	'MAIN'=>{
 		'url'=>'http://vjphome.dyndns.org/cgi-bin/vcms/cmlsrv.pl',
 		'login'=>'mycms',
-		'password'=>'mycms',
+		'password'=>'',
 	}
 );
