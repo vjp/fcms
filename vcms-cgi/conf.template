@@ -39,11 +39,5 @@ $UTF=<utf>;
 $PASSFILE='<abspath>.htpasswd';
 $GRPFILE='<abspath>.htgroup';
 
-@SYNC=('MAIN');
-%SYNC=(
-	'MAIN'=>{
-		'url'=>'http://vjphome.dyndns.org/cgi-bin/vcms/cmlsrv.pl',
-		'login'=>'mycms',
-		'password'=>'',
-	}
-);
+@SYNC=();
+%SYNC=();
