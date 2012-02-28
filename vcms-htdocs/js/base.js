@@ -374,9 +374,13 @@ function openPopup(url,wndprops) {
 	var wndobj={};
 	if (wndprops) wndobj=wndprops;
 	wndobj.isUrl=true;
+	wndobj.id='ppWindow';
     var ppIt = new PopIt(url,wndobj);
 }
 
+function closePopup () {
+    popIts.activePopIts['ppWindow'].close();
+}
 
 function jsErrHandler(message, url, line)
 {
