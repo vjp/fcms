@@ -1266,7 +1266,7 @@ sub copy_site ($$)
 	cmlinstall::unpack_file("$rootconf->{sourcedir}/static.tar.gz","$siteconf->{basedir}/public_html");
 	cmlinstall::create_db_user($siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass},$siteconf->{dbuser},$siteconf->{dbpass});
 	my $abspath=$siteconf->{basedir};
-	$abspath.="/.htpasswd" if -d "$abspath/.htpasswd/";
+	$abspath.=".htpasswd/" if -d "$abspath/.htpasswd";
 	
 	cmlinstall::create_config("$siteconf->{basedir}/public_html/cgi-bin",{
 		DBNAME=>$siteconf->{dbname},
