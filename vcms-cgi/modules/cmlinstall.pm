@@ -1274,6 +1274,7 @@ sub copy_site ($$)
 		DBPASSWORD=>$siteconf->{dbpass},
 		ABSPATH=>$abspath,
 		DOMAINNAME=>$siteconf->{domain},
+		ROOTPATH=>"$siteconf->{basedir}/public_html/",
 	});
 }
 
