@@ -1297,7 +1297,7 @@ sub checkdatastruct {
 
 sub init	{
 	die "no conf file $_[0]/conf" unless -s "$_[0]/conf";
- 	do "$_[0]/conf" || die "conf file ($_[0]/conf) init error :$! SIZE=". -s "$_[0]/conf";
+ 	do "$_[0]/conf";
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
   	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
  	$DBHOST='localhost' unless $DBHOST;
