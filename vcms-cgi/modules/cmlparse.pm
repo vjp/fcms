@@ -1349,7 +1349,7 @@ sub tag_actionlink {
 	} elsif ($pl->{action} eq 'OPENWINDOW') {
 		    my $width=$pl->{width} || 600;
 		    my $height=$pl->{height} || 400;
-		    return qq(<a href='#' onclick="openPopup('/__$pl->{template}?id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
+		    return qq(<a href='#' onclick="openPopup('?view=$pl->{template}&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	}				
 	
 	
@@ -2729,12 +2729,16 @@ sub tag_calendar {
 
 sub tag_checkbox {
 	my $param=$_[0]->{param};
-	my $id=$_[0]->{inner}->{objid};
-	
-	my $pl=fetchparam($param,['param','prm','name','value','nohidden','csv']);
+	my $pl=fetchparam($param,['id','param','prm','name','value','nohidden','csv']);	
+	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 	my $prm=$pl->{prm} || $pl->{param};
 	my $value=$pl->{value} || 1;	
-	my $checked=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}==1?'checked':'';
+	my $checked;
+	if ($prm) {
+		my $v=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value};
+		
+		$checked='checked' if ($pl->{value} && &cmlcalc::inlist($v,$pl->{value})) || $v==1;
+	}
 	
 	push (@cmlcalc::CSVCOLS, $checked?'+':'-') if $pl->{csv};
 	
