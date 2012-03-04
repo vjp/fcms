@@ -2755,7 +2755,7 @@ sub tag_checkbox {
 	}
 	  
 	$param=$pl->{str};
-	my $hstr=$pl->{'nohidden'}?'':"<input type='hidden' value='0' name='$name'>";
+	my $hstr=($pl->{'nohidden'} || $pl->{'value'})?'':"<input type='hidden' value='0' name='$name'>";
 	return "<input type='checkbox' value='$value' $checked name='$name' $param>$hstr";
 }	
 
