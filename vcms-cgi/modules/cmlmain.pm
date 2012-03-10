@@ -122,8 +122,16 @@ sub import_static (;$)
 sub export_db (;$)
 {
 	my ($filename)=@_;
-	$filename ||= '../../backup/db.gz';
-	`/usr/local/bin/mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename`;
+	unless ($filename) {
+		mkdir '../../backup/' unless -d '../../backup/';
+		$filename = '../../backup/db.gz';
+	}
+	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename";
+	if (-e '/usr/local/bin/mysqldump') {
+		`/usr/local/bin/$estr`;
+	} else {
+		`$estr`;
+	};	
 }
 
 
