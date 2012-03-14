@@ -1061,12 +1061,14 @@ sub clearpagescache ($) {
 	while (my ($key)=$sth->fetchrow()) {
 		push(@h,"'$key'");
 	}
+	my $dstr=join(',',@h);
 	if ((scalar @h) > 1000) {
 		$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
 		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
 	}elsif (@h){
-		my $dstr=join(',',@h);
-		$dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)") || die $dbh->errstr();
+		unless ($dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)")) {
+			$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
+		}
 		my $sthd=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
 		$sthd->execute($obj)|| die $dbh->errstr();
 	}
