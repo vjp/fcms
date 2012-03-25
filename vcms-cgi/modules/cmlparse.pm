@@ -664,7 +664,7 @@ sub tag_select {
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
-  		'elementid','csv','notnull'
+  		'elementid','csv','notnull','popup'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -730,6 +730,12 @@ sub tag_select {
   	unless ($data) {
   		$data="<cml:option param='$optionid'><cml:text param='$optionparam'/></cml:option>";
   	}
+  	
+  	if ($pl->{popup}) {
+  		my $val= &cmlcalc::p($prm,$id);
+		return qq($val<a href='#' onclick="openPopup('?view=POPUPSELECTOR&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
+  	}
+  	
   	
   	my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
   	my $idtxt=$pl->{elementid}?"id='$pl->{elementid}'":"";
