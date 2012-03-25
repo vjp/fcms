@@ -465,7 +465,7 @@ sub prmtype	{
 
 
 sub prmformula	{
- 	return $cmlmain::prm->{$_[0]}->{extra}->{formula}
+ 	return &cmlcalc::calculate({id=>$OBJID,expr=>$cmlmain::prm->{$_[0]}->{extra}->{formula}})->{value}
 }
 
 
