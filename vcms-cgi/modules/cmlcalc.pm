@@ -464,6 +464,12 @@ sub prmtype	{
 }
 
 
+sub prmformula	{
+ 	return $cmlmain::prm->{$_[0]}->{extra}->{formula}
+}
+
+
+
 sub id {
 	return &cmlmain::checkload({key=>$_[0]});
 }	
