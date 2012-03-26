@@ -1035,15 +1035,15 @@ sub tag_auth
   	my $inner; %{$inner}=%{$_[0]->{inner}};
   	my $pl=fetchparam($param,['prm','id']);
   	my $id=$pl->{id} || $inner->{objid};
-	if (!$cmlcalc::ENV->{'USERID'}) {
+	if (!$cmlcalc::ENV->{'AUTHUSERID'}) {
 			return cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner});
 	} elsif ($pl->{'prm'}) {
 		my $uid=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{'prm'})"})->{value};
-		if ($uid ne $cmlcalc::ENV->{'USERID'}) {
+		if ($uid ne $cmlcalc::ENV->{'AUTHUSERID'}) {
 			return cmlparser({data=>"<cml:include key='FORBIDDEN'/>",inner=>$inner});
 		}
 	} else {
-		$id=$cmlcalc::ENV->{'USERID'};
+		$id=$cmlcalc::ENV->{'AUTHUSERID'};
 	}	
 	$inner->{objid}=$id;
     return cmlparser({data=>$_[0]->{data},inner=>$inner})
