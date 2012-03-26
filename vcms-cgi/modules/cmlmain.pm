@@ -226,7 +226,7 @@ sub change_pass_user ($$)
 sub add_user ($$;$) 
 {
 	my ($login,$password,$objid)=@_;
-	$objid=&cmlcalc::id("SU_$login");
+	$objid ||= &cmlcalc::id("SU_$login");
 	return 0 unless $objid;
 	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,password(?),?)");
 	$sth1->execute($login,$password,$objid) || die $dbh->errstr();
