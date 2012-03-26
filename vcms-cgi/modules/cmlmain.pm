@@ -304,7 +304,7 @@ sub check_auth ($$;$)
 		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
 		$cmlcalc::ENV->{'LOGIN'}=$login;
 		$cmlcalc::ENV->{'AUTHUSERID'}=$objid;
-		return (1,$ck);
+		return (1,$scookie);
 	} elsif ($sid && ! ($flag & 1)) {
 		undef $cmlcalc::ENV->{'LOGIN'};
 		undef $cmlcalc::ENV->{'AUTHUSERID'};		
