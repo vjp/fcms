@@ -732,8 +732,7 @@ sub tag_select {
   	}
   	
   	if ($pl->{popup}) {
-  		my $val= &cmlcalc::p($prm,$id);
-		return qq($val<a href='#' onclick="openPopup('?view=POPUPSELECTOR&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
+		return qq(<a href='#' onclick="openPopup('?view=POPUPSELECTOR&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
   	}
   	
   	
