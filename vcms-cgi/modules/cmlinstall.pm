@@ -245,8 +245,8 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 
 <script type="text/javascript" src="/js/swfobject.js"></script>
-<script type="text/javascript" src="/js/cookiejar.js"></script>
 <script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/cookiejar.js"></script>
 <script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/flowplayer.js"></script>
 
