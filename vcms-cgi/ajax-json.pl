@@ -21,20 +21,9 @@ my $func=param('func');
 check_session();
 
 
-my $prms=decode_json($data);
-if (ref $prms eq 'HASH') {
-	for (keys %$prms) {
-		if (ref $prms->{$_} eq 'ARRAY' && ref $prms->{$_}->[1] eq 'ARRAY') {
-		    	$prms->{$_}=join(';',@{$prms->{$_}->[1]})	
-		} elsif (ref $prms->{$_} eq 'ARRAY') {
-				$prms->{$_}=join(';',@{$prms->{$_}})
-		}
-		$prms->{$_} = Encode::encode('cp1251',$prms->{$_}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
-	}
-	$cmlcalc::CGIPARAM=$prms;
-}	
 
 
+$cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
 
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};

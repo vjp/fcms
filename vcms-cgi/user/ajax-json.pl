@@ -19,20 +19,7 @@ my $data=param('data') || $json->encode ([]);
 my $func=param('func');
 check_session();
 
-
-my $prms=decode_json($data);
-if (ref $prms eq 'HASH') {
-	unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
-		for (keys %$prms) {
-			if (ref $prms->{$_} eq 'ARRAY' && ref $prms->{$_}->[1] eq 'ARRAY') {
-		    	$prms->{$_}=join(';',@{$prms->{$_}->[1]})	
-			}
-			$prms->{$_} = Encode::encode('cp1251',$prms->{$_})
-		}	 
-	}	
-	$cmlcalc::CGIPARAM=$prms;
-}	
-
+$cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
 
 
 $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';

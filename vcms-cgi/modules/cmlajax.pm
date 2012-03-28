@@ -6,9 +6,29 @@ BEGIN
  use Exporter();
  use cmlmain;
  use cmlcalc;
+ use Encode;
+ use JSON::PP;
  @ISA = 'Exporter';
- @EXPORT = qw( );
+ @EXPORT = qw( &data_prepare );
 
+}
+
+
+sub data_prepare ($$)
+{
+	my ($data,$codepage)=@_;
+	my $prms=decode_json($data);
+	if (ref $prms eq 'HASH') {
+		for (keys %$prms) {
+			if (ref $prms->{$_} eq 'ARRAY' && ref $prms->{$_}->[1] eq 'ARRAY') {
+		    	$prms->{$_}=join(';',@{$prms->{$_}->[1]})	
+			} elsif (ref $prms->{$_} eq 'ARRAY') {
+				$prms->{$_}=join(';',@{$prms->{$_}})
+			}
+			$prms->{$_} = Encode::encode('cp1251',$prms->{$_}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+		}
+	}	
+	return $prms;
 }
 
 
