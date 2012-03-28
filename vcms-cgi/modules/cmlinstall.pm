@@ -233,6 +233,7 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbSuccess="Успех";
   var lbRequired="Необходимо заполнить поле";
   var lbDigit="Введите числовое значение в поле";   
+  var  ajax_url = '/cgi-bin/user/ajax-json.pl';
 </script>
 )});
 
@@ -251,9 +252,6 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 <script src="/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
 <cml:include key='JSDICTIONARY'/>
-<script>
-  var  ajax_url = '/cgi-bin/user/ajax-json.pl';
-</script>
 <script src="/js/lightbox.js" type="text/javascript"></script>
 
 
