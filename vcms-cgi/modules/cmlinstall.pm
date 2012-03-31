@@ -1150,7 +1150,9 @@ my $addscript=q(
 	if ($CGIPARAM->{link}) {    
 		my $lv=$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id};    
 		setvalue ({id=>$newid,prm=>$CGIPARAM->{link},value=>$lv});
-	}alert("Новый объект создан");
+	}
+	alert("Новый объект создан");
+	ajax_ok("Новый объект создан);
 	
 );
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',lflag=>1,script=>$addscript});
