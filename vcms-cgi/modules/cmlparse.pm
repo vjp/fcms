@@ -1318,9 +1318,14 @@ sub tag_actionlink {
 	} 	elsif ($pl->{action} eq 'ADD') {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
-		return qq(
+		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
+			my $onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+			return "<a href='#' $onclick >$title</a>";
+		} else {
+			return qq(
 		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","","$pl->{method}")'>$title</a>
-		);
+			);
+		}	
 	} 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
