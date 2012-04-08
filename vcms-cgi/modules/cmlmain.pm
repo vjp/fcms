@@ -1103,6 +1103,8 @@ sub setvalue  {
 		 return 0 unless $id;
   	}	
     $value=enc($value) if $_[0]->{convert}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+    undef $value if $prm->{$pkey}->{type} eq 'LIST' && $value eq '0';
+    
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
 		my $objid;
 		if ($uid) {$objid="u$uid"}	else {$objid=$id} 
@@ -1132,6 +1134,7 @@ sub setvalue  {
  	    $value=$old_value+$value;
 	}
 
+   
  	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
