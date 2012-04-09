@@ -1258,6 +1258,7 @@ alert(enc('Структура создана успешно'));
 sub copy_site ($$)
 {
 	my ($rootconf,$siteconf)=@_;
+	return (0,"no sitedir $siteconf->{basedir}") unless -d $siteconf->{basedir};
 	cmlinstall::create_db($siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass});
 	return (0,"no db file $rootconf->{sourcedir}/db.gz") unless -s "$rootconf->{sourcedir}/db.gz"; 
 	cmlinstall::populate_db("$rootconf->{sourcedir}/db.gz",$siteconf->{dbname},$rootconf->{dbuser},$rootconf->{dbpass});
