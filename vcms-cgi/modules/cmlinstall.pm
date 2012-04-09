@@ -12,7 +12,7 @@ BEGIN
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
  		&create_db &create_db_user &populate_db &unpack_file &create_config
- 		&copy_site
+ 		&copy_site &ext_user_password
  	);
 }
 sub install_cron ($){
@@ -1280,6 +1280,35 @@ sub copy_site ($$)
 }
 
 
+sub ext_user_password ($$$)
+{
+	my ($siteconf,$login,$password)=@_;
+	
+    my $edbh=DBI->connect("DBI:mysql:$siteconf->{dbname}:$siteconf->{dbhost}",$siteconf->{dbuser},$siteconf->{dbpass}) || die $DBI::errstr;
+	my $sth=$edbh->prepare("UPDATE ${DBPREFIX}users SET password=ENCRYPT(?) WHERE login=?");
+	$sth->execute ($password,$login) || die $edbh->errstr;
+
+	$sth=$edbh->prepare("SELECT * FROM ${DBPREFIX}users");
+	my $ul;
+	$sth->execute || die $edbh->errstr;
+	while ($item=$sth->fetchrow_hashref) {
+		push (@$ul,$item)
+	}
+	
+	my $abspath=$siteconf->{basedir};
+	$abspath.=".htpasswd/" if -d "$abspath/.htpasswd";
+	my $passfile="$abspath/.htpasswd";
+	
+ 	open (PSFILE,">$passfile") || die " PASSFILE write error (filename:$passfile) error:$! ";;
+   	for (@$ul) {	
+   		print PSFILE "$_->{login}:$_->{password}\n";
+   	}
+  	close PSFILE;
+  	chmod (0644, $passfile);
+
+}
+
+
 
 sub create_db ($$$;$)
 {
@@ -1303,6 +1332,9 @@ sub create_db_user ($$$$$;$)
 	$dbh->do("GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}\@'$db_host' IDENTIFIED BY '${db_password}'") || die $dbh->errstr;
 	$dbh->do("FLUSH PRIVILEGES") || die $dbh->errstr;		
 }
+
+
+
 
 sub unpack_file ($$)
 {
