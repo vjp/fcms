@@ -1116,8 +1116,6 @@ sub tag_use
 		$id=$inner->{objid}
 	}
 	
-	$cmlcalc::ENV->{$pl->{var}}=$id if $pl->{var};
-	$cmlcalc::ENV->{$pl->{env}}=$id if $pl->{env};
 	
 	if       ($pl->{param} || $pl->{prm})       {
 		$paramname=$pl->{param} || $pl->{prm};
@@ -1148,8 +1146,10 @@ sub tag_use
  	        $matrix->{dim}->{$tabparam}->{current}=$tabvalue;
  	        $matrix->{tabkey}="t_$matrix->{id}_$matrix->{param}_".join('_',map {$_=$matrix->{dim}->{$_}->{current}} split(/\s*;\s*/,$cmlmain::prm->{$matrix->{param}}->{extra}->{param}));
 	}
-        
 	
+    $cmlcalc::ENV->{$pl->{var}}=$id if $pl->{var};
+	$cmlcalc::ENV->{$pl->{env}}=$id if $pl->{env};
+	      
 	$inner->{objid}=$id;
 	$inner->{matrix}=$matrix;
 	$inner->{parent}=$id;
