@@ -2513,7 +2513,7 @@ sub tag_inputtext {
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
   		'elementid','visual','csv','color','textcolor',
-  		'notnull','isnumber'
+  		'notnull','isnumber','up'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2552,13 +2552,20 @@ sub tag_inputtext {
   	my $name;
 	if ($pl->{name}) {
 		$name=$pl->{name}
-	} elsif ($_[0]->{inner}->{matrix}) {
-		$name="_o${id}_p${prm}";
-	} else {
-		$name="_p$prm";
-	}
+	} else{
+		if ($pl->{key}) {
+			$name="_k$pl->{key}_p${prm}";	
+		} elsif ($_[0]->{inner}->{matrix}) {
+			$name="_o${id}_p${prm}";
+		} else {
+			$name="_p$prm";
+		}
+		$name.="_$pl->{up}" if $pl->{up};
+	}	
 
-    if ($prm && !(defined $value)) {
+	
+
+    if ($prm && !(defined $value) && $id) {
   		$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)",noparse=>1})->{value};
 	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
 		$value = $cmlcalc::CGIPARAM->{$name}
@@ -2589,7 +2596,7 @@ sub tag_inputtext {
   		$typestr="type='$pl->{type}'"; 
   		$mode='input';
   	}
-  	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='_o${id}_p${prm}'";	
+  	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='$name'";	
   	
   	my $clrstr=$pl->{color}?"class='color'":'';
   	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';

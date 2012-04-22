@@ -1064,6 +1064,23 @@ sub baselparser (;$)
 				setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
+		} if ($cgiprm=~/^_k(.+?)_p(.+)_(u\d+)$/) {
+			my $key=$1;
+			my $prm=$2;
+			my $upper=$3;
+			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
+				$value=1;
+			}
+			&cmlmain::checkload({key=>$key});
+		    $id=$cmlmain::nobj->{$key}->{id};
+		    $id=addlowobject({upobj=>$upper,key=>$key}) unless $id;
+			my $oldval=p($prm,$id);
+			$ov->{$id}->{$prm}=$oldval;
+			$nv->{$id}->{$prm}=$value;			
+			if ($oldval ne $value) {
+				setvalue({id=>$id,prm=>$prm,value=>$value});
+				push (@{$changed->{$id}},$prm);
+			}
 	    } elsif ($cgiprm=~/^_p(.+)_d(.)$/) {		
 			$dt_collector->{$1}->{$2}=$value;
 		} elsif ($cgiprm=~/^_p(.+)/) {
