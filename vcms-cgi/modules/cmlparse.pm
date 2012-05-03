@@ -1389,7 +1389,7 @@ sub tag_actionlink {
 		}	
 	}
 	
-	return "<a href='?$hstr' $param>$title</a>";
+	return $pl->{button}?"<input type='button' value='$title' $param/>":"<a href='?$hstr' $param>$title</a>";
 	
 }	
 sub tag_captchaanswer 
