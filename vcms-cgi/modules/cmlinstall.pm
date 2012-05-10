@@ -522,6 +522,7 @@ setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
       </table>
   </cml:form>
   <cml:include key='MCEPHOTO'/>
+  <cml:include key='MCEVIDEO'/>
   </cml:use>
 )});
 
@@ -913,6 +914,22 @@ setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
 </cml:form>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEVIDEO',name=>'Вставка видео в визивиг'});
+setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
+Вставка роликов
+<table><tr>
+    <cml:list prm='VIDLINKS'>
+        <td><cml:deletebutton/><cml:video/>
+        <cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertvideo('player_cml:_ID_','_global:FILEURL_/_cml:PIC_')">Вставить ролик</cml:a>
+        </td>
+    </cml:list>
+</tr></table>
+<cml:form insertinto='_id:VIDEOGALLERY_' link='VIDLINK'>
+    Превью <cml:inputfile param='PIC'/>
+    Ролик <cml:inputfile param='MOVIE'/>
+     <input type='submit' value='Новый ролик'>
+</cml:form>
+)});
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEFILES',name=>'Вставка файлов в визивиг'});
 setvalue({convert=>1,key=>'MCEFILES',pkey=>'PAGETEMPLATE',value=>qq(
