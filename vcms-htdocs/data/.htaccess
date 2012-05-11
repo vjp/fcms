@@ -1,1 +1,2 @@
 ForceType application/octet-stream
+SetEnv no-gzip 
