@@ -915,7 +915,7 @@ setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEVIDEO',name=>'Вставка видео в визивиг'});
-setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({convert=>1,key=>'MCEVIDEO',pkey=>'PAGETEMPLATE',value=>qq(
 Вставка роликов
 <table><tr>
     <cml:list prm='VIDLINKS'>
