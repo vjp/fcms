@@ -523,7 +523,7 @@ sub envhash($;$) {
 }
 
 sub cgi {
-	return $cmlcalc::CGIPARAM->{$_[0]};
+	return $cmlcalc::CGIPARAM->{$_[0]} ne 'NULL'?$cmlcalc::CGIPARAM->{$_[0]}:'';
 }
 
 sub dev {
