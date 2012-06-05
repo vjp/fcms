@@ -1266,9 +1266,9 @@ sub tag_actionlink {
 	$inner->{objid}=$iid;
 	$title=$pl->{title};
 	$title="<image src='$cmlmain::UNDOIMAGEURL' border='0'/>" if !$title && $pl->{action} eq 'UNDO';
-	$title="<image src='$cmlmain::PLUSBUTTONURL' border='0'/>" if !$title && $pl->{action} eq 'ADD';
-	
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
+    $title="<image src='$cmlmain::PLUSBUTTONURL' border='0'/>" if !$title && $pl->{action} eq 'ADD';
+    	
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
 	
