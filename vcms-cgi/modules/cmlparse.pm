@@ -2812,9 +2812,6 @@ sub tag_deletebutton {
 
     return undef if $pl->{prm} && !&cmlcalc::p($pl->{prm},$_[0]->{inner}->{objid});
 
-    
-   
-	
   	my $hstr=join('&',@hlist);
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
@@ -2827,6 +2824,8 @@ sub tag_deletebutton {
 		$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
 	}elsif ($pl->{prm}) {	
 		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
+	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
+		$scriptjs=qq(lexecute("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}

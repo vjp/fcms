@@ -1180,11 +1180,13 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHO
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
 	alert('Объект удален');
+	ajax_ok('Объект удален');
 )});
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',lflag=>1,script=>q(
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
 	alert('Объект удален');
+	ajax_ok('Объект удален');	
 )});
 
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELPARAMMETHOD',name=>'Базовый метод очистки параметра',lflag=>1,script=>q(
