@@ -1226,7 +1226,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height',
+		'width','height','popup'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1305,7 +1305,7 @@ sub tag_actionlink {
 		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
-		my $href="?body=EDIT_$kn&id=$iid";
+		my $href=$pl->{popup}?"?view=EDIT_$kn&id=$iid":"?body=EDIT_$kn&id=$iid";
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		$href.='&'.$pl->{href} if $pl->{href};
@@ -1313,6 +1313,13 @@ sub tag_actionlink {
 			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
 			$title="<img src='$imgurl' border='0'/>";
 		} 
+		if ($pl->{popup}) {
+ 		    my $width=$pl->{width} || 600;
+		    my $height=$pl->{height} || 400;
+		    return qq(<a href='#' onclick="openPopup('$href',{title:'$title',width:$width,height:$height})">$title</a>)
+		}
+		
+		
 	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$href"' value='$title' $param/>):"<a href='$href' $param $tstr>$title</a>"
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
