@@ -1061,7 +1061,7 @@ sub baselparser (;$)
 			$ov->{$id}->{$prm}=$oldval;
 			$nv->{$id}->{$prm}=$value;			
 			if ($oldval ne $value) {
-				setvalue({id=>$id,prm=>$prm,value=>$value});
+				#setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
 		} if ($cgiprm=~/^_k(.+?)_p(.+)_(u\d+)$/) {
@@ -1078,7 +1078,7 @@ sub baselparser (;$)
 			$ov->{$id}->{$prm}=$oldval;
 			$nv->{$id}->{$prm}=$value;			
 			if ($oldval ne $value) {
-				setvalue({id=>$id,prm=>$prm,value=>$value});
+				#setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
 	    } elsif ($cgiprm=~/^_p(.+)_d(.)$/) {		
@@ -1091,10 +1091,12 @@ sub baselparser (;$)
 			if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {
 				$value=1;
 			}
-			setvalue({id=>$id,prm=>$prm,value=>$value});
+			$nv->{$id}->{$prm}=$value;
+			#setvalue({id=>$id,prm=>$prm,value=>$value});
 			push (@{$changed->{$id}},$prm);
 			if ($CGIPARAM->{renameprm} eq $prm) {
-				setvalue({id=>$id,prm=>'_NAME',value=>$value});
+				#setvalue({id=>$id,prm=>'_NAME',value=>$value});
+				$nv->{$id}->{_NAME}=$value;
 				push (@{$changed->{$id}},'_NAME');
 			}
 		} elsif ($cgiprm=~/^_f(.+)/ && $value) {
@@ -1106,6 +1108,13 @@ sub baselparser (;$)
 			push (@{$changed->{$id}},$2);
 		}
 	}
+
+	for my $oid (keys %$changed) {
+		for my $prm (@{$changed->{$oid}}) {
+			setvalue({id=>$oid,prm=>$prm,value=>$nv->{$oid}->{$prm}}) if defined $nv->{$oid}->{$prm}
+		}
+	}
+	 
 	for my $dtprm (keys %$dt_collector) {
         setvalue({id=>$id,prm=>$dtprm,value=>&cmlmain::compile_date($dt_collector->{$dtprm})});
 		push (@{$changed->{$id}},$dtprm);		
