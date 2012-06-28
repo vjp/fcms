@@ -41,16 +41,11 @@ my $firstparam=shift @pi;
 if ($firstparam=~/^_(.+)$/) {
 	 	$method_name=$1
 }
+$method_name='TESTGATE' unless $method_name;
 
-print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
-
-
-if ($method_name) {
-	print &cmlcalc::execute({method=>$method_name,key=>'GATE'});
-}else       {
-	errorpage()
-}
-
+my $result=&cmlcalc::execute({method=>$method_name,key=>'GATE'});
+print header(-type=>$cmlcalc::ENV->{'JSON'}?'application/json':'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+print $result;
 
 
 sub errorpage

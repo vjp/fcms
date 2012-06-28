@@ -64,7 +64,7 @@ BEGIN
               
               &import_db &import_static &export_db &recover_object
               
-              &compile_date  &set_hru
+              &compile_date  &set_hru &json_ok
              );
 
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
@@ -169,6 +169,18 @@ sub ajax_error($)
 		'status'=>0,
 		'message'=>enc("Îøèáêà: ").$errormessage,	
 	}
+}
+
+
+sub json_ok(;$$) 
+{
+	my ($message,$result)=@_;
+	$cmlcalc::ENV->{'JSON'}=1;
+	return encode_json({
+		'status'=>1,
+		'message'=>$message || 'SUCCESS',
+		'result'=>$result,	
+	});
 }
 
 

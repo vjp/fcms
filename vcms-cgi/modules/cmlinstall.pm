@@ -1268,6 +1268,11 @@ staterror("$ENV{REQUEST_URI} - $ENV{HTTP_REFERER}",$ENV{REQUEST_URI},$ENV{HTTP_U
 return 1;
 )});
 
+
+addmethod ({convertname=>1,objkey=>'GATE',key=>'TESTGATE',name=>'Тест внешнего интерфейса',script=>q(
+json_ok('SUCCESS TEST GATE',{time=>scalar localtime});
+)});
+
 alert(enc('Структура создана успешно'));
 
 	
