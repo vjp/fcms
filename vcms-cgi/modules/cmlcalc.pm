@@ -13,7 +13,7 @@ BEGIN
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
-               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS $ROWID  $CSVMODE);
+               $SITEVARS $LANGUAGE $SCRIPTOUT $STOPCACHE $VPARAM  @CSVCOLS  @CSVROWS $ROWID  $CSVMODE &rpcexec);
 }
 
 sub initcalc
@@ -269,6 +269,20 @@ sub calculate 	{
   
  	
 }
+
+sub rpcexec {
+	my ($req)=@_;
+	require LWP::UserAgent;
+	my $ua = LWP::UserAgent->new;
+	$ua->agent("vCMS rpc agent");
+	my $r = HTTP::Request -> new      ( POST => "http://$req->{host}/gate/_$req->{method}");
+	$r->authorization_basic( $req->{username}, $req->{password} );
+	my $response = $ua -> request ($r); 
+    my $cnt=$response->content;
+    return $cnt;
+}
+
+
 
 sub execute 	{
 
