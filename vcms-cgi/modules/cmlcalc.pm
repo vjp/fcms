@@ -279,7 +279,7 @@ sub rpcexec {
 	$r->authorization_basic( $req->{username}, $req->{password} );
 	my $response = $ua -> request ($r); 
     my $cnt=$response->content;
-    return $cnt;
+  	return $cnt?decode_json($cnt):'[]';
 }
 
 
