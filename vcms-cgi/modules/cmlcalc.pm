@@ -270,19 +270,6 @@ sub calculate 	{
  	
 }
 
-sub rpcexec {
-	my ($req)=@_;
-	require LWP::UserAgent;
-	my $ua = LWP::UserAgent->new;
-	$ua->agent("vCMS rpc agent");
-	my $r = HTTP::Request -> new      ( POST => "http://$req->{host}/gate/_$req->{method}");
-	$r->authorization_basic( $req->{username}, $req->{password} );
-	my $response = $ua -> request ($r); 
-    my $cnt=$response->content;
-  	return $cnt?decode_json($cnt):'[]';
-}
-
-
 
 sub execute 	{
 
