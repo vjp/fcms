@@ -2088,7 +2088,7 @@ sub tag_text {
         	$expr=~s/_iterator(\W)/$_[0]->{inner}->{iterator}$1/ig;
         	$expr=~s/_iteratordelta(\W)/$_[0]->{inner}->{delta}$1/ig;
         	$expr=~s/_iteratornext(\W)/$_[0]->{inner}->{iteratornext}$1/ig;
-        	$rs=&cmlcalc::calculate({id=>$id,expr=>$expr});
+        	$rs=&cmlcalc::calculate({id=>$id,key=>$key,expr=>$expr});
         } else { 
         	unless ($expr) {$expr='p(TXT)'}
         	$rs=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
