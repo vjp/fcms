@@ -1110,7 +1110,7 @@ sub tag_use
 		'uname','key','param','prm',
 		'paramtab','idexpr',
 		'validupkey','validupexpr','validexpr','var','env',
-		'readonly','readonlyexpr',
+		'readonly','readonlyexpr','value'
 	]);
 	
 	if      ($pl->{id} && $pl->{id} ne 'NULL')       {
@@ -1169,8 +1169,8 @@ sub tag_use
  	        $matrix->{tabkey}="t_$matrix->{id}_$matrix->{param}_".join('_',map {$_=$matrix->{dim}->{$_}->{current}} split(/\s*;\s*/,$cmlmain::prm->{$matrix->{param}}->{extra}->{param}));
 	}
 	
-    $cmlcalc::ENV->{$pl->{var}}=$id if $pl->{var};
-	$cmlcalc::ENV->{$pl->{env}}=$id if $pl->{env};
+    $cmlcalc::ENV->{$pl->{var}}=$pl->{value} || $id if $pl->{var};
+	$cmlcalc::ENV->{$pl->{env}}=$pl->{value} || $id if $pl->{env};
 	      
 	$inner->{objid}=$id;
 	$inner->{matrix}=$matrix;
