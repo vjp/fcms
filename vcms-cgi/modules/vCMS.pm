@@ -1,4 +1,38 @@
+package vCMS;
+
+use vCMS::Object::Up;
+use vCMS::Object::Low;
+
+BEGIN
+{ 
+	use Exporter();
+	use lib "..";
+	@ISA = 'Exporter';
+	@EXPORT = qw( &o);
+	use cmlmain;
+}	 
+
+sub o($); 
+sub o($) {
+	my $id=shift;
+	my $pObj;
+    if ($id=~/^(\d+)$/) {
+    	$pObj=vCMS::Object::Low->new($1);
+    	return $pObj;
+    } elsif ($id=~/^u(\d+)/) {
+    	$pObj=vCMS::Object::Up->new($1);
+    	return $pObj->Load()?$pObj:undef;
+    } else {
+        my $oid=cmlmain::checkload({key=>$id});
+        return  $oid=~/^u?(\d+)$/?o($oid):undef;
+    }
+}
+
+
+
+
 package vCMS::RPC;
+ 
  
 sub new {
     my $class = shift;
