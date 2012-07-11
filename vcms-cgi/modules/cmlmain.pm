@@ -937,18 +937,18 @@ sub prefetchlist {
 	return unless $objlist;
 	
 	my $vstr=join(',',split ';', $objlist);
-	my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE objid in ($vstr) AND lang=?")|| die $dbh->errstr;
+	my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE objid in ($vstr)")|| die $dbh->errstr;
 
 	
-	$sth->execute($lang) || die $dbh->errstr;
+	$sth->execute() || die $dbh->errstr;
 	while (my $item=$sth->fetchrow_hashref) {
      	if ($prm->{$item->{pkey}}->{type} eq 'TEXT' || $prm->{$item->{pkey}}->{type} eq 'LONGTEXT') { 
-        		$lobj->{$item->{objid}}->{langvals}->{$lang}->{$item->{pkey}}->{value}=$item->{value};
+        		$lobj->{$item->{objid}}->{langvals}->{$item->{lang}}->{$item->{pkey}}->{value}=$item->{value};
         } else {
         	  $lobj->{$item->{objid}}->{$item->{pkey}}->{value}=$item->{value};
         }			
         $lobj->{$item->{objid}}->{vals}->{$item->{pkey}}->{type}=$prm->{$item->{pkey}}->{type};
-        $lobj->{$item->{objid}}->{langcached}->{$lang}=1;
+        $lobj->{$item->{objid}}->{langcached}->{$item->{lang}}=1;
 	}	
 	my $xt=time()-$t;
 
