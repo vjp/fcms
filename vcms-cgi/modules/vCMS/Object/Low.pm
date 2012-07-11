@@ -31,4 +31,20 @@ sub Load($) {
 	
 }
 
+sub Fill($) {
+	my $self = shift;
+	$self->Load();
+	for my $k (keys %{$cmlmain::lobj->{$self->{_index}}}) {
+		if ($k eq 'langvals') {
+			for my $lang (keys %{$cmlmain::lobj->{$self->{_index}}->{langvals}}) {
+				 for my $p (keys %{$cmlmain::lobj->{$self->{_index}}->{langvals}->{$lang}}) {
+				 	$self->{_vals}->{$p}->{_langvalue}->{$lang}->{$p}=$cmlmain::lobj->{$self->{_index}}->{langvals}->{$lang}->{$p}->{value}
+				 }	
+			}
+		} else {
+			$self->{_vals}->{$k}->{_value}=$cmlmain::lobj->{$self->{_index}}->{$k}->{value}
+		}
+	}
+}
+
 1;

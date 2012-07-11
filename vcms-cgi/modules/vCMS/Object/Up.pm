@@ -4,6 +4,7 @@ package vCMS::Object::Up;
 use base "vCMS::Object";
 use lib "../..";
 use cmlmain;	 
+use vCMS::Object::Low;
 
 sub new($) {
     my ($class,$id) = @_;
@@ -29,6 +30,26 @@ sub Load($) {
 		return undef;
 	}	
 	
+}
+
+sub LowList($) {
+	my $self=shift;
+	&cmlmain::checkload({uid=>$self->{_index}}); 
+    my @list=map{ new vCMS::Object::Low($_)} sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$self->{_index}}->{0}};
+    return \@list;
+}
+
+sub LowObjects($) {
+	my $self=shift;
+	&cmlmain::checkload({uid=>$self->{_index}});
+	prefetchlist(join(';',@{$cmlmain::ltree->{$self->{_index}}->{0}}));
+    my @list=map{ 
+    	my $lObj=new vCMS::Object::Low($_);
+    	$lObj->Fill();
+    	$lObj;
+    } @{$cmlmain::ltree->{$self->{_index}}->{0}};
+    return \@list;
+    
 }
 
 1;
