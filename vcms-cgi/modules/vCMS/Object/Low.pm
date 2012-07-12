@@ -20,7 +20,7 @@ sub Load($) {
 	my $self = shift;
 	return 1 if $self->{_is_loaded};
 	
-	if ($cmlmain::obj->{$self->{_index}}->{id}) {
+	if ($cmlmain::lobj->{$self->{_index}}->{id}) {
 		$self->{_up}=$cmlmain::lobj->{$self->{_index}}->{up};
 		$self->{_key}=$cmlmain::lobj->{$self->{_index}}->{key};
 		$self->{_is_loaded}=1;
