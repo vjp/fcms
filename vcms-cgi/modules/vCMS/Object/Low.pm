@@ -3,7 +3,8 @@ package vCMS::Object::Low;
  
 use base "vCMS::Object";
 use lib "../..";
-use cmlmain;	 
+use vCMS::Proxy;
+	 
 
 sub new($) {
     my ($class,$id) = @_;
@@ -20,31 +21,15 @@ sub Load($) {
 	my $self = shift;
 	return 1 if $self->{_is_loaded};
 	
-	if ($cmlmain::lobj->{$self->{_index}}->{id}) {
-		$self->{_up}=$cmlmain::lobj->{$self->{_index}}->{up};
-		$self->{_key}=$cmlmain::lobj->{$self->{_index}}->{key};
+	if (vCMS::Proxy::CheckObj($self->{_id})) {
+		$self->{_up}=vCMS::Proxy::GetUpID($self->{_id});
+		$self->{_key}=vCMS::Proxy::GetKey($self->{_id});
 		$self->{_is_loaded}=1;
-		return 1;
 	} else {
 		return undef;
 	}	
 	
 }
 
-sub Fill($) {
-	my $self = shift;
-	$self->Load();
-	for my $k (keys %{$cmlmain::lobj->{$self->{_index}}}) {
-		if ($k eq 'langvals') {
-			for my $lang (keys %{$cmlmain::lobj->{$self->{_index}}->{langvals}}) {
-				 for my $p (keys %{$cmlmain::lobj->{$self->{_index}}->{langvals}->{$lang}}) {
-				 	$self->{_vals}->{$p}->{_langvalue}->{$lang}->{$p}=$cmlmain::lobj->{$self->{_index}}->{langvals}->{$lang}->{$p}->{value}
-				 }	
-			}
-		} else {
-			$self->{_vals}->{$k}->{_value}=$cmlmain::lobj->{$self->{_index}}->{$k}->{value}
-		}
-	}
-}
 
 1;

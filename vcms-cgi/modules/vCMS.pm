@@ -2,14 +2,13 @@ package vCMS;
 
 use vCMS::Object::Up;
 use vCMS::Object::Low;
+use vCMS::Proxy;
 
 BEGIN
 { 
 	use Exporter();
-	use lib "..";
 	@ISA = 'Exporter';
 	@EXPORT = qw( &o);
-	use cmlmain;
 }	 
 
 sub o($); 
@@ -23,7 +22,7 @@ sub o($) {
     	$pObj=vCMS::Object::Up->new($1);
     	return $pObj->Load()?$pObj:undef;
     } else {
-        my $oid=cmlmain::checkload({key=>$id});
+        my $oid=vCMS::Proxy::GetIDByKey($id);
         return  $oid=~/^u?(\d+)$/?o($oid):undef;
     }
 }

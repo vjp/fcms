@@ -12,5 +12,19 @@ sub Key ($) {
 }
 
 
+sub ID ($) {
+	my $self=shift;
+	return $self->{_id};
+}
+
+sub Fill ($$) {
+	my ($self,$vals)=@_;
+	for my $prm (keys %$vals) {
+		if ($vals->{$prm}->{value}) {
+			$self->{vals}->{$prm}=$vals->{$prm}->{value} ;
+		}	
+	}
+}
+
 
 1;
