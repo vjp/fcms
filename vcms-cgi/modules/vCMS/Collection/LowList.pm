@@ -19,7 +19,7 @@ sub new($) {
 sub Fill ($) {
 	my $self=shift;
 	my $v=vCMS::Proxy::LowValues($self->{_upobj}->UID());
-	$_->Fill($v->{$_->ID()}) for @{$self->{_list}};
+	$_->Fill($v->{$_->ID()}) for @{$self->GetObjects()};
 	return $v;
 }
 
