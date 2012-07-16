@@ -99,4 +99,9 @@ sub LowValues($) {
 	
 }
 
+sub IsUTF8 {
+	return $cmalmain::GLOBAL->{CODEPAGE} eq 'utf-8';;
+}
+
+
 1;
