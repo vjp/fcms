@@ -13,7 +13,7 @@ sub GetUpID ($) {
 	if ($id=~/u(\d+)/) {
 		return $cmlmain::obj->{$1}->{up};
 	} elsif ($id=~/(\d+)/) {
-		return $cmlmain::lobj->{$1}->{up};
+		return $cmlmain::lobj->{$1}->{upobj};
 	}	
 }
 
@@ -25,6 +25,16 @@ sub GetKey ($) {
 		return $cmlmain::lobj->{$1}->{key};
 	}	
 }
+
+sub GetLang ($) {
+	my $id=shift;
+	if ($id=~/u(\d+)/) {
+		return $cmlmain::obj->{$1}->{lang};
+	} elsif ($id=~/(\d+)/) {
+		return $cmlmain::lobj->{$1}->{lang};
+	}	
+}
+
 
 
 sub CheckObj ($) {

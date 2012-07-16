@@ -24,6 +24,7 @@ sub Load($) {
 	if (vCMS::Proxy::CheckObj($self->{_id})) {
 		$self->{_up}=vCMS::Proxy::GetUpID($self->{_id});
 		$self->{_key}=vCMS::Proxy::GetKey($self->{_id});
+		$self->{_lang}=vCMS::Proxy::GetLang($self->{_id});
 		$self->{_is_loaded}=1;
 	} else {
 		return undef;

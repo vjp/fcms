@@ -29,6 +29,7 @@ sub Load($) {
 	if (vCMS::Proxy::CheckObj($self->ID())) {
 		$self->{_up}=vCMS::Proxy::GetUpID($self->ID());
 		$self->{_key}=vCMS::Proxy::GetKey($self->ID());
+		$self->{_lang}=vCMS::Proxy::GetLang($self->ID());
 		$self->{_is_loaded}=1;
 		return 1;
 	} else {
@@ -40,7 +41,11 @@ sub Load($) {
 sub LowList($) {
 	my $self=shift;
 	my $l=vCMS::Proxy::LowList($self->UID());
-    my @list=map{ new vCMS::Object::Low($_) } @$l;
+    my @list=map{ 
+    		$_=new vCMS::Object::Low($_);
+    		$_->Load($_);
+    		$_;  
+    } @$l;
     return \@list;
 }
 
