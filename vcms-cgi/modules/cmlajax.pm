@@ -131,7 +131,7 @@ sub ajax_console ($)
 {
 	my ($r)=@_;
 	my $script=$r->{script};
-	$script=Encode::encode('cp1251',$script) unless $GLOBAL->{CODEPAGE} eq 'utf-8';;
+	$script=Encode::encode('cp1251',$script) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 	my ($result,$error)=&cmlcalc::scripteval($script);
 	if ($error) {
 		return ({result=>$error,status=>'ERROR',source=>$script});
