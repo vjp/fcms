@@ -32,12 +32,14 @@ sub Fill ($$) {
 sub Dump ($) {
 	my ($self)=shift;
 	$self->Load() unless $self->{_is_loaded};
-	return {
+	my $h= {
 			'ID'=>$self->{_id},
 			'TYPE'=>$self->{_type},
 			'UP'=>$self->{_up},
 			'NAME'=>$self->{_name},
 	};
+	$h->{VALUES}=$self->{vals} if $self->{vals};
+	return $h;
 }
 
 1;
