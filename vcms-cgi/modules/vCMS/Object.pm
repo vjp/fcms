@@ -22,6 +22,8 @@ sub Fill ($$) {
 	for my $prm (keys %$vals) {
 		if ($vals->{$prm}->{value}) {
 			$self->{vals}->{$prm}=$vals->{$prm}->{value} ;
+		} elsif ($vals->{$prm}->{langvalue}->{$self->{_lang}}) {
+			$self->{vals}->{$prm}=$vals->{$prm}->{langvalue}->{$self->{_lang}} ;
 		}	
 	}
 }
