@@ -35,6 +35,15 @@ sub GetLang ($) {
 	}	
 }
 
+sub GetName ($) {
+	my $id=shift;
+	if ($id=~/u(\d+)/) {
+		return $cmlmain::obj->{$1}->{name};
+	} elsif ($id=~/(\d+)/) {
+		return $cmlmain::lobj->{$1}->{name};
+	}	
+}
+
 
 
 sub CheckObj ($) {
@@ -79,6 +88,7 @@ sub LowValues($) {
 	my $r=DBSelect("SELECT * FROM $vlstable WHERE objid in ($idstr)");
 	my $h;
 	for (@$r) {
+		next if $_->{pkey} eq '_NAME';
 		if (IsMultilangParam($_->{pkey})) {
 			$h->{$_->{objid}}->{$_->{pkey}}->{langvalue}->{$_->{lang}}=$_->{value}
 		} else {

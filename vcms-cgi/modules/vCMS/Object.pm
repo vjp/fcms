@@ -1,5 +1,8 @@
 package vCMS::Object;
- 
+
+
+use JSON::PP;
+  
 sub OBJ_TYPE_UP  {0} 
 sub OBJ_TYPE_LOW {1} 
  
@@ -28,5 +31,21 @@ sub Fill ($$) {
 	}
 }
 
+sub Dump ($) {
+	my ($self)=shift;
+	
+	if (ref $self eq 'ARRAY') {
+		return join('---------',map {$_->Dump()} @$self)
+	}
+	
+	$self->Load() unless $self->{_is_loaded};
+	return encode_json({
+		'ID'=>$self->{_id},
+		'TYPE'=>$self->{_type},
+		'UP'=>$self->{_up},
+		'NAME'=>$self->{_name},
+		'VALUES'=>$self->{vals},
+	});
+}
 
 1;
