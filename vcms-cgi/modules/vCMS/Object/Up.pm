@@ -5,6 +5,7 @@ use base "vCMS::Object";
 use lib "../..";
 use vCMS::Object::Low;
 use vCMS::Proxy;
+use vCMS::Collection::LowList;
 
 sub new($) {
     my ($class,$id) = @_;
@@ -41,23 +42,14 @@ sub Load($) {
 
 sub LowList($) {
 	my $self=shift;
-	my $l=vCMS::Proxy::LowList($self->UID());
-    my @list=map{ 
-    		$_=new vCMS::Object::Low($_);
-    		$_->Load($_);
-    		$_;  
-    } @$l;
-    return \@list;
+	return new vCMS::Collection::LowList($self);
 }
 
 sub LowObjects($) {
 	my $self=shift;
-	my $objs=$self->LowList();
-	my $v=vCMS::Proxy::LowValues($self->UID());
-	for my $lObj (@$objs) {
-		$lObj->Fill($v->{$lObj->ID()});
-	} 
-	return $objs;
+	my $pColl=$self->LowList();
+	$pColl->Fill();
+	return $pColl;
 }
 
 1;

@@ -1,9 +1,5 @@
 package vCMS::Object;
 
-
-use JSON::PP;
-use lib "..";
-use vCMS::Proxy;
   
 sub OBJ_TYPE_UP  {0} 
 sub OBJ_TYPE_LOW {1} 
@@ -35,24 +31,13 @@ sub Fill ($$) {
 
 sub Dump ($) {
 	my ($self)=shift;
-	
-	if (ref $self eq 'ARRAY') {
-		return join('---------',map {$_->Dump()} @$self)
-	}
-	
 	$self->Load() unless $self->{_is_loaded};
-	my $j={
+	return {
 			'ID'=>$self->{_id},
 			'TYPE'=>$self->{_type},
 			'UP'=>$self->{_up},
 			'NAME'=>$self->{_name},
 	};
-    $j->{'VALUES'}=$self->{vals} if $self->{vals};
-	if (vCMS::Proxy::IsUTF8()) { 
-		return JSON::PP->new->encode($j);
-	} else {
-		return JSON::PP->new->latin1->encode($j);
-	}	
 }
 
 1;
