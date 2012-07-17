@@ -37,6 +37,7 @@ sub Dump ($) {
 			'TYPE'=>$self->{_type},
 			'UP'=>$self->{_up},
 			'NAME'=>$self->{_name},
+			'KEY'=>$self->{_key},
 	};
 	$h->{VALUES}=$self->{vals} if $self->{vals};
 	return $h;
