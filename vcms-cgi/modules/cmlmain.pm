@@ -176,11 +176,12 @@ sub json_ok(;$$)
 {
 	my ($message,$result)=@_;
 	$cmlcalc::ENV->{'JSON'}=1;
-	return encode_json({
+	my $r={
 		'status'=>1,
 		'message'=>$message || 'SUCCESS',
 		'result'=>$result,	
-	});
+	};
+	return $GLOBAL->{CODEPAGE} eq 'utf-8'?encode_json($r):JSON::PP->new->latin1->encode($r);
 }
 
 
