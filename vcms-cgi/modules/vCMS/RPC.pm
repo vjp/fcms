@@ -1,5 +1,6 @@
 package vCMS::RPC;
- 
+
+use JSON::PP; 
  
 sub new {
     my $class = shift;
@@ -18,7 +19,6 @@ sub new {
 
 sub Execute {
 	my ($self,$method)=@_;
-	require JSON::PP;
 	my $r = HTTP::Request -> new      ( POST => "http://$self->{_host}/gate/_$method");
 	$r->authorization_basic( $self->{_username}, $self->{_password} );
 	my $response = $self->{_ua}->request($r); 
@@ -29,7 +29,7 @@ sub Execute {
     		$rv=decode_json($cnt);
     	};
     	if ($@) {
-    		return {error=>$cnt} 
+    		return {error=>$@,result=>$cnt} 
     	} else {
     		return $rv;
     	}
