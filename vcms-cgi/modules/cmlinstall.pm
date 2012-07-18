@@ -1263,14 +1263,14 @@ if ($CGIPARAM->{url}=~/^http/) {
 
 addobject({convertname=>1,upkey=>'ERRORS',key=>'ERR404',name=>'Ошибки - страница не найдена'});
 
-addmethod ({convertname=>1,objkey=>'ERRORS',key=>'ERR404PARSER',name=>'Обработчик страница не найдена',,script=>q(
+addmethod ({convertname=>1,objkey=>'ERRORS',key=>'ERR404PARSER',name=>'Обработчик страница не найдена',convertscript=>1,script=>q(
 staterror("$ENV{REQUEST_URI} - $ENV{HTTP_REFERER}",$ENV{REQUEST_URI},$ENV{HTTP_USER_AGENT},"ERR404");
 return 1;
 )});
 
 
 addmethod ({convertname=>1,objkey=>'GATE',key=>'TESTGATE',name=>'Тест внешнего интерфейса',script=>q(
-json_ok('SUCCESS TEST GATE',{time=>scalar localtime});
+json_ok('SUCCESS TEST GATE - УСПЕШНЫЙ ТЕСТ ГЕЙТА',{time=>scalar localtime});
 )});
 
 alert(enc('Структура создана успешно'));
