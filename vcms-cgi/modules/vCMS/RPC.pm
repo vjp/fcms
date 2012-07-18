@@ -1,6 +1,7 @@
 package vCMS::RPC;
 
 use JSON::PP; 
+use Encode;
  
 sub new {
     my $class = shift;
@@ -26,7 +27,7 @@ sub Execute {
     if ($cnt) {
     	my $rv;
     	eval {
-    		$rv=decode_json($cnt);
+    		$rv=decode_json(Encode::encode('utf8',$cnt));
     	};
     	if ($@) {
     		return {error=>$@,result=>$cnt} 
