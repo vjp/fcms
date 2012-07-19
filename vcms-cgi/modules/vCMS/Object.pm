@@ -1,10 +1,11 @@
 package vCMS::Object;
 
+use lib "..";
+use vCMS::Proxy;
   
 sub OBJ_TYPE_UP  {0} 
 sub OBJ_TYPE_LOW {1} 
  
-
 
 sub Key ($) {
 	my $self=shift;
@@ -27,6 +28,11 @@ sub Fill ($$) {
 			$self->{vals}->{$prm}=$vals->{$prm}->{langvalue}->{$self->{_lang}} ;
 		}	
 	}
+}
+
+sub P($$) {
+	my($self,$prm)=@_;
+	return defined $self->{vals}->{$prm}?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm);
 }
 
 sub Dump ($) {

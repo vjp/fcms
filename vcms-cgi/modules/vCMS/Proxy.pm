@@ -100,4 +100,9 @@ sub LowValues($) {
 }
 
 
+sub GetValue ($$) {
+	my ($id,$prm)=@_;
+	return cmlcalc::p($prm,$id);
+}
+
 1;
