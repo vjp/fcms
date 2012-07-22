@@ -35,6 +35,13 @@ sub P($$) {
 	return defined $self->{vals}->{$prm}?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm);
 }
 
+
+sub Set ($$$) {
+	my ($self,$prm,$value)=@_;
+	return vCMS::Proxy::SetValue($self->ID,$prm,$value);
+}
+
+
 sub Dump ($) {
 	my ($self)=shift;
 	$self->Load() unless $self->{_is_loaded};
