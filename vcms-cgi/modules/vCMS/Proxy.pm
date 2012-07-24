@@ -115,5 +115,10 @@ sub SetName ($$) {
 	return cmlcalc::set($id,'_NAME',$value);
 }
 
+sub CreateLowObj ($) {
+	my ($uid)=@_;
+	return cmlcalc::add($uid);
+}
+
 
 1;

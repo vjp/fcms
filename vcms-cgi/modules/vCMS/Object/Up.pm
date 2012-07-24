@@ -52,4 +52,14 @@ sub LowObjects($) {
 	return $pColl;
 }
 
+
+sub Create($) {
+	my $self=shift;
+	my $lid=vCMS::Proxy::CreateLowObj($self->ID());
+	my $o=vCMS::Object::Low->new($lid);
+	$o->Load();
+	return $o;
+}
+
+
 1;
