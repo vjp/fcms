@@ -110,5 +110,10 @@ sub SetValue ($$$) {
 	return cmlcalc::set($id,$prm,$value);
 }
 
+sub SetName ($$) {
+	my ($id,$value)=@_;
+	return cmlcalc::set($id,'_NAME',$value);
+}
+
 
 1;
