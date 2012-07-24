@@ -23,4 +23,25 @@ sub Fill ($) {
 	return $v;
 }
 
+sub Sync ($$) {
+	my ($self,$data)=@_;
+	$self->Fill();
+	my $r;
+	for (@$data) {
+		my $key=$_->{KEY};
+		$key="EXPORT".$_->{ID};
+		my $o=$self->GetObject($key);
+		if ($o) {
+			for my $prm (keys %{$_->{VALUES}}) {
+				if ($o->P($prm) ne $_->{VALUES}->{$prm}) {
+					$o->Set($prm,$_->{VALUES}->{$prm});
+					$r->{set}->{$key}->{$prm}=$_->{VALUES}->{$prm};
+				}	
+				
+			}
+ 		}
+	}
+	return $r;
+}
+
 1;
