@@ -389,6 +389,7 @@ sub tag_td {
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $pl=fetchparam(\$param,['th','csv','csvmoney','hidden','hiddenexpr']);
+	my $id=$inner->{objid};	
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	my $tg=($pl->{th} || $inner->{th})?'th':'td';
 	if ($pl->{csv} || $pl->{csvmoney}) {
