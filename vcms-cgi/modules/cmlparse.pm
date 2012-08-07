@@ -1169,7 +1169,12 @@ sub tag_use
  	        $matrix->{tabkey}="t_$matrix->{id}_$matrix->{param}_".join('_',map {$_=$matrix->{dim}->{$_}->{current}} split(/\s*;\s*/,$cmlmain::prm->{$matrix->{param}}->{extra}->{param}));
 	}
 	
-	if (my $varname=($pl->{var} || $pl->{env})) {
+	my $oldvar;
+	my $setvar;
+	my $varname;
+	if ($varname=($pl->{var} || $pl->{env})) {
+		$oldvar=$cmlcalc::ENV->{$varname};
+		$setvar=1;
         if ($pl->{expr}) {
         	$cmlcalc::ENV->{$varname}=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}})->{value}
         } elsif ($pl->{value}) {
@@ -1209,7 +1214,7 @@ sub tag_use
 	$cmlcalc::ENV->{READONLY}=1 if $setreadonly;
     my $body=cmlparser({data=>$_[0]->{data},inner=>$inner});	
 	$cmlcalc::ENV->{READONLY}=0 if $setreadonly;
-	
+	$cmlcalc::ENV->{$varname}=$oldvar if $setvar;
     return $body;
 }
 
