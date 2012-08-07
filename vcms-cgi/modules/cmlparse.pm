@@ -360,7 +360,7 @@ sub tag_tr {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['colorswitcher','csv','header','colorexpr']);
+	my $pl=fetchparam(\$param,['colorswitcher','csv','header','colorexpr','hidden']);
 	my $id=$inner->{objid};
 	if ($pl->{'colorswitcher'}) {
 		my @colors=split(';',$pl->{'colorswitcher'});
@@ -374,10 +374,11 @@ sub tag_tr {
 	$cmlcalc::ROWID++;
 	if ($pl->{csv}) {
 		process_csvcols();
-	}	
+	}
+	my $clstr=$pl->{hidden}?'style="display:none"':'';	
 	my $trstr;
 	$trstr.='<thead>' if $pl->{header};
-	$trstr.="<tr $param>$body</tr>";
+	$trstr.="<tr $param $clstr>$body</tr>";
 	$trstr.='</thead>' if $pl->{header};
 	return $trstr;
 }
@@ -387,7 +388,7 @@ sub tag_td {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['th','csv','csvmoney']);
+	my $pl=fetchparam(\$param,['th','csv','csvmoney','hidden','hiddenexpr']);
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	my $tg=($pl->{th} || $inner->{th})?'th':'td';
 	if ($pl->{csv} || $pl->{csvmoney}) {
@@ -396,7 +397,13 @@ sub tag_td {
 		}
 		push (@cmlcalc::CSVCOLS, $body);
 	}	
-	return "<$tg $param>$body</$tg>";
+	my $clstr;
+	if ($pl->{hidden}) {
+		$clstr='style="display:none"';
+	} elsif ($pl->{hiddenexpr}) {
+		$clstr='style="display:none"' if cmlcalc::calculate({id=>$id,expr=>$pl->{hiddenexpr}})->{value};
+	}
+	return "<$tg $param $clstr>$body</$tg>";
 }
 
 sub tag_th {
