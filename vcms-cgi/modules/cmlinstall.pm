@@ -1182,12 +1182,20 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHO
 	alert('Îáúåêò óäàëåí');
 	ajax_ok('Îáúåêò óäàëåí');
 )});
+
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Áàçîâûé ìåòîä óäàëåíèÿ',lflag=>1,script=>q(
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
 	alert('Îáúåêò óäàëåí');
 	ajax_ok('Îáúåêò óäàëåí');	
 )});
+
+
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASERESORT',name=>'Áàçîâûé ìåòîä ïåğåñîğòèğîâêè',script=>q(
+	&cmlcalc::resort(&cmlcalc::lowlist("u$CGIPARAM->{up}"));
+	ajax_ok("Ïåğåñîğòèğîâàíî");
+)});
+
 
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELPARAMMETHOD',name=>'Áàçîâûé ìåòîä î÷èñòêè ïàğàìåòğà',lflag=>1,script=>q(
 my $id=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};
