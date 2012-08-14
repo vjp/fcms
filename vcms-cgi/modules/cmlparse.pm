@@ -1381,7 +1381,8 @@ sub tag_actionlink {
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'RESORT') {
-		my $onclick=qq(onclick='return resort("$pl->{id}")');
+		#my $onclick=qq(onclick='return resort("$pl->{id}")');
+		my $onclick=qq(onclick="execute('BASERESORT',{up:'$pl->{id}'}, $defajaxcallback)");
 		return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick >$title</a>";
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
