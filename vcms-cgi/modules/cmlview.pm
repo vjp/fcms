@@ -1205,22 +1205,14 @@ sub extrafilelink {
 sub extranumber {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
- 	my $srch=$extra->{srch} || '';
- 	if ($_[0]->{check}) {
-	 	my $flagname=$_[0]->{flag};
- 		my $formname=$_[0]->{form};
- 		my $outp=enc('Ôîğìàò ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
- 		my $ss;
- 		if ($srch eq 'y') {$ss='checked'} else {$ss=''}
- 		$outp.=enc('Ïîèñê').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
-		return $outp;
-	} else {
-		my $outp=enc('Ôîğìàò ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1);
-		my $ss;
- 		if ($srch eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.=enc('Ïîèñê').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');
-		return $outp;
-	}			
+ 	my $ss=$extra && $extra->{srch} eq 'y'?'checked':'';
+ 	my $sp=$extra && $extra->{splt} eq 'y'?'checked':'';
+ 	my $flagname=$_[0]->{flag};
+	my $formname=$_[0]->{form};
+ 	my $oc=$_[0]->{check}?"document.$formname.$flagname.value=1":'';
+	my $outp=enc('Ôîğìàò ').textfield(-size=>2, -name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>$oc, -override=>1);
+	$outp.=enc('Ïîèñê').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>$oc, -label=>'');
+	$outp.=enc('Ğàçáèòü').checkbox(-name=>"exsplt$pkey", -checked=>$sp, -override=>1, -value=>1, -onchange=>$oc, -label=>''); 		
 	
 	
 }
@@ -1288,9 +1280,11 @@ sub extradateparse {
 sub extranumberparse {
  	my $pkey=$_[0]->{pkey};
  	setprmextra({pkey=>$pkey,extra=>'format',value=>param("exformat$pkey")});
- 	my $prs;
- 	if (param("exsrch$pkey")) {$prs='y'} else {$prs='n'}
+ 	my $prs=param("exsrch$pkey")?'y':'n';
  	setprmextra({pkey=>$pkey,extra=>'srch',value=>$prs});
+ 	my $spl=param("exsplt$pkey")?'y':'n';
+ 	setprmextra({pkey=>$pkey,extra=>'splt',value=>$spl});
+ 	
 }
 
 

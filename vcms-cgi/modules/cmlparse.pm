@@ -2070,18 +2070,24 @@ sub tag_text {
   		my $id;
     	my $frmt;
     	my $ptype;
-        my $dfrmt;
+
         
-        my $pl=fetchparam(\$param,[	'br','csv','color', 'default', 'bold' ]);
+        my $pl=fetchparam(\$param,[	'prm','param','br','csv','color', 'default', 'bold' ]);
         
     	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
     	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
     
-    
-     
-  		if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)     {$pkey=$3; $expr="p('$pkey')" }
-    	if ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i)       {$pkey=$3; $expr="p('$pkey')" }
-     	$dfrmt=$cmlmain::prm->{$pkey}->{extra}->{format} if $pkey && $cmlmain::prm->{$pkey}->{type} eq 'DATE'; 
+    	my $dfrmt;
+    	my $spl;
+        if ($pl->{prm} || $pl->{param}) {
+        	$pkey=$pl->{prm} || $pl->{param}; 
+        	$dfrmt=$cmlmain::prm->{$pkey}->{extra}->{format} if $cmlmain::prm->{$pkey}->{type} eq 'DATE';
+            $spl=1 if  $cmlmain::prm->{$pkey}->{type} eq 'NUMBER' && $cmlmain::prm->{$pkey}->{extra}->{splt} eq 'y';        	
+        	$expr="p('$pkey')";
+        }
+        
+ 
+
   
     	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3}
   
@@ -2131,7 +2137,9 @@ sub tag_text {
   			$result=sprintf ($frmt,$result)
         } elsif ($dfrmt && $result) {
         	$result = &cmlmain::enc(strftime ($dfrmt,localtime($result)));
-        }		 
+        }	elsif ($spl && $result) {
+        	$result = &cmlcalc::splitprice($result);
+        }	 
   	
   		$result=~s/\n/<br>/g if $pl->{'br'};
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
