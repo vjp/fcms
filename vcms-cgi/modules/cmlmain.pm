@@ -1106,6 +1106,7 @@ sub setvalue  {
 	my $key=$_[0]->{key};
 	my $lang=$_[0]->{lang};
 	my $append=$_[0]->{append};
+	my $remove=$_[0]->{remove};
 	my $noonchange=$_[0]->{noonchange};
 	
 	my $ind;
@@ -1129,7 +1130,8 @@ sub setvalue  {
 		return 1;
  	}
  	my $old_value;
- 	$old_value=&cmlcalc::p($pkey,$id) if ($append && ($prm->{$pkey}->{type} eq 'LIST' || $prm->{$pkey}->{type} eq 'NUMBER')) || $prm->{$pkey}->{extra}->{onchange};
+ 	$old_value=&cmlcalc::p($pkey,$id) if 
+ 		(($append || $remove) && ($prm->{$pkey}->{type} eq 'LIST' || $prm->{$pkey}->{type} eq 'NUMBER')) || $prm->{$pkey}->{extra}->{onchange};
  		
  	
  	if (($append && $prm->{$pkey}->{type} eq 'LIST') && $old_value) {
@@ -1147,7 +1149,11 @@ sub setvalue  {
  	    $value=$old_value+$value;
 	}
 
-   
+    if (($remove && $prm->{$pkey}->{type} eq 'LIST') && $old_value) {
+ 	    my @v=split(';',$old_value);
+ 	    @v=grep{$_ ne $value} @v;
+ 	    $value=join(';',@v);
+	}
  	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
@@ -1846,7 +1852,14 @@ sub deletelowobject
  	my $sthD=$dbh->prepare("DELETE FROM ${DBPREFIX}objects WHERE id=?");
  	my $sthDM=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=?");  $sthDM->execute($id) || die $dbh->errstr;
  	my $sthDDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE objid=?");  $sthDDL->execute($id) || die $dbh->errstr;
- 	my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute($id) || die $dbh->errstr;
+ 	
+ 	my $sthSL=$dbh->prepare("SELECT objid,pkey FROM ${DBPREFIX}links WHERE vallink=?");
+  	$sthSL->execute($id) || die $dbh->errstr;
+    while ($lnk=$sthSL->fetchrow_hashref) {
+    	&cmlmain::setvalue({id=>$lnk->{objid},prm=>$lnk->{pkey},value=>$id,remove=>1})
+    }
+ 	#my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute($id) || die $dbh->errstr;
+ 	
  	my $sthFSDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fs WHERE id=?");  $sthFSDL->execute($id) || die $dbh->errstr;
  	my $sthFSIDL=$dbh->prepare("DELETE FROM ${DBPREFIX}fsint WHERE id=?");  $sthFSIDL->execute($id) || die $dbh->errstr;
  	$sthD->execute($id) || die $dbh->errstr;
