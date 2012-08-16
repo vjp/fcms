@@ -808,7 +808,7 @@ sub tag_checkboxselect {
 	  $param.=" expr='$expr'";
 	}
     my $data="<cml:checkbox id='$id' param='$prm' value='_cml:_ID_'><cml:text param='_NAME'/></cml:checkbox><br/>";
-    return tag_list({data=>$data,inner=>$inner,param=>$param});
+    return "<input type='hidden' value='0' name='_o${id}_p${prm}'>".tag_list({data=>$data,inner=>$inner,param=>$param});
 }	
 
 
@@ -2805,7 +2805,7 @@ sub tag_calendar {
 
 sub tag_checkbox {
 	my $param=$_[0]->{param};
-	my $pl=fetchparam(\$param,['id','param','prm','name','value','nohidden','csv']);	
+	my $pl=fetchparam(\$param,['id','param','prm','name','value','nohidden','csv','forcehidden']);	
 	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 	my $prm=$pl->{prm} || $pl->{param};
 	my $value=$pl->{value} || 1;	
@@ -2830,7 +2830,7 @@ sub tag_checkbox {
 	}
 	  
 	$param=$pl->{str};
-	my $hstr=($pl->{'nohidden'} || $pl->{'value'})?'':"<input type='hidden' value='0' name='$name'>";
+	my $hstr=(!$pl->{forcehidden} && ($pl->{'nohidden'} || $pl->{'value'}))?'':"<input type='hidden' value='0' name='$name'>";
 	return "<input type='checkbox' value='$value' $checked name='$name' $param>$hstr".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}});
 
 	
