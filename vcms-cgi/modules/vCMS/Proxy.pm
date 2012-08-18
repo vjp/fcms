@@ -121,4 +121,13 @@ sub CreateLowObj ($) {
 }
 
 
+sub Execute($$) {
+	my ($oid,$method)=@_;
+	if ($oid=~/u\d+/) {
+		return cmlcalc::execute({method=>$method,id=>$oid});
+	} else {
+		return cmlcalc::execute({lmethod=>$method,id=>$oid});
+	}
+}
+
 1;

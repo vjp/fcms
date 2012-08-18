@@ -56,4 +56,9 @@ sub Dump ($) {
 	return $h;
 }
 
+sub Eval($$) {
+	my ($self,$method)=@_;
+	return vCMS::Proxy::Execute($self->ID(),$method);
+}
+
 1;
