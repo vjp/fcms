@@ -1647,6 +1647,18 @@ sub install_db ($$) {
   			UNIQUE KEY `objid` (`objid`)
 		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
+	
+	$dbh->do("
+		CREATE TABLE IF NOT EXISTS ${DBPREFIX}queue (
+   			`qid` int NOT NULL AUTO_INCREMENT,
+  			`objid` varchar(20) NOT NULL default '',
+  			`method` varchar(50) NOT NULL default '',
+  			`status` int not null default 0,
+  			`exectime` datetime, 
+  			PRIMARY KEY  (`qid`),
+  			KEY `s` (`status`,`exectime`)
+		)
+	") || die $dbh->errstr();
 }
 
 return 1;
