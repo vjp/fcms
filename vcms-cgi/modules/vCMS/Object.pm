@@ -2,6 +2,7 @@ package vCMS::Object;
 
 use lib "..";
 use vCMS::Proxy;
+use vCMS::Method;
   
 sub OBJ_TYPE_UP  {0} 
 sub OBJ_TYPE_LOW {1} 
@@ -16,8 +17,14 @@ sub Key ($) {
 
 sub ID ($) {
 	my $self=shift;
+	return $self->GetID();
+}
+
+sub GetID ($) {
+	my $self=shift;
 	return $self->{_id};
 }
+
 
 sub Fill ($$) {
 	my ($self,$vals)=@_;
@@ -56,9 +63,9 @@ sub Dump ($) {
 	return $h;
 }
 
-sub Eval($$) {
+sub M($$) {
 	my ($self,$method)=@_;
-	return vCMS::Proxy::Execute($self->ID(),$method);
+	return new vCMS::Method($self,$method);
 }
 
 1;

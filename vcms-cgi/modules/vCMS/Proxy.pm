@@ -75,6 +75,23 @@ sub DBSelect {
 	return $r;
 }
 
+sub GetTableName ($) {
+	return $cmlmain::DBPREFIX.$_[0];
+}
+
+sub DBUpdate {
+	my $query=shift;
+	my @params=@_;
+	my  $sth=$dbh->prepare($query) || die $dbh->errstr;
+	$sth->execute(@params);
+	return {sth=>$sth};
+}
+
+sub DBLastInsertID ($) {
+	my ($Q)=@_;
+	return $Q->{sth}->{mysql_insertid};
+}
+
 sub IsMultilangParam ($) {
 	my $pkey=shift;
 	return $cmlmain::prm->{$pkey}->{type} eq 'TEXT' || $cmlmain::prm->{$pkey}->{type} eq 'LONGTEXT';
@@ -118,6 +135,13 @@ sub SetName ($$) {
 sub CreateLowObj ($) {
 	my ($uid)=@_;
 	return cmlcalc::add($uid);
+}
+
+sub CreateQueueEvent ($$) {
+	my ($objid,$method)=@_;
+	my $tname=GetTableName('queue');
+	my $Q=DBUpdate("INSERT INTO $tname (objid,method,exectime) VALUES (?,?,NOW())",$objid,$method);
+	return DBLastInsertID($Q);
 }
 
 
