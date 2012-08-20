@@ -21,9 +21,9 @@ sub data_prepare ($$)
 	if (ref $prms eq 'HASH') {
 		for (keys %$prms) {
 			if (ref $prms->{$_} eq 'ARRAY' && ref $prms->{$_}->[1] eq 'ARRAY') {
-		    	$prms->{$_}=join(';',@{$prms->{$_}->[1]})	
+		    	$prms->{$_}=join(';',grep {$_ ne '0'} @{$prms->{$_}->[1]})	
 			} elsif (ref $prms->{$_} eq 'ARRAY') {
-				$prms->{$_}=join(';',@{$prms->{$_}})
+				$prms->{$_}=join(';',grep {$_ ne '0'} @{$prms->{$_}})
 			}
 			$prms->{$_} = Encode::encode('cp1251',$prms->{$_}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
 		}

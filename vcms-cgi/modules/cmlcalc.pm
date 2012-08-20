@@ -1048,7 +1048,7 @@ sub baselparser (;$)
 		my $value=$CGIPARAM->{$cgiprm};
 		
 		if (ref $value eq 'ARRAY' && ref $value->[1] eq 'ARRAY') {
-		    $value=join(';',@{$value->[1]})	
+		    $value=join(';',grep {$_ ne '0'} @{$value->[1]})	
 		}
 		
 		
