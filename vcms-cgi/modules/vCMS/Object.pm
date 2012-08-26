@@ -68,4 +68,11 @@ sub M($$) {
 	return new vCMS::Method($self,$method);
 }
 
+sub Execute($$) {
+	my ($self,$method)=@_;
+	my $m=new vCMS::Method($self,$method);
+	return $m->Execute();
+	
+}
+
 1;
