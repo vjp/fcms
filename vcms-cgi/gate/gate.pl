@@ -53,10 +53,10 @@ if ($data) {
 		$cmlcalc::CGIPARAM=$r;
 	}
 }			
-
+my $json=new JSON::PP;
 my $result=&cmlcalc::execute({method=>$method_name,key=>'GATE'});
-print header(-type=>$cmlcalc::ENV->{'JSON'}?'application/json':'text/html', -charset=>$GLOBAL->{CODEPAGE});
-print $result;
+print header(-type=>$cmlcalc::ENV->{'JSON'} || !$result?'application/json':'text/html', -charset=>$GLOBAL->{CODEPAGE});
+print $result ||  $json->encode ({status=>0,error=>"METHOD:$method_name EMPTY OUTPUT"});
 
 
 sub errorpage
