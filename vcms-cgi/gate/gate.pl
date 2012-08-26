@@ -10,6 +10,7 @@ use CGI  qw(param url header path_info);
 use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
+use JSON::PP;
 
 open(STDERR, ">/dev/null"); 
 
@@ -42,9 +43,19 @@ if ($firstparam=~/^_(.+)$/) {
 	 	$method_name=$1
 }
 $method_name='TESTGATE' unless $method_name;
+my $data=param('data');
+if ($data) {
+	my $r=decode_json($data);
+	if (ref $r eq 'HASH') {
+		unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
+			$r->{$_} = Encode::encode('cp1251',$r->{$_}) for keys %$r;
+		}
+		$cmlcalc::CGIPARAM=$r;
+	}
+}			
 
 my $result=&cmlcalc::execute({method=>$method_name,key=>'GATE'});
-print header(-type=>$cmlcalc::ENV->{'JSON'}?'application/json':'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
+print header(-type=>$cmlcalc::ENV->{'JSON'}?'application/json':'text/html', -charset=>$GLOBAL->{CODEPAGE});
 print $result;
 
 

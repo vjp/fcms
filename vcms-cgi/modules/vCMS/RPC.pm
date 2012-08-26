@@ -18,13 +18,14 @@ sub new {
     return $self;
 }
 
-sub Execute {
-	my ($self,$method)=@_;
-	my $r = HTTP::Request -> new      ( POST => "http://$self->{_host}/gate/_$method");
+sub Execute ($$;$) {
+	my ($self,$method,$data)=@_;
+	my $json = new JSON::PP;
+	my $r = HTTP::Request -> new      ( POST => "http://$self->{_host}/gate/_$method",[data=>$json->encode ($data)]);
 	$r->authorization_basic( $self->{_username}, $self->{_password} );
 	my $response = $self->{_ua}->request($r); 
-    my $cnt=$response->content;
-    if ($cnt) {
+    if ($response->is_success) {
+    	my $cnt=$response->content;
     	my $rv;
     	eval {
     		$rv=decode_json(Encode::encode('utf8',$cnt));
@@ -35,7 +36,7 @@ sub Execute {
     		return $rv;
     	}
     } else {
-    	return undef;
+    	return {error=>$response->status_line} ;
     }
 	
 }
