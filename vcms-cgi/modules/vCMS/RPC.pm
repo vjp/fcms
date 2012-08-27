@@ -21,7 +21,10 @@ sub new {
 sub Execute ($$;$) {
 	my ($self,$method,$data)=@_;
 	my $json = new JSON::PP;
-	my $r = HTTP::Request -> new      ( POST => "http://$self->{_host}/gate/_$method",[data=>$json->encode ($data)]);
+	
+	my $r = HTTP::Request -> new  (	POST => "http://$self->{_host}/gate/_$method");
+	$r->content_type('application/x-www-form-urlencoded');
+	$r->content("data=".$json->encode ($data));	
 	$r->authorization_basic( $self->{_username}, $self->{_password} );
 	my $response = $self->{_ua}->request($r); 
     if ($response->is_success) {
