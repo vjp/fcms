@@ -64,7 +64,7 @@ BEGIN
               
               &import_db &import_static &export_db &recover_object
               
-              &compile_date  &set_hru &json_ok
+              &compile_date  &set_hru &json_ok &json_error
              );
 
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
@@ -183,6 +183,18 @@ sub json_ok(;$$)
 	};
 	return $GLOBAL->{CODEPAGE} eq 'utf-8'?encode_json($r):JSON::PP->new->latin1->encode($r);
 }
+
+sub json_error(;$) 
+{
+	my ($message)=@_;
+	$cmlcalc::ENV->{'JSON'}=1;
+	my $r={
+		'status'=>0,
+		'message'=>$message || 'ERROR',
+	};
+	return $GLOBAL->{CODEPAGE} eq 'utf-8'?encode_json($r):JSON::PP->new->latin1->encode($r);
+}
+
 
 
 
