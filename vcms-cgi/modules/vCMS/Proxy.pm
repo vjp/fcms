@@ -154,4 +154,15 @@ sub Execute($$) {
 	}
 }
 
+
+sub DeleteObject($) {
+	my ($oid)=@_;
+	if ($oid=~/u(\d+)/) {
+		return deleteobject($1);
+	} else {
+		return deletelowobject($oid);
+	}
+}
+
+
 1;

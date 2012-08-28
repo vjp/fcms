@@ -75,4 +75,11 @@ sub Execute($$) {
 	
 }
 
+
+sub Delete($) {
+	my $self = shift;
+	vCMS::Proxy::DeleteObject($self->ID())
+}	
+
+
 1;
