@@ -164,5 +164,11 @@ sub DeleteObject($) {
 	}
 }
 
+sub CurrentObjectID() {
+	return cmlcalc::p(_ID);
+}	
+	
+
+
 
 1;

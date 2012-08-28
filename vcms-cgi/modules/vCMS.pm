@@ -11,9 +11,10 @@ BEGIN
 	@EXPORT = qw( &o);
 }	 
 
-sub o($); 
-sub o($) {
-	my $id=shift;
+sub o(;$); 
+sub o(;$) {
+	my ($id)=@_;
+	$id=vCMS::Proxy::CurrentObjectID() unless $id;
 	my $pObj;
     if ($id=~/^(\d+)$/) {
     	$pObj=vCMS::Object::Low->new($1);
