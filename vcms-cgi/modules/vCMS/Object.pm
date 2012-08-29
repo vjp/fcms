@@ -72,8 +72,14 @@ sub Execute($$) {
 	my ($self,$method)=@_;
 	my $m=new vCMS::Method($self,$method);
 	return $m->Execute();
-	
 }
+
+sub ExecuteAsync($$) {
+	my ($self,$method)=@_;
+	my $m=new vCMS::Method($self,$method);
+	return $m->ExecuteAsync();
+}
+
 
 
 sub Delete($) {
