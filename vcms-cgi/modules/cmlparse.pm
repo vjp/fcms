@@ -1406,6 +1406,7 @@ sub tag_actionlink {
 			my $onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
+		    $title='CSV' unless $title;
 		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
 	} elsif ($pl->{action} eq 'OPENWINDOW') {
 		    my $width=$pl->{width} || 600;
