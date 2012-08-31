@@ -83,6 +83,7 @@ sub initparser
     	'audio'=>1,
     	'inputaudio'=>1,
     	'checkboxselect'=>1,
+    	'menu'=>1,
  	);
 }
 
@@ -454,6 +455,19 @@ sub tag_groupheader {
 }
 
 
+sub tag_menu	{
+	
+	my $param=$_[0]->{param};
+	my $data=$_[0]->{data};
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	
+	
+	my $pl=fetchparam($param,['vertical','horisontal','border']);
+    $inner->{horisontal}=1 if $pl->{horisontal};
+    my $bstr=$pl->{border}?" border='$pl->{border}'":'';
+    return "<table $bstr>".cmlparser({data=>$_[0]->{data},inner=>$inner})."</table>";
+}
+
 sub tag_menuitem	{
 	
 	my $param=$_[0]->{param};
@@ -576,7 +590,7 @@ sub tag_menuitem	{
 		<td bgcolor="$hcol" width="16">$dtxt</td>
 		</tr>
 	);
-	$mtext="<td><table>$mtext</table></td>" if $cmlcalc::ENV->{NOFRAMES};
+	$mtext="<td><table>$mtext</table></td>" if $inner->{horisontal};
 	return cmlparser({data=>$mtext,inner=>$inner});
 }
 
