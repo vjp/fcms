@@ -236,6 +236,9 @@ sub tagparse {
 	}iges;
 
 
+	$_[0]->{param}=~s{_mode:(.+?)_} {
+ 		lc($cmlcalc::CGIPARAM->{_MODE}) eq lc($1)?1:0;
+	}iges;
 
 
 	
