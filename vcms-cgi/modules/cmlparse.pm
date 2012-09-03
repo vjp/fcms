@@ -968,13 +968,22 @@ sub tag_list  	{
 		my $orderby=$pl->{orderby} || '';
 		unless ($orderby eq '_MANUAL') {
 			my $ordertype=$cmlmain::prm->{$orderby}->{type} || '';
+			my %oh;
+			my %oi;
+			
+			for (@splist) {
+				$oh{$_}=&cmlcalc::calculate({id=>$_,expr=>$orderexpr})->{value};
+				$oi{$_}=$orderexpr eq 'p(_INDEX)'?$oh{$_}:&cmlcalc::calculate({id=>$_,expr=>'p(_INDEX)'})->{value};
+			}	
+			
+			
 			if ( $orderexpr eq 'p(_INDEX)' || $ordertype eq 'DATE' || $ordertype eq 'NUMBER') {
   				@splist=sort {
-  					&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value} <=> &cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}; 
+  					$oh{$a}==$oh{$b}?$oi{$a}<=>$oi{$b}:$oh{$a}<=>$oh{$b};
   				} @splist;
   			} else {
   				@splist=sort {
-  					lc (&cmlcalc::calculate({id=>$a,expr=>$orderexpr})->{value}) cmp lc (&cmlcalc::calculate({id=>$b,expr=>$orderexpr})->{value}); 
+  					$oh{$a} eq $oh{$b}?$oi{$a}<=>$oi{$b}:$oh{$a} cmp $oh{$b}; 
   				} @splist;
   			}		
 		}		
