@@ -144,6 +144,10 @@ sub CreateQueueEvent ($$) {
 	return DBLastInsertID($Q);
 }
 
+sub GetQueueEvent() {
+	my $tname=GetTableName('queue');
+	my $r=DBSelect("SELECT * FROM $tname WHERE status=0 ORDER by exectime DESC limit=1");
+}
 
 sub Execute($$) {
 	my ($oid,$method)=@_;
