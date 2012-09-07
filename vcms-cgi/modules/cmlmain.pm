@@ -108,7 +108,7 @@ sub import_db (;$)
 {
 	my ($filename)=@_;
 	$filename ||= 'db.gz';
-	`gzip -d -c $filename | mysql -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
+	`gzip -d -c $filename | mysql -f -h$GLOBAL->{DBHOST} -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}`;
 }
 
 sub import_static (;$)
