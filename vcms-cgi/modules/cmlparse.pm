@@ -1048,6 +1048,7 @@ sub tag_list  	{
   				if ((($i%$container)==($container-1)) || ($i==$limit-1) ) {$xdata="$xdata$edata";$conid++}
   				$body.=cmlparser({data=>$xdata,inner=>$inner});
   			}else {
+  				$cmlcalc::ENV->{LASTINDEX}=($i==$#splist)?1:0;
   				$body.=cmlparser({data=>$data,inner=>$inner});
   			}	
 		}	  
