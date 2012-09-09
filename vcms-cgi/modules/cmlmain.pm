@@ -78,6 +78,7 @@ sub set_hru ($$)
 	my ($hrukey,$redirectvalue)=@_;
 	$hrukey=~s/^\///;
 	$hrukey=~s/\/$//;
+	$hrukey=~s/ //g;
 	return unless $hrukey;
 	open (FC, "<$GLOBAL->{WWWPATH}/.htaccess");
 	read (FC,$fcontent,-s FC);
@@ -100,7 +101,7 @@ sub set_hru ($$)
 	open (FC, ">$GLOBAL->{WWWPATH}/.htaccess");
 	print FC $fcontent;
 	close(FC);	
-	return 1;
+	return $hrukey;
 	
 }
 
