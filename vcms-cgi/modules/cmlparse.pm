@@ -1813,10 +1813,10 @@ sub tag_img 	{
 		</script>
 		);
 		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
-		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr>$blstr";	
+		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr />$blstr";	
 
 	} else {
-		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr>$blstr";	
+		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr />$blstr";	
 	}
 	
 	
