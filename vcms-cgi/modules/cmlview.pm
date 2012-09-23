@@ -722,7 +722,8 @@ sub editfilelinkfull
 
     my $syn;
  	$syn='css' if $filename=~/\.css/;
- 
+    $syn='js' if $filename=~/\.js/;
+    
     my $h_on=$syn?'true':'false';
     
 	print qq(
