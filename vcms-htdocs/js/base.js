@@ -55,7 +55,11 @@ function execute(func,data,callback,url) {
 		parameters: {func: func, data: Object.toJSON(data)},
 		onSuccess: function(transport) {
 			var json = transport.responseText.evalJSON();
-			callback(json)
+			if (callback) {
+				callback(json)
+			} else {
+				defcallback(json)
+			}	
 		}
 	});
 }
