@@ -1,12 +1,12 @@
 #!/usr/bin/perl -w
 
-
+use strict;
 use lib "../modules/";
 
 use cmlview;
 use cmlinstall;
 use cmlmain;
-use strict;
+
 
 use CGI  qw/:standard *Tr *table *td code/;
 use CGI::Carp qw (fatalsToBrowser);
