@@ -3,15 +3,18 @@ package vCMS;
 use vCMS::Object::Up;
 use vCMS::Object::Low;
 use vCMS::Proxy;
+use vCMS::Session;
 
 BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o);
+	@EXPORT = qw( &o &v );
 }	 
 
 sub o(;$); 
+sub v($;$);
+
 sub o(;$) {
 	my ($id)=@_;
 	$id=vCMS::Proxy::CurrentObjectID() unless $id;
@@ -28,5 +31,8 @@ sub o(;$) {
     }
 }
 
+sub v($;$) {
+	return vCMS::Session::GetVar($_[0],$_[1])
+}
 
 1;

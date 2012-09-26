@@ -1,5 +1,5 @@
 package cmlcalc;
-
+ 
 
 
 BEGIN
@@ -44,9 +44,9 @@ sub jsoncookie ($) {
 
 
 sub scripteval {
-		$cmlcalc::CGIPARAM->{_MODE}='CONSOLE';
-		my $r=eval "use cmlmain;$_[0]";
-		return (@LOG?viewlog():$r,$@);
+	$cmlcalc::CGIPARAM->{_MODE}='CONSOLE';
+	my $r=eval "use cmlmain;use vCMS;$_[0]";
+	return (@LOG?viewlog():$r,$@);
 }	
 
 
@@ -235,7 +235,7 @@ sub calculate 	{
 		}		 			
 	}
 	
-	my $value=eval "$expr";
+	my $value=eval "use vCMS;$expr";
 	if ($@) {print "Error in expr $_[0]->{expr}:$@"}
 	if (ref $value eq 'HASH') {
 		$xvalue=$value;
