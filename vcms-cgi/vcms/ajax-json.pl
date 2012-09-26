@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: ajax-json.pl,v 1.7 2010-08-05 20:26:39 vano Exp $
+
 
 use strict;
 no strict "refs";
@@ -16,6 +16,7 @@ use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
 use Encode;
+use vCMS;
 
 use vars qw ($AJAX_FUNCS);
    
