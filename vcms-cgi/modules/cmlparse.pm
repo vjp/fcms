@@ -2352,8 +2352,9 @@ sub tag_form {
   		$id=$cmlmain::nobj->{$pl->{'key'}}->{id};
   		$inner->{objid}=$id;
 	}	else   {
-		$id=$inner->{objid}
+		$id=$inner->{objid}->{id}
 	}
+	
 	
 	if   ($pl->{'pkey'})	{
 		$pkey=$pl->{'pkey'};
@@ -2367,8 +2368,8 @@ sub tag_form {
 	
 	if   ($pl->{'parseid'})  {
 		$parserid=$pl->{'parseid'}
-	} elsif ($id ne $inner->{objid}) {
-		$parserid=$inner->{objid}
+	} elsif ($id ne $inner->{objid}->{id}) {
+		$parserid=$inner->{objid}->{id}
 	}
 
 	if   ($pl->{'parser'}) {
@@ -2919,7 +2920,7 @@ sub tag_changebutton {
 		if ($_[0]->{inner}->{matrix}) {
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
 		}else {
-			my $id=$_[0]->{inner}->{objid};
+			my $id=$_[0]->{inner}->{objid}->{id};
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
 	}	
