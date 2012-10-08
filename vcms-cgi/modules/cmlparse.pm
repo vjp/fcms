@@ -2917,10 +2917,10 @@ sub tag_changebutton {
 	
 	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'} || $pl->{'method'}){
 		if ($_[0]->{inner}->{matrix}) {
-			$onclickstr=qq(onclick="tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
+			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
 		}else {
 			my $id=$_[0]->{inner}->{objid};
-			$onclickstr=qq(onclick="tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
+			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
 	}	
 	if ($pl->{title}) {
