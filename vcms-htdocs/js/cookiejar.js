@@ -88,7 +88,7 @@ CookieJar.prototype = {
 	 * Removes a particular cookie (name value pair) form the Cookie Jar.
 	 */
 	remove: function(name) {
-		name = this.appendString + name;
+		if (!name.match('^'+this.appendString)) name = this.appendString + name;
 		cookie = this.options;
 		try {
 			var date = new Date();
