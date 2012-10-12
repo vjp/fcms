@@ -2352,7 +2352,7 @@ sub tag_form {
   		$id=$cmlmain::nobj->{$pl->{'key'}}->{id};
   		$inner->{objid}=$id;
 	}	else   {
-		$id=$inner->{objid}->{id}
+		$id=ref $inner->{objid} eq 'HASH'?$inner->{objid}->{id}:$inner->{objid};
 	}
 	
 	
@@ -2369,7 +2369,7 @@ sub tag_form {
 	if   ($pl->{'parseid'})  {
 		$parserid=$pl->{'parseid'}
 	} elsif ($id ne $inner->{objid}->{id}) {
-		$parserid=$inner->{objid}->{id}
+		$parserid=ref $inner->{objid} eq 'HASH'?$inner->{objid}->{id}:$inner->{objid};
 	}
 
 	if   ($pl->{'parser'}) {
