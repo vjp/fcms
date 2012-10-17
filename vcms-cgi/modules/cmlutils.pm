@@ -141,7 +141,10 @@ DOC
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $rf=$xs->XMLin($response->content);
-	message("XML YANDEX ERROR: $rf->{response}->{error}") if $rf->{response}->{error};
+	if ($rf->{response}->{error}) {
+		my $errorstr=Encode::encode($GLOBAL->{ENCODING},$rf->{response}->{error}->{content});
+		message("XML YANDEX ERROR: $errorstr")
+	}	 
 	return undef unless $rf->{response}->{results}->{grouping}->{group};
 		message($rf->{response}->{wordstat});
 	return @{$rf->{response}->{results}->{grouping}->{group}} if ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY';
