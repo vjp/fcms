@@ -36,8 +36,8 @@ $UTF=<utf>;
 	'eng'=>'Английский',
 );
 
-$PASSFILE='<abspath>.htpasswd';
-$GRPFILE='<abspath>.htgroup';
+$PASSFILE='<abspath>/.htpasswd';
+$GRPFILE='<abspath>/.htgroup';
 
 @SYNC=();
 %SYNC=();
