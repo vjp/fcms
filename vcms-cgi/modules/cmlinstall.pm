@@ -1443,11 +1443,11 @@ sub install_db ($$) {
 
 
 	$dbh->do("
-		CREATE TABLE IF NOT EXISTS ${DBPREFIX}log (
-  			session timestamp(14) NOT NULL,
-  			dt datetime default NULL,
-  			type varchar(50) default NULL,
-  			message text
+		CREATE TABLE IF NOT EXISTS `${DBPREFIX}log` (
+  			`session` timestamp,
+  			`dt` datetime,
+  			`type` varchar(50),
+  			`message` text
 		) DEFAULT CHARSET=cp1251
 	") || die $dbh->errstr();
 
@@ -1605,22 +1605,22 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
- 			`cachekey` varchar(950) NOT NULL default '',
+ 			`cachekey` varchar(700) NOT NULL default '',
   			`pagetext` mediumtext,
   			`ts` datetime default NULL,
   			`objid` int(11) NOT NULL default '0',
-  			`dev` int(11) NOT NULL default '0',
-  			`lang` varchar(20) NOT NULL default '',
+  			`dev` tinyint NOT NULL default '0',
+  			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
   		) DEFAULT CHARSET=cp1251
   	") || die $dbh->errstr();
 	
 	$dbh->do("
 		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
-  			`cachekey` varchar(950) NOT NULL default '',
+  			`cachekey` varchar(700) NOT NULL default '',
   			`objlink` varchar(12) NOT NULL default '',
-  			`dev` int(11) NOT NULL default '0',
-  			`lang` varchar(20) NOT NULL default '',
+  			`dev` tinyint NOT NULL default '0',
+  			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
   			KEY `ol` (`objlink`)
 		) DEFAULT CHARSET=cp1251
