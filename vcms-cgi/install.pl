@@ -62,6 +62,7 @@ if (param('install')) {
 		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD);
 		if (!$dbh) {
 			print "...Ошибка подключения к БД  [DBI:mysql:$DBNAME:$DBHOST\@$DBUSER]:".$DBI::errstr;
+			exit();
 		} else {
 	        print '...Подключение к БД успешно...',br();	
 		}
