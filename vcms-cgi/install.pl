@@ -167,7 +167,7 @@ if (param('install')) {
 	eval {
 		require cmlinstall;
 		require cmlmain;
-		do "conf" || die $!;
+		do "conf" || die "Cant do conf :$!";
 		$DBHOST='localhost' unless $DBHOST;
 		$DBPREFIX.='_' if $DBPREFIX;
 		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD) || die $DBI::errstr;
@@ -180,13 +180,11 @@ if (param('install')) {
 	    	`gzip -d -c db.gz | mysql -h$DBHOST -u$DBUSER -p$DBPASSWORD $DBNAME`;
 	    	print "OK",br();
 	    	system "rm db.gz"; 
-	    }
-
-
-	
-		print "Создаем базовые структуры...",br;
-		&cmlmain::start('.');
-		&cmlinstall::install_structure();
+	    } else {
+			print "Создаем базовые структуры...",br;
+			&cmlmain::start('.');
+			&cmlinstall::install_structure();
+	    }	
 	
 	
 	};
