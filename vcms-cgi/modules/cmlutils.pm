@@ -115,41 +115,7 @@ DOC
 }
 
 
-sub yandexsearch {
-	my ($qstr,$deep)=@_;
-	$deep=10 unless $deep;
-	require LWP::UserAgent;
-	require XML::Simple;	    
-	my $ua = LWP::UserAgent->new;
-	$ua->agent("vCMS Yandex Search");
-	my $dquery =
-<<DOC;
-<?xml version='1.0' encoding='windows-1251'?>
-<request>    
-	<query>$qstr</query>
-	<page>0</page>
-	<maxpassages>0</maxpassages>
-	<groupings>
-        <groupby attr='d' mode='deep' groups-on-page='$deep' docs-in-group='1' curcateg='-1'/>
-    </groupings>
 
-</request>
-DOC
-	my $req = HTTP::Request -> new      ( POST => 'http://xmlsearch.yandex.ru/xmlsearch'); 
-	$req -> content_type ('application/xml');    
-	$req -> content ($dquery);
-	my $response = $ua -> request ($req);
-	my $xs = XML::Simple->new();
-	my $rf=$xs->XMLin($response->content);
-	if ($rf->{response}->{error}) {
-		my $errorstr=Encode::encode($GLOBAL->{ENCODING},$rf->{response}->{error}->{content});
-		message("XML YANDEX ERROR: $errorstr")
-	}	 
-	return undef unless $rf->{response}->{results}->{grouping}->{group};
-		message($rf->{response}->{wordstat});
-	return @{$rf->{response}->{results}->{grouping}->{group}} if ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY';
-	return ($rf->{response}->{results}->{grouping}->{group});
-}
 
 
 
