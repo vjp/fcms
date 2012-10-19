@@ -47,6 +47,7 @@ sub sitesearch ($;$)
 	require XML::Simple;	    
 	my $ua = LWP::UserAgent->new;
 	$ua->agent("vCMS Yandex Site Search");
+	$ua->local_address( $opts->{'localip'} ) if $opts->{'localip'};
 	my $squery =
 <<DOC;
 <?xml version='1.0' encoding='$GLOBAL->{CODEPAGE}'?>
