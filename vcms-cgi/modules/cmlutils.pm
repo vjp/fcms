@@ -78,7 +78,7 @@ DOC
 		if ($rf->{response}->{error}->{code}!=15) {
 			staterror ($r->{error},undef,undef,'SEARCHERRORS');
 		}	
-		return $r;
+		return $opts->{raw}?"ERROR:$r->{errorcode} $r->{error}":$r;
 	}
 	return $r unless $rf->{response}->{results}->{grouping}->{group};
 	my @finded=ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY'?
