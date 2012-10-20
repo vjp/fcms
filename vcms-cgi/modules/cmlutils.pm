@@ -10,7 +10,10 @@ BEGIN	{
  	eval {require Time::HiRes };
  	use Encode;
  	use	URI::Escape;
-    
+  
+
+  	use Unicode::Map8;
+  	use Unicode::String;
 
  	@ISA = 'Exporter';
  	@EXPORT = qw( &getpage &currency &xmlparse &yandexsearch &sitesearch &yandextic &googlepr &whois );
@@ -66,7 +69,8 @@ DOC
 	my $response = $ua -> request ($req);
 	my $xs = XML::Simple->new();
 	my $cnt=$response->content;
-	$cnt=~s/<(\/?)hlword>/[[$1hlword]]/g;
+	
+	$cnt=~s/<(\/?)hlword>/<$1b>/g;
 	my $rf=$xs->XMLin($cnt);
 	my $r;
 	$r->{found}=0;
@@ -81,31 +85,21 @@ DOC
 		return $opts->{raw}?"ERROR:$r->{errorcode} $r->{error}":$r;
 	}
 	return $r unless $rf->{response}->{results}->{grouping}->{group};
-	my @finded=ref ($rf->{response}->{results}->{grouping}->{group}) eq 'ARRAY'?
-		@{$rf->{response}->{results}->{grouping}->{group}}:($rf->{response}->{results}->{grouping}->{group});
-    
 
-	for (@finded) {
+  	my $map = Unicode::Map8->new($GLOBAL->{ENCODING});
+  	$cnt = $map->to8 (Unicode::String::utf8 ($cnt)->ucs2);    
+   	my (@docs)=($cnt=~/<doc id="\S+">(.+?)<\/doc>/gs);
+   	for my $doc (@docs) {
    		my $cr;
-   		my $str;
-   		if (ref $_->{doc}->{passages}->{passage} eq 'ARRAY') {
-   			$str=join(', ',@{$_->{doc}->{passages}->{passage}})
-   		} else {
-   			$str=$_->{doc}->{passages}->{passage};
-   		}
-   		
-   		$str=~s/\[\[(\/)?hlword\]\]/<$1b>/g;
-   		$str = Encode::encode($GLOBAL->{ENCODING},$str);
-   		$cr->{string} = $str;
-   		$cr->{url}=$_->{doc}->{url};
-   		
-   		
-		$cr->{title}=Encode::encode($GLOBAL->{ENCODING},$_->{doc}->{title});
-		$cr->{title}=~s/\[\[\/?hlword\]\]//g;
-		
-		
-   		push(@{$r->{result}},$cr);	
-   	}
+   		($cr->{title})=($doc=~/<title>(.+?)<\/title>/);
+   		($cr->{url})=($doc=~/<url>(.+?)<\/url>/);
+		my (@passages)=($doc=~/<passage>(.+?)<\/passage>/g);
+   	    $cr->{string} = join(' ... ',@passages);   		
+   		push(@{$r->{result}},$cr);
+   }
+   
+
+
    	for (@{$rf->{response}->{found}}) {
    		$r->{found}=$_->{content} if $_->{priority} eq 'all';	
    	}
