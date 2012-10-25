@@ -131,11 +131,9 @@ sub export_db (;$)
 		$filename = '../../backup/db.gz';
 	}
 	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename";
-	if (-e '/usr/local/bin/mysqldump') {
-		`/usr/local/bin/$estr`;
-	} else {
-		`$estr`;
-	};	
+	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
+	my $output=`$str`;
+	return("$str - $output");
 }
 
 
