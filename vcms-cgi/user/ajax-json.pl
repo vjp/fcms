@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 
 use strict;
@@ -11,12 +11,16 @@ use cmlcalc;
 use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
+use Time::HiRes qw (time);
 
+my $ts_start=time();
 start('..');
 
 my $json = new JSON::PP;
 my $data=param('data') || $json->encode ([]);
-my $func=param('func');
+my $func=param('func') || param('lfunc');
+my $oid=param('objid');
+
 check_session();
 
 $cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
@@ -26,7 +30,7 @@ $cmlcalc::CGIPARAM->{_MODE}='USERAJAX';
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
-
+warn "DBG: START: USER:$cmlcalc::ENV->{USER}  FUNC:$func OID:$oid";
 
 my $result;
 if (param('func')) {
@@ -42,9 +46,11 @@ if (ref $result ne 'HASH') {
 		message=>enc("Ошибка выполнения. Метод: $func Ошибка: ").$result,
 	});
 }
+
+
+
 my @cookies;
 push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
-#print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 print header(
 	-type=>'application/json',
 	-cookie=>\@cookies, 
@@ -52,4 +58,6 @@ print header(
 );
 
 print $json->encode ($result);
+my $ts=time()-$ts_start;
+warn "DBG: END: USER:$cmlcalc::ENV->{USER}  FUNC:$func OID:$oid TIME:$ts";
 
