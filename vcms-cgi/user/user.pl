@@ -1,7 +1,4 @@
-#!/usr/bin/perl -w
-
-# $Id: user.pl,v 1.15 2010-09-23 03:19:01 vano Exp $
-
+#!/usr/bin/perl
 use lib "../modules/";
 
 use cmlmain;
@@ -11,8 +8,8 @@ use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
 
-open(STDERR, ">/dev/null"); 
-
+ 
+my $ts_start=time();
 
 
 start('..');
@@ -29,7 +26,6 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly};
-
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
 
@@ -45,11 +41,10 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 
 
 my $qs=url(-relative=>1,-path_info=>1,-query=>1,);
-
 my $xs= $qs;
-
 $qs=~s/;/&/g;
 $qs =~ s/\&parsemethod=.+$//;
+warn "DBG: START: USER:$cmlcalc::ENV->{USER}  QUERY:$qs";
 $cmlcalc::QUERYSTRING=$qs;
 $cmlcalc::ENV->{QUERYSTRING}=$qs;
 $cmlcalc::ENV->{URL}=$ENV{REQUEST_URI};
@@ -122,7 +117,8 @@ my $body=$v->{value};
 if ($body) {print $body}
 else       {errorpage()}
 
-
+my $ts=time()-$ts_start;
+warn "DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:$ts";
 
 sub errorpage
 {
