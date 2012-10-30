@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+use strict;
 use lib "../modules/";
 
 use cmlmain;
@@ -8,9 +9,7 @@ use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
 
- 
 my $ts_start=time();
-
 
 start('..');
 
@@ -21,7 +20,7 @@ $cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='USER';
 $cmlcalc::CGIPARAM->{_ROOT}='/user/';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGNUSER'));;
-$cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
+$cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('USERBENCHMARK',&cmlcalc::id('CMSDESIGN'));
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
@@ -63,7 +62,7 @@ my @cookies;
 
 if ($cmlcalc::SETSITEVARS) {
 	for (keys %{$cmlcalc::SETSITEVARS}) {$cmlcalc::SITEVARS->{$_}=$cmlcalc::SETSITEVARS->{$_}} 
-	$cstr=join('&',map {"$_=$cmlcalc::SITEVARS->{$_}"} keys %{$cmlcalc::SITEVARS} );
+	my $cstr=join('&',map {"$_=$cmlcalc::SITEVARS->{$_}"} keys %{$cmlcalc::SITEVARS} );
 	my $cc=cookie(-name=>'env',-value=>$cstr);
 	push (@cookies,$cc);
 }	

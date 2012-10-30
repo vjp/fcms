@@ -1,5 +1,5 @@
-#!/usr/bin/perl -w
-
+#!/usr/bin/perl
+use strict;
 use lib "../modules/";
 
 use cmlmain;
@@ -8,9 +8,9 @@ use CGI  qw/param url header cookie/;
 use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
-use strict;
- 
 
+ 
+my $ts_start=time();
 start('..');
 
 my $v;
@@ -55,6 +55,7 @@ $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
 $cmlcalc::ENV->{QUERYSTRING}=$qs;
 $cmlcalc::ENV->{URL}=$ENV{REQUEST_URI};
+warn "DBG: START: USER:$cmlcalc::ENV->{USER}  QUERY:$qs";
 
 if(param('parsemethod')) {
 	my $id;
@@ -132,6 +133,8 @@ my $body=$v->{value};
 if ($body) {print $body}
 else       {errorpage()}
 
+my $ts=time()-$ts_start;
+warn "DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:$ts";
 
 
 sub errorpage
