@@ -1,6 +1,7 @@
 package vCMS::Proxy;
  
-use lib ".."; 
+use lib "..";
+use POSIX qw(strftime); 
 use cmlmain; 
 
 sub GetIDByKey ($) {
@@ -121,6 +122,17 @@ sub GetValue ($$) {
 	my ($id,$prm)=@_;
 	return cmlcalc::p($prm,$id);
 }
+
+sub GetFormattedValue ($$) {
+	my ($prm,$value)=@_;
+	if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
+		my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
+		return &cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
+	}	
+	return $value;
+}
+
+
 
 sub SetValue ($$$) {
 	my ($id,$prm,$value)=@_;
