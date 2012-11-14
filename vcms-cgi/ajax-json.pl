@@ -51,4 +51,4 @@ if (ref $result ne 'HASH') {
 }
 print $json->encode ($result);
 my $ts=time()-$ts_start;
-warn "DBG: END: USER:$cmlcalc::ENV->{USER}  FUNC:$func OID:$oid TIME:$ts";
+warn "DBG: END: FUNC:$func OID:$oid TIME:$ts UA:$ENV{HTTP_USER_AGENT}";
