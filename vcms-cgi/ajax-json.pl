@@ -51,4 +51,4 @@ if (ref $result ne 'HASH') {
 }
 print $json->encode ($result);
 my $ts=time()-$ts_start;
-warn "DBG: END: FUNC:$func OID:$oid TIME:$ts UA:$ENV{HTTP_USER_AGENT}";
+warn "DBG: END: FUNC:$func OID:$oid TIME:$ts UA:$ENV{HTTP_USER_AGENT} COOKIE:$ENV{HTTP_COOKIE}";
