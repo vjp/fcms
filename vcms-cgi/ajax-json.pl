@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 
 use strict;
@@ -11,13 +11,17 @@ use cmlcalc;
 use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
+use Time::HiRes qw (time);
 
+my $ts_start=time();
 start('.');
 
 my $json = new JSON::PP;
 print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 my $data=param('data') || $json->encode ([]);
-my $func=param('func');
+my $func=param('func') || param('lfunc');
+my $oid=param('objid');
+
 check_session();
 
 
@@ -30,7 +34,7 @@ $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 
-
+warn "DBG: START: FUNC:$func OID:$oid";
 my $result;
 if (param('func')) {
 	$result=execute({method=>param('func')});
@@ -46,4 +50,5 @@ if (ref $result ne 'HASH') {
 	});
 }
 print $json->encode ($result);
-
+my $ts=time()-$ts_start;
+warn "DBG: END: USER:$cmlcalc::ENV->{USER}  FUNC:$func OID:$oid TIME:$ts";
