@@ -226,6 +226,7 @@ sub calculate 	{
 				$xvalue->{lmtime}=$cached_time
 			}
 			$xvalue->{type}='TEXT';
+			$xvalue->{cached}=1;
 			return $xvalue;
 		} else {
 			$need_save=1;

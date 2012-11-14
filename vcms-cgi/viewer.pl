@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use lib "./modules/";
 
@@ -7,7 +7,7 @@ use strict;
 use CGI  qw/param url header cookie redirect/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
-use Time::HiRes;
+use Time::HiRes qw (time);
 
  
 
@@ -128,7 +128,8 @@ if($cgiparam->{parsemethod}) {
 	&cmlcalc::execute({id=>$id,method=>$method});
 }	
 
-
+my $view=$cgiparam->{view} || $cgiparam->{tview};
+warn "DBG: START: VIEW:$view URI:$qs";
 if ($cgiparam->{tview} && $cmlmain::lmethod->{$cgiparam->{tview}.'PARSER'}->{script}){
 	my $id=$cgiparam->{id};
 	unless ($id) {$id=1}
@@ -193,7 +194,6 @@ my $dom_objid=$GLOBAL->{MULTIDOMAIN}?cmlcalc::id("DOMAIN_$ENV{SERVER_NAME}"):0;
 my $dom_vhost=$dom_objid?cmlcalc::p('DOMAINSTARTPAGE',$dom_objid) eq &cmlcalc::id('VHOSTSDESIGN'):0;
 $cmlcalc::SITEVARS->{VHOST}->{ID}=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid) if $dom_vhost;
 $cmlcalc::ENV->{HOSTID}=$cmlcalc::SITEVARS->{VHOST}->{ID} if $dom_vhost;
-
 my $stime=Time::HiRes::time();
 if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
@@ -270,9 +270,8 @@ if ($cmlcalc::SITEVARS->{TIMER}) {
 	 print "CHECK LOAD: $cmlcalc::TIMERS->{CHECKLOAD}->{sec} sec $cmlcalc::TIMERS->{CHECKLOAD}->{count} times <br>";
 	 print "<HR>";
 }	
-
-
-
+my $cached_stat=$v->{cached}?1:0;
+warn "DBG: END: VIEW:$view URI:$qs TIME:$cmlcalc::TIMERS->{MAIN}->{sec} CACHED:$cached_stat";
 
 
 sub errorpage
