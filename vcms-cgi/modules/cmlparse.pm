@@ -2374,8 +2374,8 @@ sub tag_form {
 
 	if   ($pl->{'parser'}) {
 		$parser=$pl->{'parser'}
-	} elsif ($parserid=~/^u/) {
-		$parser='BASEPARSER'
+	#} elsif ($parserid=~/^u/) {
+	#	$parser='BASEPARSER'
 	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'SITE')   {
 		$parser='SAFEBASELPARSER'
 	} else {
