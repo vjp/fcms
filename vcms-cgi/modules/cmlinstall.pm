@@ -1638,7 +1638,7 @@ sub install_db ($$) {
     $dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
    			`login` varchar(50)  NOT NULL,
-  			`pwd` char(32) NOT NULL,
+  			`pwd` char(42) NOT NULL,
   			`flag` int(11) NOT NULL default '0',
   			`objid` int(11) NOT NULL,
   			`scookie` varchar(50),
