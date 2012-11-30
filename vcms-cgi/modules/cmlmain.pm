@@ -109,7 +109,7 @@ sub import_db (;$)
 {
 	my ($filename)=@_;
 	$filename ||= 'db.gz';
-	my $hoststr=$GLOBAL->{DBHOST}=~/(.+):(\d+)/?"-h$1 -P$2":$GLOBAL->{DBHOST};
+	my $hoststr=$GLOBAL->{DBHOST}=~/(.+):(\d+)/?"-h$1 -P$2":"-h".$GLOBAL->{DBHOST};
 	my $str="gzip -d -c $filename | mysql -f $hoststr -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}";
 	my $output=`$str`;
 	return("$str - $output");
