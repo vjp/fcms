@@ -242,7 +242,7 @@ sub statclick ($;$$)
 sub change_pass_user ($$) 
 {
 	my ($password,$objid)=@_;
-	my $sth1=$dbh->prepare("UPDATE  ${DBPREFIX}auth SET pwd=password(?), flag=flag|1, scookie=''  WHERE objid=?");
+	my $sth1=$dbh->prepare("UPDATE  ${DBPREFIX}auth SET pwd=old_password(?), flag=flag|1, scookie=''  WHERE objid=?");
 	$sth1->execute($password,$objid) || die $dbh->errstr();
 	return 1;
 }	
@@ -254,7 +254,7 @@ sub add_user ($$;$)
 	my ($login,$password,$objid)=@_;
 	$objid ||= &cmlcalc::id("SU_$login");
 	return 0 unless $objid;
-	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,password(?),?)");
+	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,old_password(?),?)");
 	$sth1->execute($login,$password,$objid) || die $dbh->errstr();
 	return $objid;
 }	
@@ -267,7 +267,7 @@ sub reset_user ($$$;$)
 	my $login=&cmlcalc::p($loginprm,$objid);
 	my $flag=$activate?1:0;
 	return unless $login;
-	my $sth1=$dbh->prepare("REPLACE ${DBPREFIX}auth (login,pwd,objid,flag) VALUES (?,password(?),?,?)");
+	my $sth1=$dbh->prepare("REPLACE ${DBPREFIX}auth (login,pwd,objid,flag) VALUES (?,old_password(?),?,?)");
 	$sth1->execute($login,$password,$objid,$flag) || die $dbh->errstr();
 	return $objid;
 }
@@ -318,7 +318,7 @@ sub check_user ($;$)
 sub check_auth ($$;$)
 {
 	my ($login,$password,$multisession)=@_;
-	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd=password(?)");
+	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd=old_password(?)");
 	$sth1->execute($login,$password) || die $dbh->errstr();
 	my ($sid,$flag,$objid,$scookie)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
@@ -347,7 +347,7 @@ sub check_password ($)
 {
 	my ($password)=@_;
 	return (0,0) unless $cmlcalc::ENV->{'AUTHUSERID'};
-	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE objid=? and pwd=password(?)");
+	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE objid=? and pwd=old_password(?)");
 	$sth1->execute($cmlcalc::ENV->{'AUTHUSERID'},$password);
 	my ($sid,$flag)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
