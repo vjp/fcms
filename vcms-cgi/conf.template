@@ -41,3 +41,6 @@ $GRPFILE='<abspath>/.htgroup';
 
 @SYNC=();
 %SYNC=();
+
+$MEMCACHEDSERVER='';
+

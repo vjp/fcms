@@ -16,6 +16,7 @@ BEGIN
  use Encode;
  use Net::IDN::Punycode::PP qw(:all);
  use URI::Escape;
+ use Cache::Memcached;
 
   
  @ISA    = 'Exporter';
@@ -810,23 +811,19 @@ sub retbackref {
 	my $upper=$_[0]->{upper};
 	my $condition=$_[0]->{condition};
 	my $id;
+	my $ts=time();
 
 	if ($objid->{type}) {
 		if    ($objid->{type} eq 'U') {$ind='u'.$objid->{ind}}
 		elsif ($objid->{type} eq 'L') {$ind=$objid->{ind}} 
 		elsif ($objid->{type} eq 'T') {$ind='test'}
 	} else  {$ind=$objid}
-	
-	my $t=time();
+
 	$sthVL->execute($ind,$pkey) || die $dbh->errstr;
 	my @rlist=();
-	
-	
-	
-	
+
 	while (my $item=$sthVL->fetchrow_hashref) {
 		if (($upper eq "u$item->{upobj}") || !$upper) {
-		#if ($item && isupper({up=>$upper,low=>$item->{objid}})) {
 			push(@rlist,$item->{objid})
 		}	
 	}	
@@ -834,10 +831,15 @@ sub retbackref {
 	
 	if ($condition) {
 		 @rlist=grep(&cmlcalc::calc($_,$condition),@rlist);
-  }	
+  	}	
 	
 	$v->{value}=join(';',@rlist);
 	$v->{type}='LIST';
+	
+	my $t=time()-$ts;
+    $GLOBAL->{timers}->{br}+=$t;
+    $GLOBAL->{timers}->{brc}++;
+	
 	return $v;
 }
 
@@ -874,21 +876,17 @@ sub retubackref {
 	my $condition=$_[0]->{condition};
 	my $id;
 	
-	
+	my $ts=time();
 	
 	if ($objid->{type}) {
 		if    ($objid->{type} eq 'U') {$ind='u'.$objid->{ind}}
 		elsif ($objid->{type} eq 'L') {$ind=$objid->{ind}} 
 		elsif ($objid->{type} eq 'T') {$ind='test'}
 	} else  {$ind=$objid}
-	
-	my $t=time();
+
 	$sthUVL->execute($ind,$pkey) || die $dbh->errstr;
 	my @rlist=();
-	
-	
-	
-	
+
 	while (my $item=$sthUVL->fetchrow_hashref) {
 		if ($item && isupper({up=>$upper,low=>$item->{objid}})) {
 			push(@rlist,$item->{objid})
@@ -898,10 +896,15 @@ sub retubackref {
 	
 	if ($condition) {
 		 @rlist=grep(&cmlcalc::calc($_,$condition),@rlist);
-  }	
+  	}	
 	
 	$v->{value}=join(';',@rlist);
 	$v->{type}='LIST';
+	
+	my $t=time()-$ts;
+    $GLOBAL->{timers}->{br}+=$t;
+    $GLOBAL->{timers}->{brc}++;
+  
 	return $v;
 }
 
@@ -987,18 +990,41 @@ sub returnvalue {
  	if ($objid->{type} eq 'L')  {
    	$objid=$objid->{ind};
    		if (!$lobj->{$objid}->{langcached}->{$lang} || $noparse) {
-		  	$LsthV->execute($objid,$lang) || die $dbh->errstr;
-     		while (my $item=$LsthV->fetchrow_hashref) {
-     			my $type=$prm->{$item->{pkey}}->{type} || '';
+   			my $h;
+   			if ($GLOBAL->{USEMEMCACHED}) {
+   				my $ts=time();
+   				my $mcv=$GLOBAL->{MEMD}->get($objid);
+   				if ($mcv) {
+   					eval{
+   						$h=decode_json($mcv)
+   					};
+   					my $t=time()-$ts;
+   					$GLOBAL->{mt}+=$t;
+   					$GLOBAL->{mtc}++;
+   				}	 
+   			}	
+   			unless ($h) {
+   				my $ts=time();
+		  		$LsthV->execute($objid,$lang) || die $dbh->errstr;
+		  		while (my $item=$LsthV->fetchrow_hashref) {
+		  			$h->{$item->{pkey}}=$item->{value};
+		  		}
+     			if ($GLOBAL->{USEMEMCACHED} && $h) {
+        			$GLOBAL->{MEMD}->set($objid,encode_json($h));
+        		}
+        		my $t=time()-$ts;
+        		$GLOBAL->{ot}+=$t;
+        		$GLOBAL->{otc}++;
+   			}
+   			for my $hpkey (keys %$h) {	
+     			my $type=$prm->{$hpkey}->{type} || '';
      			if ($type eq 'TEXT' || $type eq 'LONGTEXT') { 
-        			$lobj->{$objid}->{langvals}->{$lang}->{$item->{pkey}}->{value}=$item->{value};
+        			$lobj->{$objid}->{langvals}->{$lang}->{$hpkey}->{value}=$h->{$hpkey};
         		} else {
-        		  $lobj->{$objid}->{$item->{pkey}}->{value}=$item->{value};
+        		  	$lobj->{$objid}->{$hpkey}->{value}=$h->{$hpkey};
           		}			
-        		$lobj->{$objid}->{vals}->{$item->{pkey}}->{type}=$prm->{$item->{pkey}}->{type};
-        		if ($noparse && $pkey eq $item->{pkey}) {$npv->{value}=$item->{value}; $npv->{type}=$item->{type}}
-        		#if ($item->{value} eq '1' && $item->{pkey}=~/^(.+)__COMPILEDFLAG$/) {$cf{$1}=1}
-        		#if ($item->{pkey}=~/^(.+)__COMPILED$/) {$cv{$1}=$item->{value}}
+        		$lobj->{$objid}->{vals}->{$hpkey}->{type}=$type;
+        		if ($noparse && $pkey eq $hpkey) {$npv->{value}=$h->{$hpkey}; $npv->{type}=$type}
      		}
      		for (keys %cf) {
      			$lobj->{$objid}->{langvals}->{$lang}->{$_}->{value}=$cv{$_};
@@ -1214,6 +1240,10 @@ sub setvalue  {
   		} else  {
   			$cl=$LANGS[0]
   		}
+ 			
+  		if ($GLOBAL->{USEMEMCACHED}) {
+        		$GLOBAL->{MEMD}->delete($objid);
+       	}
  			
  		$sthDD->execute($objid,$pkey,$cl) || die $dbh->errstr;
  		if (defined $value && ($value ne '')) {
@@ -1431,7 +1461,14 @@ sub init	{
   	$GLOBAL->{CACHE}=$CACHE;
   	$GLOBAL->{MULTIDOMAIN}=$MULTIDOMAIN;
 
- 	
+    if ($MEMCACHEDSERVER) {
+    	$GLOBAL->{USEMEMCACHED}=1;
+    	$GLOBAL->{MEMD} = new Cache::Memcached {
+    			'servers' => [ $MEMCACHEDSERVER ],
+    			'debug' => 0,
+    			'compress_threshold' => 10_000,
+  		}; 
+    }
  	undef @LOG;
 }
 
@@ -2167,6 +2204,7 @@ sub deleteprm {
 
 sub buildlist {
 	my $list=$_[0];
+	my $ts=time();
 	my $lstr=join (',',map {"'$_'"} grep {!/^u/} split (';', $list) );
 	return unless $lstr;
 	my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE id in ($lstr) ORDER BY id");
@@ -2197,6 +2235,9 @@ sub buildlist {
   		}	
   		$lobj->{$item->{id}}->{"name_$item->{lang}"}=$item->{val}
   	}	
+  	my $t=time()-$ts;
+    $GLOBAL->{timers}->{bl}+=$t;
+    $GLOBAL->{timers}->{blc}++;
   
 }
 
@@ -2283,9 +2324,6 @@ sub buildlowtree
       if ($objid) {
  		 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id=?")|| die $dbh->errstr;
       	 $sthN->execute($objid) || die $dbh->errstr;
-      }elsif ($limit && $jstr) {
-      	 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id in ($jstr)");
-      	 $sthN->execute() || die $dbh->errstr(); 
       } elsif ($jstr) {
       	 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id in ($jstr)") || die $dbh->errstr; 
       	 $sthN->execute() || die $dbh->errstr;
@@ -2300,24 +2338,8 @@ sub buildlowtree
 		}	
   	  }
 
-#	if ($obj->{$upobj}->{lang}) {
-#			 my $sthVL;
-#	  
-#      
-#		  
-#       if ($objid) {
-#      	 $sthVL=$sthVLN1; 
-#  			 $sthVLN1->execute($upobj,$objid) || die $dbh->errstr;
-#  		 } else {
-#  		 	 $sthVL=$sthVLN; 
-#  		 	 $sthVL->execute($upobj) || die $dbh->errstr;
-#  		 }	
-#  			while ($item=$sthVL->fetchrow_hashref) {
-#  				$lobj->{$item->{objid}}->{"name_$item->{lang}"}=$item->{value};
-#				}	
-#	}	
-	$cmlcalc::TIMERS->{LOWTREE}->{sec}+=(time-$t);
-  $cmlcalc::TIMERS->{LOWTREE}->{count}++;
+	  $cmlcalc::TIMERS->{LOWTREE}->{sec}+=(time-$t);
+  	  $cmlcalc::TIMERS->{LOWTREE}->{count}++;
 
 }
 
@@ -2356,6 +2378,8 @@ sub checkload
     		return $upobj if $_[0]->{onlyup};
     		buildlowtree($upobj,$_[0]->{id});
    		}
+		$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
+		$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
    		return $lobj->{$_[0]->{id}}->{upobj};
   	} elsif ($_[0]->{key})   {
   		if ($_[0]->{key}=~/(.+)\/(.+)/) {

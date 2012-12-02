@@ -270,6 +270,9 @@ sub tagparse {
 sub fetchparam {
 	my ($pstr,$plist)=@_;
 	my $rstr;
+	
+	my $ts=time();
+	
 	for (@$plist) {
 		if (ref $pstr eq 'SCALAR') {
 			if ($$pstr=~s/(\W)$_=(['"])(.*?)\2/$1/i)      {$rstr->{$_}=$3 }
@@ -278,6 +281,12 @@ sub fetchparam {
 		}	
 	}
 	$$pstr=~s/(\W)html(\w+=)/$1$2/ig if ref $pstr eq 'SCALAR';
+	
+	my $t=time()-$ts;
+    $cmlmain::GLOBAL->{timers}->{fp}+=$t;
+    $cmlmain::GLOBAL->{timers}->{fpc}++;
+	
+	
 	return $rstr;
 }
 

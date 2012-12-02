@@ -83,6 +83,7 @@ if (param('csv')||param('csvcontent')) {
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 
 my $key;
+my $its=time()-$ts_start;
 
 my $prm=param('prm') || 'PAGETEMPLATE';
 if (param('menu')) {
@@ -117,7 +118,15 @@ if ($body) {print $body}
 else       {errorpage()}
 
 my $ts=time()-$ts_start;
-warn "DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:$ts";
+warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) MMRV:(%.3f:%d) DBLT (%.3f:%d) DBBL (%.3f:%d) CL (%.3f:%d) DBBR (%.3f:%d) FP (%.3f:%d)\n",
+	$ts,$its,
+	$GLOBAL->{ot},$GLOBAL->{otc},$GLOBAL->{mt},$GLOBAL->{mtc},
+	$cmlcalc::TIMERS->{LOWTREE}->{sec},$cmlcalc::TIMERS->{LOWTREE}->{count},
+	$GLOBAL->{timers}->{bl},$GLOBAL->{timers}->{blc},
+	$cmlcalc::TIMERS->{CHECKLOAD}->{sec},$cmlcalc::TIMERS->{CHECKLOAD}->{count},
+	$GLOBAL->{timers}->{br},$GLOBAL->{timers}->{brc},
+	$GLOBAL->{timers}->{fp},$GLOBAL->{timers}->{fpc},	
+);
 
 sub errorpage
 {
