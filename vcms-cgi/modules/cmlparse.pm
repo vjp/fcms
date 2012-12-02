@@ -2119,10 +2119,16 @@ sub tag_text {
     	my $ptype;
 
         
-        my $pl=fetchparam(\$param,[	'prm','param','br','csv','color', 'default', 'bold' ]);
+        my $pl=fetchparam(\$param,[	
+        	'prm','param','br','csv','color', 'default', 'bold',
+        	'value','formparam', 
+        	'format',
+        	'name','key','ukey','uid','namecgi','idexpr','idcgi','id',
+        	'expr','typeexpr',
+        ]);
         
-    	if 			($param=~s/(\W)value=(['"])(.+?)\2/$1/i)     {return $3}
-    	elsif   ($param=~s/(\W)formparam=(['"])(.+?)\2/$1/i)     {return $cmlcalc::CGIPARAM->{"_p$3"}}
+    	if 		($pl->{value})      {return $pl->{value}}
+    	elsif   ($pl->{formparam})  {return $cmlcalc::CGIPARAM->{"_p$pl->{formparam}"}}
     
     	my $dfrmt;
     	my $spl;
@@ -2136,19 +2142,19 @@ sub tag_text {
  
 
   
-    	if ($param=~s/(\W)format=(['"])(.+?)\2/$1/i)     {$frmt=$3}
+    	if ($pl->{format})     {$frmt=$pl->{format}}
   
-  		if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
-  		elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
-  		elsif ($param=~s/(\W)ukey=(['"])(.+?)\2/$1/i)      {$ukey=$3  }
-  		elsif ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)       {$uid=$3   }
-  		elsif ($param=~s/(\W)namecgi=(['"])(.+?)\2/$1/i)   {$key=param($3)}
-  		elsif ($param=~s/(\W)idexpr=(['"])(.+?)\2/$1/i)    {
-  	    	$id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$3})->{value}
-  		} elsif ($param=~s/(\W)idcgi=(['"])(.+?)\2/$1/i)     {
-  			$id=param($3)
-  		}  elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {
-  			$id=$3; 
+  		if    ($pl->{name})      {$key=$pl->{name}  }
+  		elsif ($pl->{key})       {$key=$pl->{key}   }
+  		elsif ($pl->{ukey})      {$ukey=$pl->{ukey} }
+  		elsif ($pl->{uid})       {$uid=$pl->{uid}   }
+  		elsif ($pl->{namecgi})   {$key=param($pl->{namecgi})}
+  		elsif ($pl->{idexpr})    {
+  	    	$id=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>$pl->{idexpr}})->{value}
+  		} elsif ($pl->{idcgi})     {
+  			$id=param($pl->{idcgi})
+  		}  elsif ($pl->{id})        {
+  			$id=$pl->{id}; 
   			if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} 
   			if (lc ($id) eq '_parent') {$id=$_[0]->{inner}->{parent}} 
   		}  	else  {$id=$_[0]->{inner}->{objid}} 
@@ -2157,8 +2163,8 @@ sub tag_text {
         if (lc ($id) eq '_iterator')        {$result=$_[0]->{inner}->{iterator}}
         elsif (lc ($id) eq '_iteratornext') {$result=$_[0]->{inner}->{iteratornext}}
         elsif (lc ($id) eq '_iteratordelta') {$result=$_[0]->{inner}->{iteratornext}}
-        elsif ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i)     {
-        	$expr=$3;
+        elsif ($pl->{expr})     {
+        	$expr=$pl->{expr};
         	$expr=~s/_iterator(\W)/$_[0]->{inner}->{iterator}$1/ig;
         	$expr=~s/_iteratordelta(\W)/$_[0]->{inner}->{delta}$1/ig;
         	$expr=~s/_iteratornext(\W)/$_[0]->{inner}->{iteratornext}$1/ig;
@@ -2168,8 +2174,8 @@ sub tag_text {
         	$rs=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
         }
         
-        if ($param=~s/(\W)typeexpr=(['"])(.+?)\2/$1/i)     {
-        	$ptype=&cmlcalc::calculate({id=>$id,expr=>$3});
+        if ($pl->{typeexpr})     {
+        	$ptype=&cmlcalc::calculate({id=>$id,expr=>$pl->{typeexpr}});
         }	
         
         if (	($pkey && $cmlmain::prm->{$pkey}->{type} eq 'LIST') || ($ptype->{value} && $ptype->{value} eq 'LIST' ) ) {
