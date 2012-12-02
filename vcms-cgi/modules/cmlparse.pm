@@ -273,13 +273,23 @@ sub fetchparam {
 	
 	my $ts=time();
 	
-	for (@$plist) {
+	my $rplist=join('|',@$plist);
+
+	#for (@$plist) {
+		
 		if (ref $pstr eq 'SCALAR') {
-			if ($$pstr=~s/(\W)$_=(['"])(.*?)\2/$1/i)      {$rstr->{$_}=$3 }
+			$$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+				$rstr->{$2}=$4;
+				$1;
+			}ige;
 		} else {
-			if ($pstr=~s/(\W)$_=(['"])(.*?)\2/$1/i)      {$rstr->{$_}=$3 }
+			$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+				$rstr->{$2}=$4;
+				$1
+			}ige;    
 		}	
-	}
+	
+	#}
 	$$pstr=~s/(\W)html(\w+=)/$1$2/ig if ref $pstr eq 'SCALAR';
 	
 	my $t=time()-$ts;
