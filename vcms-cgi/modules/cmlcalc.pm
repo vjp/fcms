@@ -630,7 +630,8 @@ sub p	{
  		else 			 {
  			if ($oid=~/;/) {
  				return join(';', grep {$_} map {calc($_,"p($pkey)")} split(';',$oid) );
- 			}	
+ 			}
+ 			return $oid if uc($pkey) eq '_ID';	
  			return calc($oid,"p($pkey)");
  		}	
  		

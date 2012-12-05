@@ -165,22 +165,34 @@ sub tagparse {
   	if ($DYNTAG{$_[0]->{name}} && $cmlmain::GLOBAL->{CACHE} && !$inner->{dyncalc}) {
 		return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
   	}	
+  	
+  	
+	$_[0]->{param}=~s{_cml:(.+?)_} {
+		my $xts=time();
+		my $prmid=$1;
+		
+		#my $v=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>"p($prmid)"});
+		my $v;
+		$v->{value}=&cmlcalc::p($prmid,$_[0]->{inner}->{objid});
+		
+		if ($v->{value} eq '') {$v->{value}='NULL'}
+		$v->{value}=~s/"/&quot/g;
 
+ 		my $t=time()-$xts;
+   		$cmlmain::GLOBAL->{timers}->{ic}+=$t;
+   		$cmlmain::GLOBAL->{timers}->{icc}++;
+		
+		"$v->{value}"; 		
+	}iges;
     
 
-  	
+
   	$_[0]->{param}=~s{_id:(.+?)_} {
   		$v=&cmlcalc::id($1);
   		$v;
   	}iges;
   	
-	$_[0]->{param}=~s{_cml:(.+?)_} {
- 		$v=&cmlmain::calculate({id=>$_[0]->{inner}->{objid},expr=>"p($1)"});
- 		if ($v->{value} eq '') {$v->{value}='NULL'}
- 		$v->{value}=~s/"/&quot/g;
- 		"$v->{value}";
-	}iges;
-	
+  	my $ts=time();	
 	$_[0]->{param}=~s/_vcml:(.+?)_/$cmlcalc::VPARAM->{$_[0]->{inner}->{objid}}->{$1}/igs;
 	
 	
@@ -248,6 +260,9 @@ sub tagparse {
 	$_[0]->{param}=~s/_PARENT/$_[0]->{inner}->{parent}/igs;
 	$_[0]->{param}=~s/_SELF/$_[0]->{inner}->{objid}/igs;
 	
+	my $t=time()-$ts;
+    $cmlmain::GLOBAL->{timers}->{tp}+=$t;
+    $cmlmain::GLOBAL->{timers}->{tpc}++;
 	
  	if ($CMLTAG{$_[0]->{name}})  	{
   		$subname="cmlparse::tag_$_[0]->{name}";

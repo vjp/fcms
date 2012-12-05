@@ -118,14 +118,16 @@ if ($body) {print $body}
 else       {errorpage()}
 
 my $ts=time()-$ts_start;
-warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) MMRV:(%.3f:%d) DBLT (%.3f:%d) DBBL (%.3f:%d) CL (%.3f:%d) DBBR (%.3f:%d) FP (%.3f:%d)\n",
+warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) MMRV:(%.3f:%d) DBLT (%.3f:%d) DBBL (%.3f:%d) CL (%.3f:%d) DBBR (%.3f:%d) FP (%.3f:%d) TP (%.3f:%d) IC (%.3f:%d)\n",
 	$ts,$its,
 	$GLOBAL->{ot},$GLOBAL->{otc},$GLOBAL->{mt},$GLOBAL->{mtc},
 	$cmlcalc::TIMERS->{LOWTREE}->{sec},$cmlcalc::TIMERS->{LOWTREE}->{count},
 	$GLOBAL->{timers}->{bl},$GLOBAL->{timers}->{blc},
 	$cmlcalc::TIMERS->{CHECKLOAD}->{sec},$cmlcalc::TIMERS->{CHECKLOAD}->{count},
 	$GLOBAL->{timers}->{br},$GLOBAL->{timers}->{brc},
-	$GLOBAL->{timers}->{fp},$GLOBAL->{timers}->{fpc},	
+	$GLOBAL->{timers}->{fp},$GLOBAL->{timers}->{fpc},
+	$GLOBAL->{timers}->{tp},$GLOBAL->{timers}->{tpc},	
+	$GLOBAL->{timers}->{ic},$GLOBAL->{timers}->{icc},	
 );
 
 sub errorpage

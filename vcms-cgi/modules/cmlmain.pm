@@ -1470,6 +1470,7 @@ sub init	{
   		}; 
     }
  	undef @LOG;
+ 	undef $XCACHE;
 }
 
 sub compile_date($)
