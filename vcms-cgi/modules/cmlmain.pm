@@ -17,7 +17,7 @@ BEGIN
  use Net::IDN::Punycode::PP qw(:all);
  use URI::Escape;
  use Cache::Memcached;
-
+ use POSIX qw(locale_h);
   
  @ISA    = 'Exporter';
  @EXPORT = qw(
@@ -1376,6 +1376,7 @@ sub init	{
  	do "$_[0]/conf";
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
   	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
+  	setlocale(LC_ALL, $UTF?"en_US.UTF-8":"ru_RU.CP1251");
  	$DBHOST='localhost' unless $DBHOST;
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
