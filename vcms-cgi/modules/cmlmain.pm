@@ -128,8 +128,8 @@ sub export_db (;$)
 {
 	my ($filename)=@_;
 	unless ($filename) {
-		mkdir '../../backup/' unless -d '../../backup/';
-		$filename = '../../backup/db.gz';
+		mkdir "$GLOBAL->{WWWPATH}/backup/" unless -d "$GLOBAL->{WWWPATH}/backup/";
+		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
 	}
 	# optimization keys -Q --max_allowed_packet=16777216
 	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename";
