@@ -129,6 +129,7 @@ sub export_db (;$)
 	my ($filename)=@_;
 	unless ($filename) {
 		mkdir "$GLOBAL->{WWWPATH}/backup/" unless -d "$GLOBAL->{WWWPATH}/backup/";
+		createhtaccess ("$GLOBAL->{WWWPATH}/backup/.htaccess",'admin') unless -s  "$GLOBAL->{WWWPATH}/backup/.htaccess";
 		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
 	}
 	# optimization keys -Q --max_allowed_packet=16777216
