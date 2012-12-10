@@ -1377,6 +1377,7 @@ sub init	{
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
   	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
   	setlocale(LC_ALL, $UTF?"en_US.UTF-8":"ru_RU.CP1251");
+  	setlocale(LC_NUMERIC,"C"); 
  	$DBHOST='localhost' unless $DBHOST;
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
