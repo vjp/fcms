@@ -1067,6 +1067,7 @@ sub returnvalue {
    $objid=$objid->{ind};
    
    if (!$obj->{$objid}->{cached} || $_[0]->{noparse})  {
+   	  my $ts=time();
       $sthUV->execute($objid) || die $dbh->errstr;
       while ($item=$sthUV->fetchrow_hashref) {
       	my $oupd=$prm->{$item->{pkey}}->{upd}->{$objid} || '';
@@ -1077,6 +1078,9 @@ sub returnvalue {
         }	
       }
       $obj->{$objid}->{cached}=1;
+      my $t=time()-$ts;
+      $GLOBAL->{ot}+=$t;
+      $GLOBAL->{otc}++;
    }
    unless ($obj->{$objid}->{vals}->{$pkey}->{value} ne '')  {
       $obj->{$objid}->{vals}->{$pkey}=defaultvalue({pkey=>$pkey,uid=>$objid});
