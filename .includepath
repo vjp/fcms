@@ -2,5 +2,6 @@
 <includepath>
   <includepathentry path="C:\Perl\lib" />
   <includepathentry path="C:\Perl\site\lib" />
+  <includepathentry path="D:\papps\repo\fcms\vcms-cgi\modules" />
 </includepath>
 
