@@ -2214,8 +2214,13 @@ sub deleteprm {
 sub buildlist {
 	my $list=$_[0];
 	my $ts=time();
-	my $lstr=join (',',map {"'$_'"} grep {!/^u/} split (';', $list) );
-	return unless $lstr;
+	my $lstr=join (',',map {"'$_'"} grep {!$lobj->{$_}->{id}} grep {!/^u/} split (';', $list) );
+	unless ($lstr) {
+		my $t=time()-$ts;
+    	$GLOBAL->{timers}->{bl}+=$t;
+    	$GLOBAL->{timers}->{blc}++;
+    	return;
+	}
 	my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}objects WHERE id in ($lstr) ORDER BY id");
 	$sth->execute() || die $dbh->errstr();
 	while ($item=$sth->fetchrow_hashref)   {
