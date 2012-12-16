@@ -2214,7 +2214,7 @@ sub deleteprm {
 sub buildlist {
 	my $list=$_[0];
 	my $ts=time();
-	my $lstr=join (',',map {"'$_'"} grep {!$lobj->{$_}->{id}} grep {!/^u/} split (';', $list) );
+	my $lstr=join(',',map {"'$_'"} grep {!$lobj->{$_}->{id}} grep {/^\d+$/} split (';', $list) );
 	unless ($lstr) {
 		my $t=time()-$ts;
     	$GLOBAL->{timers}->{bl}+=$t;
