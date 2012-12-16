@@ -294,12 +294,12 @@ sub fetchparam {
 		
 		if (ref $pstr eq 'SCALAR') {
 			$$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
-				$rstr->{$2}=$4;
+				$rstr->{lc $2}=$4;
 				$1;
 			}ige;
 		} else {
 			$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
-				$rstr->{$2}=$4;
+				$rstr->{lc $2}=$4;
 				$1
 			}ige;    
 		}	
