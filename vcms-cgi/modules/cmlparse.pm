@@ -290,21 +290,17 @@ sub fetchparam {
 	
 	my $rplist=join('|',@$plist);
 
-	#for (@$plist) {
-		
-		if (ref $pstr eq 'SCALAR') {
-			$$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
-				$rstr->{lc $2}=$4;
-				$1;
-			}ige;
-		} else {
-			$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
-				$rstr->{lc $2}=$4;
-				$1
-			}ige;    
-		}	
-	
-	#}
+	if (ref $pstr eq 'SCALAR') {
+		$$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+			$rstr->{lc $2}=$4;
+			$1;
+		}ige;
+	} else {
+		$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+			$rstr->{lc $2}=$4;
+			$1
+		}ige;    
+	}	
 	$$pstr=~s/(\W)html(\w+=)/$1$2/ig if ref $pstr eq 'SCALAR';
 	
 	my $t=time()-$ts;
