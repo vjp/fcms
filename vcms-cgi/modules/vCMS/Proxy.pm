@@ -1,7 +1,8 @@
 package vCMS::Proxy;
  
 use lib "..";
-use POSIX qw(strftime); 
+use POSIX qw(strftime);
+use LWP::UserAgent; 
 use cmlmain; 
 
 sub GetIDByKey ($) {
@@ -184,7 +185,17 @@ sub CurrentObjectID() {
 	return cmlcalc::p(_ID);
 }	
 	
-
+sub GetURL ($) {
+	my ($url)=@_;
+  	my $ua = LWP::UserAgent->new;
+  	$ua->agent("VCMS/0.1");
+  	my $res = $ua->request(HTTP::Request->new(GET => $url));
+  	if ($res->is_success) {
+  		return {content=>$res->content};
+  	} else {
+  	  	return {err=>1,status=>$res->status_line};
+  	}			
+}
 
 
 1;

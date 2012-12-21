@@ -16,7 +16,7 @@ BEGIN	{
   	use Unicode::String;
 
  	@ISA = 'Exporter';
- 	@EXPORT = qw( &getpage &currency &xmlparse &yandexsearch &sitesearch &yandextic &googlepr &whois );
+ 	@EXPORT = qw( &xmlparse &yandexsearch &sitesearch &yandextic &googlepr &whois );
 }
 
 sub whois {
@@ -176,46 +176,7 @@ sub xmlparse {
 
 
 
-sub getpage {
-	
-	my $url=shift;
-	my $erralert=shift;
-	
-  require LWP::UserAgent;
-  my $ua = LWP::UserAgent->new;
-  $ua->agent("MyApp/0.1 ");
-  my $res = $ua->request(HTTP::Request->new(GET => $url));
-  if ($res->is_success) {
-  		return $res->content;
-  } else {
-  	  alert("getpage error:".$res->status_line); 
-  	  return 0;
-  }			
 
-	
-}	
-
-
-sub currency {
-
-my $val=$_[0]; 
-my $time=timegm(localtime())*1000;
-
-my $text=getpage("http://www.prime-tass.ru/results/export.asp?funcNum=4&format=xml&divider=&sDate=$time");
-
-(my @rows)=($text=~m/<row>(.*?)<\/row>/igs);
-
-my $vpr;
-for (@rows) {
-  (my $curs)=($_=~m/<cell.*?"Last".*?>(.+?)<\/cell>/igs);
-  (my $ticker)=($_=~m/<cell.*?"Ticker".*?>(.+?)<\/cell>/igs);
-  $vpr->{$ticker}=$curs;
-}
-
-
-return $vpr->{$val};
-
-}
 
 
 sub _compute_ch_new {
