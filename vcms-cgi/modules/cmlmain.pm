@@ -2792,6 +2792,7 @@ sub fastsearch {
 	my $filterlist=$_[0]->{filterlist};
 	my $skiplist=$_[0]->{skiplist};
 	my $sthSRC;
+	my $ts=time();
 	
 	if ($clause) {
 		my $tname;
@@ -2835,8 +2836,12 @@ sub fastsearch {
 		$h->{$_}=1 for @{$_[0]->{skiplist}};
 		@rlist=grep {!$h->{$_}} @rlist;
 	}
+	@rlist=sort {$lobj->{$a}->{indx}<=>$lobj->{$b}->{indx}} @rlist;
 	
-	return sort {$lobj->{$a}->{indx}<=>$lobj->{$b}->{indx}} @rlist;
+	$GLOBAL->{timers}->{fs}+=time()-$ts;
+   	$GLOBAL->{timers}->{fsc}++;	
+	
+	return @rlist;
 }	
 
 

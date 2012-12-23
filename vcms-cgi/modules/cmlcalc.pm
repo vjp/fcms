@@ -7,9 +7,10 @@ BEGIN
  use Exporter();
  use Data::Dumper;
  use Time::Local;
+ use Time::HiRes qw (time);
  use JSON::PP;
  use POSIX;
- eval {require Time::HiRes };
+
 
  @ISA = 'Exporter';
  @EXPORT = qw( &calculate  &initcalc %gtype $OBJID $PARID $PARTYPE $CGIPARAM $ENV $NOPARSE $DEBUG &execute &scripteval $TIMERS
@@ -149,6 +150,8 @@ sub calculate 	{
 
  	if (ref $_[0] eq 'HASH')   {
 
+		my $ts=time();
+		
 		my $indx;
 		$NOPARSE=$_[0]->{noparse};
 		$PARID=$_[0]->{parent};
@@ -203,6 +206,10 @@ sub calculate 	{
  		
  		push (@CACHELINKS,$OBJID->{id}) if $CACHEING;
  		
+ 		
+ 		my $t=time()-$ts;	
+   		$GLOBAL->{timers}->{cc}+=$t;
+   		$GLOBAL->{timers}->{ccc}++;
  	}
  	my $xvalue;
 	my $need_save;
@@ -278,7 +285,7 @@ sub execute 	{
   		my @treeid;
  		undef $OBJID;	
  		my $low;
- 	  	
+ 	  	my $xts=time();
  		if (ref $_[0] eq 'HASH')   {
 
     		if ($_[0]->{method}) {
@@ -365,6 +372,11 @@ sub execute 	{
  		#		last;
 	 	#	}	
  		#}
+ 		
+ 		my $t=time()-$xts;
+   		$cmlmain::GLOBAL->{timers}->{et}+=$t;
+   		$cmlmain::GLOBAL->{timers}->{etc}++;
+ 		
         return $res;
 }
 
@@ -626,17 +638,26 @@ sub p	{
 
  		my $ind;
  		
- 		if (ref $oid eq 'HASH') {$ind=$oid->{value}}
- 		else 			 {
+ 		if (ref $oid eq 'HASH') {
+ 			$ind=$oid->{value};
+ 			&cmlmain::checkload({id=>$ind});
+ 			$id=$cmlmain::lobj->{$ind}->{ind};
+ 		} else 			 {
  			if ($oid=~/;/) {
  				return join(';', grep {$_} map {calc($_,"p($pkey)")} split(';',$oid) );
  			}
- 			return $oid if uc($pkey) eq '_ID';	
- 			return calc($oid,"p($pkey)");
+ 			return $oid if uc($pkey) eq '_ID';
+ 			#return calc($oid,"p($pkey)");
+ 			if ($oid=~/^u(\d+)/) {
+ 				$id=$cmlmain::obj->{$1};
+ 			} else {
+ 				&cmlmain::checkload({id=>$oid});
+ 				$id=$cmlmain::lobj->{$oid};	
+ 			}
+ 				
+ 			
  		}	
  		
- 		&cmlmain::checkload({id=>$ind});
- 		$id=$cmlmain::lobj->{$ind}->{ind};
  	}
  	
  	if (($skey)=($pkey=~/^_(.+)$/))  {
