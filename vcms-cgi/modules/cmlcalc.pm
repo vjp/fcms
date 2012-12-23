@@ -712,7 +712,7 @@ sub p	{
  
  	if ($cmlmain::prm->{$pkey}->{type})  {
 		my $v=&{$gtype{$cmlmain::prm->{$pkey}->{type}}->{retvalue}}({id=>$id,pkey=>$pkey,noparse=>$noparse,lang=>$CALCLANG})->{value};
-		$OBJID=$id; 
+		$OBJID=$id unless defined $oid; 
    		return $v; 
  	}
  	else  {
