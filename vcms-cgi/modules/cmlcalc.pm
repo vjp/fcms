@@ -208,8 +208,8 @@ sub calculate 	{
  		
  		
  		my $t=time()-$ts;	
-   		$GLOBAL->{timers}->{cc}+=$t;
-   		$GLOBAL->{timers}->{ccc}++;
+   		$cmlmain::GLOBAL->{timers}->{cc}+=$t;
+   		$cmlmain::GLOBAL->{timers}->{ccc}++;
  	}
  	my $xvalue;
 	my $need_save;

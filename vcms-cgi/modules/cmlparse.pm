@@ -104,15 +104,9 @@ sub cmlparser
  	my $setreadonly=$_[0]->{readonly} && !$cmlcalc::ENV->{READONLY};
  	$cmlcalc::ENV->{READONLY}=1 if $setreadonly;
  
-    my $ts=time();
-
  	my @txt=split(/<cml:/si,$text);
  	my @stack=shift @txt;
  	my @pstack;
-
-   my $t=time()-$ts;	
-   $cmlmain::GLOBAL->{timers}->{cp}+=$t;
-   $cmlmain::GLOBAL->{timers}->{cpc}++;
 
  	for (@txt){
  		my $tts=time();
@@ -127,9 +121,7 @@ sub cmlparser
    			my $rdata=pop(@stack) || '';
    			my $pstr;
 
-   			$cmlmain::GLOBAL->{timers}->{cp}+=time()-$tts;
-   	    	$cmlmain::GLOBAL->{timers}->{cpc}++;
-   	    	   			
+	    	   			
    			if ($#stack==0)   {
       			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner}) || '';
    			}  else 	 {
@@ -140,9 +132,7 @@ sub cmlparser
    			(my $tname, my $tparam)=($tag=~/(\w+)\s*(.*?)>/os);
    			push (@pstack,$tparam);
    			
-   			$cmlmain::GLOBAL->{timers}->{cp}+=time()-$tts;
-   	    	$cmlmain::GLOBAL->{timers}->{cpc}++;
-   			
+  			
   		}
   		for (@intxt) {
   			
@@ -153,10 +143,7 @@ sub cmlparser
    			my $xparam=pop(@pstack);
    			$rdata=~s/^\s*\n//s;
    			my $pstr;
-   
-            $cmlmain::GLOBAL->{timers}->{cp}+=time()-$ttts;
-   	    	$cmlmain::GLOBAL->{timers}->{cpc}++;
-   	    	   			
+
    			my $xtra;
    			if ($#stack==0)   {
      			$xtra=pop(@stack) || '';
