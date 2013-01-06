@@ -145,6 +145,7 @@ sub ajax_setconf ($)
 {
 	my ($r)=@_;
     copy("$cmlmain::GLOBAL->{CGIPATH}/conf","$cmlmain::GLOBAL->{CGIPATH}/conf.backup");
+    $r->{conf}=Encode::encode('cp1251',$r->{conf}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
     eval "$r->{conf}";
     if ($@) {
     	return ({message=>enc('Ошибка компиляции конфига:').$@});
