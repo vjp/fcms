@@ -44,3 +44,9 @@ $GRPFILE='<abspath>/.htgroup';
 
 $MEMCACHEDSERVER='';
 
+$CONF={
+    mcerows=>30,        ##строк в визивиге
+    mcecols=>100,       ##симовлов в строке в визивиге
+};
+
+
