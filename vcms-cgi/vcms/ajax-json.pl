@@ -25,7 +25,7 @@ $AJAX_FUNCS={
 	console=>1,
 	setvalue=>1,
 	editmethod=>1,
-	
+	setconf=>1,
 };   
 
 

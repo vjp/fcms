@@ -994,23 +994,7 @@ sub editlowform
  	viewlow($id);
 }
 
-sub config {
-	print start_form(-method=>'post',-name=>'mfrm');
-	print enc("Конфигурация");
-	print start_table();
-	print Tr(td(),td(),td());
-	print end_table();
-	print hidden(-name=>'action',-value=>'editconfig',-override=>1);
-	print submit(-value=>enc('Изменить конфигурацию'));
-	print hr;
-	print enc("Экспорт"),br;
-	print endform();
-	print a({-href=>"?action=export&area=scripts"},enc('скрипты')),br;
-	print a({-href=>"?action=export&area=docs"},enc('статика')),br;
-	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
-	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
-	
-}
+
 
 
 

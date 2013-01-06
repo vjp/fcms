@@ -11,7 +11,7 @@ BEGIN
  use cmlmain;
  use cmlcalc;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console);
+ @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console &config);
 
 }
 
@@ -72,6 +72,55 @@ sub lmethod_list {
  
  	return $tl;
 }	
+
+sub config {
+	print start_form(-method=>'post',-name=>'mfrm');
+	print enc("Конфигурация");
+	print start_table();
+	print Tr(td(),td(),td());
+	print end_table();
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea"		
+			,language: "ru"
+			,syntax: "perl"			
+			,start_highlight: true	
+			,replace_tab_by_spaces : 4	
+		});
+		
+		function sccallback(json){
+    		if (json.status) {
+        		alert(json.message); 
+    		} else {
+        		alert(json.message);
+    		}    
+		}   
+		
+		</script>
+	);
+    my $save_js="ajax_call('setconf',{conf:editAreaLoader.getValue('editarea')},sccallback)";
+    my $fcontent;
+	open (FC, "<$cmlmain::GLOBAL->{CGIPATH}/conf");
+	read (FC,$fcontent,-s FC);
+	close(FC); 
+
+ 	print button(-name=>'bt2',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js),br;
+	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>40,-cols=>100,-override=>1);	
+ 	print br;
+	print button(-name=>'bt',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js);
+	
+	
+	print hr;
+	print enc("Экспорт"),br;
+	print endform();
+	print a({-href=>"?action=export&area=scripts"},enc('скрипты')),br;
+	print a({-href=>"?action=export&area=docs"},enc('статика')),br;
+	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
+	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
+	
+}
+
 
 sub editprmform {
 	my $id=$_[0];

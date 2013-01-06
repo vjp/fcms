@@ -8,6 +8,7 @@ BEGIN
  use cmlcalc;
  use Encode;
  use JSON::PP;
+ use File::Copy;
  @ISA = 'Exporter';
  @EXPORT = qw( &data_prepare );
 
@@ -138,6 +139,22 @@ sub ajax_console ($)
 	} else {
 		return ({result=>$result,status=>'SUCCESS',source=>$script});
 	}	
+}
+
+sub ajax_setconf ($) 
+{
+	my ($r)=@_;
+    copy("$cmlmain::GLOBAL->{CGIPATH}/conf","$cmlmain::GLOBAL->{CGIPATH}/conf.backup");
+    eval "$r->{conf}";
+    if ($@) {
+    	return ({message=>enc('Ошибка компиляции конфига:').$@});
+    }
+    
+    open (FC, ">$cmlmain::GLOBAL->{CGIPATH}/conf");
+	print (FC $r->{conf});
+	close(FC); 
+    
+	return ({status=>1,message=>enc('Конфигурация сохранена')});
 }
 
 sub ajax_execute ($)
