@@ -9,6 +9,7 @@ BEGIN
  use POSIX qw(strftime);
  use Time::HiRes qw (time);
  use URI::Escape; 
+ use vCMS::Config;
  
  @ISA = 'Exporter';
  @EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
@@ -2672,8 +2673,8 @@ sub tag_inputtext {
 	if ($prm)      {	
  		if ($cmlmain::prm->{$prm}->{type} eq 'LONGTEXT') {
  			$mode='textarea'; 
- 			$rows=$pl->{rows} || 30; 
- 			$cols=$pl->{cols} || 100;
+ 			$rows=$pl->{rows} || vCMS::Config::Get('mcerows',30); 
+ 			$cols=$pl->{cols} || vCMS::Config::Get('mcecols',100);
  		}
 		if ($cmlmain::prm->{$prm}->{type} eq 'NUMBER') {$cols=5}
 	}
