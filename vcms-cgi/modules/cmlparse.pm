@@ -1783,7 +1783,7 @@ sub tag_img 	{
 	
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
-		'alt','altparam','altprm', 'path', 'src', 'hintprm',
+		'alt','altparam','altprm', 'path', 'src', 
 		'elementid','onmouseoverparam','blink' 
 	]);
 	
@@ -1841,22 +1841,7 @@ sub tag_img 	{
 	$pl->{elementid}="img$_[0]->{inner}->{objid}" if $pl->{blink} && !$pl->{elementid};
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
     my $blstr=($pl->{blink} && $pl->{elementid})?"<script>blink('$pl->{elementid}')</script>":'';
-
-	
-	if ($pl->{hintprm}) {
-		my $imgsrc=cmlparser({data=>"<cml:img prm='$pl->{hintprm}' border='1'/>", inner=>$_[0]->{inner}}); 
-		my $hintinit=qq(<script>
-			var mh$id = new THints (["$imgsrc"], HINTS_CFG);
-		</script>
-		);
-		my $hintstr=qq(onMouseOver="mh$id.show(0, this)" onMouseOut="mh$id.hide()");
-		return "$hintinit<img src='$src' $param alt='$alt' $hintstr $idstr $omestr />$blstr";	
-
-	} else {
-		return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr />$blstr";	
-	}
-	
-	
+	return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr />$blstr";	
 	
  	
 }	
