@@ -654,7 +654,7 @@ sub p	{
  				&cmlmain::checkload({id=>$oid});
  				$id=$cmlmain::lobj->{$oid};	
  			}
- 				
+ 			push (@CACHELINKS,$oid) if $CACHEING;	
  			
  		}	
  		
