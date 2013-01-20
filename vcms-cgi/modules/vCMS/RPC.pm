@@ -3,6 +3,18 @@ package vCMS::RPC;
 use JSON::PP; 
 use Encode;
  
+=head1 NAME
+
+vCMS::RPC - Execute methods on remote vCMS system
+
+=head1 SYNOPSIS
+
+my $rpc=new vCMS::RPC('rpchost.com','username','password');
+my $response=$rpc->Execute('METHODONREMOTEHOST',$datahashref);
+ 
+=cut 
+ 
+ 
 sub new {
     my $class = shift;
     my $self = {
