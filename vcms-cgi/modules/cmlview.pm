@@ -106,9 +106,40 @@ sub config {
 	close(FC); 
 
  	print button(-name=>'bt2',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js),br;
-	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>40,-cols=>100,-override=>1);	
+	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>20,-cols=>100,-override=>1);	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js);
+	print hr;
+	
+	
+	print start_form(-method=>'post',-name=>'mfrm2');
+	print enc("HTACCESS");
+	print start_table();
+	print Tr(td(),td(),td());
+	print end_table();
+	print qq(
+		<script language="javascript" type="text/javascript">
+			editAreaLoader.init({
+			id : "editarea2"		
+			,language: "ru"
+			,syntax: "htaccess"			
+			,start_highlight: true	
+			,replace_tab_by_spaces : 4	
+		});
+		</script>
+	);
+    my $save_js2="ajax_call('sethtaccess',{conf:editAreaLoader.getValue('editarea2')},sccallback)";
+    my $fcontent2;
+	open (FC2, "<$cmlmain::GLOBAL->{WWWPATH}/.htaccess");
+	read (FC2,$fcontent2,-s FC2);
+	close(FC2); 
+
+ 	print button(-name=>'b2bt2',-value=>enc('Сохранить htaccess'),-onclick=>$save_js2),br;
+	print textarea(-id=>'editarea2',-default=>$fcontent2,-rows=>20,-cols=>100,-override=>1);	
+ 	print br;
+	print button(-name=>'b2bt',-value=>enc('Сохранить htaccess'),-onclick=>$save_js2);
+
+	
 	
 	
 	print hr;

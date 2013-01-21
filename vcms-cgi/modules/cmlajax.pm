@@ -158,6 +158,18 @@ sub ajax_setconf ($)
 	return ({status=>1,message=>enc('Конфигурация сохранена')});
 }
 
+sub ajax_sethtaccess ($) 
+{
+	my ($r)=@_;
+    copy("$cmlmain::GLOBAL->{WWWPATH}/.htaccess","$cmlmain::GLOBAL->{WWWPATH}/.htaccessbackup");
+    $r->{conf}=Encode::encode('cp1251',$r->{conf}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
+    open (FC, ">$cmlmain::GLOBAL->{WWWPATH}/.htaccess");
+	print (FC $r->{conf});
+	close(FC); 
+	return ({status=>1,message=>enc('HTACCESS сохранен')});
+}
+
+
 sub ajax_execute ($)
 {
 	my ($r)=@_;

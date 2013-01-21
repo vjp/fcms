@@ -26,6 +26,7 @@ $AJAX_FUNCS={
 	setvalue=>1,
 	editmethod=>1,
 	setconf=>1,
+	sethtaccess=>1,
 };   
 
 
