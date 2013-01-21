@@ -37,6 +37,24 @@ sub Fill ($$) {
 	}
 }
 
+=item P( $pObj, $prmname, $opts )
+=item p( $pObj, $prmname, $opts )
+
+Returns $pObj parameter value.
+
+Examples:
+
+o(OBJECTKEY)->P(PRMNAME);
+o(OBJECTKEY)->p(PRMNAME,{formatted=>1});
+
+Options hashref:
+
+formatted - returns formatted value (useful for dates)
+
+
+=cut
+
+
 sub P($$;$) {
 	my($self,$prm,$opts)=@_;
 	my $v=defined $self->{vals}->{$prm}?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm);
@@ -46,6 +64,9 @@ sub P($$;$) {
 	return $v;
 }
 
+sub p($$;$) {
+	return P($_[0],$_[1],$_[2]);
+}
 
 sub Set ($$$) {
 	my ($self,$prm,$value)=@_;
@@ -72,10 +93,28 @@ sub M($$) {
 	return new vCMS::Method($self,$method);
 }
 
+=item E( $pObj, $methodname )
+=item Execute( $pObj, $methodname )
+
+Executes $pObj method.
+
+Examples:
+
+o(OBJECTKEY)->e(METHODNAME);
+
+$pObj=o(OBJECTKEY);
+$pObj->Execute(METHODNAME);
+
+=cut
+
 sub Execute($$) {
 	my ($self,$method)=@_;
 	my $m=new vCMS::Method($self,$method);
 	return $m->Execute();
+}
+
+sub e($$) {
+	return Execute($_[0],$_[1]);
 }
 
 sub ExecuteAsync($$) {
