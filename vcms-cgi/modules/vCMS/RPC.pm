@@ -33,8 +33,8 @@ sub new {
 sub Execute ($$;$) {
 	my ($self,$method,$data)=@_;
 	my $json = new JSON::PP;
-	
-	my $r = HTTP::Request -> new  (	POST => "http://$self->{_host}/gate/_$method");
+	my $uri="http://$self->{_host}/gate/_$method";
+	my $r = HTTP::Request -> new  (	POST => $uri );
 	$r->content_type('application/x-www-form-urlencoded');
 	$r->content("data=".$json->encode ($data));	
 	$r->authorization_basic( $self->{_username}, $self->{_password} );
@@ -46,12 +46,12 @@ sub Execute ($$;$) {
     		$rv=decode_json(Encode::encode('utf8',$cnt));
     	};
     	if ($@) {
-    		return {error=>$@,result=>$cnt} 
+    		return {error=>$@,result=>$cnt,uri=>$uri} 
     	} else {
     		return $rv;
     	}
     } else {
-    	return {error=>$response->status_line} ;
+    	return {error=>"HTTP error:".$response->status_line, uri=>$uri} ;
     }
 	
 }
