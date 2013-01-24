@@ -454,8 +454,18 @@ sub tag_th {
 	return tag_td({data=>$_[0]->{data},inner=>$inner,param=>$_[0]->{param}})
 }
 
+=head
+pagination tag - need for simple list splitting 
 
 
+EXAMPLE:
+<cml:pagination limit='20' expr='lowlist()'/>
+...
+<cml:list  expr='lowlist()'  pagination='1'>
+...
+</cml:list>
+
+=cut
 sub tag_pagination {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
@@ -475,6 +485,8 @@ sub tag_pagination {
 			<cml:container/>
 		</cml:list>
 	);
+	$_[0]->{uinner}->{page}=$pid;
+	$_[0]->{uinner}->{pagelimit}=$container;
 	return cmlparser({data=>$rtext,inner=>$inner});
 	
 	
@@ -896,17 +908,19 @@ sub tag_list  	{
   			'selected','selexpr',
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
-  			'headerprm','headerexpr','var','tbody'
+  			'headerprm','headerexpr','var','tbody','pagination'
   		]);
   		$container=$pl->{'container'}||1;
   		
   		$body.='<tbody>' if $pl->{tbody};
   		
-  		$limit=$pl->{limit};
+  		$limit=$pl->{pagination}?$_[0]->{uinner}->{pagelimit}:$pl->{limit};
   		if ($pl->{start}) {
   			$start=$pl->{start}
   		} elsif ($pl->{page} && $pl->{page} ne 'NULL') {
   			$start=($pl->{page}-1)*$limit
+  		} elsif ($pl->{pagination}) {
+  			$start=($_[0]->{uinner}->{page}-1)*$_[0]->{uinner}->{pagelimit}
   		} else {
   			$start=0;
   		}
