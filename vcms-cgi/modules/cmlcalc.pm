@@ -745,7 +745,21 @@ sub up {
 	return $curid->{id};
 }	
 
+=head
 
+SYNOPSYS
+
+trimstr($verylongstring,$trimsize);
+
+need for trim long strings
+
+
+=cut
+sub trimstr ($$) {
+	my ($str,$len)=@_;
+	$str=substr($str,1,$len-3).'...' if (length($str)>$len-3);
+	return $str;
+}
 
 sub now {
 	return time();
