@@ -749,7 +749,7 @@ sub up {
 
 SYNOPSYS
 
-trimstr($verylongstring,$trimsize);
+$trimmedstring=trimstr($verylongstring,$trimsize);
 
 need for trim long strings
 
