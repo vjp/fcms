@@ -320,6 +320,7 @@ sub fetchparam {
 
 sub process_csvcols () {
 	push (@cmlcalc::CSVROWS,join(';',map {
+		$_=~s/\r?\n/ /gs;
 		$_=~s/"/'/gs;
 		$_='"'.$_.'"';
 	}@cmlcalc::CSVCOLS));
@@ -352,14 +353,15 @@ sub tag_bold {
 	my $data=$_[0]->{data};
 	my $param=$_[0]->{param};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['prm','param','expr','id']);
+	my $pl=fetchparam(\$param,['prm','param','expr','id','csv']);
 	my $prm=$pl->{param} || $pl->{prm};
 	my $expr=$pl->{expr};
 	my $bold=($prm || $expr)?0:1;
 	$expr="p($prm)" if $prm;
 	my $id=$pl->{id} || $inner->{objid};	
     my $result=cmlparser({data=>$data,inner=>$inner});
-    $bold=1 if cmlcalc::calculate({id=>$id,expr=>$expr})->{value}; 
+    $bold=1 if cmlcalc::calculate({id=>$id,expr=>$expr})->{value};
+    push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv}; 
     return $result if $cmlcalc::CSVMODE;
     return $bold?"<b>$result</b>":$result;
 }
