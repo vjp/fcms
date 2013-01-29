@@ -625,7 +625,10 @@ sub inc (;$$$) {
 sub p	{
 	
 	my ($pkey,$oid)=@_;
+
  	my $id=$OBJID;
+ 	my $tobj=$OBJID;
+ 	
  	my $noparse=$NOPARSE;
  	my $lang=$CALCLANG;
  	
@@ -712,7 +715,7 @@ sub p	{
  
  	if ($cmlmain::prm->{$pkey}->{type})  {
 		my $v=&{$gtype{$cmlmain::prm->{$pkey}->{type}}->{retvalue}}({id=>$id,pkey=>$pkey,noparse=>$noparse,lang=>$CALCLANG})->{value};
-		$OBJID=$id unless defined $oid; 
+		$OBJID=$tobj;
    		return $v; 
  	}
  	else  {
