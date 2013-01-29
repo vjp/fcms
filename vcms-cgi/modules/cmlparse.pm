@@ -321,6 +321,8 @@ sub fetchparam {
 sub process_csvcols () {
 	push (@cmlcalc::CSVROWS,join(';',map {
 		$_=~s/\r?\n/ /gs;
+		$_=~s/^\s+//gs;
+		$_=~s/\s+$//gs;		
 		$_=~s/"/'/gs;
 		$_='"'.$_.'"';
 	}@cmlcalc::CSVCOLS));
@@ -534,7 +536,7 @@ sub tag_menuitem	{
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
-		'addupkey','addlink','deleteexpr','addmethod'
+		'addupkey','addlink','deleteexpr','addmethod','csv'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -588,6 +590,7 @@ sub tag_menuitem	{
 		$pl->{href}.='&' if $pl->{href};
 		$pl->{href}.="body=LISTEDIT_${ukey}&ukey=$ukey";
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'LISTVIEW';
+		$pl->{href}.="&csv=1" if $pl->{csv};		
 		for (qw (orderby ordertype listprm link)) {
 			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 		}
@@ -1326,7 +1329,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height','popup'
+		'width','height','popup','csv'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1407,6 +1410,7 @@ sub tag_actionlink {
 		}	
 		my $href=$pl->{popup}?"?view=EDIT_$kn&id=$iid":"?body=EDIT_$kn&id=$iid";
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
+		$href.="&csv=1" if $pl->{csv};
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		$href.='&'.$pl->{href} if $pl->{href};
 		unless ($title) {
@@ -1429,6 +1433,7 @@ sub tag_actionlink {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
+		$hrf.="&csv=1" if $pl->{csv};		
 		$hrf.='&'.$pl->{href} if $pl->{href};
 		$title=&cmlcalc::p('_NAME',&cmlcalc::id($ukey)) unless $title;	
 		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>";
