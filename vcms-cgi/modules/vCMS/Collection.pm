@@ -35,5 +35,11 @@ sub Dump ($) {
 }
 
 
+sub Delete ($) {
+	my ($self)=shift;
+	$_->Delete() for @{$self->GetObjects()};
+	$self->{_list}=[];
+}
+
 
 1;
