@@ -85,6 +85,23 @@ sub l($$) {
 	return new vCMS::Collection::List($self,$prm);
 }
 
+=item ll( $pObj )
+
+Returns vCMS::Collection::LowList for this object
+
+Examples:
+
+o(OBJECTKEY)->ll();
+
+=cut
+
+
+
+sub ll($) {
+	my($self)=@_;
+	return new vCMS::Collection::LowList($self);
+}
+
 
 sub Set ($$$) {
 	my ($self,$prm,$value)=@_;
