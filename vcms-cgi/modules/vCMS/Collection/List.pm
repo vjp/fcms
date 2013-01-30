@@ -7,7 +7,6 @@ use vCMS::Proxy;
 sub new($$$) {
     my ($class,$pObj,$prm) = @_;
     my @l=map {vCMS::o($_)} @{$pObj->p($prm,{formatted=>1})};
-    return undef unless @l;
     my $self = {
         _list => \@l,
         _obj  => $pObj,

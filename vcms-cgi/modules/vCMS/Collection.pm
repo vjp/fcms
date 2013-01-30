@@ -7,6 +7,13 @@ sub GetObjects ($) {
 	return $self->{_list}
 }
 
+sub GetObjectIDs ($) {
+	my ($self)=shift;
+	my @l = map{ $_->GetID() } @{$self->GetObjects()};
+	return \@l;
+}
+
+
 sub GetObject ($$) {
 	my ($self,$key)=@_;
 
