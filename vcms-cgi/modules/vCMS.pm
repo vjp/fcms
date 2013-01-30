@@ -4,12 +4,13 @@ use vCMS::Object::Up;
 use vCMS::Object::Low;
 use vCMS::Proxy;
 use vCMS::Session;
+use vCMS::Collection::LowList;
 
 BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o &v );
+	@EXPORT = qw( &o &v &ll );
 }	 
 
 sub o(;$); 
@@ -33,6 +34,20 @@ sub o(;$) {
 
 sub v($;$) {
 	return vCMS::Session::GetVar($_[0],$_[1])
+}
+
+=head
+
+ll($objkeyorid) - method for vCMS::Collection::LowList using
+
+example
+
+my $pCol=ll(TARCH);
+
+=cut
+
+sub ll($) {
+	return new vCMS::Collection::LowList(o($_[0]));
 }
 
 1;
