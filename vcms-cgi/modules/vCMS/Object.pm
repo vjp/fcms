@@ -3,6 +3,8 @@ package vCMS::Object;
 use lib "..";
 use vCMS::Proxy;
 use vCMS::Method;
+use vCMS::Collection::List;
+
   
 sub OBJ_TYPE_UP  {0} 
 sub OBJ_TYPE_LOW {1} 
@@ -67,6 +69,22 @@ sub P($$;$) {
 sub p($$;$) {
 	return P($_[0],$_[1],$_[2]);
 }
+
+=item l( $pObj, $prmname )
+
+Returns vCMS::Collection::List for this $param
+
+Examples:
+
+o(OBJECTKEY)->l(LISTPRMNAME);
+
+=cut
+
+sub l($$) {
+	my($self,$prm)=@_;
+	return new vCMS::Collection::List($self,$prm);
+}
+
 
 sub Set ($$$) {
 	my ($self,$prm,$value)=@_;

@@ -124,12 +124,17 @@ sub GetValue ($$) {
 	return cmlcalc::p($prm,$id);
 }
 
+
+
 sub GetFormattedValue ($$) {
 	my ($prm,$value)=@_;
 	if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
 		my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
 		return &cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
-	}	
+	} elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
+		my @v=split(/;/,$value);
+		$value=\@v;
+	}		
 	return $value;
 }
 
