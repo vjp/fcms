@@ -1469,6 +1469,11 @@ sub tag_actionlink {
 		#my $onclick=qq(onclick='return resort("$pl->{id}")');
 		my $onclick=qq(onclick="execute('BASERESORT',{up:'$pl->{id}'}, $defajaxcallback)");
 		return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick >$title</a>";
+	} 	elsif ($pl->{action} eq 'RESORTPOPUP') {
+		    my $width=$pl->{width} || 400;
+		    my $height=$pl->{height} || 700;
+		    my $title=&cmlmain::enc('Сортировка');
+		    return qq(<a href='#' onclick="openPopup('?view=RESORTPOPUP&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
