@@ -12,6 +12,7 @@ use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
+use vCMS;
 
 my $ts_start=time();
 start('.');

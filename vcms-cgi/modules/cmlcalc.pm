@@ -338,7 +338,7 @@ sub execute 	{
 		}	else {
   			$METHODID=$cmlmain::method->{$method} || $cmlmain::lmethod->{$method};
   		}	
- 		my $ev=eval "use cmlmain; $METHODID->{script}";
+ 		my $ev=eval "use cmlmain; use vCMS; $METHODID->{script}";
  		unless($METHODID->{script}) {
  		
  			$res=enc($low?"Метод нижних объектов $method не найден":"Метод $method не найден");
