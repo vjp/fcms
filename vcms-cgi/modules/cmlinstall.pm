@@ -966,6 +966,61 @@ addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASELISTEDIT',name=>'Базо
 setvalue({convert=>1,key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
 
 
+my $m=qq(
+<html>
+<head>
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/scriptaculous.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
+
+<script type="text/javascript">
+   window.onload = function() {
+       Sortable.create('slist',{tag:'li'});
+   }
+   
+   function successSet () {
+     alert('Список изменен');
+     parent.closePopup();
+     parent.reloadPage();
+   }
+   
+   function sortProcessing(sortstruct,sortid) {
+       var dt={
+          id:sortid,
+          sortstr:Sortable.serialize(sortstruct)
+       };
+       execute('MANUALRESORT',dt,successSet);
+   }
+   
+   
+</script>
+<style type="text/css">
+li { 
+    cursor: move; 
+}
+</style>
+</head>
+
+
+<body>
+<cml:use id='_prm:id_'>
+<cml:text param='_NAME'/> <br/> 
+(для пересортировки перетаскивайте мышью)
+<ol id="slist">
+<cml:list  expr='lowlist()'>
+  <cml:li id='item__cml:_ID_'><cml:text param='_NAME'/></cml:li>
+</cml:list>
+</ol>
+<cml:input type='button' value='Сохранить сортировку' onclick="sortProcessing('slist','_cml:_ID_')"/>
+
+</cml:use>
+</body>
+</html>
+);
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'RESORTPOPUP',name=>'Форма ручной пересортировки'});
+setvalue({convert=>1,key=>'RESORTPOPUP',pkey=>'PAGETEMPLATE',value=>$m});
+
+
 
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
@@ -1168,6 +1223,19 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASERESORT',
 	&cmlcalc::resort(&cmlcalc::lowlist("u$CGIPARAM->{up}"));
 	ajax_ok("Пересортировано");
 )});
+
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'MANUALRESORT',name=>'Базовый метод ручной пересортировки',script=>q(
+my @l=split('&',$CGIPARAM->{sortstr});
+my $cindex=0;
+for (@l) {
+  $cindex++; 	
+  (my $oid)=$_=~/=(\d+)/;
+  my $pObj=o($oid);
+  $pObj->Set('_INDEX',$cindex) if $pObj && $pObj->p(_INDEX)!=$cindex;
+}
+ajax_ok('Пересортировано');
+)});
+
 
 
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELPARAMMETHOD',name=>'Базовый метод очистки параметра',lflag=>1,script=>q(
