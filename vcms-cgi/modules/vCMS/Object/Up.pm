@@ -40,10 +40,29 @@ sub Load($) {
 	
 }
 
-sub LowList($) {
-	my $self=shift;
-	return new vCMS::Collection::LowList($self);
+=item ll( $pObj,$FilterExpr )
+
+Returns vCMS::Collection::LowList for this object
+
+Examples:
+
+o(OBJECTKEY)->ll();
+o(OBJECTKEY)->ll("p(FILTERPARAM)>$filtervalue");
+
+=cut
+
+
+sub ll($;$) {
+	my($self,$FilterExpr)=@_;
+	return new vCMS::Collection::LowList($self,$FilterExpr);
 }
+
+sub LowList($;$) {
+	my ($self,$FilterExpr)=@_;
+	return new vCMS::Collection::LowList($self,$FilterExpr);
+}
+
+
 
 sub LowObjects($) {
 	my $self=shift;

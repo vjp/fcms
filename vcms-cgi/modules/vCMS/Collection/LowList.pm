@@ -4,9 +4,9 @@ use base "vCMS::Collection";
 use lib "../..";
 use vCMS::Proxy;
   
-sub new($) {
-    my ($class,$pUpObj) = @_;
-    my @l=map {new vCMS::Object::Low($_)} @{vCMS::Proxy::LowList($pUpObj->UID())};
+sub new($$;$) {
+    my ($class,$pUpObj,$FilterExpr) = @_;
+    my @l=map {new vCMS::Object::Low($_)} @{vCMS::Proxy::LowList($pUpObj->UID(),$FilterExpr)};
     my $self = {
         _list => \@l,
         _upobj=> $pUpObj,

@@ -58,10 +58,15 @@ sub CheckObj ($) {
 }
 
 
-sub LowList ($) {
-	my $id=shift;
-	cmlmain::checkload({uid=>$id}); 
-    my @list= sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$id}->{0}};
+sub LowList ($;$) {
+	my ($id,$filterexpr)=@_;
+	my @list;
+	if ($filterexpr) {
+		@list=cmlmain::fastsearch({up=>"u$id",clause=>$filterexpr});	
+	} else {
+		cmlmain::checkload({uid=>$id}); 
+    	@list= sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$id}->{0}};
+	}	
     return \@list;
 }
 
