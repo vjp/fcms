@@ -937,26 +937,34 @@ setvalue({convert=>1,key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 
 
 $bm=qq(
+<script type="text/javascript" src="/js/scriptaculous.js?load=effects,dragdrop"></script>
+
+<script type="text/javascript">
+   window.onload = function() {
+       Sortable.create('sortableList',{tag:'li'});
+   }
+   
+    function sortProcessing(sortstruct,sortid) {
+       var dt={
+          id:sortid,
+          sortstr:Sortable.serialize(sortstruct)
+       };
+       execute('MANUALRESORT',dt,successSet);
+   }
+</script>
+
+
 <cml:use id='_prm:id_' key='_prm:ukey_'>
-<cml:text param='_NAME'/><br>
+<cml:text param='_NAME'/>
+<br>
+<br>
 <cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
-<table>
-<tr>
-	<th></th>
-	<th>№</th>
-	<th>Наименование</th>
-	<th></th>
-</tr>
+<ul id='sortableList' style='cursor:move;'>
 <cml:list expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
-<tr>
-<td><cml:deletebutton/></td>
-<td><cml:inputtext param='_INDEX' value='_LISTINDEX'/></td>
-<td><cml:inputtext param='_NAME'/></td>
-<td><cml:actionlink action='EDITVIEW'/></td>
-</tr>
+<cml:li id='item__cml:_ID_'><cml:deletebutton/><cml:inputtext param='_NAME'/><cml:actionlink action='EDITVIEW'/></cml:li>
 </cml:list>
-<tr><td/><td colspan=2><cml:changebutton/></td></tr>
-</table>
+</ul>
+<cml:changebutton ajax='1'/>
 </cml:form>
 <hr>
 <cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>

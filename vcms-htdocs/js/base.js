@@ -199,6 +199,9 @@ function set (objid,prm,fcallback,reload) {
 
 function multiset (frm,fcallback,back,method) {
 	var dt=$(frm).up('form').serialize(true);
+	if ($('sortableList')) {
+		dt.sortstr=Sortable.serialize('sortableList');
+	}
 	dt.back=back;
 	execute(method || 'BASELPARSER',dt,fcallback || setMVCallback);
 }

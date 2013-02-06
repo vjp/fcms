@@ -1161,6 +1161,18 @@ sub baselparser (;$)
 		push (@{$changed->{$id}},$dtprm);		
 	}
 
+	if ($CGIPARAM->{sortstr}) {
+    	my @l=split('&',$CGIPARAM->{sortstr});
+		my $cindex=0;
+		for (@l) {
+  			$cindex++; 	
+  			(my $oid)=$_=~/=(\d+)/;
+  			my $pObj=o($oid);
+  			$pObj->Set('_INDEX',$cindex) if $pObj && $pObj->p(_INDEX)!=$cindex;
+		}
+	}	
+
+
 	unless ($opts->{silent}) {
 		my $alerttext=$CGIPARAM->{alerttext};
 		$alerttext=enc('Значения изменены') unless $alerttext;
