@@ -197,9 +197,11 @@ function set (objid,prm,fcallback,reload) {
 
 }
 
-function multiset (frm,fcallback,back,method) {
+function multiset (frm,fcallback,back,method,sortid) {
 	var dt=$(frm).up('form').serialize(true);
-	if ($('sortableList')) {
+	if (sortid) {
+		dt.sortstr=Sortable.serialize(sortid);
+	} else if ($('sortableList')) {
 		dt.sortstr=Sortable.serialize('sortableList');
 	}
 	dt.back=back;
