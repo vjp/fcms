@@ -943,14 +943,6 @@ $bm=qq(
    window.onload = function() {
        Sortable.create('sortableList',{tag:'li'});
    }
-   
-    function sortProcessing(sortstruct,sortid) {
-       var dt={
-          id:sortid,
-          sortstr:Sortable.serialize(sortstruct)
-       };
-       execute('MANUALRESORT',dt,successSet);
-   }
 </script>
 
 

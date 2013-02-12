@@ -2958,12 +2958,13 @@ sub tag_deletebutton {
 sub tag_changebutton {
 	my $param=$_[0]->{param};
 	my $imgsrc=$cmlmain::POSTBUTTONURL;
-  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid']);
+  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid','sortid']);
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?$pl->{callback}:'undefined';
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
   	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
+  	my $sstr=$pl->{sortid}?"'$pl->{sortid}'":'undefined';
   	my $clstr=$pl->{hidden}?'style="display:none"':'';
   	my $elementid=$pl->{elementid}?"id='$pl->{elementid}'":'';
   	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
@@ -2972,7 +2973,7 @@ sub tag_changebutton {
 	
 	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'} || $pl->{'method'}){
 		if ($_[0]->{inner}->{matrix}) {
-			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr);return false;");	
+			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
 			my $id=ref $_[0]->{inner}->{objid} eq 'HASH'?$_[0]->{inner}->{objid}->{id}:$_[0]->{inner}->{objid};
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
