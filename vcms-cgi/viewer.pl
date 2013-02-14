@@ -208,6 +208,22 @@ if (!$opensite && !cookie('dev')) {
  	}	
 }elsif ($cgiparam->{tview}) { 	
  		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
+}elsif ($cgiparam->{fview}) { 	
+ 		 		$v=&cmlcalc::calculate({id=>$cgiparam->{id},expr=>"p($cgiparam->{fview})"});
+ 		 		if ($v->{value}) {
+					print header(
+						-type=>'application/octet-stream',
+						-attachment=>$v->{value},
+					);
+					my $buf;
+					open (FH,"<$GLOBAL->{WWWPATH}/data/$v->{value}");
+					read (FH,$buf,-s FH);
+					close(FH); 
+					print $buf;
+					exit;
+ 		 		} else {
+ 		 			$v=&cmlcalc::calculate({key=>'ERROR404',expr=>"p('PAGETEMPLATE')"});
+ 		 		}	
 } else {
 	 	if ($dom_vhost || ($cmlcalc::SITEVARS->{subdomain} && $vh == 1)) {
 	 		$cmlcalc::CGIPARAM->{view}='PAGE1'; 
@@ -232,6 +248,9 @@ if (!$opensite && !cookie('dev')) {
 }
 my $mtime=Time::HiRes::time()-$stime;
 my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
+
+
+
 
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
 push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;

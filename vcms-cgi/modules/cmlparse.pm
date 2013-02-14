@@ -1620,8 +1620,13 @@ sub tag_a	{
   	my $id=$pl->{'id'} || $_[0]->{inner}->{objid};
   	if ($expr) {
  		my $v=&cmlcalc::calculate({id=>$id,expr=>$expr});
- 		if ($v->{type} eq 'FILE' || $cmlmain::prm->{$prm}->{type} eq 'FILE') { $ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}" }
- 		else {
+ 		if ($v->{type} eq 'FILE' || $cmlmain::prm->{$prm}->{type} eq 'FILE') { 
+ 			if ($prm) {
+ 				$ql="/cgi-bin/viewer.pl?fview=${prm}&id=${id}"
+ 			} else {
+ 				$ql="$cmlmain::GLOBAL->{FILEURL}/$v->{value}"
+ 			}	 
+ 		} else {
  			return cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}) unless $v->{value};
  			$ql=$v->{value};
  			if ($ql!~/^(http|\/|\?)/) { 
