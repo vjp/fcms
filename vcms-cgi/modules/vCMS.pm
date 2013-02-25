@@ -22,13 +22,15 @@ sub o(;$) {
 	my $pObj;
     if ($id=~/^(\d+)$/) {
     	$pObj=vCMS::Object::Low->new($1);
-    	return $pObj;
+    	return $pObj->Load()?$pObj:undef;
     } elsif ($id=~/^u(\d+)/) {
     	$pObj=vCMS::Object::Up->new($1);
     	return $pObj->Load()?$pObj:undef;
-    } else {
+    } elsif ($id) {
         my $oid=vCMS::Proxy::GetIDByKey($id);
         return  $oid=~/^u?(\d+)$/?o($oid):undef;
+    } else {
+    	return undef
     }
 }
 

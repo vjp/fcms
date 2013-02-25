@@ -27,6 +27,7 @@ sub Load($) {
 		$self->{_lang}=vCMS::Proxy::GetLang($self->ID());
 		$self->{_name}=vCMS::Proxy::GetName($self->ID());
 		$self->{_is_loaded}=1;
+		return 1;
 	} else {
 		return undef;
 	}	
