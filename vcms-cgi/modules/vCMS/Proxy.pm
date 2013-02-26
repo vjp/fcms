@@ -125,25 +125,27 @@ sub LowValues($) {
 }
 
 
-sub GetValue ($$) {
-	my ($id,$prm)=@_;
-	return cmlcalc::p($prm,$id);
-}
-
-
-
-sub GetFormattedValue ($$) {
-	my ($prm,$value)=@_;
-	if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
-		my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
-		return &cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
-	} elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
-		my @v=split(/;/,$value);
-		$value=\@v;
-	}		
+sub GetValue ($$;$) {
+	my ($id,$prm,$opts)=@_;
+	my $csv=$opts->{csv}?1:0;
+    my $v=&cmlcalc::calculate({
+		id=>$id,
+		expr=>"p($prm)",
+		csv=>$csv,
+	});
+	my $value=$v->{value};
+	if ($opts->{formatted}) {
+		if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
+			my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
+			$value=&cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
+		} elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
+			my @v=split(/;/,$value);
+			$value=\@v;
+		}		
+		
+	}
 	return $value;
 }
-
 
 
 sub SetValue ($$$) {

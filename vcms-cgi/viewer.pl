@@ -55,14 +55,18 @@ my %pathinfo=@pi;
 $cmlcalc::CGIPARAM->{pathinfo}=$pathinfostr;
 
 my $xmlmode;
-
+my $csvmode;
 unless ($pathinfo{view}) {
 	 my $firstparam=shift @pi;
 	 if ($firstparam) {
 	 	if ($firstparam=~/^(.+)\.xml$/i) {
 	 		$xmlmode=1;
 	 		$firstparam=$1;
+	 	} elsif ($firstparam=~/^(.+)\.csv$/i) {
+	 		$csvmode=1;
+	 		$firstparam=$1;
 	 	} 
+	 	 
 	 	if ($firstparam=~/^__(.+)$/) {
 	 		$cmlcalc::CGIPARAM->{tview}=$1
 	 	} elsif ($firstparam=~/^_(.+)$/) {
@@ -207,7 +211,7 @@ if (!$opensite && !cookie('dev')) {
  		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
  	}	
 }elsif ($cgiparam->{tview}) { 	
- 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
+ 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}, csv=>$csvmode});
 }elsif ($cgiparam->{fview}) { 	
  		 		$v=&cmlcalc::calculate({id=>$cgiparam->{id},expr=>"p($cgiparam->{fview})"});
  		 		if ($v->{value}) {
@@ -254,14 +258,22 @@ my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
 push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
-print header(
-	-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
-	-type=>$xmlmode?'text/xml':'text/html',
-	-cookie=>\@cookies, 
-	-charset=>$charset,
-	###  incorrect-last_modified=>$lmtime,
-);
 
+if ($csvmode) {
+	print header(
+		-type=>'text/csv',
+		-charset=>$GLOBAL->{CODEPAGE},
+		-attachment=>'export.csv',
+	);
+} else {
+	print header(
+		-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
+		-type=>$xmlmode?'text/xml':'text/html',
+		-cookie=>\@cookies, 
+		-charset=>$charset,
+		###  incorrect-last_modified=>$lmtime,
+	);
+}
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
 statclick($cgiparam->{_cl},$cgiparam->{_clobjid},$cgiparam->{_clurl}) if $cgiparam->{_cl};

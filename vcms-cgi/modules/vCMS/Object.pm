@@ -58,18 +58,14 @@ o(OBJECTKEY)->p(PRMNAME,{formatted=>1});
 Options hashref:
 
 formatted - returns formatted value (useful for dates)
-
+csv - returns csv template
 
 =cut
 
 
 sub P($$;$) {
 	my($self,$prm,$opts)=@_;
-	my $v=defined $self->{vals}->{$prm}?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm);
-	if ($opts->{formatted}) {
-		$v=vCMS::Proxy::GetFormattedValue($prm,$v);
-	}
-	return $v;
+	return (defined $self->{vals}->{$prm} && !$opts)?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm,$opts);
 }
 
 sub p($$;$) {
