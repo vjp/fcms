@@ -536,7 +536,7 @@ sub tag_menuitem	{
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
-		'addupkey','addlink','deleteexpr','addmethod','csv'
+		'addupkey','addlink','deleteexpr','addmethod','csv','value'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -594,7 +594,7 @@ sub tag_menuitem	{
 		for (qw (orderby ordertype listprm link)) {
 			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 		}
-	}
+	} 
 	
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
     
@@ -630,6 +630,9 @@ sub tag_menuitem	{
 	
 	undef $targetstr if $cmlcalc::ENV->{NOFRAMES};
 	undef $targetstr_ico if $cmlcalc::ENV->{NOFRAMES};
+	
+	$href=$pl->{value} if $pl->{value};
+	
 	my $mtext=$pl->{action} eq 'NO'?
 	qq(
 		<tr>
