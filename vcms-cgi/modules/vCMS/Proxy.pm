@@ -211,4 +211,9 @@ sub GetURL ($) {
 }
 
 
+sub IsSingleLink($) {
+	my ($prm)=@_;
+	return $cmlmain::prm->{$prm}->{extra}->{single} eq 'y'; 
+}
+
 1;

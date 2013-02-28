@@ -1,6 +1,15 @@
 package vCMS::Collection;
   
 
+sub new($$$) {
+    my ($class,$list_ref) = @_;
+    my $self = {
+        _list => $list_ref,
+    };
+    bless $self, $class;
+    return $self;	
+}
+
 
 sub GetObjects ($) {
 	my ($self)=shift;

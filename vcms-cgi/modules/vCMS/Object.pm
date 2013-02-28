@@ -6,8 +6,9 @@ use vCMS::Method;
 use vCMS::Collection::List;
 
   
-sub OBJ_TYPE_UP  {0} 
-sub OBJ_TYPE_LOW {1} 
+sub OBJ_TYPE_UP  	{0} 
+sub OBJ_TYPE_LOW 	{1} 
+sub OBJ_TYPE_NULL	{2}
  
 
 sub Key ($) {
@@ -74,7 +75,7 @@ sub p($$;$) {
 
 =item l( $pObj, $prmname )
 
-Returns vCMS::Collection::List for this $param
+Returns vCMS::Collection or vCMS::Object for this $param
 
 Examples:
 
@@ -84,7 +85,12 @@ o(OBJECTKEY)->l(LISTPRMNAME);
 
 sub l($$) {
 	my($self,$prm)=@_;
-	return new vCMS::Collection::List($self,$prm);
+	my @l=map {vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
+	if  (vCMS::Proxy::IsSingleLink($prm)) {
+		return $l[0] || new vCMS::Object::Null(); 
+	} else {
+		return new vCMS::Collection(\@l);
+	}
 }
 
 
