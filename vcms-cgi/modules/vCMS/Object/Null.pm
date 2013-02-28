@@ -20,5 +20,13 @@ sub Load($) {
 	return 1;
 }
 
+sub l($$) {
+	my($self,$prm)=@_;
+	return $self;
+}
+
+sub p($$;$) {
+	return undef;
+}
 
 1;

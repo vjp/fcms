@@ -5,6 +5,7 @@ use vCMS::Proxy;
 use vCMS::Method;
 use vCMS::Collection::List;
 
+
   
 sub OBJ_TYPE_UP  	{0} 
 sub OBJ_TYPE_LOW 	{1} 
@@ -85,10 +86,11 @@ o(OBJECTKEY)->l(LISTPRMNAME);
 
 sub l($$) {
 	my($self,$prm)=@_;
-	my @l=map {vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
 	if  (vCMS::Proxy::IsSingleLink($prm)) {
-		return $l[0] || new vCMS::Object::Null(); 
-	} else {
+		my $v=$self->p($prm);
+		return $v?vCMS::o($v):vCMS::null();
+	} else { 	
+		my @l=map {vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
 		return new vCMS::Collection(\@l);
 	}
 }

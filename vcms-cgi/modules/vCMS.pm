@@ -2,6 +2,7 @@ package vCMS;
 
 use vCMS::Object::Up;
 use vCMS::Object::Low;
+use vCMS::Object::Null;
 use vCMS::Proxy;
 use vCMS::Session;
 use vCMS::Collection::LowList;
@@ -22,15 +23,15 @@ sub o(;$) {
 	my $pObj;
     if ($id=~/^(\d+)$/) {
     	$pObj=vCMS::Object::Low->new($1);
-    	return $pObj->Load()?$pObj:undef;
+    	return $pObj->Load()?$pObj:new vCMS::Object::Null();
     } elsif ($id=~/^u(\d+)/) {
     	$pObj=vCMS::Object::Up->new($1);
-    	return $pObj->Load()?$pObj:undef;
+    	return $pObj->Load()?$pObj:new vCMS::Object::Null();
     } elsif ($id) {
         my $oid=vCMS::Proxy::GetIDByKey($id);
-        return  $oid=~/^u?(\d+)$/?o($oid):undef;
+        return  $oid=~/^u?(\d+)$/?o($oid):new vCMS::Object::Null();
     } else {
-    	return undef
+    	return new vCMS::Object::Null()
     }
 }
 
@@ -52,6 +53,10 @@ my $pCol=ll(TARCH,'p(COST)<25');
 
 sub ll($;$) {
 	return new vCMS::Collection::LowList(o($_[0]),$_[1]);
+}
+
+sub null () {
+	return new vCMS::Object::Null();
 }
 
 1;
