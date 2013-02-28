@@ -28,4 +28,12 @@ sub p($$;$) {
 	return undef;
 }
 
+sub Set ($$$) {
+	return undef;
+}
+
+sub IsNull ($) {
+	return 1;
+}
+
 1;

@@ -148,7 +148,7 @@ sub GetValue ($$;$) {
 }
 
 
-sub SetValue ($$$) {
+sub SetValue ($$;$) {
 	my ($id,$prm,$value)=@_;
 	return cmlcalc::set($id,$prm,$value);
 }

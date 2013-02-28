@@ -97,11 +97,29 @@ sub l($$) {
 
 
 
-sub Set ($$$) {
+sub Set ($$;$) {
 	my ($self,$prm,$value)=@_;
-	return vCMS::Proxy::SetValue($self->ID,$prm,$value);
+
 }
 
+
+=item u( $pObj, {$prm1=>$value1,$prm2=>$value} );
+=item u( $pObj, $prm1,$value1);
+
+Updates objects param values
+
+Examples:
+
+o(OBJECTKEY)->u({FIRSTNAME=>'JOHN',LASTNAME=>'SMITH'});
+o(OBJECTKEY)->u('NAME,'JOHN');
+
+=cut
+
+
+sub u ($$;$) {
+	my ($self,$prm,$value)=@_;	
+	return vCMS::Proxy::SetValue($self->ID,$prm,$value);	return 
+}
 
 sub Dump ($) {
 	my ($self)=shift;
@@ -158,6 +176,12 @@ sub Delete($) {
 	my $self = shift;
 	vCMS::Proxy::DeleteObject($self->ID())
 }	
+
+sub Ready($) {
+	my $self = shift;
+	return 1 if $self->{_is_loaded};
+}	
+
 
 
 1;
