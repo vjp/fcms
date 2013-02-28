@@ -16,7 +16,6 @@ sub new($) {
 }
 
 sub Load($) {
-	my $self = shift;
 	return 1;
 }
 
