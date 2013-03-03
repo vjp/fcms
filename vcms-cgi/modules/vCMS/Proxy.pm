@@ -54,7 +54,7 @@ sub CheckObj ($) {
 		return $cmlmain::obj->{$1}?1:0;
 	} elsif ($id=~/(\d+)/) {
 		cmlmain::checkload({id=>$id}); 
-		return $cmlmain::lobj->{$1}?1:0;
+		return $cmlmain::lobj->{$1}->{upobj}?1:0;
 	}	
 }
 

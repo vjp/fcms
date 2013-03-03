@@ -179,7 +179,7 @@ sub Delete($) {
 
 sub Ready($) {
 	my $self = shift;
-	return 1 if $self->{_is_loaded};
+	return $self->{_is_loaded}?1:0;
 }	
 
 
