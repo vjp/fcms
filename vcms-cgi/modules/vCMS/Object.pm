@@ -96,13 +96,6 @@ sub l($$) {
 }
 
 
-
-sub Set ($$;$) {
-	my ($self,$prm,$value)=@_;
-
-}
-
-
 =item u( $pObj, {$prm1=>$value1,$prm2=>$value} );
 =item u( $pObj, $prm1,$value1);
 
@@ -120,6 +113,19 @@ sub u ($$;$) {
 	my ($self,$prm,$value)=@_;	
 	return vCMS::Proxy::SetValue($self->ID,$prm,$value);	return 
 }
+
+=item Set
+
+synonym u() func
+=cut
+
+sub Set ($$;$) {
+	my ($self,$prm,$value)=@_;
+	return u($self,$prm,$value)
+}
+
+
+
 
 sub Dump ($) {
 	my ($self)=shift;
