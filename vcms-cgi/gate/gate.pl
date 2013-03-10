@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 
 
@@ -11,9 +11,6 @@ use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
 use JSON::PP;
-
-open(STDERR, ">/dev/null"); 
-
 
 
 start('..');
