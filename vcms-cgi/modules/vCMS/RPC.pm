@@ -2,6 +2,7 @@ package vCMS::RPC;
 
 use JSON::PP; 
 use Encode;
+use HTTP::Request::Common qw(POST); 
  
 =head1 NAME
 
@@ -32,12 +33,14 @@ sub new {
 
 sub Execute ($$;$) {
 	my ($self,$method,$data)=@_;
+	$data->{$_}=Encode::decode('cp1251',$data->{$_}) for keys %$data;
+		
 	my $uri="http://$self->{_host}/gate/_$method";
-	my $r = HTTP::Request -> new  (	POST => $uri );
-	$r->content_type('application/x-www-form-urlencoded');
-	$data->{$_}=Encode::encode('utf8',$data->{$_}) for keys %$data;
-	$r->content("data=".JSON::PP->new->utf8->encode ($data));	
+	$data=JSON::PP->new->utf8(0)->encode ($data);
+	my $r = 	POST  ($uri, [data=> $data]) ;
 	$r->authorization_basic( $self->{_username}, $self->{_password} );
+	
+	
 	my $response = $self->{_ua}->request($r); 
     if ($response->is_success) {
     	my $cnt=$response->content;

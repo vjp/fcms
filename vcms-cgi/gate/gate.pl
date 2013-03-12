@@ -11,7 +11,7 @@ use Data::Dumper;
 use CGI::Carp qw (fatalsToBrowser);
 use Time::HiRes qw (time);
 use JSON::PP;
-
+use Encode;
 
 start('..');
 
@@ -42,10 +42,13 @@ if ($firstparam=~/^_(.+)$/) {
 $method_name='TESTGATE' unless $method_name;
 my $data=param('data');
 if ($data) {
-	my $r=decode_json($data);
+	my $r=JSON::PP->new->utf8->decode($data);
+	warn $r->{rus};
 	if (ref $r eq 'HASH') {
 		unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
-			$r->{$_} = Encode::encode('cp1251',$r->{$_}) for keys %$r;
+			for (keys %$r) {
+				$r->{$_} = Encode::encode('cp1251',$r->{$_});
+			}	
 		}
 		$cmlcalc::CGIPARAM=$r;
 	}
