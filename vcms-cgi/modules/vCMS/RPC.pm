@@ -33,9 +33,7 @@ sub new {
 
 sub Execute ($$;$) {
 	my ($self,$method,$data)=@_;
-	unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
-		$data->{$_}=Encode::decode('cp1251',$data->{$_}) for keys %$data;
-	}	
+	$data->{$_}=Encode::decode('cp1251',$data->{$_}) for keys %$data;
 		
 	my $uri="http://$self->{_host}/gate/_$method";
 	$data=JSON::PP->new->utf8(0)->encode ($data);
