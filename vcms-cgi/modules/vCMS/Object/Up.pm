@@ -71,12 +71,28 @@ sub LowObjects($) {
 	return $pColl;
 }
 
+=item Create( $pObj,$ParamsHash )
 
-sub Create($) {
-	my $self=shift;
+Returns ref to created object
+
+Example:
+
+$pNewObject=$pUpObject->Create({
+		_NAME=>'NEW OBJECT NAME',
+		_KEY=>'NEWOBJKEY',
+		OBJPRM=>'VALUE',
+});
+
+
+=cut
+
+
+sub Create($;$) {
+	my ($self,$prms)=@_;
 	my $lid=vCMS::Proxy::CreateLowObj($self->ID());
 	my $o=vCMS::Object::Low->new($lid);
 	$o->Load();
+	$o->Set($prms) if $prms;
 	return $o;
 }
 
