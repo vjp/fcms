@@ -43,7 +43,6 @@ $method_name='TESTGATE' unless $method_name;
 my $data=param('data');
 if ($data) {
 	my $r=JSON::PP->new->utf8->decode($data);
-	warn $r->{rus};
 	if (ref $r eq 'HASH') {
 		unless ($GLOBAL->{CODEPAGE} eq 'utf-8') {
 			for (keys %$r) {
