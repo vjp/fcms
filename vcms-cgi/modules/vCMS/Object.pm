@@ -188,6 +188,11 @@ sub Ready($) {
 	return $self->{_is_loaded}?1:0;
 }	
 
+sub IsReady($) {
+	my $self = shift;
+	return $self->{_is_loaded}?1:0;
+}	
+
 
 
 1;
