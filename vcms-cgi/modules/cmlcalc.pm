@@ -1060,8 +1060,14 @@ sub resort ($)
 	my $index=0;
 	return map {set($_,'_INDEX',++$index)} sort{ uc(p('_NAME',$a)) cmp uc(p('_NAME',$b)) } split (/;/,$ids);
 }
+=pod
+options
 
+id - override processing object id
+silent - silent mode, no alert
+reset - resetting caching values
 
+=cut
 sub baselparser (;$)
 {
 	my ($opts)=@_;
