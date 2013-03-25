@@ -1171,7 +1171,9 @@ sub baselparser (;$)
   			$pObj->Set('_INDEX',$cindex) if $pObj && $pObj->p(_INDEX)!=$cindex;
 		}
 	}	
-
+    if ($opts->{reset}) {
+    	 undef $cmlmain::lobj->{$_} for keys %{$changed};
+    }
 
 	unless ($opts->{silent}) {
 		my $alerttext=$CGIPARAM->{alerttext};
