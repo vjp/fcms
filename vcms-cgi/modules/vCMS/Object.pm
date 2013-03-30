@@ -111,7 +111,7 @@ o(OBJECTKEY)->u('NAME,'JOHN');
 
 sub u ($$;$) {
 	my ($self,$prm,$value)=@_;	
-	return vCMS::Proxy::SetValue($self->ID,$prm,$value);	return 
+	return vCMS::Proxy::SetValue($self->ID,$prm,$value); 
 }
 
 =item Set
@@ -121,9 +121,18 @@ synonym u() func
 
 sub Set ($$;$) {
 	my ($self,$prm,$value)=@_;
-	return u($self,$prm,$value)
+	return u($self,$prm,$value);
 }
 
+sub Append ($$;$) {
+	my ($self,$prm,$value)=@_;
+	return vCMS::Proxy::AppendValue($self->ID,$prm,$value);
+}
+
+sub SetName ($$) {
+	my ($self,$value)=@_;
+	return vCMS::Proxy::SetName($self->ID,$value);
+}
 
 
 
