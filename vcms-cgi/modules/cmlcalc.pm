@@ -272,6 +272,7 @@ sub calculate 	{
     if ($_[0]->{csv}) {
     	$xvalue->{value}=join("\n",@cmlcalc::CSVROWS);
     	$CSVMODE=0;
+    	undef @cmlcalc::CSVROWS;
     }
     return $xvalue;	
   
