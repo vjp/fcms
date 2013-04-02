@@ -596,7 +596,13 @@ sub tag_menuitem	{
 		for (qw (orderby ordertype listprm link)) {
 			$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 		}
-	} 
+	} elsif ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW') {
+		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
+		$pl->{href}.='&' if $pl->{href};
+		$pl->{href}.="body=EDIT_${ukey}";
+		$pl->{href}.="&readonly=1" if $pl->{action} eq 'VIEW';
+	}	 
+	
 	
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
     
