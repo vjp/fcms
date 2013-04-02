@@ -538,7 +538,8 @@ sub tag_menuitem	{
 		'piclist','filelist','delete','head','listprm',
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
-		'addupkey','addlink','deleteexpr','addmethod','csv','value'
+		'addupkey','addlink','deleteexpr','addmethod','csv','value',
+		'template'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -560,7 +561,8 @@ sub tag_menuitem	{
 		my $prm=$pl->{prm} || $pl->{param} || 'PAGETEMPLATE';
 		my $piclistprm=$pl->{'piclist'} || 'PICLINKS';
 		my $filelistprm=$pl->{'filelist'} || 'FILELINKS';
-		$pl->{href}="body=BASEARTICLE&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm";
+		my $body=$pl->{'template'} || 'BASEARTICLE';
+		$pl->{href}="body=$body&editprm=$prm&piclistprm=$piclistprm&filelistprm=$filelistprm";
 	} elsif ($pl->{action} eq 'MENULIST') {
 		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
 		my $upkey=$pl->{upkey} || &cmlcalc::p(_KEY,&cmlcalc::uobj($id));
