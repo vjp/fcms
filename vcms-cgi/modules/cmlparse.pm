@@ -539,7 +539,7 @@ sub tag_menuitem	{
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
 		'addupkey','addlink','deleteexpr','addmethod','csv','value',
-		'template'
+		'template','deleteid'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -628,6 +628,7 @@ sub tag_menuitem	{
 	$itext="<b>$itext</b>" if $pl->{head};
 	my $hcol=$pl->{head}?'#FFFFFF':'#dedede';
 	my $mstr=$pl->{delmethod}?"method='$pl->{delmethod}'":'';
+	$mstr.=" deleteid='$pl->{id}" if $pl->{id};
 	my $dtxt=($pl->{delete} || ($pl->{deleteexpr} && &cmlcalc::calc($id,$pl->{deleteexpr})))?
 		"<cml:deletebutton $mstr/>":'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
 	my $estr=&cmlmain::enc('Редактировать');
