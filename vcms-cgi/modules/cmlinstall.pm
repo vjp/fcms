@@ -584,7 +584,7 @@ setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'MAINCMSTEMPL', name=>'√лавный шаблон интерфейса'});
-setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
 <html>
 <head>
@@ -595,6 +595,31 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 	<cml:frame src="/cgi-bin/admin/admin.pl?mbframe=1&body=_prm:framebody_&id=_prm:frameid_" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000"/>
 </frameset>
 </html>
+)});
+
+
+addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPSELECTOR', name=>'Ўаблон попапа дл€ селектора больших списков√лавный шаблон интерфейса'});
+setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>qq(
+<cml:include key='INITSCRIPTS'/>
+<script>
+   function successSet () {
+     alert('—писок изменен');
+     parent.closePopup();
+     parent.reloadPage();
+   }
+   function setSel(frm,id) {
+     var dt=$(frm).up('form').serialize(true);
+     lexecute('BASELPARSER',id,dt,successSet);
+   }
+</script>
+
+<cml:form matrix='1'>
+    <cml:input type='button' onclick='setSel(this,_prm:id_)' value='»зменить'/><br/>
+    <cml:list expr='prmformula(cgi(selectorprm))'>
+         <cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
+    </cml:list>
+    <cml:input type='button' onclick='setSel(this,_prm:id_)' value='»зменить'/>
+</cml:form>
 )});
 
 
