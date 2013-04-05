@@ -599,7 +599,7 @@ setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPSELECTOR', name=>'Ўаблон попапа дл€ селектора больших списков√лавный шаблон интерфейса'});
-setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 <cml:include key='INITSCRIPTS'/>
 <script>
    function successSet () {
