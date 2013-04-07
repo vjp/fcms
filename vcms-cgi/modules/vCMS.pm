@@ -46,12 +46,13 @@ can filter reusltset if use expression with indexed parameter
 
 examples
 
+my $pCol=ll();
 my $pCol=ll(TARCH);
 my $pCol=ll(TARCH,'p(COST)<25');
 
 =cut
 
-sub ll($;$) {
+sub ll(;$$) {
 	return new vCMS::Collection::LowList(o($_[0]),$_[1]);
 }
 
