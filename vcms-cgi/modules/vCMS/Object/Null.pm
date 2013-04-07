@@ -36,4 +36,10 @@ sub IsNull ($) {
 	return 1;
 }
 
+sub UID ($) {
+	return undef;	
+}
+
+
+
 1;
