@@ -24,6 +24,12 @@ sub ID ($) {
 	return $self->GetID();
 }
 
+sub Name ($) {
+	my $self=shift;
+	return $self->p(_NAME);
+}
+
+
 sub GetIndex ($) {
 	my $self=shift;
 	return $self->{_index};
