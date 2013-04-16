@@ -601,7 +601,7 @@ sub tag_menuitem	{
 	} elsif ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW') {
 		my $ukey=$pl->{ukey} || &cmlcalc::p(_KEY,$id);
 		$pl->{href}.='&' if $pl->{href};
-		$pl->{href}.="body=EDIT_${ukey}";
+		$pl->{href}.="body=EDIT_${ukey}" if $ukey;
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'VIEW';
 	}	 
 	
