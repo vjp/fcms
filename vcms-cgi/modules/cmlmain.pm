@@ -120,7 +120,10 @@ sub import_static (;$)
 {
 	my ($filename)=@_;
 	$filename ||= 'docs.tar.gz';
-    `tar -xzf $filename -C $GLOBAL->{WWWPATH}`;
+    my $str="tar -xzf $filename -C $GLOBAL->{WWWPATH}";
+	my $output=`$str`;
+	return("$str - $output");
+    
 }
 sub backup_dir_create ()
 {
