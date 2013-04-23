@@ -133,7 +133,7 @@ sub export_db (;$)
 		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
 	}
 	# optimization keys -Q --max_allowed_packet=16777216
-	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c >$filename";
+	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}vlshist  --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}pagescache --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}linkscache | gzip -c >$filename";
 	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
 	my $output=`$str`;
 	return("$str - $output");
