@@ -147,7 +147,7 @@ sub export_static (;$)
 	my ($filename)=@_;
 	unless ($filename) {
 		backup_dir_create();		
-		$filename = "$GLOBAL->{WWWPATH}/backup/static.tar.gz";
+		$filename = "$GLOBAL->{WWWPATH}/backup/docs.tar.gz";
 	}
 	my $str="tar -cz -C $GLOBAL->{WWWPATH} -f $filename  --exclude='data/*'  --exclude='backup/*' .";
 	my $output=`$str`;
