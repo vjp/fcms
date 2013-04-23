@@ -63,7 +63,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &import_static &export_db &recover_object
+              &import_db &import_static &export_db &recover_object &export_static
               
               &compile_date  &set_hru &json_ok &json_error
              );
@@ -122,14 +122,17 @@ sub import_static (;$)
 	$filename ||= 'docs.tar.gz';
     `tar -xzf $filename -C $GLOBAL->{WWWPATH}`;
 }
-
+sub backup_dir_create ()
+{
+	mkdir "$GLOBAL->{WWWPATH}/backup/" unless -d "$GLOBAL->{WWWPATH}/backup/";
+	createhtaccess ("$GLOBAL->{WWWPATH}/backup/.htaccess",'admin') unless -s  "$GLOBAL->{WWWPATH}/backup/.htaccess";
+}
 
 sub export_db (;$)
 {
 	my ($filename)=@_;
 	unless ($filename) {
-		mkdir "$GLOBAL->{WWWPATH}/backup/" unless -d "$GLOBAL->{WWWPATH}/backup/";
-		createhtaccess ("$GLOBAL->{WWWPATH}/backup/.htaccess",'admin') unless -s  "$GLOBAL->{WWWPATH}/backup/.htaccess";
+		backup_dir_create();
 		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
 	}
 	# optimization keys -Q --max_allowed_packet=16777216
@@ -139,7 +142,17 @@ sub export_db (;$)
 	return("$str - $output");
 }
 
-
+sub export_static (;$)
+{
+	my ($filename)=@_;
+	unless ($filename) {
+		backup_dir_create();		
+		$filename = "$GLOBAL->{WWWPATH}/backup/static.tar.gz";
+	}
+	my $str="tar -cz -C $GLOBAL->{WWWPATH} -f $filename  --exclude='data/*'  --exclude='backup/*' .";
+	my $output=`$str`;
+	return("$str - $output");
+}
 
 sub rf_enc_name ($)
 {
