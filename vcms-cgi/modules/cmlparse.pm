@@ -759,7 +759,7 @@ sub tag_select {
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
-  		'elementid','csv','notnull','popup'
+  		'elementid','csv','notnull','popup','template'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -827,7 +827,8 @@ sub tag_select {
   	}
   	
   	if ($pl->{popup}) {
-		return qq(<a href='#' onclick="openPopup('?view=POPUPSELECTOR&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
+  		my $template=$pl->{template} || 'POPUPSELECTOR';
+		return qq(<a href='#' onclick="openPopup('?view=$template&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
   	}
   	
   	
