@@ -2226,9 +2226,6 @@ sub tag_text {
         	$ptype=&cmlcalc::calculate({id=>$id,expr=>$pl->{typeexpr}});
         }	
         
-        if (	($pkey && $cmlmain::prm->{$pkey}->{type} eq 'LIST') || ($ptype->{value} && $ptype->{value} eq 'LIST' ) ) {
-        	$rs=&cmlcalc::calculate({id=>$rs->{value},expr=>'p(_NAME)'});
-      	}
       	
       	if ( !$frmt && $pkey && $cmlmain::prm->{$pkey}->{type} eq 'NUMBER' ) {
       		    $frmt=$cmlmain::prm->{$pkey}->{extra}->{format};   
@@ -2241,6 +2238,10 @@ sub tag_text {
         }	elsif ($spl && $result) {
         	$result = &cmlcalc::splitprice($result);
         }	 
+        if (	($pkey && $cmlmain::prm->{$pkey}->{type} eq 'LIST') || ($ptype->{value} && $ptype->{value} eq 'LIST' ) ) {
+        	$result=&cmlcalc::p('_NAME',$result);
+      	}
+
   	
   		$result=~s/\n/<br>/g if $pl->{'br'};
         $result="[[ $expr ]]" if !$result && $_[0]->{inner}->{debug};
