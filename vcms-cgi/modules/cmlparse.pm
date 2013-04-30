@@ -2934,7 +2934,7 @@ sub tag_checkbox {
 	}
 	  
 	$param=$pl->{str};
-	my $hstr=(!$pl->{forcehidden} && ($pl->{'nohidden'} || $pl->{'value'}))?'':"<input type='hidden' value='0' name='$name'>";
+	my $hstr=(!$pl->{forcehidden} && ($pl->{'nohidden'}))?'':"<input type='hidden' value='0' name='$name'>";
 	return "<input type='checkbox' value='$value' $checked name='$name' $param>$hstr".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}});
 
 	
