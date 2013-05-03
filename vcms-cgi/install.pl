@@ -51,6 +51,7 @@ if (param('install')) {
 			chmod (0755, 'user/user.pl');
 			chmod (0755, 'gate/gate.pl');
 			chmod (0755, 'vcms/autorun.pl');
+			chmod (0755, 'vcms/asyncprocessor.pl');
 			chmod (0755, 'vcms/cmlsrv.pl');
 			chmod (0755, 'vcms/ajax.pl');
 			chmod (0755, 'vcms/ajax-json.pl');
