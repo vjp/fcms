@@ -105,6 +105,7 @@ sub cmlparser
  	my $setreadonly=$_[0]->{readonly} && !$cmlcalc::ENV->{READONLY};
  	$cmlcalc::ENV->{READONLY}=1 if $setreadonly;
  
+    $text=~s/\[\[cml:(.+?)\/\]\]/<cml:$1\/>/igs;
  	my @txt=split(/<cml:/si,$text);
  	my @stack=shift @txt;
  	my @pstack;
