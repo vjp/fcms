@@ -18,6 +18,10 @@ sub Key ($) {
 	return $self->{_key};
 }
 
+sub GetKey ($) {
+	my $self=shift;
+	return $self->Key();
+}
 
 sub ID ($) {
 	my $self=shift;
@@ -28,12 +32,32 @@ sub Name ($) {
 	my $self=shift;
 	return $self->p(_NAME);
 }
-
+sub GetName ($) {
+	my $self=shift;
+	return $self->Name();
+	
+}
 
 sub GetIndex ($) {
 	my $self=shift;
 	return $self->{_index};
 }
+
+sub Index ($) {
+	my $self=shift;
+	return $self->GetIndex();
+}
+
+sub GetSortIndex ($) {
+	my $self=shift;
+	return $self->p(_INDEX);
+}
+
+sub SortIndex ($) {
+	my $self=shift;
+	return $self->GetSortIndex();
+}
+
 
 
 sub GetID ($) {
