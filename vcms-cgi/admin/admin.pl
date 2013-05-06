@@ -58,13 +58,11 @@ $cmlcalc::ENV->{URL}=$ENV{REQUEST_URI};
 warn "DBG: START: USER:$cmlcalc::ENV->{USER}  QUERY:$qs";
 my $its=time()-$ts_start;
 
-if(param('parsemethod')) {
+if(param('parsemethod') || param('overrideparsemethod')) {
 	my $id;
-	
 	if (param('parseid')) {$id=param('parseid')}
 	elsif (param('id')) {$id=param('id')}
-	
-	my $method=param('parsemethod');
+	my $method=param('overrideparsemethod') || param('parsemethod');
 	&cmlcalc::execute({id=>$id,method=>$method})
 }	
 

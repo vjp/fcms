@@ -2992,24 +2992,27 @@ sub tag_changebutton {
   	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
   	
 	my $onclickstr;
-	
-	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'} || $pl->{'method'}){
+	my $retstr;
+	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'}){
 		if ($_[0]->{inner}->{matrix}) {
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
 			my $id=ref $_[0]->{inner}->{objid} eq 'HASH'?$_[0]->{inner}->{objid}->{id}:$_[0]->{inner}->{objid};
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
+	} elsif ($pl->{method}) {
+		$retstr.="<input type='hidden' name='overrideparsemethod' value='$pl->{method}'>";
 	}	
 	if ($pl->{title}) {
 		if ($onclickstr) {
-			return "<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
+			$retstr.="<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
 		} else {
-			return "<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
+			$retstr.="<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
 		}	
 	} else {	
-		return "<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param $clstr $elementid/>";
+		$retstr.="<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param $clstr $elementid/>";
 	}	
+	return $retstr;
 	
 }	
 
