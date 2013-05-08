@@ -2974,9 +2974,8 @@ sub clear_unused_data ()
 		'.htaccess'=>1,
 	); 
 	$needed{$_[0]}=1 while (@_=$sth1->fetchrow());
-	my @str;
 	opendir(my $dh, $GLOBAL->{FILEPATH}) || die;
-	@str=readdir $dh;
+	my @str=readdir $dh;
 	closedir $dh;
 	my @need_clear=grep {!$needed{$_}} @str;
 	unlink "$GLOBAL->{FILEPATH}/$_" for @need_clear;
