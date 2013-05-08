@@ -546,6 +546,7 @@ sub tag_menuitem	{
 	
 	my $targetstr="target='adminmb'";
 	my $targetstr_ico=$targetstr;
+	my $forced_href;
 	
 	unless ($pl->{action}) {
 		$pl->{action}=$pl->{head}?'LISTEDIT':'EDIT';
@@ -604,7 +605,11 @@ sub tag_menuitem	{
 		$pl->{href}.='&' if $pl->{href};
 		$pl->{href}.="body=EDIT_${ukey}" if $ukey;
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'VIEW';
-	}	 
+	} elsif ($pl->{action} eq 'LOGOUT') {
+		return undef if $ENV{HTTP_USER_AGENT}=~/MSIE/;
+		$forced_href=CGI::url(-path_info=>1)."?httplogout=1";
+		$forced_href=~s/(http:\/\/)/${1}logout\@/;
+	}		 
 	
 	
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
@@ -645,6 +650,10 @@ sub tag_menuitem	{
 	
 	$href=$pl->{value} if $pl->{value};
 	
+	if ($forced_href) {
+		$href=$forced_href;
+		$icohref=$forced_href;
+	}
 	my $mtext=$pl->{action} eq 'NO'?
 	qq(
 		<tr>

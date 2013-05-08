@@ -4,7 +4,7 @@ use lib "../modules/";
 
 use cmlmain;
 
-use CGI  qw/param url header cookie/;
+use CGI  qw/param url header cookie redirect/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
@@ -14,6 +14,11 @@ my $ts_start=time();
 start('..');
 
 my $v;
+
+if (param('httplogout')) {
+	print redirect("http://$ENV{HTTP_HOST}/user");
+	exit();
+}
 
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
 $cmlmain::GLOBAL->{CACHE}=0;
