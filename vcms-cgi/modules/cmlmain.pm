@@ -65,7 +65,7 @@ BEGIN
               
               &import_db &import_static &export_db &recover_object &export_static
               
-              &compile_date  &set_hru &json_ok &json_error
+              &compile_date  &set_hru &json_ok &json_error &clear_unused_data
              );
 
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
@@ -2962,6 +2962,25 @@ sub copylinkfile ($$$;$)
 	}
 	return undef;
 	
+}
+
+sub clear_unused_data ()
+{
+	my $sth1=$dbh->prepare("SELECT vls.value FROM prm,vls WHERE (prm.ptype='FILE' OR prm.ptype='PICTURE' OR prm.ptype='VIDEO') AND prm.pkey=vls.pkey");
+	$sth1->execute() || die $dbh->errstr();
+	my %needed = (
+		'.'=>1,
+		'..'=>1,
+		'.htaccess'=>1,
+	); 
+	$needed{$_[0]}=1 while (@_=$sth1->fetchrow());
+	my @str;
+	opendir(my $dh, $GLOBAL->{FILEPATH}) || die;
+	@str=readdir $dh;
+	closedir $dh;
+	my @need_clear=grep {!$needed{$_}} @str;
+	unlink "$GLOBAL->{FILEPATH}/$_" for @need_clear;
+	return \@need_clear;  
 }
 
 
