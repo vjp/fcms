@@ -164,6 +164,20 @@ sub SetName ($$) {
 	return vCMS::Proxy::SetName($self->ID,$value);
 }
 
+=item SetNameFromP( $pObj, $prmname )
+
+Set Object name from prm value
+
+Examples:
+
+o(OBJECTKEY)->SetNameFromP(PRMFORNAME);
+
+=cut
+
+sub SetNameFromP ($$) {
+	my ($self,$prm)=@_;
+	return vCMS::Proxy::SetName($self->ID,$self->p($prm));
+}
 
 
 sub Dump ($) {
