@@ -1244,6 +1244,15 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHO
 )});
 
 
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEMOVEMETHOD',name=>'Базовый метод переноса',lflag=>1,script=>q(
+	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
+	o($id)->MoveTo($CGIPARAM->{moveto});
+	alert('Объект удален из списка');
+	ajax_ok('Объект удален из списка');	
+)});
+
+
+
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASERESORT',name=>'Базовый метод пересортировки',script=>q(
 	&cmlcalc::resort(&cmlcalc::lowlist("u$CGIPARAM->{up}"));
 	ajax_ok("Пересортировано");

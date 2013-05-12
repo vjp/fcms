@@ -34,5 +34,10 @@ sub Load($) {
 	
 }
 
+sub MoveTo ($$) {
+	my ($self,$newupid)=@_;
+	return vCMS::Proxy::MoveTo($self->ID,$newupid);
+}
+
 
 1;

@@ -2955,7 +2955,7 @@ sub tag_deletebutton {
 	return undef if $cmlcalc::ENV->{READONLY};
 	my $param=$_[0]->{param};
 	my $id=$_[0]->{inner}->{objid};
-  	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid','alert']);
+  	my $pl=fetchparam($param,['link','param','prm','method','parser','parseprm','parseid','deleteid','alert','moveto']);
   	$pl->{prm}=$pl->{param} if $pl->{param};
     $pl->{method}=$pl->{parser} if $pl->{parser};
     my $parseid=$pl->{parseid} || $_[0]->{inner}->{objid};
@@ -2974,6 +2974,8 @@ sub tag_deletebutton {
 		$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
 	}elsif ($pl->{prm}) {	
 		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
+	} elsif ($pl->{moveto}) {
+		$scriptjs=qq(lexecute("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
 	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
 		$scriptjs=qq(lexecute("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
 	} else {
