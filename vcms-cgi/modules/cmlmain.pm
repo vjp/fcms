@@ -2964,21 +2964,29 @@ sub copylinkfile ($$$;$)
 	
 }
 
-sub clear_unused_data ()
+sub clear_unused_data (;$)
 {
-	my $sth1=$dbh->prepare("SELECT vls.value FROM prm,vls WHERE (prm.ptype='FILE' OR prm.ptype='PICTURE' OR prm.ptype='VIDEO') AND prm.pkey=vls.pkey");
-	$sth1->execute() || die $dbh->errstr();
+	my ($clear)=@_;
 	my %needed = (
 		'.'=>1,
 		'..'=>1,
 		'.htaccess'=>1,
 	); 
+	my $sth1=$dbh->prepare("SELECT vls.value FROM prm,vls WHERE (prm.ptype='FILE' OR prm.ptype='PICTURE' OR prm.ptype='VIDEO') AND prm.pkey=vls.pkey");
+	$sth1->execute() || die $dbh->errstr();
 	$needed{$_[0]}=1 while (@_=$sth1->fetchrow());
+	
+	my $sth2=$dbh->prepare("SELECT uvls.value FROM prm,uvls WHERE (prm.ptype='FILE' OR prm.ptype='PICTURE' OR prm.ptype='VIDEO') AND prm.pkey=uvls.pkey");
+	$sth2->execute() || die $dbh->errstr();
+	$needed{$_[0]}=1 while (@_=$sth2->fetchrow());
+	
 	opendir(my $dh, $GLOBAL->{FILEPATH}) || die;
 	my @str=readdir $dh;
 	closedir $dh;
 	my @need_clear=grep {!$needed{$_}} @str;
-	unlink "$GLOBAL->{FILEPATH}/$_" for @need_clear;
+	if ($clear) {
+		unlink "$GLOBAL->{FILEPATH}/$_" for @need_clear;
+	}	
 	return \@need_clear;  
 }
 
