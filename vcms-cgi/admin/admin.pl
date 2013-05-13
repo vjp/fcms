@@ -75,7 +75,7 @@ if ($cmlcalc::SETSITEVARS) {
 	push (@cookies,$cc);
 }	
 if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} } else {$cmlcalc::LANGUAGE=$LANGS[0]}
-if (param('csv')) {
+if (param('csv') || param('csvheader')) {
 	print header(
 		-type=>'text/csv',
 		-charset=>$GLOBAL->{CODEPAGE},
