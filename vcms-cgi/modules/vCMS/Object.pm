@@ -154,6 +154,20 @@ sub Set ($$;$) {
 	return u($self,$prm,$value);
 }
 
+=item Fix( $pObj, $prmname )
+
+Setting Fixed value, calculated by default expression
+
+=cut
+
+sub Fix ($$) {
+	my ($self,$prm)=@_;
+	my $value=$self->p($prm);
+	return $self->Set($prm,vCMS::Proxy::DefaultValue($self->ID,$prm));
+}
+
+
+
 sub Append ($$;$) {
 	my ($self,$prm,$value)=@_;
 	return vCMS::Proxy::AppendValue($self->ID,$prm,$value);

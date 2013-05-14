@@ -153,6 +153,14 @@ sub SetValue ($$;$) {
 	return cmlcalc::set($id,$prm,$value);
 }
 
+sub DefaultValue ($$;$) {
+	my ($id,$prm)=@_;
+	cmlmain::checkload({id=>$id}); 
+	my $v=cmlmain::defaultvalue({id=>$id,pkey=>$prm});
+	return $v->{value};
+}
+
+
 sub AppendValue ($$;$) {
 	my ($id,$prm,$value)=@_;
 	return cmlcalc::app($id,$prm,$value);
