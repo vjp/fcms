@@ -814,7 +814,7 @@ sub tag_select {
 	}
 
 	my $defoptvalue=$pl->{'defoptvalue'};
-	if ($pl->{'defoptname'}) {
+	if ($pl->{'defoptname'} ne '') {
 		$defopt="<option value='$defoptvalue'>$pl->{'defoptname'}</option>"
 	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
 		$defopt=&cmlmain::enc("<option value='0'>Не задан</option>")
