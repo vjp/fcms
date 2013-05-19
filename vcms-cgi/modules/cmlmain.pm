@@ -2966,7 +2966,7 @@ sub copylinkfile ($$$;$)
 
 sub clear_unused_data (;$)
 {
-	my ($clear)=@_;
+	my ($path)=@_;
 	my %needed = (
 		'.'=>1,
 		'..'=>1,
@@ -2984,8 +2984,8 @@ sub clear_unused_data (;$)
 	my @str=readdir $dh;
 	closedir $dh;
 	my @need_clear=grep {!$needed{$_}} @str;
-	if ($clear) {
-		unlink "$GLOBAL->{FILEPATH}/$_" for @need_clear;
+	if ($path) {
+		move ("$GLOBAL->{FILEPATH}/$_","$GLOBAL->{WWWPATH}/$path/$_") for @need_clear;
 	}	
 	return \@need_clear;  
 }
