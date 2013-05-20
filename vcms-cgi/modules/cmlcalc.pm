@@ -761,7 +761,7 @@ need for trim long strings
 =cut
 sub trimstr ($$) {
 	my ($str,$len)=@_;
-	$str=substr($str,1,$len-3).'...' if (length($str)>$len-3);
+	$str=substr($str,0,$len-3).'...' if (length($str)>$len-3);
 	return $str;
 }
 
