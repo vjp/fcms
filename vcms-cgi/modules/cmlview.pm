@@ -25,6 +25,9 @@ sub print_top {
     print q(
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
+	<script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
+    
     ); 
     print q(<script>
     		function alert_callback(json){
