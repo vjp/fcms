@@ -1984,7 +1984,7 @@ sub tag_video 	{
         	src		: "/swf/flowplayer.swf",
             version	: [9, 115],
             bgcolor	: "#FFFFF",
-            onFail	: function()  {   document.getElementById("playerDiv_$divname").innerHTML ='' }
+            onFail	: function()  {   document.getElementById("playerDiv_$divname").innerHTML ='<video width="${width}" height="${height}" controls poster="$psrc" src="$src"></video>' }
         },{
             clip: { 
             	scaling:'fit'
