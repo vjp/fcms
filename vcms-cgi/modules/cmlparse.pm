@@ -1969,9 +1969,7 @@ sub tag_video 	{
     	$clid=0+&cmlcalc::id($pl->{counterkey});
    		$clobjid=0+($id || &cmlcalc::p(_ID,$key));
     }
-     
-    
-    
+
  	return qq(
  		
  	<div style="width:${width}px; height:${height}px; align:center;  background-image:url($psrc); background-repeat:no-repeat; background-position:center; " id="playerDiv_$divname">
@@ -1980,11 +1978,21 @@ sub tag_video 	{
  	<script language="JavaScript">
  	     var clid=$clid;
  	     var clobjid=$clobjid;
+ 	     var psrc='$psrc';
+ 	     var src='$src';
+ 	     var divname="playerDiv_$divname";
+
+ 	     
+ 	     function html5player () {
+ 	     	\$(divname).innerHTML ='<video width="$width" height="$height" controls poster="'+psrc+'" src="'+src+'"></video>'
+ 	     }	
+ 	     
          var player = flowplayer("playerDiv_$divname",{
         	src		: "/swf/flowplayer.swf",
             version	: [9, 115],
             bgcolor	: "#FFFFF",
-            onFail	: function()  {   document.getElementById("playerDiv_$divname").innerHTML ='<video width="${width}" height="${height}" controls poster="$psrc" src="$src"></video>' }
+            onFail	: html5player
+
         },{
             clip: { 
             	scaling:'fit'
@@ -1993,13 +2001,13 @@ sub tag_video 	{
                 backgroundColor: '#FFFFFF'
             },
             playlist: [
-                {url: '$psrc', autoPlay: true},
-                {url: '$src', autoPlay: false},
-                {url: '$psrc', autoPlay: true}
+                {url: psrc, autoPlay: true},
+                {url: src, autoPlay: false},
+                {url: psrc, autoPlay: true}
             ],
             onStart: function(clip){
             	        if (clid) {
-              				clip.url.scan(/flv\$/, function(match){ 
+              				clip.url.scan(/(flv|mp4)\$/, function(match){ 
                       			new Ajax.Request('/__STATPAGE?_cl='+clid+'&_clobjid='+clobjid+'&_clurl='+encodeURIComponent(location.href),{method:'get'});
               				});
       					}
