@@ -829,8 +829,9 @@ setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
-
-my $bmv=qq(<html>
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
+setvalue({convert=>1,key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+<html>
 <head>
 
 <link rel="stylesheet" type="text/css" href="/css/admin.css" />
@@ -858,28 +859,31 @@ my $bmv=qq(<html>
 </script>
 
 <script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
-
 <cml:include key='MCEINIT'/>
-
-
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
 
-
-
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 
-<center><cml:a href="_prm:_ROOT_/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></center>
+<cml:if value='_env:NOFRAMES_'>
+<table border="1">
+<tr>
+<td><cml:a href="_prm:_ROOT_" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></td>
+<cml:include key='NOFRAMESMENU'/>
+</tr>
+</table>
+</cml:if>
+<cml:else>
+<center><cml:a href="_prm:_ROOT_" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></center>
+</cml:else>
 
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
 <table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
 <img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>);
+<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
 
-
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
-setvalue({key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>$bmv});
+)});
 
 
 
