@@ -411,6 +411,7 @@ addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSFORMADMIN',name=>'Шаб
 
 addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSMENUUSER',name=>'Шаблоны меню'});
 addobject({convertname=>1,upkey=>'CMSDESIGNUSER',key=>'CMSFORMUSER',name=>'Шаблоны форм'});
+addobject({convertname=>1,upkey=>'CMSFORMUSER',key=>'DESKTOP',name=>'Рабочие столы'});
 
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'BASECMS',name=>'Базовые шаблоны'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSINCLUDES',name=>'Вставки'});
@@ -638,6 +639,12 @@ setvalue({convert=>1,key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 </html>
 )});
 
+
+addlowobject({convertname=>1,upobjkey=>'DESKTOP', key=>'DEFAULTDESKTOP', name=>'Рабочий стол по умолчанию'});
+setvalue({convert=>1,key=>'DEFAULTDESKTOP',pkey=>'PAGETEMPLATE',value=>qq(...рабочий стол...)});
+
+
+
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'SPLASH',name=>'Заставка'});
 setvalue({key=>'SPLASH',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 <html>
@@ -821,11 +828,18 @@ setvalue({key=>'BASEMAIN',pkey=>'PAGETEMPLATE',value=>$bm});
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERMAIN',name=>'Шаблон страницы'});
 setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMAIN'/>"});
 
-addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERCMSTEMPLNOFRAMES',name=>'Шаблон страницы без фремов'});
+addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERCMSTEMPLNOFRAMES',name=>'Шаблон страницы без фреймов'});
 setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
 	<CML:INCLUDE name='BASEMAINHEADER'/>
 	<CML:INCLUDE name='_prm:body_'/>
-	<CML:INCLUDE name='BASEMAINFOOTER'/>"
+	<CML:INCLUDE name='BASEMAINFOOTER'/>
+)});
+
+addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERSTARTPAGE',name=>'Стартовая страница интерфейса пользователя'});
+setvalue({key=>'USERSTARTPAGE',pkey=>'PAGETEMPLATE',value=>qq(
+<cml:use key='SU__ENV:USER_'>
+<cml:include name='DEFAULTDESKTOP'/>
+</cml:use>
 )});
 
 
