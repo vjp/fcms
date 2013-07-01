@@ -584,7 +584,7 @@ setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
-setvalue({key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
+setvalue({convert=>1,key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
 <html>
 <head>
@@ -624,7 +624,7 @@ setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
-setvalue({key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({convert=>1,key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
 <TITLE>VCMS : Интерфейс пользовтеля</TITLE>
