@@ -402,7 +402,9 @@ copyprm({objkey=>'CMSDESIGN',key=>'PAGETEMPLATE'});
 copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
 
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNADMIN',name=>'Интерфейс администратора'});
+
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNUSER',name=>'Интерфейс пользователя'});
+addprm({convertname=>1,objkey=>'NOFRAMES',name=>'Без фреймов',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
 
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
@@ -818,6 +820,15 @@ setvalue({key=>'BASEMAIN',pkey=>'PAGETEMPLATE',value=>$bm});
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERMAIN',name=>'Шаблон страницы'});
 setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMAIN'/>"});
+
+addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERCMSTEMPLNOFRAMES',name=>'Шаблон страницы без фремов'});
+setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
+	<CML:INCLUDE name='BASEMAINHEADER'/>
+	<CML:INCLUDE name='_prm:body_'/>
+	<CML:INCLUDE name='BASEMAINFOOTER'/>"
+)});
+
+
 
 my $bmv=qq(<html>
 <head>
