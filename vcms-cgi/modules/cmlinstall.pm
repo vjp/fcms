@@ -747,7 +747,7 @@ h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; 
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
-setvalue({key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
+setvalue({convert=>1,key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 <html>
 <head>
 <style type=text/css>
