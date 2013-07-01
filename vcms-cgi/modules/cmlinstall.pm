@@ -1194,6 +1194,24 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 )});
 
 
+addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'NOFRAMESMENU',name=>'Меню юзера при раскладке без фреймов'});
+setvalue({convert=>1,key=>'NOFRAMESMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<cml:use key='SU__ENV:USER_'>
+<td>
+    <table width="100%" border="0" cellspacing="1" cellpadding="2">
+    <tr><td colspan=3>Пользователь :  <cml:text value='_ENV:USER_'/></td></tr>
+    <tr><td colspan=3>Роль :  <cml:text expr='p(_NAME,p(ROLE))||"Администратор"'/></td></tr>
+    </table>
+</td>
+<td>
+<cml:menu horisontal='1' border='1'>
+<cml:menuitem action='LOGOUT'>Сменить активного пользователя</cml:menuitem>
+</cml:menu>
+</td>
+</cml:use>
+)});
+
+
 addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERHEADMENU',name=>'Статическая часть главного меню пользовательского интерфейса'});
 setvalue({key=>'USERHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
