@@ -237,4 +237,17 @@ sub IsSingleLink($) {
 	return $cmlmain::prm->{$prm}->{extra}->{single} eq 'y'; 
 }
 
+
+sub UploadFile($$$) {
+	my ($id,$prm,$cgiparam)=@_;
+	if (ref $prm eq 'HASH') {
+		&cmlparse::uploadprmfile({id=>$id,pkey=>$_,cgiparam=>$prm->{$_}}) for keys %$prm;
+		return 1;	
+	} else {
+		return &cmlparse::uploadprmfile({id=>$id,pkey=>$prm,cgiparam=>$cgiparam});
+	}	
+}
+
+
+
 1;

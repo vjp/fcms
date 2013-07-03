@@ -71,7 +71,7 @@ sub LowObjects($) {
 	return $pColl;
 }
 
-=item Create( $pObj,$ParamsHash )
+=item Create( $pObj,$ParamsHash,$FileParamsHash )
 
 Returns ref to created object
 
@@ -81,18 +81,22 @@ $pNewObject=$pUpObject->Create({
 		_NAME=>'NEW OBJECT NAME',
 		_KEY=>'NEWOBJKEY',
 		OBJPRM=>'VALUE',
+},{
+		PIC1=>'cgipic1paramname',
+		FILE1=>'cgifile1paramname',
 });
 
 
 =cut
 
 
-sub Create($;$) {
-	my ($self,$prms)=@_;
+sub Create($;$$) {
+	my ($self,$prms,$fileprms)=@_;
 	my $lid=vCMS::Proxy::CreateLowObj($self->ID());
 	my $o=vCMS::Object::Low->new($lid);
 	$o->Load();
 	$o->Set($prms) if $prms;
+	$o->SetFile($fileprms) if $fileprms;
 	return $o;
 }
 
