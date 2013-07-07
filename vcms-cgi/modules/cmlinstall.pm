@@ -301,7 +301,7 @@ setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
-	<cml:include key="SITEHEADER"/> <cml:include name="_prm:view_"/> <cml:include key="SITEFOOTER"/>
+	<cml:include key="SITEHEADER"/> <cml:include name="_prm:view_" validempty="1"/> <cml:include key="SITEFOOTER"/>
 )});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'UNDERCONSTRUCT',name=>'Заглушка'});
 setvalue({convert=>1,key=>'UNDERCONSTRUCT',pkey=>'PAGETEMPLATE',value=>'Сайт в разработке'});
