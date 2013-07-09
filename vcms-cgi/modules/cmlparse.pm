@@ -2990,7 +2990,7 @@ sub tag_deletebutton {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
 	return qq(
-		  <a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='$deltext'></a>
+		  <a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='$deltext'>$_[0]->{data}</a>
 	);		
 	
 }	
