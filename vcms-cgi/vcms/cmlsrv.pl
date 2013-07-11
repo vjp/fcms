@@ -27,6 +27,9 @@ $aliases{'gate'}='../gate/.htaccess';
 
 
 start('..');
+unlink ('../install.pl') if -e '../install.pl';
+
+
 my $action=param('action');
 if ($action) {
 	if ($action eq 'remotesync') {
