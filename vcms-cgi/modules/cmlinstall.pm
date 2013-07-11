@@ -1550,7 +1550,7 @@ sub install_db ($$) {
   			extra varchar(100) NOT NULL default '',
   			value text,
   			PRIMARY KEY  (pkey,extra)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1560,7 +1560,7 @@ sub install_db ($$) {
   			vallink varchar(30) NOT NULL default '',
   			PRIMARY KEY  (objid,pkey,vallink),
   			KEY `vll` (`vallink`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1570,7 +1570,7 @@ sub install_db ($$) {
   			`dt` datetime,
   			`type` varchar(50),
   			`message` text
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1581,7 +1581,7 @@ sub install_db ($$) {
   			pkey varchar(255) default NULL,
   			script text,
   			PRIMARY KEY  (id)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1593,7 +1593,7 @@ sub install_db ($$) {
   			`pkey` varchar(255) default NULL,
   			`script` text,
   			PRIMARY KEY  (`id`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1609,7 +1609,7 @@ sub install_db ($$) {
   			KEY upobj (upobj),
   			KEY keyname (keyname),
   			KEY indx (indx)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1625,7 +1625,7 @@ sub install_db ($$) {
   			evaluate enum('y','n') default 'y',
   			self enum('y','n') default 'n',
   			PRIMARY KEY  (id)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1642,7 +1642,7 @@ sub install_db ($$) {
   			KEY up (up),
   			KEY indx(indx),
   			KEY lang(lang)
-		)DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1653,7 +1653,7 @@ sub install_db ($$) {
   			value mediumtext,
   			ptkey varchar(50) NOT NULL default '',
   			PRIMARY KEY  (id,pkey,ptkey,vkey)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1663,7 +1663,7 @@ sub install_db ($$) {
   			`value` mediumtext,
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1675,7 +1675,7 @@ sub install_db ($$) {
   			`lang` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`objid`,`pkey`,`lang`),
   			KEY `upobj` (`upobj`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1691,7 +1691,7 @@ sub install_db ($$) {
   			KEY `pkey` (`pkey`),
   			KEY `ptype` (`ptype`),
   			KEY `lang` (`lang`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("create table IF NOT EXISTS ${DBPREFIX}users (
@@ -1699,7 +1699,7 @@ sub install_db ($$) {
  			`password` varchar(255),
  			`group` varchar(50),
  			`objid` int
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 	$dbh->do("
@@ -1710,7 +1710,7 @@ sub install_db ($$) {
   			`lang` varchar(5) NOT NULL default '',
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 
 
@@ -1722,7 +1722,7 @@ sub install_db ($$) {
   			`lang` varchar(5) NOT NULL default '',
   			PRIMARY KEY  (`id`,`prm`,`lang`),
   			KEY `val` (`val`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 	
 	$dbh->do("
@@ -1734,7 +1734,7 @@ sub install_db ($$) {
   			`dev` tinyint NOT NULL default '0',
   			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
-  		) DEFAULT CHARSET=cp1251
+  		)
   	") || die $dbh->errstr();
 	
 	$dbh->do("
@@ -1745,7 +1745,7 @@ sub install_db ($$) {
   			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
   			KEY `ol` (`objlink`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 	
 	$dbh->do("
@@ -1755,7 +1755,7 @@ sub install_db ($$) {
   			`tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   			PRIMARY KEY (`id`),
   			KEY `ck` (`ckey`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
     $dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
@@ -1767,7 +1767,7 @@ sub install_db ($$) {
   			`authtime` datetime,
   			PRIMARY KEY  (`login`),
   			UNIQUE KEY `objid` (`objid`)
-		) DEFAULT CHARSET=cp1251
+		)
 	") || die $dbh->errstr();
 	
 	$dbh->do("
