@@ -283,7 +283,7 @@ if ($xmlmode && $GLOBAL->{CODEPAGE} ne 'utf-8') {
 }
 if ($body) {
 	print $body;
-	benchmark($mtime) if cookie('dev');
+	benchmark($mtime) if cookie('dev') && !$xmlmode;
 } else       {
 	errorpage()
 }
