@@ -404,7 +404,7 @@ copyprm({objkey=>'CMSDESIGN',key=>'TITLE'});
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNADMIN',name=>'Интерфейс администратора'});
 
 addobject({convertname=>1,upkey=>'CMSDESIGN',key=>'CMSDESIGNUSER',name=>'Интерфейс пользователя'});
-addprm({convertname=>1,objkey=>'NOFRAMES',name=>'Без фреймов',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
+addprm({convertname=>1,objkey=>'CMSDESIGN',name=>'Без фреймов',type=>'FLAG',key=>'NOFRAMES',evl=>'n',self=>1});
 
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSMENUADMIN',name=>'Шаблоны меню'});
 addobject({convertname=>1,upkey=>'CMSDESIGNADMIN',key=>'CMSFORMADMIN',name=>'Шаблоны форм'});
