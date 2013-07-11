@@ -206,10 +206,10 @@ sub Execute($$) {
 }
 
 
-sub DeleteObject($) {
-	my ($oid)=@_;
+sub DeleteObject($;$) {
+	my ($oid,$forced)=@_;
 	if ($oid=~/u(\d+)/) {
-		return deleteobject($1);
+		return deleteobject($1,$forced);
 	} else {
 		return deletelowobject($oid);
 	}

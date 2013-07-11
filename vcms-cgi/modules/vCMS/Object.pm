@@ -272,9 +272,9 @@ sub ExecuteAsync($$) {
 
 
 
-sub Delete($) {
-	my $self = shift;
-	vCMS::Proxy::DeleteObject($self->ID())
+sub Delete($;$) {
+	my ($self,$forced) = @_;
+	vCMS::Proxy::DeleteObject($self->ID(),$forced)
 }	
 
 sub Ready($) {
