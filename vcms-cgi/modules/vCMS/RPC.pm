@@ -1,8 +1,10 @@
 package vCMS::RPC;
 
+use lib "..";
 use JSON::PP; 
 use Encode;
 use HTTP::Request::Common qw(POST); 
+use cmlmain;
  
 =head1 NAME
 
@@ -58,5 +60,15 @@ sub Execute ($$;$) {
     }
 	
 }
+
+sub DBDump  ($) {
+	my ($self)=@_;
+	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
+	my $istr=cmlmain::import_db_str();
+	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
+	my $e=`$str`;
+	return "str : $str e: $e s: ";
+}
+
 
 1;
