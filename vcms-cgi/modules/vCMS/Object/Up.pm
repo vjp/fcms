@@ -100,5 +100,9 @@ sub Create($;$$) {
 	return $o;
 }
 
+sub IsNull ($) {
+	return 0;
+}
+
 
 1;

@@ -39,5 +39,9 @@ sub MoveTo ($$) {
 	return vCMS::Proxy::MoveTo($self->ID,$newupid);
 }
 
+sub IsNull ($) {
+	return 0;
+}
+
 
 1;
