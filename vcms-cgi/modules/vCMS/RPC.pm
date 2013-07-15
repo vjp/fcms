@@ -61,13 +61,23 @@ sub Execute ($$;$) {
 	
 }
 
-sub DBDump  ($) {
+sub DBDump  ($$) {
+	my ($self,$filename)=@_;
+	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
+	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" -o $filename";
+	my $e=`$str`;
+	return "str:$str e:$e s:".-s ($filename);
+}
+
+
+
+sub DBSync  ($) {
 	my ($self)=@_;
 	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $istr=cmlmain::import_db_str();
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
 	my $e=`$str`;
-	return "str : $str e: $e s: ";
+	return "str:$str e:$e";
 }
 
 
