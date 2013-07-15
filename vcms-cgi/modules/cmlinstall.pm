@@ -299,6 +299,11 @@ setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:execute method='ERR404PARSER'/>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'AUTH',name=>'Авторизационная секция'});
+setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(Здесь должна быть авторизационная секция)});
+
+
+
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
 	<cml:include key="SITEHEADER"/> <cml:include name="_prm:view_" validempty="1"/> <cml:include key="SITEFOOTER"/>
