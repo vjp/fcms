@@ -1759,13 +1759,15 @@ sub install_db ($$) {
 	") || die $dbh->errstr();
     $dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}auth (
+		    `id` int(11) NOT NULL AUTO_INCREMENT,
    			`login` varchar(50)  NOT NULL,
   			`pwd` char(42) NOT NULL,
   			`flag` int(11) NOT NULL default '0',
   			`objid` int(11) NOT NULL,
   			`scookie` varchar(50),
   			`authtime` datetime,
-  			PRIMARY KEY  (`login`),
+  			PRIMARY KEY  (`id`),
+  			UNIQUE KEY `login` (`login`),
   			UNIQUE KEY `objid` (`objid`)
 		)
 	") || die $dbh->errstr();
