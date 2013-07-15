@@ -52,7 +52,8 @@ if ($action) {
 		} elsif (param('area') eq 'db'){
 			print "Content-Disposition: attachment; filename=db.gz\n";
 			print "Content-type: application/octet-stream\n\n";
-			system("mysqldump -q --default-character-set=cp1251 -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} | gzip -c");
+			my $str=cmlmain::export_db_str();
+			system("$str | gzip -c");
 		}			
 		exit;
 	}	

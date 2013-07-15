@@ -64,7 +64,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &import_static &export_db &recover_object &export_static
+              &import_db &import_static &export_db &recover_object &export_static &export_db_str
               
               &compile_date  &set_hru &json_ok &json_error &clear_unused_data
              );
@@ -132,6 +132,14 @@ sub backup_dir_create ()
 	createhtaccess ("$GLOBAL->{WWWPATH}/backup/.htaccess",'admin') unless -s  "$GLOBAL->{WWWPATH}/backup/.htaccess";
 }
 
+sub export_db_str () 
+{
+	#optimization keys -Q --max_allowed_packet=16777216
+	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}vlshist  --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}pagescache --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}linkscache";
+	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
+	return $str;		
+}
+
 sub export_db (;$)
 {
 	my ($filename)=@_;
@@ -139,10 +147,8 @@ sub export_db (;$)
 		backup_dir_create();
 		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
 	}
-	# optimization keys -Q --max_allowed_packet=16777216
-	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}vlshist  --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}pagescache --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}linkscache | gzip -c >$filename";
-	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
-	my $output=`$str`;
+	$str=export_db_str();
+	my $output=`$str | gzip -c >$filename`;
 	return("$str - $output");
 }
 
