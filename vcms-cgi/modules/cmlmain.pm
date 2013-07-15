@@ -56,6 +56,7 @@ BEGIN
               
               &add_user &check_user &del_user &activate_user &check_auth &change_pass_user &check_password
               &deactivate_user &update_login &reset_user
+              &add_external_user &check_external_auth
               
               &check_session &end_session &email 
               
@@ -278,6 +279,16 @@ sub add_user ($$;$)
 	return $objid;
 }	
 
+sub add_external_user ($$) 
+{
+	my ($login,$objid)=@_;
+	return 0 unless $objid;
+	my $sth1=$dbh->prepare("INSERT ${DBPREFIX}auth (login,pwd,objid) VALUES (?,'___EXTERNAL___',?)");
+	$sth1->execute($login,$objid) || die $dbh->errstr();
+	return $objid;
+}	
+
+
 
 sub reset_user ($$$;$)
 {
@@ -361,6 +372,36 @@ sub check_auth ($$;$)
 	}
 	
 }
+
+sub check_external_auth ($;$)
+{
+	my ($login,$multisession)=@_;
+	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd='___EXTERNAL___'");
+	$sth1->execute($login) || die $dbh->errstr();
+	my ($sid,$flag,$objid,$scookie)=$sth1->fetchrow();
+	if ($sid && ($flag & 1)) {
+		if (!$scookie || !$multisession) {
+			$scookie=int(rand(1000000000));
+			my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
+			$sth2->execute($scookie,$sid) || die $dbh->errstr();
+		}	
+		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
+		$cmlcalc::ENV->{'LOGIN'}=$login;
+		$cmlcalc::ENV->{'AUTHUSERID'}=$objid;
+		return (1,$scookie);
+	} elsif ($sid && ! ($flag & 1)) {
+		undef $cmlcalc::ENV->{'LOGIN'};
+		undef $cmlcalc::ENV->{'AUTHUSERID'};		
+		return (0,1); 	
+	} else {
+		undef $cmlcalc::ENV->{'LOGIN'};
+		undef $cmlcalc::ENV->{'AUTHUSERID'};		
+		return (0,0);
+	}
+	
+}
+
+
 
 sub check_password ($)
 {
