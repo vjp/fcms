@@ -1454,7 +1454,7 @@ sub tag_actionlink {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
-		for (qw (id listprm link orderby ordertype filter filterexpr filterprm)) {
+		for (qw (listprm link orderby ordertype filter filterexpr filterprm)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
