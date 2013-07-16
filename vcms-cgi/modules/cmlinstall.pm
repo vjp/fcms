@@ -155,8 +155,8 @@ addprm({convertname=>1,objkey=>'FILEARCHIVE',name=>'Описание файла',type=>'TEXT'
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'rows',value=>'3'});
 setprmextra({pkey=>'ARCHIVEFILEDESCR',extra=>'cols',value=>'50'});
 
-
-
+addobject({convertname=>1,upkey=>'CONTENT',key=>'CLIENTS',name=>'Клиенты'});
+addmethod ({convertname=>1,objkey=>'CLIENTS',key=>'LOGOUT',name=>'Выход из системы',script=>'end_session();ajax_ok();'});
 
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'htaccess',type=>'FILELINK',key=>'HTACCESS',evl=>'n',upd=>'y',self=>1});
