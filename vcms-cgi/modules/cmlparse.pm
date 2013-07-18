@@ -1438,6 +1438,7 @@ sub tag_actionlink {
 		$href.="&csv=1" if $pl->{csv};
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		$href.='&'.$pl->{href} if $pl->{href};
+		my $header_title=$title || &cmlmain::enc('Параметры');
 		unless ($title) {
 			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
 			$title="<img src='$imgurl' border='0'/>";
@@ -1445,7 +1446,7 @@ sub tag_actionlink {
 		if ($pl->{popup}) {
  		    my $width=$pl->{width} || 600;
 		    my $height=$pl->{height} || 400;
-		    return qq(<a href='#' onclick="openPopup('$href',{title:'$title',width:$width,height:$height})">$title</a>)
+		    return qq(<a href='#' onclick="openPopup('$href',{title:'$header_title',width:$width,height:$height})">$title</a>)
 		}
 		
 		
