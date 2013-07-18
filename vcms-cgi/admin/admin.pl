@@ -55,6 +55,7 @@ $qs =~ s/\&parsemethod=.+$//;
 $cmlcalc::QUERYSTRING=$qs;
 $cmlcalc::ENV->{QUERYSTRING}=$qs;
 $cmlcalc::ENV->{URL}=$ENV{REQUEST_URI};
+$cmlcalc::ENV->{AJAXURL}='/cgi-bin/admin/ajax-json.pl';
 warn "DBG: START: USER:$cmlcalc::ENV->{USER}  QUERY:$qs";
 my $its=time()-$ts_start;
 
@@ -107,6 +108,11 @@ if (param('menu')) {
 		expr=>"p($prm)",
 		csv=>param('csv'),
 	});
+} elsif (param('popupview')) {
+	$v=&cmlcalc::calculate({
+		key=>'BASEPOPUP',
+		expr=>"p($prm)",
+	});	
 } elsif (param('view')) {
 	
  	$v=&cmlcalc::calculate({

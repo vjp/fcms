@@ -1433,7 +1433,7 @@ sub tag_actionlink {
 		if (!$kn && $cmlmain::obj->{$iid}->{template}) {
 			$kn=$cmlmain::obj->{$cmlmain::obj->{$iid}->{template}}->{key}
 		}	
-		my $href=$pl->{popup}?"?view=EDIT_$kn&id=$iid":"?body=EDIT_$kn&id=$iid";
+		my $href=$pl->{popup}?"?popupview=EDIT_$kn&id=$iid":"?body=EDIT_$kn&id=$iid";
 		$href.="&readonly=1" if $pl->{action} eq 'VIEW';
 		$href.="&csv=1" if $pl->{csv};
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};

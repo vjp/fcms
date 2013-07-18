@@ -1026,12 +1026,6 @@ setvalue({convert=>1,key=>'BASELISTEDIT',pkey=>'PAGETEMPLATE',value=>$bm});
 
 
 my $m=qq(
-<html>
-<head>
-<script type="text/javascript" src="/js/prototype.js"></script>
-<script type="text/javascript" src="/js/scriptaculous.js"></script>
-<script type="text/javascript" src="/js/base.js"></script>
-
 <script type="text/javascript">
    window.onload = function() {
        Sortable.create('slist',{tag:'li'});
@@ -1079,7 +1073,31 @@ li {
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'RESORTPOPUP',name=>'Форма ручной пересортировки'});
 setvalue({convert=>1,key=>'RESORTPOPUP',pkey=>'PAGETEMPLATE',value=>$m});
 
-
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEPOPUP',name=>'Базовая форма попапа'});
+setvalue({convert=>1,key=>'BASEPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
+<html>
+<head>
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/scriptaculous.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
+<script type="text/javascript">
+  var isPopup=1;
+  var lbLabelImage="Фото";
+  var lbLabelOf="из";
+  var lbError="Ошибка";
+  var lbSuccess="Успех";
+  var lbRequired="Необходимо заполнить поле";
+  var lbDigit="Введите числовое значение в поле"; 
+  var  ajax_url = '<cml:text expr='env(AJAXURL)'/>';
+</script>   
+   
+</script>
+</head>
+<body>
+    <CML:INCLUDE name="_prm:popupview_"/>
+</body>
+</html>
+)});
 
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});

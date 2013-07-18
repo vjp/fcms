@@ -30,6 +30,7 @@ $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly};
+$cmlcalc::ENV->{AJAXURL}='/cgi-bin/user/ajax-json.pl';
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
 
