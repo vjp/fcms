@@ -3013,7 +3013,7 @@ sub tag_changebutton {
   	
 	my $onclickstr;
 	my $retstr;
-	if ($pl->{'ajax'} || $pl->{'callback'} || $pl->{'redir'}){
+	if ($pl->{'ajax'} || $pl->{'callback'}){
 		if ($_[0]->{inner}->{matrix}) {
 			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
@@ -3022,7 +3022,8 @@ sub tag_changebutton {
 		}	
 	} elsif ($pl->{method}) {
 		$retstr.="<input type='hidden' name='overrideparsemethod' value='$pl->{method}'>";
-	}	
+	}
+	$retstr.="<input type='hidden' name='redirto' value='$pl->{redir}'>" if $pl->{'redir'} && !$onclickstr;	
 	if ($pl->{title}) {
 		if ($onclickstr) {
 			$retstr.="<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
