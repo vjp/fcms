@@ -1109,10 +1109,9 @@ sub baselparser (;$)
 			$ov->{$id}->{$prm}=$oldval;
 			$nv->{$id}->{$prm}=$value;			
 			if ($oldval ne $value) {
-				#setvalue({id=>$id,prm=>$prm,value=>$value});
 				push (@{$changed->{$id}},$prm);
 			}
-		} if ($cgiprm=~/^_k(.+?)_p(.+)_(u\d+)$/) {
+		} elsif ($cgiprm=~/^_k(.+?)_p(.+)_(u\d+)$/) {
 			my $key=$1;
 			my $prm=$2;
 			my $upper=$3;
@@ -1127,6 +1126,17 @@ sub baselparser (;$)
 			$nv->{$id}->{$prm}=$value;			
 			if ($oldval ne $value) {
 				#setvalue({id=>$id,prm=>$prm,value=>$value});
+				push (@{$changed->{$id}},$prm);
+			}
+		} elsif ($cgiprm=~/^_k(.+?)_p(.+)$/) {
+			my $key=$1;
+			my $prm=$2;
+			&cmlmain::checkload({key=>$key});
+		    $id=$cmlmain::nobj->{$key}->{id};
+			my $oldval=p($prm,$id);
+			$ov->{$id}->{$prm}=$oldval;
+			$nv->{$id}->{$prm}=$value;			
+			if ($oldval ne $value) {
 				push (@{$changed->{$id}},$prm);
 			}
 	    } elsif ($cgiprm=~/^_p(.+)_d(.)$/) {		
