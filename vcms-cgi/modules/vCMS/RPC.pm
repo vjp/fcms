@@ -80,5 +80,13 @@ sub DBSync  ($) {
 	return "str:$str e:$e";
 }
 
+sub StaticSync ($) {
+	my ($self)=@_;
+	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=docs";
+	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $GLOBAL->{WWWPATH}";
+	my $output=`$str`;
+	return("$str - $output");
+}
+
 
 1;
