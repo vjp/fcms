@@ -288,5 +288,10 @@ sub IsReady($) {
 }	
 
 
+sub History($$) {
+	my ($self,$prm) = @_;
+	return vCMS::Proxy::History($self->ID,$prm)
+}
+
 
 1;

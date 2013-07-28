@@ -196,6 +196,14 @@ sub GetQueueEvent() {
 	my $r=DBSelect("SELECT * FROM $tname WHERE status=0 ORDER by exectime DESC limit=1");
 }
 
+sub History ($$) {
+	my ($objid,$prm)=@_;
+	my $tname=GetTableName('vlshist');
+	my $r=DBSelect("SELECT dt,value FROM $tname WHERE objid=? AND pkey=? ORDER BY dt DESC",$objid,$prm);
+	return $r;
+}
+
+
 sub Execute($$) {
 	my ($oid,$method)=@_;
 	if ($oid=~/u\d+/) {
@@ -247,7 +255,6 @@ sub UploadFile($$$) {
 		return &cmlparse::uploadprmfile({id=>$id,pkey=>$prm,cgiparam=>$cgiparam});
 	}	
 }
-
 
 
 1;
