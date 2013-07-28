@@ -10,6 +10,7 @@ BEGIN
  use POSIX qw(strftime);
  use cmlmain;
  use cmlcalc;
+ use vCMS;
  @ISA = 'Exporter';
  @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console &config);
 
@@ -885,7 +886,16 @@ sub editmemofull
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
- 	
+	print hr;
+ 	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},enc('История')),br;
+    if (param('history')) {
+    	my $r=o($id)->History($pkey);
+    	print start_table();
+    	for (@$r) {
+			print Tr(td($_->{dt}),td(textarea(-default=>$_->{value},-rows=>20,-cols=>150)));    		
+    	}
+		print end_table();    	
+    }
 
  	print "</body></html>";
  	
