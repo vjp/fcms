@@ -769,7 +769,7 @@ sub tag_select {
   		'param','prm','prmexpr','expr',
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
-  		'elementid','csv','notnull','popup','template'
+  		'elementid','csv','notnull','popup','template','lowlist'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -838,7 +838,9 @@ sub tag_select {
   	
   	if ($pl->{popup}) {
   		my $template=$pl->{template} || 'POPUPSELECTOR';
-		return qq(<a href='#' onclick="openPopup('?view=$template&id=$id&selectorprm=$prm',{title:'Изменить',width:600,height:400})">Изменить</a>)
+  		my $singlestr=$cmlmain::prm->{$prm}->{extra}->{single} eq 'y'?'&single=1':'';
+  		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
+		return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=$prm${lowliststr}$singlestr}',{title:'Изменить',width:600,height:400})">Изменить</a>)
   	}
   	
   	
@@ -857,34 +859,32 @@ sub tag_select {
 
 sub tag_radioselect {
 	my $param=$_[0]->{param};
-  my $data=$_[0]->{data};
-  my $inner; %{$inner}=%{$_[0]->{inner}};
-  my $sexpr;
-  my $id=$inner->{objid};
-  my $prm;
-  my $name;  
-  my $expr;
-  my $optionid;
-  if ($param=~s/(\W)selected=(['"])(.+?)\2/$1/i)          {$sexpr="p($3)"}
-  if ($param=~s/(\W)(param|prm)=(['"])(.+?)\3/$1/i)      {	
-	  $prm=$4; 
-	  $sexpr="p($prm)";
-	  $expr=$cmlmain::prm->{$prm}->{extra}->{formula};
-	  $param.=" expr='$expr'";
+  	my $data=$_[0]->{data};
+  	my $inner; %{$inner}=%{$_[0]->{inner}};
+  	my $sexpr;
+  	my $id=$inner->{objid};
+  	
+  	my $prm;
+  	my $name;  
+  	my $expr;
+  	my $optionid;
+  	if ($param=~s/(\W)selected=(['"])(.+?)\2/$1/i)          {$sexpr="p($3)"}
+  	if ($param=~s/(\W)(param|prm)=(['"])(.+?)\3/$1/i)      {	
+  		$prm=$4; 
+	  	$sexpr="p($prm)";
+	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
+	  	$param.=" expr='$expr'";
 	}
 	if ($param=~s/(\W)optionid=(['"])(.+?)\2/$1/i)          {$optionid=$3} 
 	else {$optionid='_ID'} 
-
-	
-	
 	if ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)       {$name=$3   }
-  else {$name="_p$prm"}
-  $inner->{name}=$name;
-  if (defined $sexpr) {
-  	$inner->{selected}=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value};
-  }	
-  unless ($data) {$data="<cml:radiobutton param='$optionid'><cml:text param='_NAME'/></cml:radiobutton><br>"}
-  return tag_list({data=>$data,inner=>$inner,param=>$param});
+  	else {$name="_o${id}_p{$prm}"}
+  	$inner->{name}=$name;
+  	if (defined $sexpr) {
+  		$inner->{selected}=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value};
+  	}	
+  	unless ($data) {$data="<cml:radiobutton param='$optionid'><cml:text param='_NAME'/></cml:radiobutton><br>"}
+  	return tag_list({data=>$data,inner=>$inner,param=>$param});
 }	
 
 
@@ -1735,48 +1735,43 @@ sub tag_option {
 
 sub tag_radiobutton {
 	my $param=$_[0]->{param};
+	my $pl=fetchparam(\$param,['id','param','prm','value','name']);	
+	my $id=$pl->{id} || $_[0]->{inner}->{objid};
+
 	my $selexpr;
 	my $sel;
 	my $value;
 	my $valuestr;
-	my $id=$_[0]->{inner}->{objid};
 	my $name;
 	
-	if ($param=~s/(\W)value=(['"])(.+?)\2/$1/i) { 
-	  $value=&cmlcalc::calculate({id=>$id,expr=>$3})->{value};
-	  $valuestr="value='$value'"
+	if ($pl->{value}) { 
+	  $valuestr="value='$pl->{value}'";
 	}
-  if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i) { 
-	  $value=&cmlcalc::calculate({id=>$id,expr=>"p($3)"})->{value};
-	  $valuestr="value='$value'"
+	my $prm=$pl->{param} || $pl->{prm};
+  	if ($prm) { 
+	  $v=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value};
+	  $valuestr="value='$value'" unless $valuestr;
+	  $selexpr='checked' if ($pl->{value} && $v eq $pl->{value}) || $v==1;
 	}
-  unless ($valuestr) {
-  	$value=$id;
-  	$valuestr="value='$id'"
-  }
-
-	
+  	unless ($valuestr) {
+  		$value=$id;
+  		$valuestr="value='$id'"
+  	}
+  	
+  	my $name=$pl->{name} || $_[0]->{inner}->{name} || "_o${id}_p${prm}"; 
+  	
+  	
 	if ($param=~s/(\W)sel=(['"])(.+?)\2/$1/i) { 
-	  my $v=&cmlcalc::calculate({id=>$id,expr=>$3})->{value};
-	  if ($v eq $value) {$selexpr='checked'}
-	}
-	elsif ($param=~s/(\W)selexpr=(['"])(.+?)\2/$1/i) { 
-	  my $v=&cmlcalc::calculate({id=>$id,expr=>$3})->{value};
-	  if ($v) {$selexpr='checked'}
-	}
-	elsif (defined $_[0]->{inner}->{selected}) {
-	  if ($_[0]->{inner}->{selected} eq $value) {$selexpr='checked'}
-		
+	  	my $v=&cmlcalc::calculate({id=>$id,expr=>$3})->{value};
+	  	if ($v eq $value) {$selexpr='checked'}
+	}elsif ($param=~s/(\W)selexpr=(['"])(.+?)\2/$1/i) { 
+	  	my $v=&cmlcalc::calculate({id=>$id,expr=>$3})->{value};
+	  	if ($v) {$selexpr='checked'}
+	}elsif (defined $_[0]->{inner}->{selected}) {
+	 	 if ($_[0]->{inner}->{selected} eq $value) {$selexpr='checked'}
 	}	
 
-  if ($param=~s/(\W)name=(['"])(.+?)\2/$1/i) { 
-			$name=$3;
-	}
- 	elsif (defined $_[0]->{inner}->{name}) {
-	  $name="name='$_[0]->{inner}->{name}'"
-	}	
-
-	return "<input type='radio' $selexpr $valuestr $param $name>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}});
+	return "<input type='radio' $selexpr $valuestr $param name='$name'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}});
 	
 	
 }	

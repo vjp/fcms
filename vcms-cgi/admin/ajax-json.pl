@@ -38,7 +38,18 @@ my $json = new JSON::PP;
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
-if ($AJAX_FUNCS->{$func}) {
+if (param('lfunc')) {
+	my $lfunc=param('lfunc');
+	my $data=param('data') || $json->encode ([]);
+	$cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
+	my $result=execute({lmethod=>$lfunc,id=>param('objid')});
+	if (ref $result ne 'HASH') {
+		my $rstr=enc("Îøèáêà âûïîëíåíèÿ. Ìåòîä: $lfunc Îøèáêà: ").$result;
+		print $json->encode ({result=>$rstr});
+	} else {	
+    	print $json->encode ($result);
+	}	
+} elsif ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
 	if (ref $r eq 'HASH') {
@@ -51,7 +62,7 @@ if ($AJAX_FUNCS->{$func}) {
 	my $result=&$subname($r);
 	print $json->encode ($result);
 } else {
-	my $rstr="Íåïğàâèëüíàÿ ôóíêöèÿ $func";
+	my $rstr=enc("Íåïğàâèëüíàÿ ôóíêöèÿ $func");
 	print $json->encode ({result=>$rstr});
 }	
 
