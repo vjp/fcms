@@ -118,6 +118,7 @@ sub import_db (;$)
 	my ($filename)=@_;
 	$filename ||= 'db.gz';
 	$istr=import_db_str();
+	return ("error: no exportfile $filename") unless -s $filename; 
 	my $str="gzip -d -c $filename | $istr";
 	my $output=`$str`;
 	return("$str - $output");
