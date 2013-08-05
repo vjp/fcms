@@ -4,7 +4,7 @@ use lib "..";
 use JSON::PP; 
 use Encode;
 use HTTP::Request::Common qw(POST); 
-use cmlmain;
+use vCMS::Proxy;
  
 =head1 NAME
 
@@ -61,8 +61,17 @@ sub Execute ($$;$) {
 	
 }
 
+sub Test ($) {
+	my ($self)=@_;
+	return $self->Execute('TESTGATE');
+}
+
+
 sub DBDump  ($$) {
 	my ($self,$filename)=@_;
+	my $test=$self->Test();
+	return $test->{error} if $test->{error};
+	$filename ||= vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db.gz';
 	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" -o $filename";
 	my $e=`$str`;
@@ -73,8 +82,10 @@ sub DBDump  ($$) {
 
 sub DBSync  ($) {
 	my ($self)=@_;
-	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
-	my $istr=cmlmain::import_db_str();
+	my $test=$self->Test();
+	return $test->{error} if $test->{error};
+    my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
+	my $istr=vCMS::Proxy::ImportDBStr();
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
 	my $e=`$str`;
 	return "str:$str e:$e";

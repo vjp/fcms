@@ -6,12 +6,13 @@ use vCMS::Object::Null;
 use vCMS::Proxy;
 use vCMS::Session;
 use vCMS::Collection::LowList;
+use vCMS::RPC;
 
 BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o &v &ll );
+	@EXPORT = qw( &o &v &ll &r );
 }	 
 
 sub o(;$); 
@@ -58,6 +59,12 @@ sub ll(;$$) {
 
 sub null () {
 	return new vCMS::Object::Null();
+}
+
+sub r ($) {
+	my ($connectstr)=@_;
+	my ($user,$password,$host)=($connectstr=~/^(.+?)\:(.+)\@(.+?)$/);
+	return new vCMS::RPC($host,$user,$password)
 }
 
 1;

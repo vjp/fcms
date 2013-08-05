@@ -256,5 +256,14 @@ sub UploadFile($$$) {
 	}	
 }
 
+sub ImportDBStr () {
+	return cmlmain::import_db_str();
+}	
+
+sub GetGlobal ($) {
+	my ($var) = @_;
+	return $cmlmain::GLOBAL->{$var};	
+}	
+
 
 1;
