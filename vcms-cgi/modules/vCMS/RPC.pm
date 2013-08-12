@@ -84,6 +84,7 @@ sub DBSync  ($) {
 	my ($self)=@_;
 	my $test=$self->Test();
 	return $test->{error} if $test->{error};
+	vCMS::Proxy::DropPagesCache();
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $istr=vCMS::Proxy::ImportDBStr();
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";

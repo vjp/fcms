@@ -265,5 +265,10 @@ sub GetGlobal ($) {
 	return $cmlmain::GLOBAL->{$var};	
 }	
 
+sub DropPagesCache() {
+	&cmlmain::dropcache();	
+}	
+
+
 
 1;
