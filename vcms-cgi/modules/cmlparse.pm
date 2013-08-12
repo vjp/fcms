@@ -2430,8 +2430,8 @@ sub tag_form {
   		'link','alert','action','prm','param','editprm',
   		'piclistprm','filelistprm','parseprm',
   		'renameparam','renameprm', 'matrix','ukey','listprm',
-  		'actionexpr','elementid','iframe',  		
-  		]);
+  		'actionexpr','elementid','iframe','readonlyexpr'  		
+  	]);
 	$param=$pl->{'str'};
 	
 	if    	($pl->{'id'})    {
@@ -2444,6 +2444,13 @@ sub tag_form {
 		$id=ref $inner->{objid} eq 'HASH'?$inner->{objid}->{id}:$inner->{objid};
 	}
 	
+	if ($pl->{readonlyexpr} && &cmlcalc::calculate({id=>$id,key=>$pl->{'key'},expr=>$pl->{'readonlyexpr'}})->{value}) {
+		my $setreadonly=$cmlcalc::ENV->{READONLY}?0:1;
+		$cmlcalc::ENV->{READONLY}=1 if $setreadonly; 
+		$data=cmlparser({data=>$_[0]->{data},inner=>$inner});
+		$cmlcalc::ENV->{READONLY}=0 if $setreadonly;
+		return $data;
+	}
 	
 	if   ($pl->{'pkey'})	{
 		$pkey=$pl->{'pkey'};
@@ -2463,8 +2470,6 @@ sub tag_form {
 
 	if   ($pl->{'parser'}) {
 		$parser=$pl->{'parser'}
-	#} elsif ($parserid=~/^u/) {
-	#	$parser='BASEPARSER'
 	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'SITE')   {
 		$parser='SAFEBASELPARSER'
 	} else {
