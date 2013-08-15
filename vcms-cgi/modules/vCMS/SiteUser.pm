@@ -22,4 +22,13 @@ sub GetLogin ($) {
 	return $self->{_login};
 }
 
+
+sub GetOTKey ($) {
+	my ($self)=@_;
+	my $key=int(rand(1000000000));
+	vCMS::Proxy::SetOTKey($self->GetID(),$key);
+	return $key;
+}
+
+
 1;

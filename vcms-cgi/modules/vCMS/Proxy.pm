@@ -95,6 +95,10 @@ sub DBUpdate {
 	return {sth=>$sth};
 }
 
+sub DBQuery {
+	return DBUpdate(@_);
+}
+
 sub DBLastInsertID ($) {
 	my ($Q)=@_;
 	return $Q->{sth}->{mysql_insertid};
@@ -271,6 +275,12 @@ sub DropPagesCache() {
 
 sub CheckSession () {
 	return cmlmain::check_session()?($cmlcalc::ENV->{'AUTHUSERID'},$cmlcalc::ENV->{'LOGIN'}):undef;
+}
+
+sub SetOTKey ($$) {
+	my ($objid,$key)=@_;
+	my $tname=GetTableName('sessionkeys');
+	my $r=DBQuery("INSERT INTO $tname (objid,skey) VALUES (?,?)",$objid,$key);
 }
 
 1;

@@ -1808,6 +1808,18 @@ sub install_db ($$) {
   			KEY `s` (`status`,`exectime`)
 		)
 	") || die $dbh->errstr();
+	
+	$dbh->do("
+		CREATE TABLE `$DBPREFIXsessionkeys` (
+  			`id` int(11) NOT NULL auto_increment,
+  			`skey` char(32) default NULL,
+  			`objid` int(11) NOT NULL,
+  			`ts` timestamp,
+  			PRIMARY KEY  (`id`),
+  			UNIQUE KEY `so` (`skey`,`objid`)
+		)
+	") || die $dbh->errstr();
+	
 }
 
 return 1;
