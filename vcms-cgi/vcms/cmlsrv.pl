@@ -629,7 +629,7 @@ sub editform
 			my $name=$obj->{$id}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$obj->{$id}->{name}}
 		 	print Tr(td(),
-		 			td(enc("Èìÿ ($LANGS{$lang})")),
+		 			td(enc("Èìÿ")."($LANGS{$lang})"),
 		 			td({-colspan=>2},textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 		}	
 	} elsif ($obj->{$id}->{lang}) {

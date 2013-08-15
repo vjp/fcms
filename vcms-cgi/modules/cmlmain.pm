@@ -1486,10 +1486,7 @@ sub init	{
  	$LsthAV=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE upobj=? AND lang=?")|| die $dbh->errstr;
 
  
- 	$LANGS{mul}='Ìóëüòèÿçû÷íûé';
-	for my $lang (keys %LANGS) {
-		$LANGS{$lang}=enc($LANGS{$lang});
-	}	  
+ 	$LANGS{mul}=enc('Ìóëüòèÿçû÷íûé');
 
  
  	$sthTV=$dbh->prepare("SELECT * FROM ${DBPREFIX}tvls WHERE id=? AND ptkey=?") || die $dbh->errstr;

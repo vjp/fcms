@@ -8,7 +8,7 @@ use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use DBI;
 use Cwd;
-
+use Encode;
 
 
 use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN);
@@ -150,6 +150,9 @@ if (param('install')) {
 			$cnf=~s/<multidomain>/$MULTIDOMAIN/g;
 		}	
 		close CF;
+		
+		$cnf=Encode::encode('utf-8',Encode::decode('windows-1251',$cnf)) if $UTF; 
+		
 		open (CFF,'>conf');
 		print CFF $cnf;
 		close CFF;
