@@ -1791,6 +1791,7 @@ sub install_db ($$) {
   			`objid` int(11) NOT NULL,
   			`scookie` varchar(50),
   			`authtime` datetime,
+  			`otk` varchar(50),
   			PRIMARY KEY  (`id`),
   			UNIQUE KEY `login` (`login`),
   			UNIQUE KEY `objid` (`objid`)
@@ -1809,16 +1810,6 @@ sub install_db ($$) {
 		)
 	") || die $dbh->errstr();
 	
-	$dbh->do("
-		CREATE TABLE `$DBPREFIXsessionkeys` (
-  			`id` int(11) NOT NULL auto_increment,
-  			`skey` char(32) default NULL,
-  			`login` varchar(50) NOT NULL,
-  			`ts` timestamp,
-  			PRIMARY KEY  (`id`),
-  			UNIQUE KEY `so` (`skey`,`login`)
-		)
-	") || die $dbh->errstr();
 	
 }
 

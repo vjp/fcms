@@ -31,7 +31,7 @@ sub GetOTKey ($) {
 }
 
 
-sub LoginByOTKey {
+sub LoginByOTKey ($$$) {
 	my ($class,$login,$otkey)=@_;
 	my $uid=vCMS::Proxy::CheckOTKey($login,$otkey);
 	return undef unless $uid;
