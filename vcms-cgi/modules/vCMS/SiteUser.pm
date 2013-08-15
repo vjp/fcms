@@ -26,9 +26,16 @@ sub GetLogin ($) {
 sub GetOTKey ($) {
 	my ($self)=@_;
 	my $key=int(rand(1000000000));
-	vCMS::Proxy::SetOTKey($self->GetID(),$key);
+	vCMS::Proxy::SetOTKey($self->GetLogin(),$key);
 	return $key;
 }
 
+
+sub LoginByOTKey {
+	my ($class,$login,$otkey)=@_;
+	my $uid=vCMS::Proxy::CheckOTKey($login,$otkey);
+	return undef unless $uid;
+	return $class->new($uid,$login);
+}
 
 1;

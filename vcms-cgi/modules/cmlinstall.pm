@@ -1813,10 +1813,10 @@ sub install_db ($$) {
 		CREATE TABLE `$DBPREFIXsessionkeys` (
   			`id` int(11) NOT NULL auto_increment,
   			`skey` char(32) default NULL,
-  			`objid` int(11) NOT NULL,
+  			`login` varchar(50) NOT NULL,
   			`ts` timestamp,
   			PRIMARY KEY  (`id`),
-  			UNIQUE KEY `so` (`skey`,`objid`)
+  			UNIQUE KEY `so` (`skey`,`login`)
 		)
 	") || die $dbh->errstr();
 	

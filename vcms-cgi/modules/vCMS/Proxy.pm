@@ -2,7 +2,8 @@ package vCMS::Proxy;
  
 use lib "..";
 use POSIX qw(strftime);
-use LWP::UserAgent; 
+use LWP::UserAgent;
+use JSON::PP; 
 use cmlmain; 
 
 sub GetIDByKey ($) {
@@ -278,9 +279,32 @@ sub CheckSession () {
 }
 
 sub SetOTKey ($$) {
-	my ($objid,$key)=@_;
+	my ($login,$key)=@_;
 	my $tname=GetTableName('sessionkeys');
-	my $r=DBQuery("INSERT INTO $tname (objid,skey) VALUES (?,?)",$objid,$key);
+	DBQuery("INSERT INTO $tname (login,skey) VALUES (?,?)",$login,$key);
 }
+
+sub CheckOTKey ($$) {
+	my ($login,$key)=@_;
+	my $tname=GetTableName('sessionkeys');
+	my $r=DBSelect("SELECT id FROM $tname WHERE login=? AND skey=?",$login,$key);
+	if ($r && $r->[0]->{id}){
+		DBQuery("DELETE FROM $tname WHERE id=?",$r->[0]->{id});
+		my $taname=GetTableName('auth');
+		my $r2=DBSelect("SELECT id,flag,objid,scookie FROM $taname WHERE login=?",$login);
+		if ($r2 && $r2->[0]->{id} && ($r2->[0]->{flag} & 1)) {
+			$scookie=int(rand(1000000000));
+			DBQuery("UPDATE $taname SET scookie=?, authtime=NOW() WHERE id=?",$scookie,$r2->[0]->{id});
+			$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
+			$cmlcalc::ENV->{'LOGIN'}=$login;
+			$cmlcalc::ENV->{'AUTHUSERID'}=$r2->[0]->{objid};
+			return $r2->[0]->{objid};
+		}	
+	}
+	undef $cmlcalc::ENV->{'LOGIN'};
+	undef $cmlcalc::ENV->{'AUTHUSERID'};		
+	return undef;
+}
+
 
 1;
