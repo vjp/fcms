@@ -21,6 +21,7 @@ sub initparser
     	'execute'=>1,
     	'captcha'=>1,
     	'auth'=>1,
+    	'noauth'=>1,
  	);
 	
 	
@@ -70,6 +71,7 @@ sub initparser
     	'csvrow'=>1,
     	'csvcol'=>1,
     	'auth'=>1,
+    	'noauth'=>1,
     	'savebutton'=>1,
     	'calendar'=>1,
     	'table'=>1,
@@ -1170,10 +1172,10 @@ sub tag_auth
 {
 	my $param=$_[0]->{param};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
-  	my $pl=fetchparam($param,['prm','id']);
+  	my $pl=fetchparam($param,['prm','id','authframe']);
   	my $id=$pl->{id} || $inner->{objid};
 	if (!$cmlcalc::ENV->{'AUTHUSERID'}) {
-			return cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner});
+			return $pl->{'authframe'}?cmlparser({data=>"<cml:include key='AUTH'/>",inner=>$inner}):'';
 	} elsif ($pl->{'prm'}) {
 		my $uid=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{'prm'})"})->{value};
 		if ($uid ne $cmlcalc::ENV->{'AUTHUSERID'}) {
@@ -1184,6 +1186,12 @@ sub tag_auth
 	}	
 	$inner->{objid}=$id;
     return cmlparser({data=>$_[0]->{data},inner=>$inner})
+}
+
+sub tag_noauth
+{
+	my $inner; %{$inner}=%{$_[0]->{inner}};
+	return !$cmlcalc::ENV->{'AUTHUSERID'}?cmlparser({data=>$_[0]->{data},inner=>$inner}):'';
 }
 
 
