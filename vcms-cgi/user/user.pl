@@ -106,6 +106,11 @@ if (param('menu')) {
  		expr=>"p($prm)",
  		csv=>param('csv'),
  	});
+} elsif (param('popupview')) {
+	$v=&cmlcalc::calculate({
+		key=>'BASEPOPUP',
+		expr=>"p($prm)",
+	});	 	
 }else {
 	$cmlcalc::CGIPARAM->{pagemenu}='USERMENU' unless param('pagemenu');
 	$cmlcalc::CGIPARAM->{page}='USERMAIN' unless param('page');
