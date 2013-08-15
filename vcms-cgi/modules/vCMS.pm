@@ -7,16 +7,25 @@ use vCMS::Proxy;
 use vCMS::Session;
 use vCMS::Collection::LowList;
 use vCMS::RPC;
+use vCMS::SiteUser;
 
 BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o &v &ll &r );
+	@EXPORT = qw( &o &v &ll &r &u );
 }	 
 
 sub o(;$); 
 sub v($;$);
+
+sub u() {
+	(my $id, my $login)=vCMS::Proxy::CheckSession();
+	return undef unless $id;
+	return vCMS::SiteUser->new($id,$login);
+}	
+
+
 
 sub o(;$) {
 	my ($id)=@_;

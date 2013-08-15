@@ -269,6 +269,8 @@ sub DropPagesCache() {
 	&cmlmain::dropcache();	
 }	
 
-
+sub CheckSession () {
+	return cmlmain::check_session()?($cmlcalc::ENV->{'AUTHUSERID'},$cmlcalc::ENV->{'LOGIN'}):undef;
+}
 
 1;
