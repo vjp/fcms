@@ -239,15 +239,19 @@ if (!$opensite && !cookie('dev')) {
 	 	} else {	
 	 		$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
 	 		unless ($v->{value}) {
-	 			$cmlcalc::CGIPARAM->{view}='STARTPAGE';
-	 			if ($dom_objid) {
-	 				my $t_key=&cmlcalc::p('_KEY',&cmlcalc::p('DOMAINSTARTPAGE',$dom_objid));
-	 				my $t_prm=&cmlcalc::p('DOMAINPRMNAME',$dom_objid);
-	 				my $t_val=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid);
-	 				$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
-	 				$cmlcalc::CGIPARAM->{view}=$t_key;
-	 			}
-     			$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+	 			if (vCMS::Config::Get('separate_startpage')) {
+	 				$v=&cmlcalc::calculate({key=>'STARTPAGE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+	 			} else {
+	 				$cmlcalc::CGIPARAM->{view}='STARTPAGE';
+	 				if ($dom_objid) {
+	 					my $t_key=&cmlcalc::p('_KEY',&cmlcalc::p('DOMAINSTARTPAGE',$dom_objid));
+	 					my $t_prm=&cmlcalc::p('DOMAINPRMNAME',$dom_objid);
+	 					my $t_val=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid);
+	 					$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
+	 					$cmlcalc::CGIPARAM->{view}=$t_key;
+	 				}
+     				$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+	 			}	
      		}		
    		}  
 }
