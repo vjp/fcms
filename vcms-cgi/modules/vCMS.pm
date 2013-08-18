@@ -19,10 +19,18 @@ BEGIN
 sub o(;$); 
 sub v($;$);
 
-sub u() {
-	(my $id, my $login)=vCMS::Proxy::CheckSession();
-	return undef unless $id;
-	return vCMS::SiteUser->new($id,$login);
+sub u(;$) {
+	my ($objid)=@_;
+	if ($objid) {
+		my $login = vCMS::Proxy::GetLoginByObjID($objid);
+		if ($login) {
+			return vCMS::SiteUser->new($id,$login);
+		}	
+	} else {
+		(my $id, my $login)=vCMS::Proxy::CheckSession();
+		return undef unless $id;
+		return vCMS::SiteUser->new($id,$login);
+	}	
 }	
 
 

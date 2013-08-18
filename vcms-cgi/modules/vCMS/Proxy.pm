@@ -301,5 +301,11 @@ sub CheckOTKey ($$) {
 	return undef;
 }
 
+sub GetLoginByObjID ($) {
+	my ($objid)=@_;
+	my $taname=GetTableName('auth');
+	my $r=DBSelect("SELECT login FROM $taname WHERE objid=?",$objid);
+	return $r?$r->[0]->{login}:undef;
+}
 
 1;
