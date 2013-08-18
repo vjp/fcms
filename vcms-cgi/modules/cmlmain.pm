@@ -192,6 +192,7 @@ sub ajax_ok(;$$)
 	$data->{'status'}=1;
 	$data->{'message'}=$message || enc('Óñïåøíî');	
 	$data->{'back'}=$CGIPARAM->{back};
+	$cmlcalc::ENV->{'LASTMESSAGE'}=$data->{'message'};
 	return $data
 }
 
