@@ -489,9 +489,12 @@ sub viewleft {
 	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},enc('Пользователи и .htaccess'));
 	print br,a({-href=>'?action=console',-target=>'mainbody'},enc('Консоль'));
 	print br,a({-href=>'?action=config',-target=>'mainbody'},enc('Конфигурация'));
+	
 	print br,a({-href=>'?action=clearcache'},enc('Очистить кеш'));
 	
 	print br,a({-href=>'?action=viewleft'},enc('Обновить'));
+    print br,a({-href=>'https://github.com/vjp/fcms/wiki',-target=>'_blank'},enc('Документация'));	
+	
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
 	print br,enc('Перейти к объекту');
 	print br,enc(' по ID '),textfield(-name=>"objid",-size=>5,-override=>1);
