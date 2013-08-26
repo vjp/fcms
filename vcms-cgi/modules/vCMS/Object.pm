@@ -32,11 +32,17 @@ sub Name ($) {
 	my $self=shift;
 	return $self->p(_NAME);
 }
+
 sub GetName ($) {
 	my $self=shift;
 	return $self->Name();
-	
 }
+
+sub GetFilename ($$) {
+	my ($self,$prm)=@_;
+	return vCMS::Proxy::GetGlobal(vCMS::Proxy::GetPrmExtra($prm,'cgi')?'CGIPATH':'WWWPATH').$self->p($prm);
+}
+        
 
 sub GetIndex ($) {
 	my $self=shift;
@@ -161,7 +167,9 @@ sub SetFile ($$$) {
 
 sub SetToFile ($$$) {
 	my ($self,$prm,$value)=@_;
-	return vCMS::Proxy::WriteLinkedFile($self->ID,$prm,$value);
+	my $path='>'.$self->GetFilename($prm);
+    my $status=(open (FH,$path))&&(print FH $value)&&(close FH); 
+    return $status?(1):(0,"$!");
 }
 
 =item MoveTo( $pObj, $objid || $objkey );

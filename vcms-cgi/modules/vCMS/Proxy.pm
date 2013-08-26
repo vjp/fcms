@@ -161,8 +161,7 @@ sub SetValue ($$;$) {
 
 sub WriteLinkedFile ($$$) {
 	my ($id,$prm,$filedata)=@_;
-	my $fname=GetValue($id,$prm);
-	my $path='>'.GetGlobal($cmlmain::prm->{$prm}->{extra}->{cgi}?'CGIPATH':'WWWPATH')."/$fname";
+	my $path='>'.GetFilename($id,$prm);
     my $status=(open (FH,$path))&&(print FH $filedata)&&(close FH); 
     return enc($status?"Содержимое файла изменено":"Ошибка сохранения изменений. Файл:$path Ошибка:$!");
 }
@@ -278,6 +277,11 @@ sub GetGlobal ($) {
 	my ($var) = @_;
 	return $cmlmain::GLOBAL->{$var};	
 }	
+
+sub GetPrmExtra ($$) {
+	my ($prm,$extra)=@_;
+	return $cmlmain::prm->{$prm}->{extra}->{$extra}
+}
 
 sub DropPagesCache() {
 	&cmlmain::dropcache();	
