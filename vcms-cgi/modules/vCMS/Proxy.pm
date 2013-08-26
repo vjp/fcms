@@ -158,6 +158,15 @@ sub SetValue ($$;$) {
 	return cmlcalc::set($id,$prm,$value);
 }
 
+
+sub WriteLinkedFile ($$$) {
+	my ($id,$prm,$filedata)=@_;
+	my $fname=GetValue($id,$prm);
+	my $path='>'.GetGlobal($cmlmain::prm->{$prm}->{extra}->{cgi}?'CGIPATH':'WWWPATH')."/$fname";
+    my $status=(open (FH,$path))&&(print FH $filedata)&&(close FH); 
+    return enc($status?"Ñîäåğæèìîå ôàéëà èçìåíåíî":"Îøèáêà ñîõğàíåíèÿ èçìåíåíèé. Ôàéë:$path Îøèáêà:$!");
+}
+
 sub DefaultValue ($$;$) {
 	my ($id,$prm)=@_;
 	cmlmain::checkload({id=>$id}); 

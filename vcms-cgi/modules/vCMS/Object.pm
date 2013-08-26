@@ -154,11 +154,14 @@ sub Set ($$;$) {
 	return u($self,$prm,$value);
 }
 
-
-
 sub SetFile ($$$) {
 	my ($self,$prm,$cgifileprm)=@_;
 	return vCMS::Proxy::UploadFile($self->ID,$prm,$cgifileprm);
+}
+
+sub SetToFile ($$$) {
+	my ($self,$prm,$value)=@_;
+	return vCMS::Proxy::WriteLinkedFile($self->ID,$prm,$value);
 }
 
 =item MoveTo( $pObj, $objid || $objkey );
