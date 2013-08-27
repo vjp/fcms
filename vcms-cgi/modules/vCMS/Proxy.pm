@@ -4,7 +4,29 @@ use lib "..";
 use POSIX qw(strftime);
 use LWP::UserAgent;
 use JSON::PP; 
+use Mail::Sender;
+use MIME::Base64;
 use cmlmain; 
+
+
+sub SendFile ($) {
+	my $opts=shift;
+	$Mail::Sender::Error = '';
+	my  $sender = new Mail::Sender  {smtp => 'localhost', from => $opts->{from}};
+	$sender->MailFile({
+  		to => $opts->{to},         
+  		subject => '=?'.'windows-1251'.'?b?'.encode_base64($opts->{subject},'').'?=',
+  		msg => $opts->{msg},          
+  		file => $opts->{filename},
+		b_ctype=>"text/plain; charset=windows-1251",      
+		b_encoding => "8bit",      		
+	});
+	if( $Mail::Sender::Error ne '' ) {
+		return (0,$Mail::Sender::Error);
+	}  else {
+		return 1;
+	}
+}
 
 sub GetIDByKey ($) {
 	my $key=shift;
@@ -158,13 +180,6 @@ sub SetValue ($$;$) {
 	return cmlcalc::set($id,$prm,$value);
 }
 
-
-sub WriteLinkedFile ($$$) {
-	my ($id,$prm,$filedata)=@_;
-	my $path='>'.GetFilename($id,$prm);
-    my $status=(open (FH,$path))&&(print FH $filedata)&&(close FH); 
-    return enc($status?"Содержимое файла изменено":"Ошибка сохранения изменений. Файл:$path Ошибка:$!");
-}
 
 sub DefaultValue ($$;$) {
 	my ($id,$prm)=@_;

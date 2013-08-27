@@ -169,11 +169,19 @@ sub SetToFile ($$$) {
 	my ($self,$prm,$value)=@_;
 	my $path='>'.$self->GetFilename($prm);
     my $status=(open (FH,$path))&&(print FH $value)&&(close FH); 
-    return $status?(1):(0,"$!");
+    return $status?(1):(0,"$!:$path");
+}
+
+
+sub SendFile ($$$;$) {
+	my ($self,$fileprm,$toprm,$opts)=@_;
+	$opts->{subject} ||= $self->GetName();
+	$opts->{filename}=$self->GetFilename($fileprm);
+	$opts->{to}=$self->P($toprm);
+	vCMS::Proxy::SendFile($opts);
 }
 
 =item MoveTo( $pObj, $objid || $objkey );
-
 
 Moves object
 
@@ -182,7 +190,6 @@ Examples:
 o(OBJECTKEY)->MoveTo(NEWUPOBJKEY);
 
 =cut
-
 
 sub MoveTo ($$) {
 	my ($self,$to)=@_;
