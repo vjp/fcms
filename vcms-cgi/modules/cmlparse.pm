@@ -2280,14 +2280,19 @@ sub tag_loop {
 	my $param=$_[0]->{param};
  	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-
+	my $pl=fetchparam(\$param,['counter','var','value','delta']);
 	
-	my $counter;
-	my $retval;
-	if    ($param=~s/(\W)counter=(['"])(.+?)\2/$1/i)      {$counter=$3   }
-	for(my $i=1;$i<=$counter;$i++) {$retval.=cmlparser({data=>$data,inner=>$inner})}
+	my $oldvar;
+	if ($pl->{var}) {
+		$oldvar=$cmlcalc::ENV->{$pl->{var}};
+       	$cmlcalc::ENV->{$pl->{var}}=$pl->{value} || 1
+	}	
+	for(my $i=1;$i<=$pl->{counter};$i++) {
+		$retval.=cmlparser({data=>$data,inner=>$inner});
+		$cmlcalc::ENV->{$pl->{var}}+=$pl->{delta} || 1  if $pl->{var};		
+	}
+	$cmlcalc::ENV->{$pl->{var}}=$oldvar if $pl->{var};
 	return $retval;
-		
 	
 }	
 
