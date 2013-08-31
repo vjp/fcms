@@ -2309,10 +2309,18 @@ sub tag_for {
   	my $id;
     my $data=$_[0]->{data};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['startparam','endparam','delta','var']);
+	my $pl=fetchparam(\$param,[
+		'startparam','endparam',
+		'startexpr','endexpr',
+		'delta','var'
+	]);
 
   	if ($pl->{startparam})     {$sexpr="p($pl->{startparam})" }
   	if ($pl->{endparam})       {$eexpr="p($pl->{endparam})" }
+  	if ($pl->{startexpr})     {$sexpr=$pl->{startexpr}}
+  	if ($pl->{endexpr})       {$eexpr=$pl->{endexpr} }
+
+  	
   	my $delta=$pl->{delta} || 1;
 
   
