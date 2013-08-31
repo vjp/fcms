@@ -2281,11 +2281,11 @@ sub tag_loop {
  	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $pl=fetchparam(\$param,['counter','var','value','delta']);
-	
 	my $oldvar;
+	my $retval;
 	if ($pl->{var}) {
 		$oldvar=$cmlcalc::ENV->{$pl->{var}};
-       	$cmlcalc::ENV->{$pl->{var}}=$pl->{value} || 1
+       	$cmlcalc::ENV->{$pl->{var}}=$pl->{value}
 	}	
 	for(my $i=1;$i<=$pl->{counter};$i++) {
 		$retval.=cmlparser({data=>$data,inner=>$inner});
@@ -2298,21 +2298,23 @@ sub tag_loop {
 
 sub tag_for {
   	my $param=$_[0]->{param};
+  	my $retval;
+  	
   	my $key;
   	my $sexpr;
   	my $eexpr;
   	my $start;
   	my $end;
-  	my $delta;
   	my $expr;
   	my $id;
-       	my $data=$_[0]->{data};
+    my $data=$_[0]->{data};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
+	my $pl=fetchparam(\$param,['startparam','endparam','delta','var']);
 
+  	if ($pl->{startparam})     {$sexpr="p($pl->{startparam})" }
+  	if ($pl->{endparam})       {$eexpr="p($pl->{endparam})" }
+  	my $delta=$pl->{delta} || 1;
 
-  	if ($param=~s/(\W)startparam=(['"])(.+?)\2/$1/i)     {$sexpr="p($3)" }
-  	if ($param=~s/(\W)endparam=(['"])(.+?)\2/$1/i)       {$eexpr="p($3)" }
-	if ($param=~s/(\W)delta=(['"])(.+?)\2/$1/i)          {$delta=$3}
   
   	if    ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)      {$key=$3   }
   	elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)       {$key=$3   }
@@ -2323,19 +2325,29 @@ sub tag_for {
   	elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)        {$id=$3; if (lc ($id) eq '_matrix') {$id=$_[0]->{matrix}->{tabkey}} }
   	else  {$id=$_[0]->{inner}->{objid}} 
 
-        if ($sexpr) { 
-  	  $start=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$sexpr,uid=>$uid})->{value};
+	if ($sexpr) { 
+  		$start=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$sexpr,uid=>$uid})->{value};
   	} 
-        if ($eexpr) { 
-  	  $end=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$eexpr,uid=>$uid})->{value};
+    if ($eexpr) { 
+  		$end=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$eexpr,uid=>$uid})->{value};
   	} 
   	my $retval;
   	$inner->{delta}=$delta;
+  	
+	my $oldvar;
+	if ($pl->{var}) {
+		$oldvar=$cmlcalc::ENV->{$pl->{var}};
+       	$cmlcalc::ENV->{$pl->{var}}=$start;
+	}	
+	  	
+  	
   	for (my $it=$start;$it<$end;$it+=$delta ){
   		$inner->{iterator}=$it;
   		if ($it+$delta<=$end) {$inner->{iteratornext}=$it+$delta} else {$inner->{iteratornext}=$end;}
   		$retval.=cmlparser({data=>$data,inner=>$inner});
+  		$cmlcalc::ENV->{$pl->{var}}+=$delta if $pl->{var};  		
 	}	
+	$cmlcalc::ENV->{$pl->{var}}=$oldvar if $pl->{var};
 	return $retval;
 }
 
