@@ -13,7 +13,7 @@ BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o &v &ll &r &u );
+	@EXPORT = qw( &o &v &ll &r &u &nn);
 }	 
 
 sub o(;$); 
@@ -34,6 +34,9 @@ sub u(;$) {
 }	
 
 
+sub nn($) {
+	return !o($_[0])->IsNull();
+}
 
 sub o(;$) {
 	my ($id)=@_;
