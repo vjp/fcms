@@ -785,12 +785,11 @@ sub day (;$) {
 }
 
 
-sub weekday {
-	return strftime('%u',localtime(time()))
+sub weekday (;$) {
+	return strftime('%u',localtime($_[0] || time()))
 } 
 
 sub curyear (;$){
-	
 	return strftime('%Y',localtime($_[0] || time()))
 }
 
