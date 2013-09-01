@@ -1434,7 +1434,11 @@ sub tag_actionlink {
 		if ($pl->{action} eq 'EDITVIEW') {
 			$pl->{action}=$access_denied?'VIEW':'EDIT';	
 		}
-		return undef if $access_denied && $pl->{action} eq 'EDIT'; 	
+		return undef if $access_denied && $pl->{action} eq 'EDIT'; 
+		if ($pl->{key}) {
+			&cmlmain::checkload({key=>$pl->{key}});
+   			$iid=$cmlmain::nobj->{$pl->{key}}->{id};
+		}	
 		&cmlmain::checkload({id=>$iid});
 		my $tid=$cmlmain::lobj->{$iid}->{upobj};
 		my $kn=$pl->{upkey} || $pl->{ukey} || $cmlmain::obj->{$tid}->{key};
