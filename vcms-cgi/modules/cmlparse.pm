@@ -2658,47 +2658,56 @@ sub tag_inputaudio {
 sub tag_inputparam {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
-  my $inner; %{$inner}=%{$_[0]->{inner}};
+  	my $inner; %{$inner}=%{$_[0]->{inner}};
 
   
 	my $prm;
 	my $name;
 	my $id;
 	my $key;	
-  if ($param=~/(\W)key=(['"])(.+?)\2/i)       {$key=$3   }
- 	elsif ($param=~/(\W)id=(['"])(.+?)\2/i)     {$id=$3   }
-  else {$id=$_[0]->{inner}->{objid}}
+	
+	my $pl=fetchparam(\$param,['prmid']);
+	
+  	if ($param=~/(\W)key=(['"])(.+?)\2/i)       {$key=$3   }
+ 	elsif ($param=~/(\W)id=(['"])(.+?)\2/i)     {
+ 		$id=$3;   
+ 		$inner->{objid}=$id;
+ 	}  else {$id=$_[0]->{inner}->{objid}}
 	
 	
 	if ($param=~/(\W)param=(['"])(.+?)\2/i)    { $prm=$3 } 
 	elsif ($param=~/(\W)prm=(['"])(.+?)\2/i)      { $prm=$3 } 
 	
 	if ($param=~/(\W)prmexpr=(['"])(.+?)\2/i)      { 
-    my $pexpr=$3;
-    $prm=&cmlcalc::calculate({id=>$id,key=>$key,expr=>$pexpr})->{value};
-    $param=~s/(\W)prmexpr=(['"])(.+?)\2/$1prm='$prm'/i;
-    $inner->{objid}=$inner->{parent};
-  } 
+    	my $pexpr=$3;
+    	$prm=&cmlcalc::calculate({id=>$id,key=>$key,expr=>$pexpr})->{value};
+    	$param=~s/(\W)prmexpr=(['"])(.+?)\2/$1prm='$prm'/i;
+    	$inner->{objid}=$inner->{parent};
+  	} 
 	
 
 	if ($param=~/(\W)expr=(['"])(.+?)\2/i)      { 
-    my $expr=$3;
-  	my $value=&cmlcalc::calculate({id=>$id,key=>$key,expr=>$expr})->{value};      	
-    $param=~s/(\W)expr=(['"])(.*?)\2/$1/i;
-    $inner->{objid}=$inner->{parent};
-  }
+    	my $expr=$3;
+  		my $value=&cmlcalc::calculate({id=>$id,key=>$key,expr=>$expr})->{value};      	
+    	$param=~s/(\W)expr=(['"])(.*?)\2/$1/i;
+    	$inner->{objid}=$inner->{parent};
+  	}
 
 	
 	if ($param=~/(\W)name=(['"])(.+?)\2/i)     {$name=$3   } 
 	else {$name="_f$prm"}
+	
+	if ($pl->{prmid})     {
+ 		$inner->{objid}=$pl->{prmid};
+	}
 		
 	if ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
 		return tag_select({data=>$data,inner=>$inner,param=>$param});
-  } elsif ( $cmlmain::prm->{$prm}->{type} eq 'PICTURE'  ) {		
-  	return tag_img({data=>$data,inner=>$inner,param=>$param}).tag_inputfile({data=>$data,inner=>$inner,param=>$param});       	
+  	} elsif ( $cmlmain::prm->{$prm}->{type} eq 'PICTURE'  ) {		
+  		return tag_img({data=>$data,inner=>$inner,param=>$param}).tag_inputfile({data=>$data,inner=>$inner,param=>$param});       	
 	}	 else {
 		return tag_inputtext({data=>$data,inner=>$inner,param=>$param});
-  }	
+  	}	
 	
   
 }	
