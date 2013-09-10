@@ -214,20 +214,21 @@ sub json_ok(;$$)
 	my $r={
 		'status'=>1,
 		'message'=>$message || 'SUCCESS',
-		'result'=>$result,
 	};
+	$r->{result}=$result if $result;	
 	return $GLOBAL->{CODEPAGE} eq 'utf-8'?JSON::PP->new->utf8(0)->encode($r):JSON::PP->new->latin1->encode($r);
 }
 
-sub json_error(;$) 
+sub json_error(;$$) 
 {
-	my ($message)=@_;
+	my ($message,$result)=@_;
 	$cmlcalc::ENV->{'JSON'}=1;
 	my $r={
 		'status'=>0,
 		'message'=>$message || 'ERROR',
 	};
-	return $GLOBAL->{CODEPAGE} eq 'utf-8'?encode_json($r):JSON::PP->new->latin1->encode($r);
+	$r->{result}=$result if $result;
+	return $GLOBAL->{CODEPAGE} eq 'utf-8'?JSON::PP->new->utf8(0)->encode($r):JSON::PP->new->latin1->encode($r);
 }
 
 
