@@ -55,7 +55,13 @@ if ($data) {
 my $json=new JSON::PP;
 my $result=&cmlcalc::execute({method=>$method_name,key=>'GATE'});
 print header(-type=>$cmlcalc::ENV->{'JSON'} || !$result?'application/json':'text/html', -charset=>$GLOBAL->{CODEPAGE});
-print $result ||  $json->encode ({status=>0,error=>"METHOD:$method_name EMPTY OUTPUT"});
+if ($result) {
+	print $result 
+} elsif ($@){
+	print $json->encode ({status=>0,error=>"METHOD:$method_name COMPILE ERROR:$@"});
+} else {
+	print $json->encode ({status=>0,error=>"METHOD:$method_name EMPTY OUTPUT"});
+}	
 
 
 sub errorpage
