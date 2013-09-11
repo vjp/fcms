@@ -5,7 +5,7 @@ use base "vCMS::Object::Low";
 use lib "..";
 use vCMS::Proxy;
 	 
-sub new($) {
+sub new($;$$) {
     my ($class,$id,$login) = @_;
     my $self = {
         _type => vCMS::Object::OBJ_TYPE_LOW(),
