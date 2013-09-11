@@ -312,6 +312,13 @@ sub SetOTKey ($$) {
 	DBQuery("UPDATE $tname SET otkey=? WHERE login=?",$key,$login);
 }
 
+sub SetSessionKey ($$) {
+	my ($login,$key)=@_;
+	my $tname=GetTableName('auth');
+	DBQuery("UPDATE $tname SET scookie=?, authtime=NOW() WHERE login=?",$key,$login);
+}
+
+
 sub CheckOTKey ($$) {
 	my ($login,$key)=@_;
 	my $taname=GetTableName('auth');

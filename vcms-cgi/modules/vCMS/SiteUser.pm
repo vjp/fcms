@@ -38,4 +38,11 @@ sub LoginByOTKey ($$$) {
 	return $class->new($uid,$login);
 }
 
+sub GetSessionKey ($) {
+	my ($self)=@_;
+	my $key=int(rand(1000000000));
+	vCMS::Proxy::SetSessionKey($self->GetLogin(),$key);
+	return $key;
+}
+
 1;
