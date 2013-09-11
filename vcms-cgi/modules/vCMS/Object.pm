@@ -218,6 +218,12 @@ sub Append ($$;$) {
 	return vCMS::Proxy::AppendValue($self->ID,$prm,$value);
 }
 
+sub Inc ($$;$) {
+	my ($self,$prm,$value)=@_;
+	return vCMS::Proxy::IncValue($self->ID,$prm,$value);
+}
+
+
 sub SetName ($$) {
 	my ($self,$value)=@_;
 	return vCMS::Proxy::SetName($self->ID,$value);

@@ -194,6 +194,11 @@ sub AppendValue ($$;$) {
 	return cmlcalc::app($id,$prm,$value);
 }
 
+sub IncValue ($$;$) {
+	my ($id,$prm,$value)=@_;
+	return cmlcalc::inc($prm,$id,$value);
+}
+
 
 
 sub SetName ($$) {
