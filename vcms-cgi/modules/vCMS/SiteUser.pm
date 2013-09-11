@@ -45,4 +45,11 @@ sub GetSessionKey ($) {
 	return $key;
 }
 
+sub LoginBySessionKey ($$$) {
+	my ($class,$login,$sessionkey)=@_;
+	my $uid=vCMS::Proxy::CheckSessionKey($login,$sessionkey);
+	return undef unless $uid;
+	return $class->new($uid,$login);
+}
+
 1;

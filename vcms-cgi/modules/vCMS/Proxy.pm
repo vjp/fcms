@@ -336,6 +336,18 @@ sub CheckOTKey ($$) {
 	return undef;
 }
 
+sub CheckSessionKey ($$) {
+	my ($login,$key)=@_;
+	my $taname=GetTableName('auth');
+	my $r2=DBSelect("SELECT objid FROM $taname WHERE login=? and scookie=? and flag&1",$login,$key);
+	if ($r2 && $r2->[0]->{objid}) {
+		return $r2->[0]->{objid};
+	}
+	return undef;
+}
+
+
+
 sub GetLoginByObjID ($) {
 	my ($objid)=@_;
 	my $taname=GetTableName('auth');
