@@ -206,11 +206,6 @@ sub SetName ($$) {
 	return cmlcalc::set($id,'_NAME',$value);
 }
 
-sub MoveTo ($$) {
-	my ($id,$upid)=@_;
-	return cmlcalc::set($id,'_UP',$upid);
-}
-
 
 sub CreateLowObj ($) {
 	my ($uid)=@_;
