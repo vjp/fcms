@@ -195,7 +195,8 @@ sub MoveTo ($$) {
 	my ($self,$to)=@_;
 	my $toObj=vCMS::o($to);
 	return 0 unless $toObj;
-	return $self->Set('_UP',$toObj->GetID());
+	$self->Set('_UP',$toObj->GetID());
+	return  $toObj->GetID();
 }
 
 
