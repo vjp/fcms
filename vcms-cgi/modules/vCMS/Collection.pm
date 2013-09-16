@@ -50,5 +50,11 @@ sub Delete ($) {
 	$self->{_list}=[];
 }
 
+sub Inc ($$;$) {
+	my ($self,$prm,$value)=@_;
+	for my $pObj (@{$self->GetObjects}) {
+		$pObj->Inc($prm,$value);
+	}
+} 
 
 1;
