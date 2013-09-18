@@ -55,6 +55,16 @@ sub Inc ($$;$) {
 	for my $pObj (@{$self->GetObjects}) {
 		$pObj->Inc($prm,$value);
 	}
-} 
+}
+
+sub GetIDs($) {
+	my ($self,$prm,$value)=@_;
+	my $ids_ref;
+	for my $pObj (@{$self->GetObjects}) {
+		push (@$ids_ref,$pObj->GetID());
+	}
+	return $ids_ref
+}
+ 
 
 1;
