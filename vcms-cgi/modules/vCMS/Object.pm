@@ -110,6 +110,12 @@ sub p($$;$) {
 	return P($_[0],$_[1],$_[2]);
 }
 
+
+sub url ($$) {
+	my($self,$prm)=@_;
+	return vCMS::Proxy::GetGlobal('ABSFILEURL').'/'.$self->p($prm);
+}
+
 =item l( $pObj, $prmname )
 
 Returns vCMS::Collection or vCMS::Object for this $param
