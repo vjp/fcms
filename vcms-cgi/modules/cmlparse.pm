@@ -3226,7 +3226,7 @@ sub uploadprmfile
   	print FILE $buffer; 
  }
  close  FILE;
- &cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname});
+ &cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
 }
 
 
