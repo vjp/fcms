@@ -1,0 +1,3 @@
+ForceType application/octet-stream
+Header set Content-Disposition attachment
+SetEnv no-gzip 
