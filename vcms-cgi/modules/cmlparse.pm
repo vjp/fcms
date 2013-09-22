@@ -438,7 +438,7 @@ sub tag_td {
 	my $param=$_[0]->{param};
 	my $data=$_[0]->{data};
 	my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $pl=fetchparam(\$param,['th','csv','csvmoney','hidden','hiddenexpr','colorexpr']);
+	my $pl=fetchparam(\$param,['th','csv','csvmoney','hidden','hiddenexpr','colorexpr','color']);
 	my $id=$inner->{objid};	
 	my $body=cmlparser({data=>$data,inner=>$inner});
 	my $tg=($pl->{th} || $inner->{th})?'th':'td';
@@ -453,8 +453,8 @@ sub tag_td {
 		$clstr='style="display:none"';
 	} elsif ($pl->{hiddenexpr}) {
 		$clstr='style="display:none"' if cmlcalc::calculate({id=>$id,expr=>$pl->{hiddenexpr}})->{value};
-	} elsif ($pl->{colorexpr}) {
-		my $clr= &cmlcalc::calc($id,$pl->{colorexpr});
+	} elsif ($pl->{colorexpr} || $pl->{color}) {
+		my $clr= $pl->{color} || &cmlcalc::calc($id,$pl->{colorexpr});
 		$clstr="style='background-color:$clr'";
 	}
 	return "<$tg $param $clstr>$body</$tg>";
