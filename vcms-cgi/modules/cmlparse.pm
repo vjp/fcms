@@ -286,7 +286,7 @@ sub tagparse {
   		}	
   		return $v;
  	} else {
-  		if ($_[0]->{data}) {return "<$_[0]->{name} $_[0]->{param}>".cmlparser({data=>$_[0]->{data},inner=>$inner})."</$_[0]->{name}>";} 
+  		if ($_[0]->{data} ne '') {return "<$_[0]->{name} $_[0]->{param}>".cmlparser({data=>$_[0]->{data},inner=>$inner})."</$_[0]->{name}>";} 
   		else {return "<$_[0]->{name} $_[0]->{param} />";} 
 	}
  
