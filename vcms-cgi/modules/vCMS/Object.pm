@@ -43,6 +43,11 @@ sub GetFilename ($$) {
 	return vCMS::Proxy::GetGlobal(vCMS::Proxy::GetPrmExtra($prm,'cgi')?'CGIPATH':'WWWPATH').$self->p($prm);
 }
         
+sub GetInternalFilename ($$) {
+	my ($self,$prm)=@_;
+	return vCMS::Proxy::GetGlobal('FILEPATH').'/'.$self->p($prm);
+}
+        
 
 sub GetIndex ($) {
 	my $self=shift;
