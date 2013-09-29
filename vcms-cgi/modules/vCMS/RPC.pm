@@ -101,5 +101,15 @@ sub StaticSync ($) {
 	return("$str - $output");
 }
 
+sub DataSync ($) {
+	my ($self)=@_;
+	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=data";
+	my $path=vCMS::Proxy::GetGlobal('FILEPATH');
+	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $path";
+	my $output=`$str`;
+	return("$str - $output");
+}
+
+
 
 1;
