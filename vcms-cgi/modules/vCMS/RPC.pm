@@ -95,7 +95,8 @@ sub DBSync  ($) {
 sub StaticSync ($) {
 	my ($self)=@_;
 	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=docs";
-	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $GLOBAL->{WWWPATH}";
+	my $wwwpath=vCMS::Proxy::GetGlobal('WWWPATH');
+	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $wwwpath";
 	my $output=`$str`;
 	return("$str - $output");
 }
