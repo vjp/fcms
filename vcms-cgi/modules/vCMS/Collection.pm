@@ -50,6 +50,12 @@ sub Delete ($) {
 	$self->{_list}=[];
 }
 
+sub Set ($$;$) {
+	my ($self,$prm,$value)=@_;
+	$_->Set($prm,$value) for @{$self->GetObjects()};
+}
+
+
 sub Inc ($$;$) {
 	my ($self,$prm,$value)=@_;
 	for my $pObj (@{$self->GetObjects}) {
