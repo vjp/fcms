@@ -55,6 +55,11 @@ sub Set ($$;$) {
 	$_->Set($prm,$value) for @{$self->GetObjects()};
 }
 
+sub MoveTo ($$) {
+	my ($self,$to)=@_;
+	$_->MoveTo($to) for @{$self->GetObjects()};
+}
+
 
 sub Inc ($$;$) {
 	my ($self,$prm,$value)=@_;
