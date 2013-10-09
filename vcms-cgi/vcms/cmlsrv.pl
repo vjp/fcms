@@ -939,7 +939,10 @@ sub editlowform
  
  	print "\n<form method='post' name='frm' enctype='multipart/form-data'>\n";
  	print start_table();
- 	print Tr(th({-colspan=>3},enc('Объект:')." $lobj->{$objid}->{name} ($objid)"));
+ 	print Tr(
+ 		th({-colspan=>2},enc('Объект:')." $lobj->{$objid}->{name} ($objid)"),
+ 		th(a({-href=>"?action=deletelow&objid=$objid&id=$id",-onclick=>enc("confirm('Подтвердите удаление объекта')")},enc('Удалить')))
+ 	);
 
 
 	if ($obj->{$id}->{lang} eq 'mul') { 
@@ -949,7 +952,8 @@ sub editlowform
 			if ($name eq '') {$name=$name=$lobj->{$objid}->{name}}
 		 	print Tr(
 		 			td(enc("Имя")."($LANGS{$lang})"),
-		 			td(textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
+		 			td(textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40))
+		 	);
 		}	
 	} else {	
  			print Tr(th(enc('Имя')),td(textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60))); 	
