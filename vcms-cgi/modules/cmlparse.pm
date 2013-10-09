@@ -1539,10 +1539,12 @@ sub tag_actionlink {
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    $title='CSV' unless $title;
 		    return "<a href='$cmlcalc::QUERYSTRING&csv=1' target='_blank'>$title</a>"
-	} elsif ($pl->{action} eq 'OPENWINDOW') {
+	} elsif ($pl->{action} eq 'OPENWINDOW' || $pl->{action} eq 'POPUP') {
 		    my $width=$pl->{width} || 600;
 		    my $height=$pl->{height} || 400;
-		    return qq(<a href='#' onclick="openPopup('?view=$pl->{template}&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
+		    my $href="?popupview=$pl->{template}&id=$pl->{id}";
+		    $href.='&'.$pl->{href} if $pl->{href};
+		    return qq(<a href='#' onclick="openPopup('$href',{title:'$title',width:$width,height:$height})">$title</a>)
 	}				
 	
 	
