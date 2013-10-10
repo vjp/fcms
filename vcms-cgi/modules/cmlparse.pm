@@ -1522,7 +1522,7 @@ sub tag_actionlink {
  	    	my $dtstr='{}';
   	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
- 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'';	    	 	    	
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	    	 	    	
  	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback)");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
 	} elsif ($pl->{lmethod}) {
@@ -3063,10 +3063,10 @@ sub tag_changebutton {
 	my $retstr;
 	if ($pl->{'ajax'} || $pl->{'callback'}){
 		if ($_[0]->{inner}->{matrix}) {
-			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
+			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
 			my $id=ref $_[0]->{inner}->{objid} eq 'HASH'?$_[0]->{inner}->{objid}->{id}:$_[0]->{inner}->{objid};
-			$onclickstr=qq(onclick="if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
+			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
 	} elsif ($pl->{method}) {
 		$retstr.="<input type='hidden' name='overrideparsemethod' value='$pl->{method}'>";
