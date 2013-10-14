@@ -284,6 +284,10 @@ sub UploadFile($$$) {
 	}	
 }
 
+sub ExportDBStr() {
+	return cmlmain::export_db_str();
+}
+
 sub ImportDBStr () {
 	return cmlmain::import_db_str();
 }	

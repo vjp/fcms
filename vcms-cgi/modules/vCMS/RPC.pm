@@ -5,6 +5,7 @@ use JSON::PP;
 use Encode;
 use HTTP::Request::Common qw(POST); 
 use vCMS::Proxy;
+use POSIX qw(strftime);
  
 =head1 NAME
 
@@ -85,6 +86,10 @@ sub DBSync  ($) {
 	my $test=$self->Test();
 	return $test->{error} if $test->{error};
 	vCMS::Proxy::DropPagesCache();
+	my $str=vCMS::Proxy::ExportDBStr();
+	my $backupname=vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
+	system("$str | gzip -c >$backupname");
+	return "cant backup" unless -s $backupname;
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $istr=vCMS::Proxy::ImportDBStr();
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
