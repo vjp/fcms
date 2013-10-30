@@ -1147,18 +1147,14 @@ sub tag_list  	{
 
 sub tag_setvar {
 	my $param=$_[0]->{param};
-  my $inner; %{$inner}=%{$_[0]->{inner}};
-	my $varname;
+  	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $varvalue;
-	
 	my $id=$inner->{objid};
-	
-	if      ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)        {	$varname=$3    }
-	
-	if      ($param=~s/(\W)value=(['"])(.+?)\2/$1/i)          {	$varvalue=$3    }
-	elsif      ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)       {	  $varvalue=&cmlcalc::calculate({id=>$id,expr=>"p($3)"})->{value}	}
-	
-	$inner->{var}->{$varname}=$varvalue;
+	my $pl=fetchparam(\$param,['value','param','name']);
+	$varvalue=$pl->{value} if defined $pl->{value};
+	$varvalue=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{param})"})->{value} if $pl->{param};	
+	$inner->{var}->{$pl->{name}}=$varvalue;
+	$cmlcalc::ENV->{$pl->{name}}=$varvalue;
 	return cmlparser({data=>$_[0]->{data},inner=>$inner});
 }	
 
