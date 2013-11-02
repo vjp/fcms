@@ -1,5 +1,7 @@
 package vCMS::Collection;
-  
+
+use lib "..";  
+use vCMS::Method;
 
 sub new($$$) {
     my ($class,$list_ref) = @_;
@@ -67,6 +69,20 @@ sub Inc ($$;$) {
 		$pObj->Inc($prm,$value);
 	}
 }
+
+sub Execute ($$) {
+	my ($self,$method)=@_;
+	for my $pObj (@{$self->GetObjects}) {
+		my $m=new vCMS::Method($pObj,$method);
+		$m->Execute();
+	}	
+
+}
+
+sub e($$) {
+	return Execute($_[0],$_[1]);
+}
+
 
 sub GetIDs($) {
 	my ($self,$prm,$value)=@_;
