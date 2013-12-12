@@ -29,6 +29,7 @@ sub new {
     require  LWP::UserAgent;
 	my $ua = LWP::UserAgent->new;
 	$ua->agent("vCMS rpc agent");
+	$ua->timeout(900);
     $self->{_ua}=$ua;
     bless $self, $class;
     return $self;
