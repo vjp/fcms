@@ -1,6 +1,4 @@
-#!/usr/bin/perl -w
-
-
+#!/usr/bin/perl
 
 use strict;
 no strict "refs";
