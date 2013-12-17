@@ -1150,9 +1150,11 @@ sub tag_setvar {
   	my $inner; %{$inner}=%{$_[0]->{inner}};
 	my $varvalue;
 	my $id=$inner->{objid};
-	my $pl=fetchparam(\$param,['value','param','name']);
+	my $pl=fetchparam(\$param,['value','param','name','expr']);
 	$varvalue=$pl->{value} if defined $pl->{value};
 	$varvalue=&cmlcalc::calculate({id=>$id,expr=>"p($pl->{param})"})->{value} if $pl->{param};	
+	$varvalue=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}}) if $pl->{expr};
+	
 	$inner->{var}->{$pl->{name}}=$varvalue;
 	$cmlcalc::ENV->{$pl->{name}}=$varvalue;
 	return cmlparser({data=>$_[0]->{data},inner=>$inner});
