@@ -3045,8 +3045,8 @@ sub tag_deletebutton {
 
 sub tag_changebutton {
 	my $param=$_[0]->{param};
-	my $imgsrc=$cmlmain::POSTBUTTONURL;
-  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid','sortid']);
+  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid','sortid','imgsrc']);
+	my $imgsrc=$pl->{imgsrc} || $cmlmain::POSTBUTTONURL;  	
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?$pl->{callback}:'undefined';
@@ -3077,7 +3077,8 @@ sub tag_changebutton {
 			$retstr.="<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
 		}	
 	} else {	
-		$retstr.="<input type='image' src='$imgsrc' width='119' height='24' value='OK' $onclickstr $param $clstr $elementid/>";
+		my $whstr=$pl->{imgsrc}?'':"width='119' height='24'";
+		$retstr.="<input type='image' src='$imgsrc' $whstr value='OK' $onclickstr $param $clstr $elementid/>";
 	}	
 	return $retstr;
 	
