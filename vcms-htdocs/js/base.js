@@ -67,8 +67,12 @@ function execute(func,data,callback,url) {
 
 function defcallback(json){
     if (json.status) {
-        alert(json.message || lbSuccess); 
-        reloadPage();
+        alert(json.message || lbSuccess);
+        if (json.redir) {
+        	location.href=json.redir;
+        } else {
+        	reloadPage();
+        }	
     } else {
         alert(json.message);
     }    
