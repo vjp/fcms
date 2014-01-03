@@ -1354,7 +1354,7 @@ sub tag_actionlink {
 	my $method;
 	my $title;
 	
-	my $pl=fetchparam($param,[
+	my $pl=fetchparam(\$param,[
 		'action','id','upobj','up','upkey','link','linkval',
 		'setflag','name','value','prm','param',
 		'piclist','filelist','vidlist',
