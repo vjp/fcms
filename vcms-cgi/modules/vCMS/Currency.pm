@@ -1,5 +1,6 @@
 package vCMS::Currency;
 
+use lib "..";
 use vCMS::Proxy;
 
 
