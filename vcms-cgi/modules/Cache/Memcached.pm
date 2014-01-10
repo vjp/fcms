@@ -9,6 +9,7 @@ package Cache::Memcached;
 
 use strict;
 use warnings;
+use lib '..';
 
 no strict 'refs';
 use Storable ();

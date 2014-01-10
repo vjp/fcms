@@ -6,6 +6,7 @@ use 5.005;
 use strict;
 use base qw(Exporter);
 use overload;
+use lib '..';
 
 use Carp ();
 use B ();
