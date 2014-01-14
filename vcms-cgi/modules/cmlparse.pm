@@ -2756,11 +2756,14 @@ sub tag_inputtext {
     
 
 
-	my $value;  	  
+	my $value;  
+	my $valueset;	  
   	if (defined $pl->{value})   { 	
-  		$value=$pl->{value}      	
+  		$value=$pl->{value};
+  		$valueset=1;      	
 	} elsif ($pl->{expr})   { 	
-  		$value=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}})->{value}      	
+  		$value=&cmlcalc::calculate({id=>$id,expr=>$pl->{expr}})->{value};
+  		$valueset=1;      	
   	}
 
 	my $rows;
@@ -2795,12 +2798,13 @@ sub tag_inputtext {
 	}	
 
 	
-
-    if ($prm && !(defined $value) && $id) {
-  		$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)",noparse=>1})->{value};
-	} elsif ($cmlcalc::CGIPARAM->{$name} && !defined($value)) { 
-		$value = $cmlcalc::CGIPARAM->{$name}
-	}
+	unless ($valueset) {
+    	if ($prm &&  $id) {
+  			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)",noparse=>1})->{value};
+		} elsif ($cmlcalc::CGIPARAM->{$name}) { 
+			$value = $cmlcalc::CGIPARAM->{$name}
+		}
+	}	
 	push (@cmlcalc::CSVCOLS, $value ) if $pl->{csv};
 	
 	return $value if $access_denied;
