@@ -1,13 +1,16 @@
 package vCMS::Queue;
 
 
-sub Add ($) {
-	my ($method)=@_;
-	return vCMS::Proxy::CreateQueueEvent($method->GetObject()->GetID(),$method->GetName());
+sub Add ($;$) {
+	my ($method,$exectime)=@_;
+	$exectime ||= time();
+	return vCMS::Proxy::CreateQueueEvent($method->GetObject()->GetID(),$method->GetName(),$exectime);
 }
 
-sub Process {
-	my ($self)=@_;
+sub Job (;$){
+	my ($processor_id)=@_;
+	$processor_id ||= Time::HiRes::time();
+	return vCMS::Proxy::GetQueueEvent($processor_id);
 }
 
 1;

@@ -212,16 +212,19 @@ sub CreateLowObj ($) {
 	return cmlcalc::add($uid);
 }
 
-sub CreateQueueEvent ($$) {
-	my ($objid,$method)=@_;
+sub CreateQueueEvent ($$;$) {
+	my ($objid,$method,$time)=@_;
 	my $tname=GetTableName('queue');
-	my $Q=DBUpdate("INSERT INTO $tname (objid,method,exectime) VALUES (?,?,NOW())",$objid,$method);
+	my $Q=DBUpdate("INSERT INTO $tname (objid,method,exectime) VALUES (?,?,FROM_UNIXTIME(?)",$objid,$method,$time);
 	return DBLastInsertID($Q);
 }
 
-sub GetQueueEvent() {
+sub GetQueueEvent($) {
+	my ($uniqid)=@_;
 	my $tname=GetTableName('queue');
-	my $r=DBSelect("SELECT * FROM $tname WHERE status=0 ORDER by exectime DESC limit=1");
+	DBUpdate("UPDATE $tname SET processorid=?,status=1 WHERE status=0 AND exectime<NOW() LIMIT 1",$uniqid);
+	my $r=DBSelect("SELECT * FROM $tname WHERE processorid=?",$uniqid);
+	return $r->[0];
 }
 
 sub History ($$) {

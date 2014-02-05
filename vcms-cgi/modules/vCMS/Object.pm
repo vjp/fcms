@@ -276,6 +276,12 @@ sub M($$) {
 	return new vCMS::Method($self,$method);
 }
 
+sub m($$) {
+	my ($self,$method)=@_;
+	return new vCMS::Method($self,$method);
+}
+
+
 =item E( $pObj, $methodname )
 =item Execute( $pObj, $methodname )
 
