@@ -13,4 +13,8 @@ sub Job (;$){
 	return vCMS::Proxy::GetQueueEvent($processor_id);
 }
 
+sub Reset () {
+	vCMS::Proxy::ResetQueue();
+}
+
 1;

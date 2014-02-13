@@ -227,6 +227,13 @@ sub GetQueueEvent($) {
 	return $r->[0];
 }
 
+sub ResetQueue() {
+	my $tname=GetTableName('queue');
+	DBUpdate("UPDATE $tname SET status=0");
+	return 1;
+}
+
+
 sub History ($$) {
 	my ($objid,$prm)=@_;
 	my $tname=GetTableName('vlshist');
