@@ -286,9 +286,10 @@ my $body=$v->{value};
 if ($xmlmode && $GLOBAL->{CODEPAGE} ne 'utf-8') {
 		$body=Encode::encode('utf-8',Encode::decode($GLOBAL->{CODEPAGE},$body));
 }
+stat_injection (time-$st,\$body);
+
 if ($body) {
 	print $body;
-	benchmark($mtime) if cookie('dev') && !$xmlmode;
 } else       {
 	errorpage()
 }
@@ -318,9 +319,36 @@ sub errorpage
  else       {print "Ошибка вывода !!!!"}
 }
 
-
-sub benchmark
+sub stat_injection 
 {
-	my ($mtime)=@_;
-	print "<br/>TIME : $mtime";
+	my ($mtime,$bodyref)=@_;
+	$mtime=int(1000*$mtime);
+	my $stat_script=qq(
+	
+	 <script type="text/javascript">
+             var drt;
+             var wlt;
+             var mt=$mtime;
+             jQuery(document).ready(function() {
+                 drt=Date.now()-timerStart+mt;
+                 console.log("Time until DOMready: ",drt/1000);
+             });
+             jQuery(window).load(function() {
+                 wlt=Date.now()-timerStart+mt;
+                 console.log("Time until everything loaded: ", (Date.now()-timerStart)/1000);
+                 var newImg = new Image;
+                 newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt;
+             });
+             
+        </script>       
+	
+	
+	);
+	my $init_script=qq(<script type="text/javascript">var timerStart = Date.now();</script>);
+
+
+	${$bodyref}=~s/<!-- INIT INJECTION -->/$init_script/i;
+	${$bodyref}=~s/<!-- STAT INJECTION -->/$stat_script/i;
+
 }
+
