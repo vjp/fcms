@@ -46,6 +46,7 @@ if (param('install')) {
 			system "rm cgi.tar.gz";
 			chmod (0755, 'viewer.pl');
 			chmod (0755, 'ajax-json.pl');
+			chmod (0755, 'stat.pl');			
 			chmod (0755, 'admin/admin.pl');
 			chmod (0755, 'admin/ajax-json.pl');
 			chmod (0755, 'user/user.pl');
