@@ -233,6 +233,14 @@ sub ResetQueue() {
 	return 1;
 }
 
+sub DeleteQueueEvent($) {
+	my ($qid)=@_;
+	my $tname=GetTableName('queue');
+	DBUpdate("DELETE FROM $tname WHERE qid=?",$qid);
+	return 1;
+}
+
+
 
 sub History ($$) {
 	my ($objid,$prm)=@_;

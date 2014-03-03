@@ -1,5 +1,7 @@
 package vCMS::Queue;
 
+use lib "..";
+use vCMS;
 
 sub Add ($;$) {
 	my ($method,$exectime)=@_;
@@ -10,7 +12,14 @@ sub Add ($;$) {
 sub Job (;$){
 	my ($processor_id)=@_;
 	$processor_id ||= Time::HiRes::time();
-	return vCMS::Proxy::GetQueueEvent($processor_id);
+	my $ev=vCMS::Proxy::GetQueueEvent($processor_id);
+	if ($ev) {
+		my $r=vCMS::o($ev->{objid})->e($ev->{method});
+		vCMS::Proxy::DeleteQueueEvent($ev->{qid});
+		return $r;
+	} else {
+		return undef;
+	}	
 }
 
 sub Reset () {
