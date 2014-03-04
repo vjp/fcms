@@ -64,7 +64,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str
+              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str &restore_db
               
               &compile_date  &set_hru &json_ok &json_error &clear_unused_data
              );
@@ -110,6 +110,11 @@ sub import_db_str ()
 {
 	my $hoststr=$GLOBAL->{DBHOST}=~/(.+):(\d+)/?"-h$1 -P$2":"-h".$GLOBAL->{DBHOST};
 	return "mysql -f $hoststr -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} $GLOBAL->{DBNAME}";
+}
+
+sub restore_db ($) {
+	my ($filename)=@_;
+	import_db("$GLOBAL->{WWWPATH}/backup/$filename");
 }
 
 
