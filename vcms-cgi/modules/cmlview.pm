@@ -12,7 +12,7 @@ BEGIN
  use cmlcalc;
  use vCMS;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console &config);
+ @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console &config &viewhistoryform);
 
 }
 
@@ -154,6 +154,20 @@ sub config {
 	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
 	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
 	
+}
+
+
+sub viewhistoryform ($$) {
+	my ($objid,$prm)=@_;
+	my $pObj=o($objid);
+	my $name=$pObj->p(_NAME);
+	print_top("VH: $name($objid) $prm");
+	my $r=$pObj->History($prm);
+    print start_table();
+    for (@$r) {
+		print Tr(td($_->{dt}),td($_->{value}));    		
+    }
+	print end_table();    	
 }
 
 
