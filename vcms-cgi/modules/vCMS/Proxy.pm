@@ -215,7 +215,7 @@ sub CreateLowObj ($) {
 sub CreateQueueEvent ($$;$) {
 	my ($objid,$method,$time)=@_;
 	my $tname=GetTableName('queue');
-	my $Q=DBUpdate("INSERT INTO $tname (objid,method,exectime) VALUES (?,?,FROM_UNIXTIME(?)",$objid,$method,$time);
+	my $Q=DBUpdate("INSERT INTO $tname (objid,method,exectime) VALUES (?,?,FROM_UNIXTIME(?))",$objid,$method,$time);
 	return DBLastInsertID($Q);
 }
 

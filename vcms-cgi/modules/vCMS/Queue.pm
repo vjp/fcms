@@ -14,10 +14,12 @@ sub Job (;$){
 	$processor_id ||= Time::HiRes::time();
 	my $ev=vCMS::Proxy::GetQueueEvent($processor_id);
 	if ($ev) {
+		warn "Processing event $ev->{objid} : $ev->{method}";
 		my $r=vCMS::o($ev->{objid})->e($ev->{method});
 		vCMS::Proxy::DeleteQueueEvent($ev->{qid});
 		return $r;
 	} else {
+		warn "Empty queue";
 		return undef;
 	}	
 }

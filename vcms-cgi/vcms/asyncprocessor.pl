@@ -17,4 +17,5 @@ start('..');
 $cmlcalc::ENV->{USER}='%asyncprocessor';
 $cmlcalc::CGIPARAM->{_MODE}='ASYNCPROCESSOR';
 ($cmlcalc::ENV->{SERVER}) = ($GLOBAL->{ABSFILEURL}=~m{http://(.+)/data});
-o('AUTOMATE')->e('ASYNCPROCESSOR');
+vCMS::Queue::Job();
+
