@@ -312,6 +312,10 @@ sub ExecuteAsync($$) {
 	return $m->ExecuteAsync();
 }
 
+sub ea($$) {
+	return ExecuteAsync($_[0],$_[1]);
+}
+
 
 
 sub Delete($;$) {
