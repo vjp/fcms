@@ -1808,7 +1808,7 @@ sub install_db ($$) {
   			`processorid` varchar(20) NOT NULL default '',
   			PRIMARY KEY  (`qid`),
   			KEY `s` (`status`,`exectime`),
-  			KEY `prid` (`processorid`),
+  			KEY `prid` (`processorid`)
 		)
 	") || die $dbh->errstr();
 	
