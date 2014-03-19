@@ -233,6 +233,7 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbSuccess="Успех";
   var lbRequired="Необходимо заполнить поле";
   var lbDigit="Введите числовое значение в поле";   
+  var lbSelSuccess="Список изменен";  
   var  ajax_url = '/cgi-bin/user/ajax-json.pl';
 </script>
 )});

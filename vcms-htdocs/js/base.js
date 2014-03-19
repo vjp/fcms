@@ -413,3 +413,15 @@ function jsErrHandler(message, url, line)
     });
     return true;
 }
+
+
+function successSet () {
+    alert(lbSelSuccess);
+    parent.closePopup();
+    parent.reloadPage();
+}
+
+function setSel(frm,id) {
+    var dt=$(frm).up('form').serialize(true);
+    lexecute('BASELPARSER',id,dt,successSet);
+}
