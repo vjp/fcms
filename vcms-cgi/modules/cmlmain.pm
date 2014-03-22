@@ -64,7 +64,7 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str &restore_db
+              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str &restore_db &export_history
               
               &compile_date  &set_hru &json_ok &json_error &clear_unused_data
              );
@@ -151,6 +151,27 @@ sub export_db_str ()
 	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
 	return $str;		
 }
+
+sub export_history_str () 
+{
+	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} ${DBPREFIX}vlshist";
+	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
+	return $str;		
+}
+
+sub export_history (;$)
+{
+	my ($filename)=@_;
+	unless ($filename) {
+		backup_dir_create();
+		$filename = "$GLOBAL->{WWWPATH}/backup/history.gz";
+	}
+	$str=export_history_str();
+	my $output=`$str | gzip -c >$filename`;
+	return("$str - $output");
+}
+
+
 
 sub export_db (;$)
 {
