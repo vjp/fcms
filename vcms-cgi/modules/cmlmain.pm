@@ -1297,7 +1297,7 @@ sub setvalue  {
 		if ($pkey eq '_KEY') {   
 			update({id=>$objid , key=>$value}) ; 
 			clearpagescache($objid); 
-			$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang) || die $dbh->errstr;
+			$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
 			return 1; 
 		}	
 		if ($pkey eq '_UP') {   
@@ -1334,7 +1334,7 @@ sub setvalue  {
  		}	
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
  			if ($value ne '') {
- 				$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
+ 				$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
  			}	
  		}	
  		
@@ -1385,7 +1385,7 @@ sub setvalue  {
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
   		if ($value ne '') {
-  			$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl) || die $dbh->errstr;
+  			$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
   		}		
   		clearpagescache("u$objid");
   		
@@ -1471,7 +1471,7 @@ sub init	{
  	
 
  	
- 	$sthH =$dbh->prepare("INSERT INTO ${DBPREFIX}vlshist (objid,pkey,value,ptype,dt,lang) VALUES (?,?,?,?,NOW(),?) ") || die $dbh->errstr;
+ 	$sthH =$dbh->prepare("INSERT INTO ${DBPREFIX}vlshist (objid,pkey,value,ptype,dt,lang,user) VALUES (?,?,?,?,NOW(),?,?) ") || die $dbh->errstr;
  
  
  	$sthUV=$dbh->prepare("SELECT * FROM ${DBPREFIX}uvls WHERE objid=?") || die $dbh->errstr;
@@ -1812,9 +1812,9 @@ sub addobject {
 	if ($key) { $nobj->{$key}=$obj->{$newid} }
 
 
-   $sthH->execute("u$newid",'_UP',$up,'NUMBER',$LANGS[0]) || die $dbh->errstr;
+   $sthH->execute("u$newid",'_UP',$up,'NUMBER',$LANGS[0],$cmlcalc::ENV->{USER}) || die $dbh->errstr;
    if ($key) {
-   		$sthH->execute("u$newid",'_KEY',$key,'TEXT',$lang) || die $dbh->errstr;
+   		$sthH->execute("u$newid",'_KEY',$key,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
    }	
    setvalue({uid=>$newid,param=>'_NAME',value=>$name});
 
@@ -1905,9 +1905,9 @@ sub addlowobject {
 	if ($key) { $nobj->{$key}=$lobj->{$newid}  }
 	
 
-    $sthH->execute($newid,'_UPOBJ',$upobj,'NUMBER',$obj->{$upobj}->{lang}) || die $dbh->errstr;
+    $sthH->execute($newid,'_UPOBJ',$upobj,'NUMBER',$obj->{$upobj}->{lang},$cmlcalc::ENV->{USER}) || die $dbh->errstr;
     if ($key) {
-   		$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang) || die $dbh->errstr;
+   		$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
     }	
     
     
@@ -1954,7 +1954,7 @@ sub deleteobject
  my $sthXDL=$dbh->prepare("DELETE FROM ${DBPREFIX}links WHERE vallink=?");  $sthXDL->execute("u$id") || die $dbh->errstr;
  
  undef $ltree->{$id};
- $sthH->execute("u$id",'_DEL',"u$obj->{$id}->{up}",'TEXT','') || die $dbh->errstr;
+ $sthH->execute("u$id",'_DEL',"u$obj->{$id}->{up}",'TEXT','',$cmlcalc::ENV->{USER}) || die $dbh->errstr;
  	
  
 
@@ -2007,7 +2007,7 @@ sub deletelowobject
  	}(@{$ltree->{$upobj}->{$id}});
  	if (@dlist) {deletelowobject(\@dlist)}	
  	
- 	$sthH->execute("$id",'_DEL',"u$upobj",'TEXT','') || die $dbh->errstr;
+ 	$sthH->execute("$id",'_DEL',"u$upobj",'TEXT','',$cmlcalc::ENV->{USER}) || die $dbh->errstr;
  	return 1;
 }
 

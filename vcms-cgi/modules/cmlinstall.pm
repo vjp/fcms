@@ -1713,6 +1713,7 @@ sub install_db ($$) {
   			`ptype` varchar(255) default NULL,
   			`value` mediumtext,
   			`lang` varchar(20) default NULL,
+  			`user` varchar(50) default NULL,
   			KEY `objid` (`objid`),
   			KEY `pkey` (`pkey`),
   			KEY `ptype` (`ptype`),
