@@ -209,6 +209,10 @@ if ($action) {
 			viewhistoryform(param('objid'),param('prm'));
 			exit;
 		}
+		if ($action eq 'viewallhistory') {
+			viewallhistoryform(param('objid'));
+			exit;
+		}
      	if ($action eq 'add')          { $id=addobject(param('id')); $action='editform' }
      	if ($action eq 'execmethod')   { &cmlcalc::execute({id=>param('uid'),method=>param('method')}); $action='editform' }
      	if ($action eq 'execlmethod')   { &cmlcalc::execute({id=>param('objid'),lmethod=>param('method')}); $action='editlowform' }
@@ -960,10 +964,9 @@ sub editlowform
 		}	
 	} else {	
  			print Tr(th(enc('Имя')),
- 				td(
- 					textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60),
- 					a({-href=>"?action=viewhistory&prm=_NAME&objid=$objid",-target=>'_blank'},enc('История'))
- 				)); 	
+ 				td(textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60)),
+ 				td(a({-href=>"?action=viewallhistory&objid=$objid",-target=>'_blank'},enc('История')))
+ 			); 	
  	}				
 
 

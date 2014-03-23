@@ -242,10 +242,15 @@ sub DeleteQueueEvent($) {
 
 
 
-sub History ($$) {
-	my ($objid,$prm)=@_;
+sub History ($;$) {
+	my ($objid,$opts)=@_;
 	my $tname=GetTableName('vlshist');
-	my $r=DBSelect("SELECT dt,value FROM $tname WHERE objid=? AND pkey=? ORDER BY dt DESC",$objid,$prm);
+	my $r;
+	if ($opts->{prm}) {
+		$r=DBSelect("SELECT dt,value,user FROM $tname WHERE objid=? AND pkey=? ORDER BY dt DESC",$objid,$opts->{prm});
+	} else {
+		$r=DBSelect("SELECT dt,pkey,value,user FROM $tname WHERE objid=? ORDER BY dt DESC",$objid);
+	}	
 	return $r;
 }
 

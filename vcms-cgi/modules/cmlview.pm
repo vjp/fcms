@@ -12,7 +12,10 @@ BEGIN
  use cmlcalc;
  use vCMS;
  @ISA = 'Exporter';
- @EXPORT = qw( &buildvparam &print_top &editmethodform &editprmform &console &config &viewhistoryform);
+ @EXPORT = qw( 
+ 	&buildvparam &print_top &editmethodform &editprmform &console &config 
+ 	&viewhistoryform &viewallhistoryform
+ );
 
 }
 
@@ -162,13 +165,43 @@ sub viewhistoryform ($$) {
 	my $pObj=o($objid);
 	my $name=$pObj->p(_NAME);
 	print_top("VH: $name($objid) $prm");
-	my $r=$pObj->History($prm);
+	my $r=$pObj->History({prm=>$prm});
     print start_table();
     for (@$r) {
-		print Tr(td($_->{dt}),td($_->{value}));    		
+		print Tr(
+			td($_->{dt}),
+			td($_->{value}),
+			td($_->{user}),
+		);    		
     }
 	print end_table();    	
 }
+
+
+sub viewallhistoryform ($) {
+	my ($objid)=@_;
+	my $pObj=o($objid);
+	my $name=$pObj->p(_NAME);
+	print_top("VAH: $name($objid)");
+	my $r=$pObj->History();
+    print start_table();
+	print Tr(
+		th(enc('Время')),
+		th(enc('Параметр')),
+		th(enc('Значение')),
+		th(enc('Пользователь')),
+	);    
+    for (@$r) {
+		print Tr(
+			td($_->{dt}),
+			td($_->{pkey}),
+			td($_->{value}),
+			td($_->{user}),
+		);    		
+    }
+	print end_table();    	
+}
+
 
 
 sub editprmform {

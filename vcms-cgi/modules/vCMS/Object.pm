@@ -334,9 +334,9 @@ sub IsReady($) {
 }	
 
 
-sub History($$) {
-	my ($self,$prm) = @_;
-	return vCMS::Proxy::History($self->ID,$prm)
+sub History($;$) {
+	my ($self,$opts) = @_;
+	return vCMS::Proxy::History($self->ID,$opts);
 }
 
 
