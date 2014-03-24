@@ -1251,6 +1251,7 @@ sub setvalue  {
 	my $append=$_[0]->{append};
 	my $remove=$_[0]->{remove};
 	my $noonchange=$_[0]->{noonchange};
+	my $nohistory=$_[0]->{nohistory};
 	
 	my $ind;
 	if ($key) {
@@ -1318,7 +1319,9 @@ sub setvalue  {
 		if ($pkey eq '_KEY') {   
 			update({id=>$objid , key=>$value}) ; 
 			clearpagescache($objid); 
-			$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
+			unless ($nohistory) {
+				$sthH->execute("$objid",'_KEY',$value,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
+			}	
 			return 1; 
 		}	
 		if ($pkey eq '_UP') {   
@@ -1354,16 +1357,13 @@ sub setvalue  {
  			$sthI->execute($objid,$pkey,$value,$lobj->{$objid}->{upobj},$cl) || die $dbh->errstr;
  		}	
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
- 			if ($value ne '') {
+ 			if ($value ne '' && !$nohistory) {
  				$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
  			}	
  		}	
  		
-
- 		
  		clearpagescache($objid); 
 
- 		
   		#$lobj->{$objid}->{vals}->{$pkey}->{"value_$cl"}=$value;
 		$lobj->{$objid}->{langvals}->{$cl}->{$pkey}->{value}=$value;
   		$lobj->{$objid}->{$pkey}->{value}=$value;
@@ -1405,7 +1405,7 @@ sub setvalue  {
   		}	else  {$cl=$LANGS[0]}
   		$sthUDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
   		$sthUI->execute($objid,$pkey,$value,$cl) || die $dbh->errstr;
-  		if ($value ne '') {
+  		if ($value ne '' && !$nohistory) {
   			$sthH->execute("u$objid",$pkey,$value,$prm->{$pkey}->{type},$cl,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
   		}		
   		clearpagescache("u$objid");

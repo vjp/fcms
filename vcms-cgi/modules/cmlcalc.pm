@@ -52,12 +52,12 @@ sub scripteval {
 
 
 sub set {
-	my ($id,$prm,$val)=@_;
+	my ($id,$prm,$val,$opts)=@_;
 	if (ref $prm eq 'HASH') {
-		&cmlmain::setvalue({id=>$id,prm=>$_,value=>$prm->{$_}}) for keys %$prm;
+		&cmlmain::setvalue({id=>$id,prm=>$_,value=>$prm->{$_},nohistory=>$opts->{nohistory}}) for keys %$prm;
 		return 1;	
 	} else {
-		return &cmlmain::setvalue({id=>$id,prm=>$prm,value=>$val});
+		return &cmlmain::setvalue({id=>$id,prm=>$prm,value=>$val,nohistory=>$opts->{nohistory}});
 	}	
 }
 

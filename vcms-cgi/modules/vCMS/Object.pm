@@ -156,9 +156,9 @@ o(OBJECTKEY)->u('NAME,'JOHN');
 =cut
 
 
-sub u ($$;$) {
-	my ($self,$prm,$value)=@_;	
-	return vCMS::Proxy::SetValue($self->ID,$prm,$value); 
+sub u ($$;$$) {
+	my ($self,$prm,$value,$opts)=@_;	
+	return vCMS::Proxy::SetValue($self->ID,$prm,$value,$opts); 
 }
 
 =item Set
@@ -166,9 +166,9 @@ sub u ($$;$) {
 synonym u() func
 =cut
 
-sub Set ($$;$) {
-	my ($self,$prm,$value)=@_;
-	return u($self,$prm,$value);
+sub Set ($$;$$) {
+	my ($self,$prm,$value,$opts)=@_;
+	return u($self,$prm,$value,$opts);
 }
 
 sub SetFile ($$$) {

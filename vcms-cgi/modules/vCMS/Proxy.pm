@@ -175,9 +175,9 @@ sub GetValue ($$;$) {
 }
 
 
-sub SetValue ($$;$) {
-	my ($id,$prm,$value)=@_;
-	return cmlcalc::set($id,$prm,$value);
+sub SetValue ($$;$$) {
+	my ($id,$prm,$value,$opts)=@_;
+	return cmlcalc::set($id,$prm,$value,$opts);
 }
 
 
