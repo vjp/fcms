@@ -110,13 +110,13 @@ sub setenvhash
 	}	
 }
 
-sub add ($;$){
-	my ($up,$prms)=@_;
+sub add ($;$$){
+	my ($up,$prms,$opts)=@_;
 	return undef unless $up;
-	my $newid=&cmlmain::addlowobject({upobj=>$up});
+	my $newid=&cmlmain::addlowobject({upobj=>$up,nohistory=>$opts->{nohistory}});
 	if ($prms) {
 		for my $prm (keys %$prms) {
-			&cmlmain::setvalue({id=>$newid,prm=>$prm,value=>$prms->{$prm}});
+			&cmlmain::setvalue({id=>$newid,prm=>$prm,value=>$prms->{$prm},nohistory=>$opts->{nohistory}});
 		}
 	}	
 	return $newid;

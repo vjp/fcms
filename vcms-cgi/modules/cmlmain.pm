@@ -276,7 +276,7 @@ sub staterror ($;$$$)
 			ERRORENV=>Dumper(\%ENV),
 			ERRORMESSAGE=>$message,
 			ERRORPAGE=>$ENV{HTTP_REFERER},
-		});
+		},{nohistory=>1});
 	}	
 }
 
@@ -1853,9 +1853,8 @@ sub addlowobject {
 	my $name;
 	my $key;
 	my $indx;
-	
-	
-	
+	my $nohistory;
+
 	if (ref $_[0] eq 'HASH') {
 		$up=$_[0]->{up};
 		$upobj=$_[0]->{upobj};
@@ -1863,7 +1862,8 @@ sub addlowobject {
 		$name=$_[0]->{name};
 		$key=$_[0]->{key};
 		$indx=$_[0]->{indx};
-		
+		$nohistory=$_[0]->{nohistory};
+				
 		if ($_[0]->{upobjkey}) {
 				checkload({key=>$_[0]->{upobjkey}});
 				$upobj=$nobj->{$_[0]->{upobjkey}}->{id};
@@ -1874,7 +1874,6 @@ sub addlowobject {
 				$upobj=$nobj->{$_[0]->{upkey}}->{id};
 		}		
 		$name=enc($name) if $_[0]->{convertname} && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
-		
 		
 	}	 
 	else {
@@ -1925,16 +1924,13 @@ sub addlowobject {
 	$lobj->{$newid}->{lang}=$obj->{$upobj}->{lang}; 
 	if ($key) { $nobj->{$key}=$lobj->{$newid}  }
 	
-
-    $sthH->execute($newid,'_UPOBJ',$upobj,'NUMBER',$obj->{$upobj}->{lang},$cmlcalc::ENV->{USER}) || die $dbh->errstr;
-    if ($key) {
-   		$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
-    }	
-    
-    
-    
- 	setvalue({id=>$newid,param=>'_NAME',value=>$name});
- 	
+	unless ($nohistory) {
+    	$sthH->execute($newid,'_UPOBJ',$upobj,'NUMBER',$obj->{$upobj}->{lang},$cmlcalc::ENV->{USER}) || die $dbh->errstr;
+    	if ($key) {
+   			$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
+    	}	
+	}
+ 	setvalue({id=>$newid,param=>'_NAME',value=>$name,nohistory=>$nohistory});
  	return $newid;
 }
 
