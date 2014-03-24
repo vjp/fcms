@@ -339,5 +339,11 @@ sub History($;$) {
 	return vCMS::Proxy::History($self->ID,$opts);
 }
 
+sub DelHistory($;$) {
+	my ($self,$opts) = @_;
+	return vCMS::Proxy::DelHistory($self->ID,$opts);
+}
+
+
 
 1;

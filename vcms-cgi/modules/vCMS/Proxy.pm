@@ -255,6 +255,18 @@ sub History ($;$) {
 }
 
 
+sub DelHistory ($;$) {
+	my ($objid,$opts)=@_;
+	my $tname=GetTableName('vlshist');
+	if ($opts->{prm}) {
+		DBUpdate("DELETE FROM $tname WHERE objid=? AND pkey=?",$objid,$opts->{prm});
+	} else {
+		DBUpdate("DELETE FROM $tname WHERE objid=?",$objid);
+	}	
+	return 1;
+}
+
+
 sub Execute($$) {
 	my ($oid,$method)=@_;
 	if ($oid=~/u\d+/) {
