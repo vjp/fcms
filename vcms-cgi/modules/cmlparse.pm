@@ -552,6 +552,7 @@ sub tag_menuitem	{
 	my $targetstr="target='adminmb'";
 	my $targetstr_ico=$targetstr;
 	my $forced_href;
+	my $forced_target;
 	
 	unless ($pl->{action}) {
 		$pl->{action}=$pl->{head}?'LISTEDIT':'EDIT';
@@ -614,9 +615,10 @@ sub tag_menuitem	{
 		return undef if $ENV{HTTP_USER_AGENT}=~/MSIE/;
 		$forced_href=CGI::url(-path_info=>1)."?httplogout=1";
 		$forced_href=~s/(http:\/\/)/${1}logout\@/;
-	}		 
-	
-	
+	}elsif ($pl->{action} eq 'HISTORY') {
+		$forced_href="/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$id";
+		$forced_target=' target="_blank" ';
+	}
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
     
     if ($cmlmain::nobj->{$key}->{type} eq 'L') {
@@ -652,6 +654,8 @@ sub tag_menuitem	{
 	
 	undef $targetstr if $cmlcalc::ENV->{NOFRAMES};
 	undef $targetstr_ico if $cmlcalc::ENV->{NOFRAMES};
+	$targetstr=$forced_target if $forced_target;
+	$targetstr_ico=$forced_target if $forced_target;
 	
 	$href=$pl->{value} if $pl->{value};
 	
@@ -1503,6 +1507,10 @@ sub tag_actionlink {
 	} 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
+		);
+	} 	elsif ($pl->{action} eq 'HISTORY') {
+		return qq(
+		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$pl->{id}' target='_blank'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'RESORT') {
 		$title=&cmlmain::enc('Пересортировать') unless $title;
