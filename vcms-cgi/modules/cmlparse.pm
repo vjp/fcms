@@ -849,7 +849,7 @@ sub tag_select {
   		my $template=$pl->{template} || 'POPUPSELECTOR';
   		my $singlestr=$cmlmain::prm->{$prm}->{extra}->{single} eq 'y'?'&single=1':'';
   		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
-		return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить',width:600,height:400})">Изменить</a>)
+		return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить',width:600,height:400});return false">Изменить</a>)
   	}
   	
   	
