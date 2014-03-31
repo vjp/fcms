@@ -784,6 +784,10 @@ sub day (;$) {
 	return mktime(0,0,0,$tm[3],$tm[4],$tm[5]);
 }
 
+sub tomorrow (;$) {
+	my ($datestamp)=@_;
+	return day($datestamp)+86400;
+}
 
 sub weekday (;$) {
 	return strftime('%u',localtime($_[0] || time()))
