@@ -87,9 +87,7 @@ sub DBSync  ($) {
 	my $test=$self->Test();
 	return $test->{error} if $test->{error};
 	vCMS::Proxy::DropPagesCache();
-	my $str=vCMS::Proxy::ExportDBStr();
-	my $backupname=vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
-	system("$str | gzip -c >$backupname");
+	my $backupname=vCMS::Proxy::BackupDB();
 	return "cant backup" unless -s $backupname;
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $istr=vCMS::Proxy::ImportDBStr();
