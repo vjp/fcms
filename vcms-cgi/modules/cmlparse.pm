@@ -301,12 +301,12 @@ sub fetchparam {
 	my $rplist=join('|',@$plist);
 
 	if (ref $pstr eq 'SCALAR') {
-		$$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+		$$pstr=~s{(\s)($rplist)=(['"])(.*?)\3}{
 			$rstr->{lc $2}=$4;
 			$1;
 		}ige;
 	} else {
-		$pstr=~s{(\W)($rplist)=(['"])(.*?)\3}{
+		$pstr=~s{(\s)($rplist)=(['"])(.*?)\3}{
 			$rstr->{lc $2}=$4;
 			$1
 		}ige;    
