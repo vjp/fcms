@@ -1922,7 +1922,10 @@ sub tag_img 	{
 	$pl->{elementid}="img$_[0]->{inner}->{objid}" if $pl->{blink} && !$pl->{elementid};
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
     my $blstr=($pl->{blink} && $pl->{elementid})?"<script>blink('$pl->{elementid}')</script>":'';
-	return "<img src='$src' $param alt='$alt' title='$alt' $idstr $omestr />$blstr";	
+    
+    my $astr=$alt?"alt='$alt' title='$alt'":'';
+    
+	return "<img src='$src' $param $astr $idstr $omestr />$blstr";	
 	
  	
 }	
