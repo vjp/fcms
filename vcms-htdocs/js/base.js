@@ -403,6 +403,11 @@ function jsErrHandler(message, url, line)
     if (navigator.userAgent.search('Firefox') != -1 && message === 'Error loading script') {
         return true;
     }
+   
+    if (line==0) {
+    	return true;
+    }
+    
     if (typeof(errorCnt) != "undefined") {
     	errorCnt++;
     	if (errorCnt>1) return true;
