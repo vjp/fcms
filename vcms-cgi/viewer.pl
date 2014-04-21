@@ -331,11 +331,9 @@ sub stat_injection
              var mt=$mtime;
              jQuery(document).ready(function() {
                  drt=Date.now()-timerStart+mt;
-                 console.log("Time until DOMready: ",drt/1000);
              });
              jQuery(window).load(function() {
                  wlt=Date.now()-timerStart+mt;
-                 console.log("Time until everything loaded: ", (Date.now()-timerStart)/1000);
                  var newImg = new Image;
                  newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt;
              });
