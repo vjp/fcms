@@ -338,7 +338,8 @@ sub GetPrmExtra ($$) {
 }
 
 sub DropPagesCache() {
-	&cmlmain::dropcache();	
+	my $tname=GetTableName('pagescache');
+	DBQuery("DELETE FROM $tname");	
 }	
 
 sub CheckSession () {
