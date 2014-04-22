@@ -1475,8 +1475,9 @@ sub checkdatastruct {
 }
 
 sub init	{
-	die "no conf file $_[0]/conf" unless -s "$_[0]/conf";
- 	do "$_[0]/conf";
+	my $cf=$ENV{CONFFILE} || "$_[0]/conf";
+	die "no conf file $cf" unless -s "$cf";
+ 	do "$cf";
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
   	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
   	setlocale(LC_ALL, $UTF?"en_US.UTF-8":"ru_RU.CP1251");
