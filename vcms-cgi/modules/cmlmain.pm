@@ -2034,6 +2034,7 @@ sub buildtree
 {
   my $sth=$dbh->prepare("SELECT * FROM ${DBPREFIX}tree ORDER BY id");
   $sth->execute() || die $dbh->errstr;
+  undef $tree;
   while ($item=$sth->fetchrow_hashref)
   {
    push (@{$tree->{$item->{up}}},$item->{id});
