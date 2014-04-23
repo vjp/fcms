@@ -1475,7 +1475,7 @@ sub checkdatastruct {
 }
 
 sub init	{
-	my $cf=$ENV{CONFFILE} || "$_[0]/conf";
+	my $cf=($ENV{CGIPATH} || $_[0])."/conf";
 	die "no conf file $cf" unless -s "$cf";
  	do "$cf";
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
