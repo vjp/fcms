@@ -2108,6 +2108,7 @@ sub prminfo {
 sub buildparam 	{
   	my $sth1=$dbh->prepare("SELECT * FROM ${DBPREFIX}prm ORDER BY id");
   	$sth1->execute() || die $dbh->errstr;
+  	undef $prm;
   	while (my $item=$sth1->fetchrow_hashref)   {
   		$prm->{$item->{pkey}}->{pkey}=$item->{pkey};
    		$prm->{$item->{pkey}}->{name}=$item->{pname};
