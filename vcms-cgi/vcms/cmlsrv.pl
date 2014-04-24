@@ -18,16 +18,17 @@ use Time::HiRes qw (time);
 use vars qw(%aliases);
 
 
-
-$aliases{'root'}='../.htaccess';
-$aliases{'vcms'}='.htaccess';
-$aliases{'admin'}='../admin/.htaccess';		
-$aliases{'user'}='../user/.htaccess';
-$aliases{'gate'}='../gate/.htaccess';
-
-
 start('..');
-unlink ('../install.pl') if -e '../install.pl';
+
+$aliases{'root'}	= "$GLOBAL->{WWWPATH}/.htaccess";
+$aliases{'vcms'}	= "$GLOBAL->{CGIPATH}/vcms/.htaccess";
+$aliases{'admin'}	= "$GLOBAL->{CGIPATH}/admin/.htaccess";		
+$aliases{'user'}	= "$GLOBAL->{CGIPATH}/user/.htaccess";
+$aliases{'gate'}	= "$GLOBAL->{CGIPATH}/gate/.htaccess";
+
+
+
+unlink ("$GLOBAL->{CGIPATH}/install.pl") if -e "$GLOBAL->{CGIPATH}/install.pl";
 
 
 my $action=param('action');
