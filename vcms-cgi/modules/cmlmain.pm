@@ -2864,6 +2864,9 @@ sub tocache {
 	my ($key,$value,$links,$dev,$lang)=@_;
 	$dev = 0 unless $dev;	
 	$lang = '' unless $lang;
+	
+	my $ts=time();
+	
 	$sthIC->execute($key,$value,$dev,$lang) || die $dbh->errstr;
 	$sthDC->execute($key,0+$dev,$lang) ||  die $dbh->errstr;
 	my %inserted;
@@ -2871,8 +2874,11 @@ sub tocache {
 		if ($_ && !$inserted{$_}) {
 			$sthLC->execute($key,$_,$dev,$lang) || warn $dbh->errstr;
 			$inserted{$_}=1;
+   			$GLOBAL->{timers}->{tcc}++;			
 		}	
 	}
+    $GLOBAL->{timers}->{tc}+=time()-$ts;
+	
 }	
 
 

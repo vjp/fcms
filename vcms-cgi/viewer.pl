@@ -308,7 +308,8 @@ if ($cmlcalc::SITEVARS->{TIMER}) {
 	 print "<HR>";
 }	
 my $cached_stat=$v->{cached}?1:0;
-warn "DBG: END: VIEW:$view URI:$qs TIME:$cmlcalc::TIMERS->{MAIN}->{sec} CACHED:$cached_stat UA:$ENV{HTTP_USER_AGENT}";
+my $cstr=$cached_stat?"(CACHED)":"(NOT CACHED) CACHETIME:$GLOBAL->{timers}->{tc} ($GLOBAL->{timers}->{tcc})";
+warn "DBG: END:  VIEW:$view URI:$qs TIME:$cmlcalc::TIMERS->{MAIN}->{sec} UA:$ENV{HTTP_USER_AGENT} $cstr";
 
 
 sub errorpage
