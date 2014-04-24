@@ -200,6 +200,8 @@ my $dom_vhost=$dom_objid?cmlcalc::p('DOMAINSTARTPAGE',$dom_objid) eq &cmlcalc::i
 $cmlcalc::SITEVARS->{VHOST}->{ID}=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid) if $dom_vhost;
 $cmlcalc::ENV->{HOSTID}=$cmlcalc::SITEVARS->{VHOST}->{ID} if $dom_vhost;
 my $stime=Time::HiRes::time();
+my $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'} || 200;
+my $CACHEFLAG=$HTTPSTATUS==200?$GLOBAL->{CACHE}:0;
 if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
 }elsif ($cgiparam->{view}) {
@@ -209,10 +211,10 @@ if (!$opensite && !cookie('dev')) {
 			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p(PAGETEMPLATE)"});
 	 	} 	 
  	} else {
- 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
+ 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG});
  	}	
 }elsif ($cgiparam->{tview}) { 	
- 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE}});
+ 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG});
 }elsif ($cgiparam->{fview}) { 	
  		 		$v=&cmlcalc::calculate({id=>$cgiparam->{id},expr=>"p($cgiparam->{fview})"});
  		 		if ($v->{value}) {
@@ -240,7 +242,7 @@ if (!$opensite && !cookie('dev')) {
 	 		$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
 	 		unless ($v->{value}) {
 	 			if (vCMS::Config::Get('separate_startpage')) {
-	 				$v=&cmlcalc::calculate({key=>'STARTPAGE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+	 				$v=&cmlcalc::calculate({key=>'STARTPAGE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG });
 	 			} else {
 	 				$cmlcalc::CGIPARAM->{view}='STARTPAGE';
 	 				if ($dom_objid) {
@@ -250,7 +252,7 @@ if (!$opensite && !cookie('dev')) {
 	 					$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
 	 					$cmlcalc::CGIPARAM->{view}=$t_key;
 	 				}
-     				$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$GLOBAL->{CACHE} });
+     				$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG });
 	 			}	
      		}		
    		}  
@@ -272,7 +274,7 @@ if ($csvmode) {
 	);
 } else {
 	print header(
-		-status=>$cmlcalc::ENV->{'HTTPSTATUS'} || 200,
+		-status=>$HTTPSTATUS,
 		-type=>$xmlmode?'text/xml':'text/html',
 		-cookie=>\@cookies, 
 		-charset=>$charset,
