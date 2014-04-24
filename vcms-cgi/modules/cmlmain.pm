@@ -1540,7 +1540,7 @@ sub init	{
  	$sthSC=$dbh->prepare("SELECT pagetext,unix_timestamp(ts) FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
  	$sthIC=$dbh->prepare("REPLACE ${DBPREFIX}pagescache (cachekey,pagetext,ts,dev,lang) VALUES (?,?,NOW(),?,?)");
  	$sthDDC=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey=? AND dev=? AND lang=?");
- 	$sthLC=$dbh->prepare("INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
+ 	#$sthLC=$dbh->prepare("INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES (?,?,?,?)");
  	$sthDC=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE cachekey=? AND dev=? AND lang=?");
  	
  	
@@ -2870,13 +2870,17 @@ sub tocache {
 	$sthIC->execute($key,$value,$dev,$lang) || die $dbh->errstr;
 	$sthDC->execute($key,0+$dev,$lang) ||  die $dbh->errstr;
 	my %inserted;
+	my @il;
 	for (@$links) {
 		if ($_ && !$inserted{$_}) {
-			$sthLC->execute($key,$_,$dev,$lang) || warn $dbh->errstr;
+			push (@il,"('$key','$_','$dev','$lang')");
 			$inserted{$_}=1;
    			$GLOBAL->{timers}->{tcc}++;			
 		}	
 	}
+	my $istr=join(',',@il);
+	my $q="INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES $istr";
+	$dbh->do($q) || die $dbh->errstr()." q=$q";
     $GLOBAL->{timers}->{tc}+=time()-$ts;
 	
 }	
