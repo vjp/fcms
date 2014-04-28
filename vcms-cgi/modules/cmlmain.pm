@@ -605,6 +605,7 @@ sub start {
 	
 	undef $lobj;
 	undef $obj;
+	undef $ltree;
 	
  	init($_[0]);
  	buildtree();
