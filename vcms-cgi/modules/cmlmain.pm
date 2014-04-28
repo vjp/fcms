@@ -602,6 +602,10 @@ sub copyobject {
 
 sub start {
 	undef $cmlcalc::CGIPARAM;
+	
+	undef $lobj;
+	undef $obj;
+	
  	init($_[0]);
  	buildtree();
  	buildparam();
