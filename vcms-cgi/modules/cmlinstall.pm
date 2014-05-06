@@ -1585,7 +1585,7 @@ sub install_db ($$) {
   			pkey varchar(100) NOT NULL default '',
   			vallink varchar(30) NOT NULL default '',
   			PRIMARY KEY  (objid,pkey,vallink),
-  			KEY `vll` (`vallink`)
+  			KEY `vp`  (vallink,pkey)
 		)
 	") || die $dbh->errstr();
 

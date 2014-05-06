@@ -14,6 +14,7 @@ use Time::HiRes qw (time);
 
 my $st=time;
 start('.');
+my $its=time-$st;
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
@@ -312,7 +313,20 @@ if ($cmlcalc::SITEVARS->{TIMER}) {
 my $cached_stat=$v->{cached}?1:0;
 my $cstr=$cached_stat?"(CACHED)":"(NOT CACHED $GLOBAL->{timers}->{tcc}L)";
 warn "DBG: END:  VIEW:$view URI:$qs TIME:$cmlcalc::TIMERS->{MAIN}->{sec} UA:$ENV{HTTP_USER_AGENT} $cstr";
-
+warn sprintf("DBG: QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) DBLT (%.3f:%d) DBBL (%.3f:%d) CL (%.3f:%d) DBBR (%.3f:%d) FP (%.3f:%d) TP (%.3f:%d) IC (%.3f:%d) CC (%.3f:%d) ET (%.3f:%d) FS (%.3f:%d)\n",
+	$cmlcalc::TIMERS->{MAIN}->{sec},$its,
+	$GLOBAL->{ot},$GLOBAL->{otc},
+	$cmlcalc::TIMERS->{LOWTREE}->{sec},$cmlcalc::TIMERS->{LOWTREE}->{count},
+	$GLOBAL->{timers}->{bl},$GLOBAL->{timers}->{blc},
+	$cmlcalc::TIMERS->{CHECKLOAD}->{sec},$cmlcalc::TIMERS->{CHECKLOAD}->{count},
+	$GLOBAL->{timers}->{br},$GLOBAL->{timers}->{brc},
+	$GLOBAL->{timers}->{fp},$GLOBAL->{timers}->{fpc},
+	$GLOBAL->{timers}->{tp},$GLOBAL->{timers}->{tpc},	
+	$GLOBAL->{timers}->{ic},$GLOBAL->{timers}->{icc},	
+	$GLOBAL->{timers}->{cc},$GLOBAL->{timers}->{ccc},
+    $GLOBAL->{timers}->{et},$GLOBAL->{timers}->{etc},
+    $GLOBAL->{timers}->{fs},$GLOBAL->{timers}->{fsc},			
+) unless $cached_stat;
 
 sub errorpage
 {
