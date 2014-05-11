@@ -234,7 +234,7 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbRequired="Необходимо заполнить поле";
   var lbDigit="Введите числовое значение в поле";   
   var lbSelSuccess="Список изменен";  
-  var  ajax_url = '/cgi-bin/user/ajax-json.pl';
+  var ajax_url = '<cml:text expr='env(AJAXURL)'/>';
 </script>
 )});
 
@@ -609,17 +609,6 @@ setvalue({convert=>1,key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPSELECTOR', name=>'Шаблон попапа для селектора больших списков'});
 setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
-<script>
-   function successSet () {
-     alert('Список изменен');
-     parent.closePopup();
-     parent.reloadPage();
-   }
-   function setSel(frm,id) {
-     var dt=$(frm).up('form').serialize(true);
-     lexecute('BASELPARSER',id,dt,successSet);
-   }
-</script>
 <cml:form matrix='1'>
     <cml:input type='button' onclick='setSel(this,"_prm:id_")' value='Изменить'/><br/>
     <cml:list expr='prmformula(cgi(selectorprm))||lowlist(_prm:lowlist_)'>
@@ -1083,18 +1072,8 @@ setvalue({convert=>1,key=>'BASEPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
 <script type="text/javascript" src="/js/prototype.js"></script>
 <script type="text/javascript" src="/js/scriptaculous.js"></script>
 <script type="text/javascript" src="/js/base.js"></script>
-<script type="text/javascript">
-  var isPopup=1;
-  var lbLabelImage="Фото";
-  var lbLabelOf="из";
-  var lbError="Ошибка";
-  var lbSuccess="Успех";
-  var lbRequired="Необходимо заполнить поле";
-  var lbDigit="Введите числовое значение в поле"; 
-  var  ajax_url = '<cml:text expr='env(AJAXURL)'/>';
-</script>   
-   
-</script>
+<cml:include key='JSDICTIONARY'/>   
+
 </head>
 <body>
     <CML:INCLUDE name="_prm:popupview_"/>
