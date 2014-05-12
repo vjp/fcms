@@ -3074,10 +3074,12 @@ sub tag_changebutton {
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
   	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
   	my $sstr=$pl->{sortid}?"'$pl->{sortid}'":'undefined';
-  	my $clstr=$pl->{hidden}?'style="display:none"':'';
   	my $elementid=$pl->{elementid}?"id='$pl->{elementid}'":'';
   	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
-  	
+
+	my @stl;
+	push (@stl,"display:none") if $pl->{hidden};
+	  	
 	my $onclickstr;
 	my $retstr;
 	if ($pl->{'ajax'} || $pl->{'callback'}){
@@ -3092,14 +3094,17 @@ sub tag_changebutton {
 	}
 	$retstr.="<input type='hidden' name='redirto' value='$pl->{redir}'>" if $pl->{'redir'} && !$onclickstr;	
 	if ($pl->{title}) {
+		my $clstr=@stl?'style="'.join(';',@stl).'"':'';
 		if ($onclickstr) {
 			$retstr.="<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
 		} else {
 			$retstr.="<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
 		}	
 	} else {	
+		push (@stl,"cursor:pointer");
+		my $clstr='style="'.join(';',@stl).'"';
 		my $whstr=$pl->{imgsrc}?'':"width='119' height='24'";
-		$retstr.="<input type='image' src='$imgsrc' $whstr value='OK' $onclickstr $param $clstr $elementid/>";
+		$retstr.="<img src='$imgsrc' $whstr value='OK' $onclickstr $param $clstr $elementid/>";
 	}	
 	return $retstr;
 	
