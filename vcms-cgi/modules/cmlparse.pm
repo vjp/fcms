@@ -3104,7 +3104,11 @@ sub tag_changebutton {
 		push (@stl,"cursor:pointer");
 		my $clstr='style="'.join(';',@stl).'"';
 		my $whstr=$pl->{imgsrc}?'':"width='119' height='24'";
-		$retstr.="<img src='$imgsrc' $whstr value='OK' $onclickstr $param $clstr $elementid/>";
+		if ($onclickstr) {
+			$retstr.="<img src='$imgsrc' $whstr value='OK' $onclickstr $param $clstr $elementid/>";
+		} else {
+			$retstr.="<input type='image' src='$imgsrc' $whstr value='OK' $param $clstr $elementid/>";
+		}	
 	}	
 	return $retstr;
 	
