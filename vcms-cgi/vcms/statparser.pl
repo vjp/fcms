@@ -27,7 +27,7 @@ if (param('statfile')) {
  	while (my $buffer=shift @l || <$fh>) {
  		if ($buffer=~/\[\w+ (\w+ \d+) \d\d:\d\d:\d\d (\d{4})\]/) {
  			my $dt="$1 $2"; 
-			if ($buffer=~/BODY GEN ([0-9\.]+)s DOM READY ([0-9\.]+)s FULL LOAD ([0-9\.]+)s, referer: (\S+)/) {
+			if ($buffer=~/BODY GEN ([0-9\.]+)s DOM READY ([0-9\.]+)s FULL LOAD ([0-9\.]+)s.+referer: (\S+)/) {
  				$stat->{$dt}->{cnt}++;
  				$stat->{$dt}->{bg}+=$1;
  				$stat->{$dt}->{dr}+=$2;

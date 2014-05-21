@@ -289,7 +289,7 @@ my $body=$v->{value};
 if ($xmlmode && $GLOBAL->{CODEPAGE} ne 'utf-8') {
 		$body=Encode::encode('utf-8',Encode::decode($GLOBAL->{CODEPAGE},$body));
 }
-stat_injection (time-$st,\$body);
+stat_injection (time-$st,\$body,$v->{cached});
 
 if ($body) {
 	print $body;
@@ -338,8 +338,9 @@ sub errorpage
 
 sub stat_injection 
 {
-	my ($mtime,$bodyref)=@_;
+	my ($mtime,$bodyref,$cached)=@_;
 	$mtime=int(1000*$mtime);
+	my $cv=$cached?1:0;
 	my $stat_script=qq(
 	
 	 <script type="text/javascript">
@@ -352,7 +353,7 @@ sub stat_injection
              jQuery(window).load(function() {
                  wlt=Date.now()-timerStart+mt;
                  var newImg = new Image;
-                 newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt;
+                 newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt+'&c=$cv';
              });
              
         </script>       
