@@ -901,6 +901,12 @@ sub lrnd {
 	
 }
 
+sub rnd {
+	my @l=split(/;/,$_[0]);
+	return $l[rand @l];
+}
+
+
 sub urnd {
 	my $ind;
 	my $uid;
