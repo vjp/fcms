@@ -2879,7 +2879,11 @@ sub tocache {
 	my @il;
 	for (@$links) {
 		if ($_ && !$inserted{$_}) {
-			push (@il,"('$key','$_','$dev','$lang')");
+			if ($_=~/^u?\d+$/) {
+				push (@il,"('$key','$_','$dev','$lang')");
+			} else {
+				warn "linkcache bad element key=$key element=$_";
+			} 	
 			$inserted{$_}=1;
    			$GLOBAL->{timers}->{tcc}++;			
 		}	
