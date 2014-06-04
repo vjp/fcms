@@ -3018,7 +3018,7 @@ sub email {
 	$subject = '=?'.$echarset.'?b?'.encode_base64($subject,'').'?=';
   	Encode::from_to( $message, $defcharset, $charset) if $charset;
   
-	unless(open (MAIL, "|/usr/sbin/sendmail $to")) {
+	unless(open (MAIL, "|/usr/sbin/sendmail -r $from $to")) {
 		print "no sendmail $!";
 		return undef;
 	}	else{
