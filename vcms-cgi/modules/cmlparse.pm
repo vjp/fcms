@@ -3254,7 +3254,7 @@ sub uploadprmfile
 
  $fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
 
- $fh = upload($prmname);
+ my $fh = upload($prmname);
  open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
  while ($buffer=<$fh>) { 
   	print FILE $buffer; 
