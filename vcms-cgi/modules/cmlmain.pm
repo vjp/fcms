@@ -2888,9 +2888,11 @@ sub tocache {
    			$GLOBAL->{timers}->{tcc}++;			
 		}	
 	}
-	my $istr=join(',',@il);
-	my $q="INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES $istr";
-	$dbh->do($q) || die $dbh->errstr()." q=$q";
+	if (@il) {
+		my $istr=join(',',@il);
+		my $q="INSERT INTO ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES $istr";
+		$dbh->do($q) || die $dbh->errstr()." q=$q";
+	}	
     $GLOBAL->{timers}->{tc}+=time()-$ts;
 	
 }	
