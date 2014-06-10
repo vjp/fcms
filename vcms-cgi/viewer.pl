@@ -18,7 +18,7 @@ my $its=time-$st;
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
-
+$cmlcalc::ENV->{'HTTPSTATUS'}=200;
 
 check_session();
 
@@ -201,7 +201,7 @@ my $dom_vhost=$dom_objid?cmlcalc::p('DOMAINSTARTPAGE',$dom_objid) eq &cmlcalc::i
 $cmlcalc::SITEVARS->{VHOST}->{ID}=&cmlcalc::p('DOMAINPRMVALUE',$dom_objid) if $dom_vhost;
 $cmlcalc::ENV->{HOSTID}=$cmlcalc::SITEVARS->{VHOST}->{ID} if $dom_vhost;
 my $stime=Time::HiRes::time();
-my $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'} || 200;
+my $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
 my $CACHEFLAG=$HTTPSTATUS==200?$GLOBAL->{CACHE}:0;
 if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
@@ -274,13 +274,21 @@ if ($csvmode) {
 		-attachment=>'export.csv',
 	);
 } else {
-	print header(
-		-status=>$HTTPSTATUS,
-		-type=>$xmlmode?'text/xml':'text/html',
-		-cookie=>\@cookies, 
-		-charset=>$charset,
-		###  incorrect-last_modified=>$lmtime,
-	);
+#	if ($ENV{MOD_PERL}) {
+#		use Apache2::RequestUtil;
+#		my $r = Apache2::RequestUtil->request();
+#    	$r->content_type($xmlmode?'text/xml':'text/html');
+#    	$r->status($HTTPSTATUS);
+#    	$r->headers_out();    	
+#		warn "mod perl $HTTPSTATUS";
+#	} else { 
+		print header(
+			-status=>$HTTPSTATUS,
+			-type=>$xmlmode?'text/xml':'text/html',
+			-cookie=>\@cookies, 
+			-charset=>$charset,
+		);
+#	}
 }
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
