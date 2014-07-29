@@ -113,6 +113,7 @@ if ($cmlcalc::SITEVARS->{lang}) {	$cmlcalc::LANGUAGE=$cmlcalc::SITEVARS->{lang} 
 my $qs=url(-path_info=>1,-query=>1,-relative=>1);
 $qs =~ s/\?.*$//;
 $qs =~ s/\/parsemethod\/.+$//;
+$qs ||=$ENV{'REQUEST_URI'};
 $cmlcalc::QUERYSTRING=$ENV{'REQUEST_URI'} || $qs;
 
 my $cgiparam=$cmlcalc::CGIPARAM;
@@ -266,6 +267,8 @@ my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
 push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+$HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
+warn "status ---".$HTTPSTATUS;
 
 if ($csvmode) {
 	print header(
@@ -274,21 +277,40 @@ if ($csvmode) {
 		-attachment=>'export.csv',
 	);
 } else {
-#	if ($ENV{MOD_PERL}) {
-#		use Apache2::RequestUtil;
-#		my $r = Apache2::RequestUtil->request();
-#    	$r->content_type($xmlmode?'text/xml':'text/html');
-#    	$r->status($HTTPSTATUS);
-#    	$r->headers_out();    	
-#		warn "mod perl $HTTPSTATUS";
-#	} else { 
+	if ($ENV{MOD_PERL} && $HTTPSTATUS ne '200') {
+		
+		#use Apache2::RequestUtil;
+		#print Apache2::RequestUtil::get_status_line($HTTPSTATUS);
+		#print header(
+		#	-type=>$xmlmode?'text/xml':'text/html',
+		#	-cookie=>\@cookies, 
+		#	-charset=>$charset,
+		#);
+		#my $r = $main::cgi->r;
+		#print Apache2::RequestUtil::get_status_line($HTTPSTATUS);
+    	#$r->err_headers_out();
+   		
+    	#return  Apache2::Const::NOT_FOUND;    	
+		warn "mod perl $HTTPSTATUS";
+ 		print <<____END;
+Status: 404 Not Found
+Content-Length: 0
+
+____END
+    	ModPerl::Util::exit();
+		 
+          
+	} else { 
+	
+	
 		print header(
 			-status=>$HTTPSTATUS,
 			-type=>$xmlmode?'text/xml':'text/html',
 			-cookie=>\@cookies, 
 			-charset=>$charset,
 		);
-#	}
+	}
+
 }
 
 if ($cmlcalc::SCRIPTOUT) { print "<script>alert('$cmlcalc::SCRIPTOUT')</script>" }
@@ -335,6 +357,8 @@ warn sprintf("DBG: QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) DBLT (%.3f:%d) 
     $GLOBAL->{timers}->{et},$GLOBAL->{timers}->{etc},
     $GLOBAL->{timers}->{fs},$GLOBAL->{timers}->{fsc},			
 ) unless $cached_stat;
+
+
 
 sub errorpage
 {
