@@ -268,7 +268,7 @@ my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
 push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
 $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
-warn "status ---".$HTTPSTATUS;
+warn "status ---".$HTTPSTATUS if $ENV{MOD_PERL};
 
 if ($csvmode) {
 	print header(
