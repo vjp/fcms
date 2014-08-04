@@ -1231,6 +1231,7 @@ sub clearpagescache ($) {
 		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
 	}elsif (@h){
 		unless ($dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)")) {
+			warn "pagescache del problem - ".$dbh->errstr();
 			$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
 		}
 		my $sthd=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
