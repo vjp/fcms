@@ -301,7 +301,7 @@ setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 )});
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'AUTH',name=>'Авторизационная секция'});
-setvalue({key=>'NOTFOUND',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(Здесь должна быть авторизационная секция)});
+setvalue({key=>'AUTH',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(Здесь должна быть авторизационная секция)});
 
 
 
