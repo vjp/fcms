@@ -19,3 +19,7 @@ RewriteRule ^vcms/?$ /cgi-bin/vcms/cmlsrv.pl
 
 ### VCMS START ###
 ### VCMS END ###
+
+
+### RESTRICT START ###
+### RESTRICT END ###

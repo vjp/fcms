@@ -20,7 +20,7 @@ use vars qw(%aliases);
 
 start('..');
 
-$aliases{'root'}	= "$GLOBAL->{WWWPATH}/.htaccess";
+#$aliases{'root'}	= "$GLOBAL->{WWWPATH}/.htaccess";
 $aliases{'vcms'}	= "$GLOBAL->{CGIPATH}/vcms/.htaccess";
 $aliases{'admin'}	= "$GLOBAL->{CGIPATH}/admin/.htaccess";		
 $aliases{'user'}	= "$GLOBAL->{CGIPATH}/user/.htaccess";
