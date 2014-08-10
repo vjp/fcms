@@ -2876,8 +2876,8 @@ sub tocache {
 	
 	my $ts=time();
 	
-	$sthIC->execute($key,$value,$dev,$lang) || die $dbh->errstr;
 	$sthDC->execute($key,0+$dev,$lang) ||  die $dbh->errstr;
+	$sthIC->execute($key,$value,$dev,$lang) || die $dbh->errstr;
 	my %inserted;
 	my @il;
 	for (@$links) {
