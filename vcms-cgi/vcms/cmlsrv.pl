@@ -17,6 +17,8 @@ use Time::HiRes qw (time);
 
 use vars qw(%aliases);
 
+my $ts_start=time();
+warn "DBG: START: USER:$cmlcalc::ENV->{USER} URI:$ENV{'REQUEST_URI'}";
 
 start('..');
 
@@ -30,8 +32,9 @@ $aliases{'gate'}	= "$GLOBAL->{CGIPATH}/gate/.htaccess";
 
 unlink ("$GLOBAL->{CGIPATH}/install.pl") if -e "$GLOBAL->{CGIPATH}/install.pl";
 
-
 my $action=param('action');
+my $need_exit;
+
 if ($action) {
 	if ($action eq 'remotesync') {
 		print "Content-type: text/html\n\n";
@@ -169,86 +172,14 @@ if ($action) {
      		}
      	}
 
-     	if ($action eq 'setmemo'   )  { 
-     		my $objid=param('objid');
-     		my $objuid=param('objuid');
-     		my $pkey=param('pkey');
-     		my $tabkey=param('tabkey');
-     		my $tabpkey=param('tabpkey');
-     		my $lang=param('lang');
-     		&{$ptype{$prm->{$pkey}->{type}}->{extendset}}();
-			meta_redirect("?action=editmemo&objid=$objid&objuid=$objuid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang");
-			exit;
-     	}
-     	if ($action eq 'setmatrix' )  {  &{$ptype{$prm->{param('pkey')}->{type}}->{extendset}}();  $action='editmatrix' }
-     	if ($action eq 'editmemo'|| $action eq 'editmatrix') {
-     		my $nprm=param('pkey');
-     		my $oid=param('objid');
-     		my $name="$lobj->{$oid}->{key} $lobj->{$oid}->{name} ";
- 	   		print_top("O: $name $oid $nprm"); 
-     		&{$ptype{$prm->{$nprm}->{type}}->{extendedit}}();  
-     		exit; 
-     	}
-		if ($action eq 'setmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script')});  $action='editmethod'; }     	
-		if ($action eq 'setlmethod')   {   editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script'),nflag=>1});  
-				my $id=param('id');
-				my $pname=param('pname');
-				meta_redirect("?action=editlmethod&id=$id&pname=$pname");
-				exit;
-		}     	
-		if ($action eq 'editmethod')  {
-			print_top('M: '.param('pname'));   
-			editmethodform(param('id'),param('pname'));
-			exit;
-		}
-      	if ($action eq 'editlmethod')  {
-      		print_top('ML: '.param('pname'));
-      		editmethodform(param('id'),param('pname'),1);
-      		exit;
-      	}
-		if ($action eq 'viewhistory') {
-			viewhistoryform(param('objid'),param('prm'));
-			exit;
-		}
-		if ($action eq 'viewallhistory') {
-			viewallhistoryform(param('objid'));
-			exit;
-		}
-     	if ($action eq 'add')          { $id=addobject(param('id')); $action='editform' }
-     	if ($action eq 'execmethod')   { &cmlcalc::execute({id=>param('uid'),method=>param('method')}); $action='editform' }
-     	if ($action eq 'execlmethod')   { &cmlcalc::execute({id=>param('objid'),lmethod=>param('method')}); $action='editlowform' }
-     	if ($action eq 'copy')     { 
-     	  	copyobject({from=>param('id'),to=>param('to')}); 
-     		  $action='viewtree';
-     	}
-     	if ($action eq 'copylow')   { copyobject({from=>param('objid'),to=>param('to')}); $action='viewlow' }
-     	if ($action eq 'addlow')   { 
-				$objid=addlowobject(param('objid'),param('id'));
-     			$action='editlowform';
-		}
-     	if ($action eq 'clearlow')   { 
-				deletealllowobjects(param('id'));
-     			$action='editform';
-		}
-			
-     	if ($action eq 'delete')   { deleteobject(param('id')); $action='viewtree';}
-     	if ($action eq 'deletelow'){ deletelowobject(param('objid'));$action='viewlow'}
 
      	if ($action eq 'edit')     {
-
-          
-
         	my $id=param('id');
         	my $ltmp=param('lowtempl');
-        	
         	my $nh;
-        	
         	if (defined param('name')) {   $nh=param('name') } 
         	else {	for (@LANGS) {if (param("name_$_")) { $nh->{$_}=param("name_$_")} 	}		}
-        	
-        	  
         	my $nolog=param('nolog')?1:0;
-        	
           	edit ({id=>$id,
           	       name=>$nh,
           	       key=>param('key'),
@@ -258,8 +189,8 @@ if ($action) {
           	       ltemplate=>param('ltemplate'),
           	       lang=>param('lang'),
           	       lowtemplate=>param('lowtempl'),
-          	       });
-          	if (param('addprmkey')) {
+  	       	});
+    		if (param('addprmkey')) {
           		if (param('addprmself')==2) {
           			addmethod({id=>$id,name=>param('addprmname'),key=>param('addprmkey')});
           		} elsif (param('addprmself')==3) {
@@ -270,48 +201,38 @@ if ($action) {
           	}
           	if (param('copyprmname')) {copyprm({id=>$id,key=>param('copyprmname')})}
           	if (param('copymethodname')) {copymethod({id=>$id,key=>param('copymethodname')})}
-          	for (grep {/^lprm/ && param($_)} param() )
-                                  {
-                                   (my $pkey)=/^lprm(.+)$/;
-                                   my $upd=param("prmupd$pkey");
-                                   my $evl=param("prmevl$pkey");
-                                   my $def=param("prmdef$pkey");
-                                   editprm({id=>$id,
-                                            pkey=>$pkey,
-                                            newname=>param("prmname$pkey"),
-                                            defval=>$def,
-                                            mode=>param("prmmode$pkey"),
-                                            upd=>$upd,
-                                            evl=>$evl,
-                                          });
-                                    &{$ptype{$prm->{$pkey}->{type}}->{extraparse}}({pkey=>$pkey});
-                                  }
-          	for (grep {/^mprm/ && param($_)} param() )
-                                  {
-                                   (my $pkey)=/^mprm(.+)$/;
-                                   editmethod({id=>$id,pkey=>$pkey,name=>param("prmname$pkey")});
-                                  }
-          	for (grep {/^lmprm/ && param($_)} param() )
-                                  {
-                                   (my $pkey)=/^lmprm(.+)$/;
-                                   editmethod({id=>$id,pkey=>$pkey,name=>param("prmname$pkey"),nflag=>1});
-                                  }
-
-                                  
-                                  
-          	for (grep {/^lnk/ && param($_)} param() )
-                                  {
-                                   (my $pkey)=/^lnk(.+)$/;
-                                   eval { &{$ptype{$prm->{$pkey}->{type}}->{setvalue}}({uid=>$id,pkey=>$pkey}) };
-                                   if ($@) {print "ERROR $@"}
-                                  }
-                               
+          	for (grep {/^lprm/ && param($_)} param() ) {
+            	(my $pkey)=/^lprm(.+)$/;
+                my $upd=param("prmupd$pkey");
+                my $evl=param("prmevl$pkey");
+                my $def=param("prmdef$pkey");
+                editprm({
+                	id=>$id,
+                    pkey=>$pkey,
+                    newname=>param("prmname$pkey"),
+                    defval=>$def,
+                    mode=>param("prmmode$pkey"),
+                    upd=>$upd,
+                    evl=>$evl,
+                });
+                &{$ptype{$prm->{$pkey}->{type}}->{extraparse}}({pkey=>$pkey});
+            }
+          	for (grep {/^mprm/ && param($_)} param() ) {
+            	(my $pkey)=/^mprm(.+)$/;
+                editmethod({id=>$id,pkey=>$pkey,name=>param("prmname$pkey")});
+            }
+          	for (grep {/^lmprm/ && param($_)} param() ) {
+           		(my $pkey)=/^lmprm(.+)$/;
+                editmethod({id=>$id,pkey=>$pkey,name=>param("prmname$pkey"),nflag=>1});
+            }
+          	for (grep {/^lnk/ && param($_)} param() ) {
+                (my $pkey)=/^lnk(.+)$/;
+                eval { &{$ptype{$prm->{$pkey}->{type}}->{setvalue}}({uid=>$id,pkey=>$pkey}) };
+                if ($@) {print "ERROR $@"}
+            }
           	$action='editform'
      	}
-     	if ($action eq 'deleteprm') {
-        	deleteprm(param('id'),param('pname'));
-          	$action='editform';
-     	}
+
      	if ($action eq 'editprm') {
      		my $pkey=param('pname');
      		my $upd=param('prmupd');
@@ -327,71 +248,116 @@ if ($action) {
      		});
         	setprmextra  ({pkey=>$pkey,extra=>'onchange',value=>param('onchange')});        
             setprmextra  ({pkey=>$pkey,extra=>'hasaccess',value=>param('hasaccess')});     
-		&{$ptype{$prm->{$pkey}->{type}}->{extraparse}}({pkey=>$pkey});                         
+			&{$ptype{$prm->{$pkey}->{type}}->{extraparse}}({pkey=>$pkey});                         
      		$action='editprmform';
-	}	
-     	if ($action eq 'viewprm') {
-        	viewprmform(param('pkey'));
-          	exit;
-     	}
-     	if ($action eq 'editprmform') {
-        	editprmform(param('id'),param('pname'));
-          	exit;
-     	}
+		}	
      	
-     	
-     	if ($action eq 'deletemethod') {
-        	deletemethod(param('id'),param('pname'));
-          	$action='editform';
-     	}
-     	if ($action eq 'deletelmethod') {
-        	deletemethod(param('id'),param('pname'),1);
-          	$action='editform';
-     	}
+		if ($action eq 'editlow')  { 
+			my $nh;
+    		if (defined param('name')) {   $nh=param('name') } 
+  	    	else {	for (@LANGS) {$nh->{$_}=param("name_$_")} 	}		
+			editlow ({
+				id=>param('id'),
+				key=>param('key'),
+            	name=>$nh,
+            	objid=>param('objid'),
+            	template=>param('template'),
+            	indx=>param('indx')
+        	});
+        	for (grep {/^lnk/ && param($_)} param() ) {
+        		(my $pkey)=/^lnk(.+)$/;
+            	eval { & {$ptype{$prm->{$pkey}->{type}}->{setvalue}}({id=>param('objid'),pkey=>$pkey}) };
+            	if ($@) {print "ERROR $@"}
+        	}
+        	$action='editlowform';
+   		}
 
-     	
-	if ($action eq 'editlow')  { 
-		
-		  	########################
-				my $nh;
-    	  if (defined param('name')) {   $nh=param('name') } 
-  	    else {	for (@LANGS) {$nh->{$_}=param("name_$_")} 	}		
-	      ########################
-				editlow ({id=>param('id'),
-									key=>param('key'),
-                  name=>$nh,
-                  objid=>param('objid'),
-                  template=>param('template'),
-                  indx=>param('indx')
-         });
-         for (grep {/^lnk/ && param($_)} param() ) {
-         		(my $pkey)=/^lnk(.+)$/;
-            eval { & {$ptype{$prm->{$pkey}->{type}}->{setvalue}}({id=>param('objid'),pkey=>$pkey}) };
-            if ($@) {print "ERROR $@"}
-         }
-         $action='editlowform';
-   }
+
+
+     	if ($action eq 'setmatrix' )  	{ &{$ptype{$prm->{param('pkey')}->{type}}->{extendset}}();  $action='editmatrix' }
+		if ($action eq 'setmethod')   	{ editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script')});  $action='editmethod'; }
+     	if ($action eq 'add')          	{ $id=addobject(param('id')); $action='editform' }
+     	if ($action eq 'execmethod')   	{ &cmlcalc::execute({id=>param('uid'),method=>param('method')}); $action='editform' }
+     	if ($action eq 'execlmethod')   { &cmlcalc::execute({id=>param('objid'),lmethod=>param('method')}); $action='editlowform' }
+     	if ($action eq 'copy')     		{ copyobject({from=>param('id'),to=>param('to')}); 		  $action='viewtree'; }
+     	if ($action eq 'copylow')   	{ copyobject({from=>param('objid'),to=>param('to')}); $action='viewlow' }
+     	if ($action eq 'addlow')   		{ $objid=addlowobject(param('objid'),param('id')); $action='editlowform'; }
+     	if ($action eq 'clearlow')   	{ deletealllowobjects(param('id'));  			$action='editform';	}
+     	if ($action eq 'delete')   		{ deleteobject(param('id')); $action='viewtree';}
+     	if ($action eq 'deletelow')		{ deletelowobject(param('objid'));$action='viewlow'}
+     	if ($action eq 'deleteprm')     { deleteprm(param('id'),param('pname')); 	$action='editform'; }
+     	if ($action eq 'deletemethod')  { deletemethod(param('id'),param('pname')); $action='editform'; }
+     	if ($action eq 'deletelmethod') { deletemethod(param('id'),param('pname'),1);$action='editform';}
+
+     	if ($action eq 'setmemo'   )  { 
+     		my $objid=param('objid');
+     		my $objuid=param('objuid');
+     		my $pkey=param('pkey');
+     		my $tabkey=param('tabkey');
+     		my $tabpkey=param('tabpkey');
+     		my $lang=param('lang');
+     		&{$ptype{$prm->{$pkey}->{type}}->{extendset}}();
+			meta_redirect("?action=editmemo&objid=$objid&objuid=$objuid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang");
+			$need_exit=1;
+     	} elsif  ($action eq 'editmemo'|| $action eq 'editmatrix') {
+     		my $nprm=param('pkey');
+     		my $oid=param('objid');
+     		my $name="$lobj->{$oid}->{key} $lobj->{$oid}->{name} ";
+ 	   		print_top("O: $name $oid $nprm"); 
+     		&{$ptype{$prm->{$nprm}->{type}}->{extendedit}}();  
+			$need_exit=1; 
+     	} elsif ($action eq 'setlmethod')   {   
+			editmethod({id=>param('id'),pkey=>param('pname'),script=>param('script'),nflag=>1});  
+			my $id=param('id');
+			my $pname=param('pname');
+			meta_redirect("?action=editlmethod&id=$id&pname=$pname");
+			$need_exit=1;
+		} elsif ($action eq 'editmethod')  {
+			print_top('M: '.param('pname'));   
+			editmethodform(param('id'),param('pname'));
+			$need_exit=1;
+		} elsif ($action eq 'editlmethod')  {
+      		print_top('ML: '.param('pname'));
+      		editmethodform(param('id'),param('pname'),1);
+      		$need_exit=1;
+      	} elsif ($action eq 'viewhistory') {
+			viewhistoryform(param('objid'),param('prm'));
+			$need_exit=1;
+		} elsif ($action eq 'viewallhistory') {
+			viewallhistoryform(param('objid'));
+			$need_exit;
+		} elsif ($action eq 'viewprm') {
+        	viewprmform(param('pkey'));
+          	$need_exit=1;
+     	} elsif ($action eq 'editprmform') {
+        	editprmform(param('id'),param('pname'));
+          	$need_exit=1;
+     	}
+     
 }
 
-
-
-if ($action)  {
-	print_top();
-	if ($action eq 'console')    {console()} 
-	if ($action eq 'config') 	{config()}
-    if ($action eq 'parsequery') {evaluate(param('script'));console(param('script'))} 
-	if ($action eq 'viewlow')  { print "<hr>"; viewlow(param('id'),param('all')) }
-  	if ($action eq 'editform')    { editform ($id)}
-  	if ($action eq 'editlowform') { editlowform ($objid,$id)}
-  	if ($action eq 'viewtree') {viewleft()}
-  	if ($action eq 'viewusers') {viewusers()}
-  	if ($action eq 'viewleft') {viewleft()}
-  	print "</body></html>";
-} else {
-	defaultform();
-}	
+unless ($need_exit) {
+	if ($action)  {
+		print_top();
+		if ($action eq 'console')    {console()} 
+		if ($action eq 'config') 	{config()}
+    	if ($action eq 'parsequery') {evaluate(param('script'));console(param('script'))} 
+		if ($action eq 'viewlow')  { print "<hr>"; viewlow(param('id'),param('all')) }
+  		if ($action eq 'editform')    { editform ($id)}
+  		if ($action eq 'editlowform') { editlowform ($objid,$id)}
+  		if ($action eq 'viewtree') {viewleft()}
+  		if ($action eq 'viewusers') {viewusers()}
+  		if ($action eq 'viewleft') {viewleft()}
+  		print "</body></html>";
+	} else {
+		defaultform();
+	}
+}		
 viewlog();
 
+
+my $ts=time()-$ts_start;
+warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  TIME:%.3f QUERY:$ENV{REQUEST_URI} \n",$ts);
 
 
 ######################################################

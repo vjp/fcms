@@ -1219,6 +1219,8 @@ sub returnvalue {
 
 sub clearpagescache ($) {
 	my ($obj)=@_;
+	my $tt=time;
+	warn "start clear cache obj=$obj";
     my $sth=$dbh->prepare("SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
     $sth->execute($obj) || die $dbh->errstr();
     my @h;
@@ -1226,9 +1228,11 @@ sub clearpagescache ($) {
 		push(@h,"'$key'");
 	}
 	my $dstr=join(',',@h);
+	warn sprintf "cache collecion %.3f",time()-$tt;
 	if ((scalar @h) > 1000) {
 		$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
 		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
+	    warn sprintf "global clear %.3f",time()-$tt;		
 	}elsif (@h){
 		unless ($dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)")) {
 			warn "pagescache del problem - ".$dbh->errstr();
@@ -1236,6 +1240,7 @@ sub clearpagescache ($) {
 		}
 		my $sthd=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
 		$sthd->execute($obj)|| die $dbh->errstr();
+	    warn sprintf "increment clear %.3f",time()-$tt;		
 	}
 }
 
