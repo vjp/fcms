@@ -537,6 +537,23 @@ setvalue({convert=>1,key=>'EDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
   </cml:use>
 )});
 
+
+addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'EDIT_SPECARTICLES', name=>'Редактирование спецстатьи'});
+setvalue({convert=>1,key=>'EDIT_SPECARTICLES',pkey=>'PAGETEMPLATE',value=>q(
+  <cml:use id='_prm:id_'>
+  <cml:form>
+      <table>
+          <tr><td>Наименование: </td><td><cml:text param='_NAME'/></td></tr>
+          <tr><td>Текст статьи: </td><td><cml:inputtext param='ARTICLETEXT'/></td></tr>          
+          <tr><td colspan=2><cml:changebutton/></td></tr>
+      </table>
+  </cml:form>
+  <cml:include key='MCEPHOTO'/>
+  <cml:include key='MCEVIDEO'/>
+  </cml:use>
+)});
+
+
 addlowobject({convertname=>1,upobjkey=>'CMSDESIGN', key=>'LISTEDIT_ARTICLES', name=>'Редактирование списка статей'});
 setvalue({convert=>1,key=>'LISTEDIT_ARTICLES',pkey=>'PAGETEMPLATE',value=>q(
   <cml:use id='_prm:id_' key='_prm:ukey_'>
