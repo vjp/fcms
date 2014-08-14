@@ -78,6 +78,8 @@ setprmextra({pkey=>'HRUKEY',extra=>'onchange',value=>'SETHRUKEY'});
 addobject({convertname=>1,upkey=>'ARTICLES',key=>'SPECARTICLES',name=>'Специальные статьи'});
 addlowobject({convertname=>1,upobjkey=>'SPECARTICLES',key=>'ARTICLE_404',name=>'Страница не найдена'});
 setvalue({key=>'ARTICLE_404',pkey=>'ARTICLETEXT',convert=>1,value=>'Страница не найдена'});
+addlowobject({convertname=>1,upobjkey=>'SPECARTICLES',key=>'ARTICLE_MAIN',name=>'Статья для главной страницы'});
+setvalue({key=>'ARTICLE_MAIN',pkey=>'ARTICLETEXT',convert=>1,value=>'Текст главной'});
 
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'NEWS',name=>'Новости'});
@@ -394,7 +396,7 @@ return $result;
 
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STARTPAGE',name=>'Стартовая страница'});
-setvalue({convert=>1,key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>'Стартовая страница'});
+setvalue({convert=>1,key=>'STARTPAGE',pkey=>'PAGETEMPLATE',value=>q(<cml:include key='ARTICLE_MAIN' prm='ARTICLETEXT'/>)});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ERRORPAGE',name=>'Cтраница ошибки'});
 setvalue({convert=>1,key=>'ERRORPAGE',pkey=>'PAGETEMPLATE',value=>'Ошибка'});
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'STATPAGE',name=>'Страница для статистики'});
