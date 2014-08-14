@@ -551,7 +551,7 @@ sub tag_menuitem	{
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
 		'addupkey','addlink','deleteexpr','addmethod','csv','value',
-		'template','deleteid'
+		'template','deleteid','notdel',
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -583,7 +583,7 @@ sub tag_menuitem	{
 		if ($ukey && $ukey ne 'NULL') {
 			my $menutemplate=&cmlcalc::id("LISTMENU_$ukey")?"LISTMENU_$ukey":'BASEMENULIST';
 			$pl->{href}="menu=$menutemplate&ukey=$ukey";
-			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod templatekey)) {
+			for (qw (listprm childlistprm childukey childlink link orderby ordertype readonly delmethod templatekey notdel)) {
 				$pl->{href}.="&$_=$pl->{$_}" if $pl->{$_};
 			}
 			$targetstr='';
@@ -601,6 +601,7 @@ sub tag_menuitem	{
 			my $bodykey=$pl->{templatekey} && $pl->{templatekey} ne 'NULL'?$pl->{templatekey}:'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 			$pl->{href}="body=$bodykey";
 			$pl->{icohref}="body=$bodykey" unless $pl->{icohref};
+
 		}
 			
 	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {

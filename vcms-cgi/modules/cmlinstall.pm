@@ -1090,7 +1090,7 @@ setvalue({convert=>1,key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <b><cml:actionlink action='LISTEDIT' ukey='_prm:ukey_' listprm="_prm:listprm_" link="_prm:link_"><cml:if value="_prm:listprm_"><cml:text prm='_NAME' key="_PP__prm:listprm_"/></cml:if><cml:else><cml:text param='_NAME'/></cml:else></cml:actionlink></b>
 <cml:list  expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
-  <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" delete="_cgi:!readonly_" templatekey='_cgi:templatekey_'/>
+  <cml:menuitem action="MENULIST" listprm="_prm:childlistprm_" ukey="_prm:childukey_" link="_prm:childlink_" deleteexpr="!cgi(readonly) and !cgi(notdel)" templatekey='_cgi:templatekey_'/>
 </cml:list>
 </table>
 <cml:if not='1' expr='cgi(readonly)'>
@@ -1204,6 +1204,7 @@ addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'CMSHEADMENU',name=>'
 setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <table width="100%" border="0" cellspacing="1" cellpadding="2">
 <cml:menuitem action='MENULIST' key='ARTICLES'>Статьи</cml:menuitem>
+<cml:menuitem action='MENULIST' key='SPECARTICLES' notdel='1'>Специальные статьи</cml:menuitem>
 <cml:menuitem action='MENULIST' key='SECTIONS' childlink='SECLINK' childukey='ITEMS' childlistprm='POSITIONS'>Каталог</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'>Управление доступом менеджеров</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='ERR404'>Ошибки страница не найдена</cml:menuitem>
