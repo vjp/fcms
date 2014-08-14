@@ -936,7 +936,7 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
         theme_advanced_toolbar_location : "top", 
         content_css : "/css/mce.css", 
         apply_source_formatting: true,
-        extended_valid_elements : "div[id|style|class],img[onload|src|border|onmouseover|onmouseout|title|width|height|alt]",
+        extended_valid_elements : "div[id|style|class],img[onload|src|border|onmouseover|onmouseout|title|width|height|alt],iframe[src|height|width|webkitallowfullscreen|mozallowfullscreen|allowfullscreen|frameborder]",
         language : "ru" 
     
     });
