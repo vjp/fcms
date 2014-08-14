@@ -195,7 +195,7 @@ sub viewallhistoryform ($) {
 		print Tr(
 			td($_->{dt}),
 			td($_->{pkey}),
-			td($_->{value}),
+			td(textarea(-default=>$_->{value},-rows=>10,-cols=>50)),
 			td($_->{user}),
 		);    		
     }
