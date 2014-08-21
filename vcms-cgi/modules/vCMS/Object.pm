@@ -267,6 +267,7 @@ sub Dump ($) {
 			'NAME'=>$self->{_name},
 			'KEY'=>$self->{_key},
 	};
+	$self->LoadPrmVals() unless $self->{_prms_loaded};
 	$h->{VALUES}=$self->{vals} if $self->{vals};
 	return $h;
 }
