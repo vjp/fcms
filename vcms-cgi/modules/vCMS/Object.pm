@@ -171,6 +171,13 @@ sub Set ($$;$$) {
 	return u($self,$prm,$value,$opts);
 }
 
+sub SetValue ($$;$$) {
+	my ($self,$prm,$value,$opts)=@_;
+	return u($self,$prm,$value,$opts);
+}
+
+
+
 sub SetFile ($$$) {
 	my ($self,$prm,$cgifileprm)=@_;
 	return vCMS::Proxy::UploadFile($self->ID,$prm,$cgifileprm);
