@@ -34,6 +34,14 @@ sub Load($) {
 	
 }
 
+sub LoadPrmVals($) {
+	my $self = shift;
+	return 1 if $self->{_prms_loaded};
+	$self->{vals}=vCMS::Proxy::DumpLower($self->ID());
+	$self->{_prms_loaded}=1;
+}
+
+
 
 sub IsNull ($) {
 	return 0;

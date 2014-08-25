@@ -170,6 +170,22 @@ sub DumpUpper($) {
 }
 
 
+sub DumpLower($) {
+	my $id=shift;
+	my $vlstable=$cmlmain::DBPREFIX.'vls';
+	my $r=DBSelect("SELECT * FROM $vlstable WHERE objid=?",$id);
+	my $h;
+	for (@$r) {
+		next if $_->{pkey} eq '_NAME';
+		if (IsMultilangParam($_->{pkey})) {
+			$h->{$_->{pkey}}->{langvalue}->{$_->{lang}}=$_->{value}
+		} else {
+			$h->{$_->{pkey}}->{value}=$_->{value}
+		}	
+	}
+	return $h;
+}
+
 sub GetValue ($$;$) {
 	my ($id,$prm,$opts)=@_;
 	my $csv=$opts->{csv}?1:0;
