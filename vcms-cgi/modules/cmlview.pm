@@ -291,7 +291,7 @@ sub console {
 	print br;
 	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
 	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
-	print hr,"<div id='resultDiv'></div>";
+	print hr,"<textarea id='resultDiv' rows='30' cols='100'></textarea>";
 	
 	
 }	
