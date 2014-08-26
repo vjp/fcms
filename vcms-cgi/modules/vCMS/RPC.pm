@@ -63,6 +63,11 @@ sub Execute ($$;$) {
 	
 }
 
+
+sub e ($$;$) {
+	return Execute($_[0],$_[1],$_[2]);
+}
+
 sub Test ($) {
 	my ($self)=@_;
 	return $self->Execute('TESTGATE');
