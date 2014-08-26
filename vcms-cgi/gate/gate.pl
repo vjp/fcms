@@ -20,8 +20,9 @@ my $v;
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
 $cmlcalc::CGIPARAM->{_MODE}='GATE';
 $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p(USERBENCHMARK,&cmlcalc::id(CMSDESIGN));
-$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
+$cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%gate';
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
+$cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
