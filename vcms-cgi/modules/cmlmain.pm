@@ -2158,7 +2158,9 @@ sub buildparam 	{
   		$obj->{$item->{objid}}->{method}->{$item->{pkey}}->{name}=$item->{pname};
   		$method->{$item->{pkey}}->{name}=$item->{pname};
   		$method->{$item->{pkey}}->{script}=$item->{script};
-		}
+  		$method->{$item->{pkey}}->{ownerid}=$item->{objid};
+  		$method->{$item->{pkey}}->{type}='u';
+	}
   	
   	
   	my $sth4=$dbh->prepare("SELECT * FROM ${DBPREFIX}lmethod ORDER BY id");
@@ -2168,7 +2170,9 @@ sub buildparam 	{
   		$obj->{$item->{objid}}->{lmethod}->{$item->{pkey}}->{name}=$item->{pname};
   		$lmethod->{$item->{pkey}}->{name}=$item->{pname};
   		$lmethod->{$item->{pkey}}->{script}=$item->{script};
-		}
+  		$lmethod->{$item->{pkey}}->{ownerid}=$item->{objid};
+  		$lmethod->{$item->{pkey}}->{type}='u';
+	}
   	
   	
   	

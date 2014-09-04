@@ -327,7 +327,12 @@ if ($action) {
 			viewallhistoryform(param('objid'));
 			$need_exit;
 		} elsif ($action eq 'viewprm') {
-        	viewprmform(param('pkey'));
+			my $k=param('pkey');
+			if ($cmlmain::pkey->{$k}) {
+        		viewprmform($k);
+			} elsif ($cmlmain::lmethod->{$k} || $cmlmain::method->{$k}) {
+				viewmethodform($k)
+			}	
           	$need_exit=1;
      	} elsif ($action eq 'editprmform') {
         	editprmform(param('id'),param('pname'));
@@ -1050,6 +1055,8 @@ sub evaluate {
 sub viewprmform{
 	my $pkey=$_[0];
 	print_top();
+	
+	
 	my $prm_struct=prminfo($pkey);
 	print "PRM $pkey";
 	print start_table();

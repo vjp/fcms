@@ -14,7 +14,7 @@ BEGIN
  @ISA = 'Exporter';
  @EXPORT = qw( 
  	&buildvparam &print_top &editmethodform &editprmform &console &config 
- 	&viewhistoryform &viewallhistoryform
+ 	&viewhistoryform &viewallhistoryform &viewmethodform
  );
 
 }
@@ -158,6 +158,19 @@ sub config {
 	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
 	
 }
+
+sub viewmethodform{
+	my $mkey=$_[0];
+	print_top();
+
+	my $struct=$cmlmain::method->{$mkey}||$cmlmain::lmethod->{$mkey}; 
+	print "METHOD $mkey",br;
+	print "OBJID",a({-href=>"?action=editform&id=$struct->{ownerid}"},$struct->{ownerid}),br;
+	print textarea(-default=>$struct->{script},-rows=>10,-cols=>50),br;
+
+	
+}
+
 
 
 sub viewhistoryform ($$) {
