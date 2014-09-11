@@ -52,4 +52,16 @@ sub LoginBySessionKey ($$$) {
 	return $class->new($uid,$login);
 }
 
+
+sub Existed ($$) {
+	my ($class,$login)=@_;
+	return vCMS::Proxy::CheckUser($login);
+}
+
+sub Create ($$$;$) {
+	my ($class,$login,$upperobj,$password)=@_;
+	my $luObj=$upperobj->Create({_KEY=>"SU_$login",_NAME=>$login});
+	vCMS::Proxy::AddUser($luObj->GetID(),$login,$password);
+}
+
 1;

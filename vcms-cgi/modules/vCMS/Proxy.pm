@@ -420,6 +420,25 @@ sub CheckSessionKey ($$) {
 	return undef;
 }
 
+sub CheckUser ($) {
+	my ($login)=@_;
+	my $taname=GetTableName('auth');
+	my $r2=DBSelect("SELECT objid FROM $taname WHERE login=?",$login);
+	return  ($r2 && $r2->[0]->{objid})?1:0;
+}
+
+sub AddUser ($$;$) {
+	my ($objid,$login,$password)=@_;
+	my $uid;
+	if ($password) {
+		$uid=&cmlmain::add_user($login,$password,$objid);
+	} else {
+		$uid=&cmlmain::add_external_user($login,$objid);
+	}
+	return $uid;
+}
+
+
 
 
 sub GetLoginByObjID ($) {
