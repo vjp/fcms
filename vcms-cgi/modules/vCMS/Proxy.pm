@@ -424,7 +424,7 @@ sub CheckUser ($) {
 	my ($login)=@_;
 	my $taname=GetTableName('auth');
 	my $r2=DBSelect("SELECT objid FROM $taname WHERE login=?",$login);
-	return  ($r2 && $r2->[0]->{objid})?1:0;
+	return  ($r2 && $r2->[0]->{objid})?$r2->[0]->{objid}:0;
 }
 
 sub AddUser ($$;$) {
@@ -439,6 +439,11 @@ sub AddUser ($$;$) {
 }
 
 
+sub ActivateUser ($) {
+	my ($objid)=@_;
+	my $taname=GetTableName('auth');
+	DBQuery("UPDATE $taname SET flag=flag|1 where objid=?",$objid);
+}	
 
 
 sub GetLoginByObjID ($) {

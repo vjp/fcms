@@ -61,7 +61,25 @@ sub Existed ($$) {
 sub Create ($$$;$) {
 	my ($class,$login,$upperobj,$password)=@_;
 	my $luObj=$upperobj->Create({_KEY=>"SU_$login",_NAME=>$login});
-	vCMS::Proxy::AddUser($luObj->GetID(),$login,$password);
+	my $uid=vCMS::Proxy::AddUser($luObj->GetID(),$login,$password);
+	return $class->new($uid,$login);
+}
+
+
+sub Get($$) {
+	my ($class,$login)=@_;
+	my $uid=vCMS::Proxy::CheckUser($login);
+	if ($uid) {
+		return $class->new($uid,$login);
+	} else {
+		return undef;
+	}
+}
+
+
+sub Activate ($) {
+	my ($self)=@_;
+	vCMS::Proxy::ActivateUser($self->GetID());
 }
 
 1;
