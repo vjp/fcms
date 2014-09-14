@@ -29,7 +29,8 @@ $AJAX_FUNCS={
 
 
 start('..');
-print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
+
+
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%vmcs';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{dev}=cookie('dev');
@@ -48,3 +49,10 @@ if ($AJAX_FUNCS->{$func}) {
 	print $json->encode ({result=>$rstr});
 }	
 
+my @cookies;
+push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+print header(
+	-type=>'application/json',
+	-cookie=>\@cookies, 
+	-charset=>$GLOBAL->{CODEPAGE},
+);

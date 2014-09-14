@@ -18,15 +18,11 @@ my $ts_start=time();
 start('.');
 
 my $json = new JSON::PP;
-print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 my $data=param('data') || $json->encode ([]);
 my $func=param('func') || param('lfunc');
 my $oid=param('objid');
 
 check_session();
-
-
-
 
 $cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
 
@@ -50,6 +46,17 @@ if (ref $result ne 'HASH') {
 		message=>enc("Ошибка выполнения. Метод: $func Ошибка: ").$result,
 	});
 }
+
+my @cookies;
+push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+print header(
+	-type=>'application/json',
+	-cookie=>\@cookies, 
+	-charset=>$GLOBAL->{CODEPAGE},
+);
+
+
+
 print $json->encode ($result);
 my $ts=time()-$ts_start;
 warn "DBG: END: FUNC:$func OID:$oid TIME:$ts UA:$ENV{HTTP_USER_AGENT} COOKIE:$ENV{HTTP_COOKIE}";
