@@ -2842,28 +2842,39 @@ sub writepassfile {
 
 sub createhtaccess {
 	
-	my $grp=$_[1];
-	if ($grp) {
-		open (HTFILE, ">$_[0]");
-		if ($grp eq 'admin') {
-			print HTFILE "
+	my ($fn,$grp)=@_;
+	my $fcontent;
+	
+	open (HTF, "<$fn");
+	read (HTF,$fcontent,-s $fn);
+	close(HTF); 
+	my $htdata;
+	if ($grp eq 'admin') {
+		$htdata="
 				AuthType Basic
 				AuthName \"vCMS $grp Login\"
 				AuthUserFile \"$PASSFILE\"
  	 			AuthGroupFile \"$GRPFILE\"
  	 			Require group $grp
- 	 		";
-		} elsif ($grp eq 'user') {
- 	 		print HTFILE "
+		";
+	}	
+	if ($grp eq 'user') {
+		$htdata="
 				AuthType Basic
 				AuthName \"vCMS Login\"
 				AuthUserFile \"$PASSFILE\"
  				Require valid-user
-			";		
- 	 	}	
- 		close HTFILE;
-		chmod (0644, $_[0]); 	
-	} 
+		";
+	}
+	if ($fcontent=~/RESTRICT START/s) {
+		$fcontent=~s{(### RESTRICT START ###)(\n?.*?)(\n### RESTRICT END ###)}{$1$htdata$3}s		
+	} else {
+		$fcontent=$htdata;
+	}	
+	open (HTFILE, ">$fn");
+	print HTFILE $fcontent;
+    close HTFILE;
+	chmod (0644, $fn); 	
 }	
 
 sub fromcache {

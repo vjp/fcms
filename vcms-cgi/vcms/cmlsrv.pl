@@ -22,7 +22,7 @@ warn "DBG: START: USER:$cmlcalc::ENV->{USER} URI:$ENV{'REQUEST_URI'}";
 
 start('..');
 
-#$aliases{'root'}	= "$GLOBAL->{WWWPATH}/.htaccess";
+$aliases{'root'}	= "$GLOBAL->{WWWPATH}/.htaccess";
 $aliases{'vcms'}	= "$GLOBAL->{CGIPATH}/vcms/.htaccess";
 $aliases{'admin'}	= "$GLOBAL->{CGIPATH}/admin/.htaccess";		
 $aliases{'user'}	= "$GLOBAL->{CGIPATH}/user/.htaccess";
@@ -166,7 +166,6 @@ if ($action) {
 	 
      	for (keys %aliases) {
      		if ($action eq "rewriteht$_") {
-     			unlink $aliases{$_};
      			createhtaccess($aliases{$_},param('accessmode'));
      			$action='viewusers';	
      		}
