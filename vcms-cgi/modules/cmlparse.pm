@@ -954,7 +954,8 @@ sub tag_list  	{
   			'selected','selexpr',
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
-  			'headerprm','headerexpr','var','tbody','pagination'
+  			'headerprm','headerexpr','var','tbody','pagination',
+  			'switcher'
   		]);
   		$container=$pl->{'container'}||1;
   		
@@ -1115,6 +1116,10 @@ sub tag_list  	{
   			
  			$inner->{objid}=$splist[$i];
  			$cmlcalc::ENV->{$pl->{var}}=$splist[$i] if $pl->{var};
+ 			if ($pl->{switcher}) {
+ 				my @colors=split(';',$pl->{'switcher'});
+ 				$cmlcalc::ENV->{LISTSWITCHER}=$colors[$i % scalar @colors];
+ 			} 			
 
  			undef $inner->{needheader};
  			if ($pl->{headerprm} || $pl->{headerexpr}) {
