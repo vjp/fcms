@@ -129,7 +129,7 @@ sub config {
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
-    my $save_js2="ajax_call('sethtaccess',{conf:myCodeMirror2.getValue('editarea2')},sccallback)";
+    my $save_js2="ajax_call('sethtaccess',{conf:myCodeMirror2.getValue()},sccallback)";
     my $fcontent2;
 	open (FC2, "<$cmlmain::GLOBAL->{WWWPATH}/.htaccess");
 	read (FC2,$fcontent2,-s FC2);
@@ -798,15 +798,18 @@ sub editmethodform ($$;$)
 	print enc("Объект "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
 	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
 	
+	my $save_js="editmethod('$id','$pkey','$lflag',myCodeMirror.getValue())";
+	my $savenrun_js="console(editAreaLoader.getValue('editarea'))";
+	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
+	print br;
+	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
+	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
+
+	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
+	
 	print enc(q(
 		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-			id : "editarea"		
-			,language: "ru"
-			,syntax: "perl"			
-			,start_highlight: true		
-		});
-		function console (script) {
+			function console (script) {
 				$('resultDiv').update('...');
 				$('statusDiv').update('ВЫПОЛНЕНИЕ');
           		var dt={script: script};
@@ -824,20 +827,18 @@ sub editmethodform ($$;$)
 				     $('statusDiv').update(statusstr);
 				     
             }
+            
+            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+				lineNumbers: true,
+				mode:"perl"
+				
+			});
+			myCodeMirror.setSize(1500, 800);
 		</script>		
 	));
 	
-
-
 	
-	my $save_js="editmethod('$id','$pkey','$lflag',editAreaLoader.getValue('editarea'))";
-	my $savenrun_js="console(editAreaLoader.getValue('editarea'))";
-	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
-	print br;
-	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
-	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
-
-	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
+	
 	print hr,"<div id='resultDiv'></div>";
 	
 }	
