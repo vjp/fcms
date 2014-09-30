@@ -868,12 +868,18 @@ sub editfilelinkfull
 	print br(),br();  
 	my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
 	
+	
+	my $mode='html';
+	$mode='css' if $filename=~/css$/;
+	$mode='js' if $filename=~/js$/;
+	
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$fcontent,-override=>1);
 	print qq(
 		<script language="javascript" type="text/javascript">
 		var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
-			lineNumbers: true
+			lineNumbers: true,
+			mode:'$mode'
 		});
 		myCodeMirror.setSize(1500, 800);
 		</script>
