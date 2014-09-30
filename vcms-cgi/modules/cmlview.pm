@@ -24,9 +24,20 @@ sub print_top {
    
 	$title='VCMS' unless $title;
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	print "<html><head><title>$title</title><link rel='stylesheet' type='text/css' href='/css/vcms.css'>";
-     print'<script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>';
+	print "<html><head><title>$title</title>";
+
     print q(
+
+	<script src="/codemirror/lib/codemirror.js"></script>
+	<link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+    <script src="/codemirror/mode/css/css.js"></script>
+    <script src="/codemirror/mode/perl/perl.js"></script>
+    <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    
+
+
+    <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
+    <script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
 	<script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
@@ -863,37 +874,21 @@ sub editfilelinkfull
 	print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)");
 	print enc(" Язык "),b($LANGS{$lang}) if $lang;
 	print br(),br();  
-
-    my $syn;
- 	$syn='css' if $filename=~/\.css/;
-    $syn='js' if $filename=~/\.js/;
-    
-    my $h_on=$syn?'true':'false';
-    
+	my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
+	
+ 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
+	print textarea(-id=>'editarea',-default=>$fcontent,-override=>1);
 	print qq(
 		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-			id : "editarea"		
-			,language: "ru"
-			,syntax: "$syn"			
-			,start_highlight: $h_on	
-			,replace_tab_by_spaces : 4	
+		var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+			lineNumbers: true
 		});
+		myCodeMirror.setSize(1500, 800);
 		</script>
 	);
-    my $save_js="setvalue('$id','$uid','$pkey','$lang',editAreaLoader.getValue('editarea'))";
-
-
- 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
-	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>40,-cols=>150,-override=>1);	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
- 	
-
  	print "</body></html>";
- 	
- 	
- 	
 }
 
 
