@@ -30,6 +30,7 @@ sub print_top {
 
 	<script src="/codemirror/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+	<script src="/codemirror/mode/xml/xml.js"></script>
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
@@ -94,27 +95,7 @@ sub config {
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
-	print qq(
-		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-			id : "editarea"		
-			,language: "ru"
-			,syntax: "perl"			
-			,start_highlight: true	
-			,replace_tab_by_spaces : 4	
-		});
-		
-		function sccallback(json){
-    		if (json.status) {
-        		alert(json.message); 
-    		} else {
-        		alert(json.message);
-    		}    
-		}   
-		
-		</script>
-	);
-    my $save_js="ajax_call('setconf',{conf:editAreaLoader.getValue('editarea')},sccallback)";
+    my $save_js="ajax_call('setconf',{conf:myCodeMirror.getValue()},sccallback)";
     my $fcontent;
 	open (FC, "<$cmlmain::GLOBAL->{CGIPATH}/conf");
 	read (FC,$fcontent,-s FC);
@@ -125,6 +106,22 @@ sub config {
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js);
 	print hr;
+	print qq(
+		<script language="javascript" type="text/javascript">
+			var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+				lineNumbers: true,
+				mode:"perl"
+			});
+			function sccallback(json){
+    			if (json.status) {
+        			alert(json.message); 
+    			} else {
+        			alert(json.message);
+    			}    
+			}   
+		</script>
+	);
+	
 	
 	
 	print start_form(-method=>'post',-name=>'mfrm2');
@@ -132,18 +129,7 @@ sub config {
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
-	print qq(
-		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-			id : "editarea2"		
-			,language: "ru"
-			,syntax: "htaccess"			
-			,start_highlight: true	
-			,replace_tab_by_spaces : 4	
-		});
-		</script>
-	);
-    my $save_js2="ajax_call('sethtaccess',{conf:editAreaLoader.getValue('editarea2')},sccallback)";
+    my $save_js2="ajax_call('sethtaccess',{conf:myCodeMirror2.getValue('editarea2')},sccallback)";
     my $fcontent2;
 	open (FC2, "<$cmlmain::GLOBAL->{WWWPATH}/.htaccess");
 	read (FC2,$fcontent2,-s FC2);
@@ -155,6 +141,13 @@ sub config {
 	print button(-name=>'b2bt',-value=>enc('Сохранить htaccess'),-onclick=>$save_js2);
 
 	
+	print qq(
+		<script language="javascript" type="text/javascript">
+			var myCodeMirror2 = CodeMirror.fromTextArea(document.getElementById("editarea2"),{
+				lineNumbers: true
+			});
+		</script>
+	);
 	
 	
 	print hr;
@@ -307,6 +300,7 @@ sub console {
             }
             
             var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+            	mode: "text/x-perl",
 				lineNumbers: true
 			});
             
@@ -919,24 +913,19 @@ sub editmemofull
 		print br(),br();  
 	}
  
-	print qq(
-		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-			id : "editarea"		
-			,language: "ru"
-			,syntax: "html"			
-			,start_highlight: true	
-			,replace_tab_by_spaces : 4	
-		});
-		</script>
-	);
-    my $save_js="setvalue('$id','$uid','$pkey','$lang',editAreaLoader.getValue('editarea'))";
-
-
+    my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
+	print qq(
+		<script language="javascript" type="text/javascript">
+			var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+				lineNumbers: true
+			});
+			myCodeMirror.setSize(1500, 800);
+		</script>
+	);
 	print hr;
  	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},enc('История')),br;
     if (param('history')) {
