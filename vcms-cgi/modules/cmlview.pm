@@ -33,11 +33,8 @@ sub print_top {
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-    
-
 
     <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
-    <script language="javascript" type="text/javascript" src="/editarea/edit_area_full.js"></script>
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
 	<script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
@@ -281,16 +278,16 @@ sub editprmform {
 
 sub console {
 	my $value=$_[0];
+    my $save_js="vcms_console(myCodeMirror.getValue())";
+	print textarea(-id=>'editarea',-default=>$value,-override=>1);
+	print br;
+	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
+	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
+	print hr,"<textarea id='resultDiv' rows='30' cols='100'></textarea>";
 	print enc(q(
 		<script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-				id : "editarea"		
-				,language: "ru"
-				,syntax: "perl"			
-				,start_highlight: true		
-			});
-		
-			function console (script) {
+
+			function vcms_console (script) {
 				$('resultDiv').update('...');
 				$('statusDiv').update('ВЫПОЛНЕНИЕ');
           		var dt={script: script};
@@ -308,14 +305,13 @@ sub console {
 				     $('statusDiv').update(statusstr);
 				     
             }
+            
+            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+				lineNumbers: true
+			});
+            
 		</script>
 	));
-    my $save_js="console(editAreaLoader.getValue('editarea'))";
-	print textarea(-id=>'editarea',-default=>$value,-rows=>25,-cols=>100,-override=>1);
-	print br;
-	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
-	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
-	print hr,"<textarea id='resultDiv' rows='30' cols='100'></textarea>";
 	
 	
 }	
