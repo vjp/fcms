@@ -225,16 +225,6 @@ sub editprmform {
 	
 	my $extra=&{$ptype{$prm->{$pkey}->{type}}->{extra}}({pkey=>$pkey});
 	print_top("P: $pkey"); 
-	print q(
-	 <script language="javascript" type="text/javascript">
-			editAreaLoader.init({
-				id : "editarea"		
-				,language: "ru"
-				,syntax: "perl"			
-				,start_highlight: true		
-			});
-	 </script> 	
-	);
 	
 	print start_form(-method=>'post');
 	print hidden (-name=>'action',-default=>'editprm',-override=>1);
@@ -267,6 +257,17 @@ sub editprmform {
   		print $extra,br 
   	}
 	print endform;
+	
+	print q(
+	 <script language="javascript" type="text/javascript">
+ 		var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+            	mode: "text/x-perl",
+				lineNumbers: true
+    	});	 
+	 </script> 	
+	);
+	
+	
 }
 
 sub console {
