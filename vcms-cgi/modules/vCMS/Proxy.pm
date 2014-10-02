@@ -261,6 +261,12 @@ sub CheckQueueEvent ($$) {
 	return $r->[0];
 }
 
+sub QueueStatus () {
+	my $tname=GetTableName('queue');
+	return DBSelect("SELECT * FROM $tname");
+}
+
+
 
 sub GetQueueEvent($) {
 	my ($uniqid)=@_;

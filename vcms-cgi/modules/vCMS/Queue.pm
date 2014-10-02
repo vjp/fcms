@@ -30,8 +30,14 @@ sub Job (;$){
 	}	
 }
 
+
 sub Reset () {
 	vCMS::Proxy::ResetQueue();
+}
+
+
+sub Status () {
+	vCMS::Proxy::QueueStatus();
 }
 
 1;
