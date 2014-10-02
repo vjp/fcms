@@ -253,6 +253,15 @@ sub CreateQueueEvent ($$;$) {
 	return DBLastInsertID($Q);
 }
 
+
+sub CheckQueueEvent ($$) {
+	my ($objid,$method)=@_;
+	my $tname=GetTableName('queue');
+	my $r=DBSelect("SELECT * FROM $tname WHERE objid=? AND method=?",$objid,$method);
+	return $r->[0];
+}
+
+
 sub GetQueueEvent($) {
 	my ($uniqid)=@_;
 	my $tname=GetTableName('queue');

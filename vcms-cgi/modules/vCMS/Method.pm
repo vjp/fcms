@@ -34,4 +34,10 @@ sub ExecuteAsync ($;$) {
 }
 
 
+sub CheckAsync ($) {
+	my ($self)=@_;
+	return vCMS::Queue::Check($self);
+}
+
+
 1;

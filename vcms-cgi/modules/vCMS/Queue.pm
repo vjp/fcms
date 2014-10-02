@@ -9,6 +9,12 @@ sub Add ($;$) {
 	return vCMS::Proxy::CreateQueueEvent($method->GetObject()->GetID(),$method->GetName(),$exectime);
 }
 
+sub Check ($) {
+	my ($method)=@_;
+	return vCMS::Proxy::CheckQueueEvent($method->GetObject()->GetID(),$method->GetName());
+}
+
+
 sub Job (;$){
 	my ($processor_id)=@_;
 	$processor_id ||= Time::HiRes::time();

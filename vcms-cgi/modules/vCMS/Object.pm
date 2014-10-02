@@ -316,9 +316,17 @@ sub e($$) {
 
 sub ExecuteAsync($$;$) {
 	my ($self,$method,$exectime)=@_;
-	my $m=new vCMS::Method($self,$method,$exectime);
-	return $m->ExecuteAsync();
+	my $m=new vCMS::Method($self,$method);
+	return $m->ExecuteAsync($exectime);
 }
+
+
+sub CheckAsync($$) {
+	my ($self,$method)=@_;
+	my $m=new vCMS::Method($self,$method,$exectime);
+	return $m->CheckAsync();
+}
+
 
 sub ea($$;$) {
 	return ExecuteAsync($_[0],$_[1],$_[2]);
