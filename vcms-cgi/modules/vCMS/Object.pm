@@ -314,14 +314,14 @@ sub e($$) {
 	return Execute($_[0],$_[1]);
 }
 
-sub ExecuteAsync($$) {
-	my ($self,$method)=@_;
-	my $m=new vCMS::Method($self,$method);
+sub ExecuteAsync($$;$) {
+	my ($self,$method,$exectime)=@_;
+	my $m=new vCMS::Method($self,$method,$exectime);
 	return $m->ExecuteAsync();
 }
 
-sub ea($$) {
-	return ExecuteAsync($_[0],$_[1]);
+sub ea($$;$) {
+	return ExecuteAsync($_[0],$_[1],$_[2]);
 }
 
 

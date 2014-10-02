@@ -28,9 +28,9 @@ sub Execute($) {
 	return vCMS::Proxy::Execute($self->GetObject->ID(),$self->GetName());
 }
 
-sub ExecuteAsync ($) {
-	my ($self)=@_;
-	return vCMS::Queue::Add($self);
+sub ExecuteAsync ($;$) {
+	my ($self,$exectime)=@_;
+	return vCMS::Queue::Add($self,$exectime);
 }
 
 
