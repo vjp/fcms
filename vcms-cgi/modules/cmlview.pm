@@ -30,6 +30,7 @@ sub print_top {
 
 	<script src="/codemirror/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+	<link rel="stylesheet" href="/codemirror/theme/eclipse.css">
 	<script src="/codemirror/mode/xml/xml.js"></script>
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
@@ -831,7 +832,8 @@ sub editmethodform ($$;$)
             
             var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
 				lineNumbers: true,
-				mode:"perl"
+				mode:"perl",
+				theme:"eclipse"
 				
 			});
 			myCodeMirror.setSize(1500, 800);
