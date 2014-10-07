@@ -1,4 +1,4 @@
-body			{font-family: "Lucida Console", monospace; font-size: 11px; color: #220000;}
+body			{font-family: "Lucida Console", monospace; font-size: 12px; color: #220000;}
 
 
 
@@ -8,11 +8,11 @@ th			{background-color: #FFF5CF; font-size: 14px; color: #770000; font-family: A
 
 
 
-pre			{font-family: "Lucida Console", monospace; font-size: 11px;}
+pre			{font-family: "Lucida Console", monospace; font-size: 12px;}
 
 
-a:,a:link,a:visited	{font-family: "Lucida Console", monospace; font-size: 11px; color: #000077; font-weight : normal; text-decoration: none;}
-a:active, a:hover	{font-family: "Lucida Console", monospace; font-size: 11px; color: #000099; font-weight : normal; text-decoration: underline;}
+a:,a:link,a:visited	{font-family: "Lucida Console", monospace; font-size: 12px; color: #000077; font-weight : normal; text-decoration: none;}
+a:active, a:hover	{font-family: "Lucida Console", monospace; font-size: 12px; color: #000099; font-weight : normal; text-decoration: underline;}
 
 
 .tdmenu			{font-family: "Lucida Console", monospace; font-size: 10px; font-weight : normal;}
