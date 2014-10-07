@@ -39,14 +39,15 @@ $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 my $data=param('data');
 my $func=param('func');
 my $json = new JSON::PP;
+my $response_text;
 if ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
 	my $result=&$subname($r);
-	print $json->encode ($result);
+	$response_text=$json->encode ($result);
 } else {
 	my $rstr="Неправильная функция $func";
-	print $json->encode ({result=>$rstr});
+	$response_text=$json->encode ({result=>$rstr});
 }	
 
 my @cookies;
@@ -56,3 +57,4 @@ print header(
 	-cookie=>\@cookies, 
 	-charset=>$GLOBAL->{CODEPAGE},
 );
+print $response_text;
