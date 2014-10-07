@@ -37,6 +37,11 @@ sub print_top {
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 
     <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
+    
+    <style type="text/css">
+      .CodeMirror {border: 1px solid black; font-size:13px}
+    </style>
+    
     <script src='/js/prototype.js'> </script>
     <script src='/js/base.js'> </script>
 	<script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
