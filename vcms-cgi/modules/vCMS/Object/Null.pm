@@ -41,5 +41,12 @@ sub UID ($) {
 }
 
 
+sub LoadPrmVals($) {
+	my $self = shift;
+	return 1 if $self->{_prms_loaded};
+	$self->{vals}=undef;
+	$self->{_prms_loaded}=1;
+}
+
 
 1;
