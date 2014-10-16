@@ -77,7 +77,7 @@ sub Test ($) {
 sub DBDump  ($$) {
 	my ($self,$filename)=@_;
 	my $test=$self->Test();
-	return $test->{error} if $test->{error};
+	return "Gate test error: ".$test->{error} if $test->{error};
 	$filename ||= vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db.gz';
 	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" -o $filename";
@@ -90,7 +90,7 @@ sub DBDump  ($$) {
 sub DBSync  ($) {
 	my ($self)=@_;
 	my $test=$self->Test();
-	return $test->{error} if $test->{error};
+	return "Gate test error: ".$test->{error} if $test->{error};
 	vCMS::Proxy::DropPagesCache();
 	my $backupname=vCMS::Proxy::BackupDB();
 	return "cant backup" unless -s $backupname;
