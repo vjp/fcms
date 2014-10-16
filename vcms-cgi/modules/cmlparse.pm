@@ -1541,7 +1541,7 @@ sub tag_actionlink {
   	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
  	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	    	 	    	
- 	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback)");
+ 	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
@@ -1552,7 +1552,7 @@ sub tag_actionlink {
  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
  	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	 	    	 	    	
-			my $onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback)");
+			my $onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback);return false;");
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    $title='CSV' unless $title;
