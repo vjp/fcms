@@ -35,6 +35,7 @@ sub print_top {
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="/codemirror/addon/edit/matchbrackets.js"></script>
 
     <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
     
@@ -886,7 +887,8 @@ sub editfilelinkfull
 		<script language="javascript" type="text/javascript">
 		var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
 			lineNumbers: true,
-			mode:'$mode'
+			mode:'$mode',
+			matchBrackets: true
 		});
 		myCodeMirror.setSize(1500, 800);
 		</script>
