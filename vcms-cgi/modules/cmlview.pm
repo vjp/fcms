@@ -19,6 +19,24 @@ BEGIN
 
 }
 
+sub code_mirror_js {
+	my ($opts)=@_;
+	$opts->{mode}   ||= 'perl';
+	$opts->{width}  ||= 1500;
+	$opts->{height} ||= 800;
+	my $js=qq(
+	    <script> 
+        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
+            	mode: "$opts->{mode}",
+            	matchBrackets: true,
+				lineNumbers: true
+     	});
+		myCodeMirror.setSize($opts->{width}, $opts->{height});
+		</script> 
+	); 
+}
+
+
 sub print_top {
 	my ($title)=@_;
    
@@ -190,7 +208,7 @@ sub viewhistoryform ($$) {
     print start_table();
     for (@$r) {
 		print Tr(
-			td($_->{dt}),
+			td("$_->{dt} -> $_->{pkey}"),
 			td($_->{value}),
 			td($_->{user}),
 		);    		
@@ -286,15 +304,13 @@ sub console {
 	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
 	print hr,"<textarea id='resultDiv' rows='30' cols='100'></textarea>";
 	print enc(q(
-		<script language="javascript" type="text/javascript">
-
+	        <script language="javascript" type="text/javascript">
 			function vcms_console (script) {
 				$('resultDiv').update('...');
 				$('statusDiv').update('ВЫПОЛНЕНИЕ');
           		var dt={script: script};
           		ajax_call('console', dt, console_callback);
   			}
-			
 			function console_callback(json){
 				     $('resultDiv').update(json.result);
 				     var statusstr;
@@ -306,18 +322,11 @@ sub console {
 				     $('statusDiv').update(statusstr);
 				     
             }
-            
-            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
-            	mode: "text/x-perl",
-				lineNumbers: true
-			});
-            
-		</script>
-	));
-	
+            </script>
+    ));
+    print code_mirror_js({width=>1000,height=>300});
 	
 }	
-
 
 
 sub editlist	{
