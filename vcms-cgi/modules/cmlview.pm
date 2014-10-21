@@ -208,7 +208,7 @@ sub viewhistoryform ($$) {
     print start_table();
     for (@$r) {
 		print Tr(
-			td("$_->{dt} -> $_->{pkey}"),
+			td($_->{dt}),
 			td($_->{value}),
 			td($_->{user}),
 		);    		
@@ -955,7 +955,7 @@ sub editmemofull
 	print hr;
  	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},enc('История')),br;
     if (param('history')) {
-    	my $r=o($id)->History($pkey);
+    	my $r=o($id)->History({prm=>$pkey});
     	print start_table();
     	for (@$r) {
 			print Tr(td($_->{dt}),td(textarea(-default=>$_->{value},-rows=>20,-cols=>150)));    		
