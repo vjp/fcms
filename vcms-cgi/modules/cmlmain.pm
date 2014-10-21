@@ -140,8 +140,11 @@ sub import_static (;$)
 }
 sub backup_dir_create ()
 {
-	mkdir "$GLOBAL->{WWWPATH}/backup/" unless -d "$GLOBAL->{WWWPATH}/backup/";
+	my $dir="$GLOBAL->{WWWPATH}/backup/";	
+	mkdir $dir unless -d $dir;
+	return "cant create dir $dir" unless -d $dir; 
 	createhtaccess ("$GLOBAL->{WWWPATH}/backup/.htaccess",'admin') unless -s  "$GLOBAL->{WWWPATH}/backup/.htaccess";
+	return 1;
 }
 
 sub export_db_str (;$) 

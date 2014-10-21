@@ -98,6 +98,8 @@ sub DBSync  ($) {
 	my $istr=vCMS::Proxy::ImportDBStr();
 	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
 	my $e=`$str`;
+	$backupname=~s/.gz/.2.gz/;
+	vCMS::Proxy::BackupDB($backupname);
 	return "str:$str e:$e";
 }
 

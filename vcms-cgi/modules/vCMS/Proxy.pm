@@ -468,10 +468,13 @@ sub GetLoginByObjID ($) {
 	return $r?$r->[0]->{login}:undef;
 }
 
-sub BackupDB() {
-	cmlmain::backup_dir_create();
+sub BackupDB(;$) {
+	my ($backupname)=@_;
+	unless ($backupname) {
+		$backupname = vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
+		cmlmain::backup_dir_create();
+	}	
 	my $str=vCMS::Proxy::ExportDBStr();
-	my $backupname=vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
 	system("$str | gzip -c >$backupname");
 	return $backupname;
 }	
