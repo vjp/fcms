@@ -625,7 +625,12 @@ sub tag_menuitem	{
 	}elsif ($pl->{action} eq 'HISTORY') {
 		$forced_href="/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$id";
 		$forced_target=' target="_blank" ';
+	} elsif ($pl->{action} eq 'DBBACKUP') {
+		$forced_href="/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
+		$forced_target=' target="_blank" ';
 	}
+	
+	
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
     
     if ($cmlmain::nobj->{$key}->{type} eq 'L') {
@@ -1523,6 +1528,10 @@ sub tag_actionlink {
 	} 	elsif ($pl->{action} eq 'HISTORY') {
 		return qq(
 		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$pl->{id}' target='_blank'>$title</a>
+		);
+	} 	elsif ($pl->{action} eq 'DBBACKUP') {
+		return qq(
+		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=export&area=db' target='_blank'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'RESORT') {
 		$title=&cmlmain::enc('Пересортировать') unless $title;
