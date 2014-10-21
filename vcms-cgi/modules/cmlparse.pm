@@ -627,7 +627,6 @@ sub tag_menuitem	{
 		$forced_target=' target="_blank" ';
 	} elsif ($pl->{action} eq 'DBBACKUP') {
 		$forced_href="/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
-		$forced_target=' target="_blank" ';
 	}
 	
 	
