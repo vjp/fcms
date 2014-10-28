@@ -582,6 +582,7 @@ sub iscurrent {
 
 sub splitprice {
 	my ($number)=@_;
+	$number=int($number);
 	$number=~s/(?<=\d)(?=(\d{3})+(?!\d))/ /g;
 	return $number;
 }
