@@ -834,7 +834,11 @@ sub editmethodform ($$;$)
   			}
 			
 			function console_callback(json){
-				     $('resultDiv').update(json.result);
+					 if (json.result.message) {
+				     	$('resultDiv').update(json.result.message);
+					 } else {
+					 	$('resultDiv').update(json.result);
+					 }		
 				     var statusstr;
 				     if (json.status=='SUCCESS') {
 				     	statusstr='”—œ≈’';
