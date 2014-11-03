@@ -29,6 +29,7 @@ sub code_mirror_js {
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
             	mode: "$opts->{mode}",
             	matchBrackets: true,
+            	theme:"eclipse",
 				lineNumbers: true
      	});
 		myCodeMirror.setSize($opts->{width}, $opts->{height});
@@ -816,17 +817,16 @@ sub editmethodform ($$;$)
 	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
 	
 	my $save_js="editmethod('$id','$pkey','$lflag',myCodeMirror.getValue())";
-	my $savenrun_js="console(editAreaLoader.getValue('editarea'))";
+	my $savenrun_js="vcms_console(myCodeMirror.getValue())";
 	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
 	print br;
 	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
 	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
 
 	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
-	
 	print enc(q(
 		<script language="javascript" type="text/javascript">
-			function console (script) {
+			function vcms_console (script) {
 				$('resultDiv').update('...');
 				$('statusDiv').update('ВЫПОЛНЕНИЕ');
           		var dt={script: script};
@@ -844,16 +844,9 @@ sub editmethodform ($$;$)
 				     $('statusDiv').update(statusstr);
 				     
             }
-            
-            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
-				lineNumbers: true,
-				mode:"perl",
-				theme:"eclipse"
-				
-			});
-			myCodeMirror.setSize(1500, 800);
 		</script>		
 	));
+	print code_mirror_js();
 	
 	
 	
