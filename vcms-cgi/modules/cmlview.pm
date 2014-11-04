@@ -24,12 +24,18 @@ sub code_mirror_js {
 	$opts->{mode}   ||= 'perl';
 	$opts->{width}  ||= 1500;
 	$opts->{height} ||= 800;
+	my $add;
+	if (lc $opts->{mode} eq 'html') {
+		$opts->{mode}="xml";
+		$add="htmlMode: true,\n";
+	}
 	my $js=qq(
 	    <script> 
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
             	mode: "$opts->{mode}",
             	matchBrackets: true,
             	theme:"eclipse",
+            	$add
 				lineNumbers: true
      	});
 		myCodeMirror.setSize($opts->{width}, $opts->{height});
@@ -941,14 +947,7 @@ sub editmemofull
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
-	print qq(
-		<script language="javascript" type="text/javascript">
-			var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
-				lineNumbers: true
-			});
-			myCodeMirror.setSize(1500, 800);
-		</script>
-	);
+	print code_mirror_js({mode=>"html"});
 	print hr;
  	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},enc('История')),br;
     if (param('history')) {
