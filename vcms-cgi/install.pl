@@ -220,7 +220,7 @@ print qq(
   <tr><td>Префикс таблиц БД</td><td><input size='100' name='dbprefix'></td></tr>
   <tr><td>Имя домена</td><td><input  size='100' name='domainname' value='$ENV{SERVER_NAME}'></td></tr>
   <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'></td></tr>
-  <tr><td>Путь к корневой директории</td><td><input size='100' name='rootpath' value='$wpath'></td></tr>
+  <tr><td>Путь к корневой директории (WWWROOT)</td><td><input size='100' name='rootpath' value='$wpath'></td></tr>
   <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'  checked='checked'></td></tr>
   <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>
   <tr><td>Мультидомен</td><td><input type='checkbox' name='multidomain' value='1'></td></tr>  
