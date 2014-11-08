@@ -1760,7 +1760,7 @@ sub install_db ($$) {
   			`dev` tinyint NOT NULL default '0',
   			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
-  		) ENGINE=MyISAM
+  		) ENGINE=MyISAM DEFAULT CHARSET=latin1
   	") || die $dbh->errstr();
 	
 	$dbh->do("
@@ -1771,7 +1771,7 @@ sub install_db ($$) {
   			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
   			KEY `ol` (`objlink`)
-		) ENGINE=MyISAM
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1
 	") || die $dbh->errstr();
 	
 	$dbh->do("
