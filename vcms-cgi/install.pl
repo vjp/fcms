@@ -13,6 +13,21 @@ use Encode;
 
 use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN);
  
+ 
+my @execs=(
+	'viewer.pl',
+	'ajax-json.pl',
+	'stat.pl',
+	'admin/admin.pl',
+	'admin/ajax-json.pl',
+	'user/user.pl',
+	'gate/gate.pl',
+	'vcms/asyncprocessor.pl',
+	'vcms/autorun.pl',
+	'vcms/cmlsrv.pl',
+	'vcms/ajax.pl',
+	'vcms/ajax-json.pl'
+); 
 
 print "Content-Type: text/html; charset=windows-1251\n\n";
 print qq(
@@ -21,7 +36,19 @@ print qq(
 <body>
 );
 
-if (param('install')) {
+if (param('refresh')) { 
+	if (! -s 'cgi.tar.gz') {
+		print "Файл cgi.tar.gz не найден",br();
+	} else {
+		print "Произвожу распаковку архива cgi.tar.gz...",br();
+		my $str=`tar -xzf cgi.tar.gz`;
+		unlink "cgi.tar.gz";
+		unlink "conf.template";
+		unlink "install.pl";		
+		chmod (0755, $_) for @execs;
+		exit;
+	}
+} elsif (param('install')) {
 	$DBNAME=param('dbname');
 	$DBHOST=param('dbhost');
 	$DBUSER=param('dbuser');
@@ -44,18 +71,7 @@ if (param('install')) {
 		} else {
 			print "...Распаковка удачная",br();
 			system "rm cgi.tar.gz";
-			chmod (0755, 'viewer.pl');
-			chmod (0755, 'ajax-json.pl');
-			chmod (0755, 'stat.pl');			
-			chmod (0755, 'admin/admin.pl');
-			chmod (0755, 'admin/ajax-json.pl');
-			chmod (0755, 'user/user.pl');
-			chmod (0755, 'gate/gate.pl');
-			chmod (0755, 'vcms/autorun.pl');
-			chmod (0755, 'vcms/asyncprocessor.pl');
-			chmod (0755, 'vcms/cmlsrv.pl');
-			chmod (0755, 'vcms/ajax.pl');
-			chmod (0755, 'vcms/ajax-json.pl');
+			chmod (0755, $_) for @execs;
 		}
 	}
 	
@@ -211,6 +227,9 @@ chomp $path;
 chomp $wpath;
 
 print qq(
+
+<a href='install.pl?refresh=1'>Обновить скрипты</a>
+
 <form method='post'>
 <table>
   <tr><td>Хост БД</td><td><input size='100' name='dbhost'></td></tr>
