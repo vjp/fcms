@@ -1222,6 +1222,12 @@ sub returnvalue {
 
 sub clearpagescache ($) {
 	my ($obj)=@_;
+	
+	unless ($GLOBAL->{CACHE}) {
+		warn "skip clear cache - cache switch off";
+		return;
+	}
+	
 	my $tt=time;
 	warn "start clear cache obj=$obj";
     my $sth=$dbh->prepare("SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
