@@ -109,6 +109,11 @@ sub Create($;$$) {
 	return $o;
 }
 
+
+sub CreateObject ($;$$) {
+	return $_[0]->Create($_[1],$_[2])
+}
+
 sub IsNull ($) {
 	return 0;
 }
