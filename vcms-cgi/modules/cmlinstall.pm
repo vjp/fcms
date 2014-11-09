@@ -1018,8 +1018,8 @@ $bm=qq(
 
 <cml:use id='_prm:id_' key='_prm:ukey_'>
 <cml:text param='_NAME'/>
-<br>
-<br>
+<br/>
+<br/>
 <cml:form matrix='1' ukey='_prm:ukey_' listprm='_prm:listprm_' link='_prm:link_'>
 <ul id='sortableList' style='cursor:move;'>
 <cml:list expr='p("_prm:listprm_") || lowlist()' orderby='_prm:orderby_' ordertype='_prm:ordertype_'>
@@ -1028,7 +1028,7 @@ $bm=qq(
 </ul>
 <cml:changebutton ajax='1'/>
 </cml:form>
-<hr>
+<hr/>
 <cml:actionlink action='add' upkey='_prm:ukey_' link='_prm:link_'>Добавить новый</cml:actionlink>
 </cml:use>
 );
