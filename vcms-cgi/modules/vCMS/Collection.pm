@@ -2,6 +2,7 @@ package vCMS::Collection;
 
 use lib "..";  
 use vCMS::Method;
+use vCMS::Object::Null;
 
 sub new($$$) {
     my ($class,$list_ref) = @_;
@@ -12,6 +13,15 @@ sub new($$$) {
     return $self;	
 }
 
+sub Empty ($) {
+	my ($self)=shift;
+	return $self->{_list}?0:1;
+}
+
+sub First ($) {
+	my ($self)=shift;
+	return $self->Empty()?new vCMS::Object::Null():$self->{_list}->[0]; 
+}
 
 sub GetObjects ($) {
 	my ($self)=shift;
