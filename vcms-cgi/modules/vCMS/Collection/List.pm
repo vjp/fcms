@@ -2,7 +2,6 @@ package vCMS::Collection::List;
  
 use base "vCMS::Collection";
 use lib "../..";
-use vCMS::Proxy;
   
 sub new($$$) {
     my ($class,$pObj,$prm) = @_;

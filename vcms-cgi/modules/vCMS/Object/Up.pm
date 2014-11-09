@@ -6,6 +6,7 @@ use lib "../..";
 use vCMS::Object::Low;
 use vCMS::Proxy;
 use vCMS::Collection::LowList;
+use vCMS::Collection::FastSearch;
 
 sub new($) {
     my ($class,$id) = @_;
@@ -110,6 +111,12 @@ sub Create($;$$) {
 
 sub IsNull ($) {
 	return 0;
+}
+
+
+sub fs ($$$) {
+	my ($self,$prm,$pattern)=@_;
+	return new vCMS::Collection::FastSearch($self,$prm,$pattern);
 }
 
 

@@ -480,4 +480,10 @@ sub BackupDB(;$) {
 }	
 
 
+sub FastSearch($$$) {
+	my ($objid,$prm,$pattern)=@_;
+	return [&cmlmain::fastsearch({prm=>$prm,pattern=>$pattern,up=>$objid})]; 
+}
+
+
 1;
