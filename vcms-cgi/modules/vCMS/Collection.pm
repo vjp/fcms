@@ -15,7 +15,7 @@ sub new($$$) {
 
 sub Empty ($) {
 	my ($self)=shift;
-	return $self->{_list}?0:1;
+	return $self->{_list}->[0]?0:1;
 }
 
 sub First ($) {
