@@ -68,8 +68,10 @@ function execute(func,data,callback,url) {
 function defcallback(json){
     if (json.status) {
         alert(json.message || lbSuccess);
-        if (json.redir) {
-        	location.href=json.redir;
+        var r=json.redir || json.back;
+        if (r=='silent') return 1;
+        if (r) {
+        	location.href=r;
         } else {
         	reloadPage();
         }	
@@ -77,6 +79,8 @@ function defcallback(json){
         alert(json.message);
     }    
 }   
+
+
 
 function lexecute(func,objid,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
@@ -169,22 +173,6 @@ function setVCallback (json) {
 }
 
 
-function setMVCallback (json) {
-	var url=document.location.href;
-	if (json.status) {
-		alert(json.message || lbSuccess);
-        if (json.back) {
-	           location.href=json.back;
-        } else {
-        	   reloadPage();
-	    }    
-    } else {
-        alert(lbError+': '+json.message);
-    }   
-}
-
-
-
 
 function set (objid,prm,fcallback,reload) {
 	var oinputid='_o'+objid+'_p'+prm;
@@ -209,7 +197,7 @@ function multiset (frm,fcallback,back,method,sortid) {
 		dt.sortstr=Sortable.serialize('sortableList');
 	}
 	dt.back=back;
-	execute(method || 'BASELPARSER',dt,fcallback || setMVCallback);
+	execute(method || 'BASELPARSER',dt,fcallback || defcallback);
 }
 
 function multisetsingleobj (frm,id,fcallback,back,method) {
@@ -235,7 +223,7 @@ function multisetsingleobj (frm,id,fcallback,back,method) {
 	
 	var dt=$(frm).up('form').serialize(true);
 	dt.back=back;
-	lexecute(method || 'BASELPARSER',id,dt,fcallback || setMVCallback);
+	lexecute(method || 'BASELPARSER',id,dt,fcallback || defcallback);
 }
 
 

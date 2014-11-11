@@ -3080,12 +3080,18 @@ sub tag_deletebutton {
 
 sub tag_changebutton {
 	my $param=$_[0]->{param};
-  	my $pl=fetchparam(\$param,['ajax','callback','title','redir','method','hidden','elementid','sortid','imgsrc']);
+  	my $pl=fetchparam(\$param,[
+  		'ajax','callback','title',
+  		'redir','method','hidden',
+  		'elementid','sortid','imgsrc',
+  		'noreload'
+  	]);
 	my $imgsrc=$pl->{imgsrc} || $cmlmain::POSTBUTTONURL;  	
   	my $access_denied=$cmlcalc::ENV->{READONLY};
   	return undef if $access_denied;
   	my $cstr=$pl->{callback}?$pl->{callback}:'undefined';
   	my $rstr=$pl->{redir}?"'$pl->{redir}'":'undefined';
+  	$rstr="'silent'" if $pl->{noreload};
   	my $mstr=$pl->{method}?"'$pl->{method}'":'undefined';
   	my $sstr=$pl->{sortid}?"'$pl->{sortid}'":'undefined';
   	my $elementid=$pl->{elementid}?"id='$pl->{elementid}'":'';
