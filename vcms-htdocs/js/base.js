@@ -66,6 +66,7 @@ function execute(func,data,callback,url) {
 }
 
 function defcallback(json){
+	$$('input[type="button"]').each(function(item) { item.enable();	});
     if (json.status) {
         alert(json.message || lbSuccess);
         var r=json.redir || json.back;
