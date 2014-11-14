@@ -3002,7 +3002,7 @@ sub tag_calendar {
 	my $prmname=$cmlmain::prm->{$prm}->{name};
 	return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
+	         <input type="text" $param value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
 }	
