@@ -62,7 +62,16 @@ if (param('lfunc')) {
 	my $result=&$subname($r);
 	print $json->encode ($result);
 } else {
-	my $rstr=enc("Íåïğàâèëüíàÿ ôóíêöèÿ $func");
-	print $json->encode ({result=>$rstr});
+	my $data=param('data') || $json->encode ([]);
+	$cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
+	my $result=execute({method=>$func});
+	if (ref $result ne 'HASH') {
+		my $rstr=enc("Îøèáêà âûïîëíåíèÿ. Ìåòîä: $func Îøèáêà: ").$result;
+		print $json->encode ({result=>$rstr});
+	} else {	
+    	print $json->encode ($result);
+	}	
+	#my $rstr=enc("Íåïğàâèëüíàÿ ôóíêöèÿ $func");
+	#print $json->encode ({result=>$rstr});
 }	
 
