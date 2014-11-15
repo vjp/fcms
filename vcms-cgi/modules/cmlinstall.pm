@@ -1226,10 +1226,6 @@ setvalue({key=>'CMSHEADMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'>”правление доступом менеджеров</cml:menuitem>
 <cml:menuitem action='LISTEDIT' key='ERR404'>ќшибки страница не найдена</cml:menuitem>
 </table>
-</td></tr></table>
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
-<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
 )});
 
 
