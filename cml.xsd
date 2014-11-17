@@ -1,0 +1,72 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns="cml-schema"
+      targetNamespace="cml-schema"
+      elementFormDefault="qualified">
+
+	  
+<xsd:element name="DOCUMENT" type="DocumentType"/>
+	  
+<xsd:complexType name="DocumentType" mixed="true">	  
+		<xsd:all>
+			<xsd:element name="IF" type="IfType" minOccurs="0"/>
+		    <xsd:element name="USE" type="UseType" minOccurs="0"/>
+			<xsd:element name="LIST" type="ListType" minOccurs="0"/>
+			<xsd:element name="TEXT" type="TextType" minOccurs="0"/>
+			<xsd:element name="DATE" type="DateType" minOccurs="0"/>
+		</xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="IfType" mixed="true">	  
+		<xsd:all>
+		    <xsd:element name="USE" type="UseType" minOccurs="0"/>
+			<xsd:element name="LIST" type="ListType" minOccurs="0"/>
+			<xsd:element name="TEXT" type="TextType" minOccurs="0"/>
+			<xsd:element name="DATE" type="DateType" minOccurs="0"/>			
+		</xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="UseType" mixed="true">
+		<xsd:all>
+		    <xsd:element name="IF" type="IfType" minOccurs="0"/>
+			<xsd:element name="LIST" type="ListType" minOccurs="0"/>			
+			<xsd:element name="TEXT" type="TextType" minOccurs="0"/>
+			<xsd:element name="DATE" type="DateType" minOccurs="0"/>			
+		</xsd:all>
+		<xsd:attribute name="key" type="xsd:string" />
+</xsd:complexType>
+
+
+<xsd:complexType name="ListType" mixed="true">	  
+		<xsd:all>
+		    <xsd:element name="USE" type="UseType" minOccurs="0"/>
+		    <xsd:element name="IF" type="IfType" minOccurs="0"/>
+			<xsd:element name="TEXT" type="TextType" minOccurs="0"/>
+			<xsd:element name="DATE" type="DateType" minOccurs="0"/>			
+		</xsd:all>
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="expr" type="xsd:string" />		
+</xsd:complexType>
+
+
+<xsd:complexType name="TextType" mixed="true">	  
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="expr" type="xsd:string" />		
+		<xsd:attribute name="prm" type="xsd:string" />		
+		<xsd:attribute name="value" type="xsd:string" />				
+</xsd:complexType>
+
+<xsd:complexType name="DateType" mixed="true">	  
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="expr" type="xsd:string" />		
+		<xsd:attribute name="prm" type="xsd:string" />		
+		<xsd:attribute name="value" type="xsd:string" />				
+		<xsd:attribute name="format" type="xsd:string" />				
+</xsd:complexType>
+
+
+
+
+</xsd:schema>
