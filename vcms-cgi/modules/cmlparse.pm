@@ -2872,7 +2872,7 @@ sub tag_inputtext {
 	if ($mode eq 'input') {
 		 my $sizestr=$cols?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
- 		 return qq(<input hasdata="1" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr $dstr/>);
+ 		 return qq(<input hasdata="1" type="text" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr $dstr/>);
 	} elsif ($mode eq 'textarea') {
 		my $cls=$pl->{visual} || $cmlmain::prm->{$prm}->{extra}->{visual} eq 'y'?'class="mceEditor"':'';
 	    my $ev=escapeHTML($value);
