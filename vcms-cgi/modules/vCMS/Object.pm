@@ -176,7 +176,20 @@ sub SetValue ($$;$$) {
 	return u($self,$prm,$value,$opts);
 }
 
-
+sub GetFileData ($$) {
+	my ($self,$prm)=@_;
+	my $filename=$self->p($prm);
+	return undef unless $filename;
+	my $fullname=vCMS::Proxy::GetGlobal('FILEPATH').'/'.$filename;
+	return undef unless -s $fullname;
+	
+	my $fcontent;
+	open (FC2, "<$fullname");
+	read (FC2,$fcontent,-s FC2);
+	close(FC2); 
+	
+	return $fcontent;
+}
 
 sub SetFile ($$$) {
 	my ($self,$prm,$cgifileprm)=@_;
