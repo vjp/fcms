@@ -87,6 +87,7 @@ sub initparser
     	'inputaudio'=>1,
     	'checkboxselect'=>1,
     	'menu'=>1,
+    	'document'=>1,
  	);
 }
 
@@ -1238,6 +1239,12 @@ sub tag_acc
 	    return undef;
 }
 
+sub tag_document
+{
+	return cmlparser({data=>$_[0]->{data}});	
+}
+
+
 sub tag_use
 {
 	my $param=$_[0]->{param};
@@ -2218,6 +2225,7 @@ sub tag_include {
 sub tag_text {
   	
   		my $param=$_[0]->{param};
+  		my $data=$_[0]->{data};
   		my $key;
   		my $ukey;
   		my $uid;
@@ -2310,7 +2318,13 @@ sub tag_text {
         push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
         $result="<b>$result</b>" if $pl->{bold} && !$cmlcalc::CSVMODE;
         $result="<font color='$pl->{color}'>$result</font>" if $pl->{color};
-		return $result;
+        
+        if ($data) {
+        	$data=~s/!!TEXT!!/$result/;
+        	return $data;	
+        }else { 
+			return $result;
+        }	
 }
 
 
