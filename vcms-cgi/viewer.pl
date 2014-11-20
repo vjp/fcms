@@ -266,7 +266,18 @@ my $lmtime=scalar gmtime($v->{lmtime} || time()).' GMT';
 
 
 my $charset=$xmlmode?'utf-8':$GLOBAL->{CODEPAGE};
-push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+
+for my $cookiename (keys %$cmlcalc::COOKIE) {
+	if (ref $cmlcalc::COOKIE->{$cookiename} eq 'HASH') {
+		my $ck;
+		$ck->{name}=$cookiename;
+		$ck->{$_}=$cmlcalc::COOKIE->{$cookiename}->{$_} for keys %{$cmlcalc::COOKIE->{$cookiename}};
+		push(@cookies,cookie($ck));	
+	} else {
+		push(@cookies,cookie(-name=>$cookiename,-value=>$cmlcalc::COOKIE->{$cookiename}));
+	}	
+}
+
 $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
 warn "status ---".$HTTPSTATUS if $ENV{MOD_PERL};
 

@@ -391,9 +391,9 @@ sub check_user ($;$)
 	return $objid;
 }	
 
-sub check_auth ($$;$)
+sub check_auth ($$;$$)
 {
-	my ($login,$password,$multisession)=@_;
+	my ($login,$password,$multisession,$opts)=@_;
 	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd=old_password(?)");
 	$sth1->execute($login,$password) || die $dbh->errstr();
 	my ($sid,$flag,$objid,$scookie)=$sth1->fetchrow();
@@ -403,7 +403,9 @@ sub check_auth ($$;$)
 			my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
 			$sth2->execute($scookie,$sid) || die $dbh->errstr();
 		}	
-		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
+		$cmlcalc::COOKIE->{'__CJ_auth'}->{value}=encode_json({login=>$login,scookie=>$scookie});
+		$cmlcalc::COOKIE->{'__CJ_auth'}->{expires}=$opts->{expires} if $opts->{expires};
+
 		$cmlcalc::ENV->{'LOGIN'}=$login;
 		$cmlcalc::ENV->{'AUTHUSERID'}=$objid;
 		return (1,$scookie);
@@ -421,7 +423,15 @@ sub check_auth ($$;$)
 
 sub check_external_auth ($;$)
 {
-	my ($login,$multisession)=@_;
+	my ($login,$opts)=@_;
+	my $multisession;
+	if (ref $opts eq 'HASH') {
+		$multisession=$opts->{multisession};
+	} else {
+		$multisession=$opts;
+		undef $opts;
+	}
+	
 	my $sth1=$dbh->prepare("SELECT id,flag,objid,scookie FROM ${DBPREFIX}auth WHERE login=? and pwd='___EXTERNAL___'");
 	$sth1->execute($login) || die $dbh->errstr();
 	my ($sid,$flag,$objid,$scookie)=$sth1->fetchrow();
@@ -431,7 +441,8 @@ sub check_external_auth ($;$)
 			my $sth2=$dbh->prepare("UPDATE ${DBPREFIX}auth SET scookie=?, authtime=NOW() WHERE id=?");
 			$sth2->execute($scookie,$sid) || die $dbh->errstr();
 		}	
-		$cmlcalc::COOKIE->{'__CJ_auth'}=encode_json({login=>$login,scookie=>$scookie});
+		$cmlcalc::COOKIE->{'__CJ_auth'}->{value}=encode_json({login=>$login,scookie=>$scookie});
+		$cmlcalc::COOKIE->{'__CJ_auth'}->{expires}=$opts->{expires} if $opts->{expires};
 		$cmlcalc::ENV->{'LOGIN'}=$login;
 		$cmlcalc::ENV->{'AUTHUSERID'}=$objid;
 		return (1,$scookie);

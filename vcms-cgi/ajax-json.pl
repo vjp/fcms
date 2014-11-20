@@ -48,7 +48,17 @@ if (ref $result ne 'HASH') {
 }
 
 my @cookies;
-push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
+
+for my $cookiename (keys %$cmlcalc::COOKIE) {
+	if (ref $cmlcalc::COOKIE->{$cookiename} eq 'HASH') {
+		my $ck;
+		$ck->{name}=$cookiename;
+		$ck->{$_}=$cmlcalc::COOKIE->{$cookiename}->{$_} for keys %{$cmlcalc::COOKIE->{$cookiename}};
+		push(@cookies,cookie($ck));	
+	} else {
+		push(@cookies,cookie(-name=>$cookiename,-value=>$cmlcalc::COOKIE->{$cookiename}));
+	}	
+}
 print header(
 	-type=>'application/json',
 	-cookie=>\@cookies, 
