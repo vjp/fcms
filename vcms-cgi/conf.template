@@ -26,6 +26,7 @@ $OKLTIMAGEURL='/cmsimg/button_ok_lt.png';
 
 
 $DOUBLECONFIRM=0;
+$NEWSTYLE=0;
 $CACHE=<cache>;
 $MULTIDOMAIN=<multidomain>;
 $UTF=<utf>;
