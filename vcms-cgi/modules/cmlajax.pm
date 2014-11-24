@@ -151,7 +151,7 @@ sub ajax_setconf ($)
     	return ({message=>enc('Ошибка компиляции конфига:').$@});
     }
     
-    open (FC, ">$cmlmain::GLOBAL->{CGIPATH}/conf");
+    open (FC, ">$cmlmain::GLOBAL->{CGIPATH}/conf") || return ({message=>enc("Ошибка сохранения конфигурационного файла $!")});
 	print (FC $r->{conf});
 	close(FC); 
     
