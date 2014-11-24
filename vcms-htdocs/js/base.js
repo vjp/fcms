@@ -383,6 +383,15 @@ function openPopup(url,wndprops) {
     var ppIt = new PopIt(url,wndobj);
 }
 
+
+
+function openBootstrapPopup (url,opts) {
+	new Ajax.Updater('bsModal', url,{
+		onComplete: function() {new BootStrap.Modal($("bsModal"),{show:1}) }
+	})
+}
+
+
 function closePopup () {
     popIts.activePopIts['ppWindow'].close();
 }

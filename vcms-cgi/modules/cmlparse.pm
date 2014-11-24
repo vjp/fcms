@@ -863,7 +863,7 @@ sub tag_select {
   		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
   		
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-  			return qq(<a href='#' onclick="openBootstrapPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить'return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить',width:600,height:400});return false">Изменить</a>)});return false">Изменить</a>)
+  			return qq(<a href='#' onclick="openBootstrapPopup('/__BSPOPUP/$template?id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить'});return false">Изменить</a>)
   		} else {
 			return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить',width:600,height:400});return false">Изменить</a>)
   		}		
@@ -3096,7 +3096,8 @@ sub tag_deletebutton {
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
-	return qq(<a href='#' onclick='$confjs && $scriptjs;return false'><img border=0 src='$imgsrc' alt='$deltext'>$_[0]->{data}</a>);		
+	my $istr=$cmlmain::GLOBAL->{NEWSTYLE}?qq(<i class="icon-remove" alt='$deltext'></i>):qq(<img border=0 src='$imgsrc' alt='$deltext'>);
+	return qq(<a href='#' onclick='$confjs && $scriptjs;return false'>${istr}$_[0]->{data}</a>);		
 }	
 
 
