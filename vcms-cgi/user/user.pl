@@ -108,7 +108,7 @@ if (param('menu')) {
  	});
 } elsif (param('popupview')) {
 	$v=&cmlcalc::calculate({
-		key=>'BASEPOPUP',
+		key=>$cmlmain::GLOBAL->{NEWSTYLE}?'BSPOPUP':'BASEPOPUP',
 		expr=>"p($prm)",
 	});	 	
 }else {
