@@ -419,6 +419,18 @@ function jsErrHandler(message, url, line)
 }
 
 
+function BSModalHide() {
+	$('bsModal').retrieve('bootstrap:modal').hide();
+	$('bsModal').retrieve('bootstrap:modal').removeBackdrop();
+}
+
+function setSelBS(frm,id) {
+	var dt=$(frm).serialize(true);
+	lexecute('BASELPARSER',id,dt,BSModalHide);
+}
+
+
+
 function successSet () {
     alert(lbSelSuccess);
     parent.closePopup();
