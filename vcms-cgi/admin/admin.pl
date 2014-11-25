@@ -21,7 +21,7 @@ for (param()) {
 	if ($#pl>0) { $cmlcalc::CGIPARAM->{$_}=join(';',grep {$_ ne '0'} @pl) }
 	else 		    { $cmlcalc::CGIPARAM->{$_}=$pl[0] }
 }
-$cmlmain::GLOBAL->{CACHE}=0;
+#$cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='ADMIN';
 $cmlcalc::CGIPARAM->{_ROOT}='/admin/';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGNADMIN'));

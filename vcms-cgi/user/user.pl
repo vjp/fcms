@@ -21,7 +21,7 @@ if (param('httplogout')) {
 }
 
 for (param()) {	$cmlcalc::CGIPARAM->{$_}=join(';',(param($_))) }
-$cmlmain::GLOBAL->{CACHE}=0;
+#$cmlmain::GLOBAL->{CACHE}=0;
 $cmlcalc::CGIPARAM->{_MODE}='USER';
 $cmlcalc::CGIPARAM->{_ROOT}='/user/';
 $cmlcalc::ENV->{NOFRAMES}=&cmlcalc::p('NOFRAMES',&cmlcalc::id('CMSDESIGNUSER'));;
