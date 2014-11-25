@@ -1208,6 +1208,9 @@ sub baselparser (;$)
 		alert($alerttext);
 	}	
 	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
+	
+
+	
 	return ({
 		status=>1,
 		objid=>$id,
@@ -1215,6 +1218,7 @@ sub baselparser (;$)
 		changed=>$changed,
 		oldval=>$ov,
 		newval=>$nv,
+		result=>$CGIPARAM->{resultexpr}?calc($id,$CGIPARAM->{resultexpr}):0,
 	});
 }
 
