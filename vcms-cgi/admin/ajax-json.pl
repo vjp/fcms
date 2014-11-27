@@ -45,7 +45,7 @@ if (param('lfunc')) {
 	my $result=execute({lmethod=>$lfunc,id=>param('objid')});
 	if (ref $result ne 'HASH') {
 		my $rstr=enc("Ошибка выполнения. Метод: $lfunc Ошибка: ").$result;
-		print $json->encode ({result=>$rstr});
+		print $json->encode ({status=>1,message=>$rstr});
 	} else {	
     	print $json->encode ($result);
 	}	
@@ -67,7 +67,7 @@ if (param('lfunc')) {
 	my $result=execute({method=>$func});
 	if (ref $result ne 'HASH') {
 		my $rstr=enc("Ошибка выполнения. Метод: $func Ошибка: ").$result;
-		print $json->encode ({result=>$rstr});
+		print $json->encode ({status=>1,message=>$rstr});
 	} else {	
     	print $json->encode ($result);
 	}	
