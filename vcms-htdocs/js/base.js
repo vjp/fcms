@@ -430,3 +430,8 @@ function setSel(frm,id) {
     var dt=$(frm).up('form').serialize(true);
     lexecute('BASELPARSER',id,dt,successSet);
 }
+
+function BSModalHide() {
+	$('bsModal').retrieve('bootstrap:modal').hide();
+	$('bsModal').retrieve('bootstrap:modal').removeBackdrop();
+}
