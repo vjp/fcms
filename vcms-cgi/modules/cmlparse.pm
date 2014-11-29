@@ -675,24 +675,29 @@ sub tag_menuitem	{
 		$href=$forced_href;
 		$icohref=$forced_href;
 	}
-	my $mtext=$pl->{action} eq 'NO'?
-	qq(
-		<tr>
-		<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
-		<td bgcolor="#FFFFFF" width="100%" colspan="2">$itext</td>
-		<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
-		</tr>
-	)
-	:
-	qq(
-		<tr>
-		<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
-		<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
-		$addlink
-		<td bgcolor="$hcol" width="16">$dtxt</td>
-		</tr>
-	);
-	$mtext="<td><table>$mtext</table></td>" if $inner->{horisontal};
+	
+	my $mtext;
+	
+	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+		$mtext=qq(<li><a href="$href"><span class="ico"><i class="icon-home"></i></span><span class="text">$itext</span></a></li>)
+	} else {
+		$mtext=$pl->{action} eq 'NO'?
+		qq(
+			<tr>
+			<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
+			<td bgcolor="#FFFFFF" width="100%" colspan="2">$itext</td>
+			<td bgcolor="#FFFFFF" width="16">&nbsp;</td>
+			</tr>
+		):qq(
+			<tr>
+			<td bgcolor="#FFFFFF" width="16"><a href="$icohref" $targetstr_ico><img src="/cmsimg/edit.png" alt="$estr" border="0"/></a></td>
+			<td bgcolor="$hcol" width="100%" colspan="2"><a href="$href" $targetstr>$itext</a></td>
+			$addlink
+			<td bgcolor="$hcol" width="16">$dtxt</td>
+			</tr>
+		);
+		$mtext="<td><table>$mtext</table></td>" if $inner->{horisontal};
+	}	
 	return cmlparser({data=>$mtext,inner=>$inner});
 }
 
