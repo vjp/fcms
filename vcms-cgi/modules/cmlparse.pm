@@ -3126,8 +3126,6 @@ sub tag_changebutton {
   	my $funcname=$_[0]->{inner}->{matrix}?'multisetmatrix':'multiset';
 
 	my @stl;
-	push (@stl,"display:none") if $pl->{hidden};
-	  	
 	my $onclickstr;
 	my $retstr;
 	if ($pl->{'ajax'} || $pl->{'callback'}){
@@ -3140,13 +3138,21 @@ sub tag_changebutton {
 	} elsif ($pl->{method}) {
 		$retstr.="<input type='hidden' name='overrideparsemethod' value='$pl->{method}'>";
 	}
-	$retstr.="<input type='hidden' name='redirto' value='$pl->{redir}'>" if $pl->{'redir'} && !$onclickstr;	
+	$retstr.="<input type='hidden' name='redirto' value='$pl->{redir}'>" if $pl->{'redir'} && !$onclickstr;
+	
+	my $classstr;
+	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+		$pl->{title} ||='Сохранить изменения';
+		$classstr='class="btn btn-primary"'
+	}
+	
+		
 	if ($pl->{title}) {
 		my $clstr=@stl?'style="'.join(';',@stl).'"':'';
 		if ($onclickstr) {
-			$retstr.="<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid/>";
+			$retstr.="<input type='button' value='$pl->{title}' $onclickstr $param $clstr $elementid $classstr/>";
 		} else {
-			$retstr.="<input type='submit' value='$pl->{title}' $param $clstr $elementid/>";
+			$retstr.="<input type='submit' value='$pl->{title}' $param $clstr $elementid $classstr/>";
 		}	
 	} else {	
 		push (@stl,"cursor:pointer");
