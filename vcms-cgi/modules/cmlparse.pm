@@ -816,7 +816,7 @@ sub tag_select {
 			$access_denied=1  if !(&cmlcalc::calculate({id=>$id,expr=>$cmlmain::prm->{$prm}->{extra}->{hasaccess}})->{value}); 
 		}
 		
-	  	$sexpr="p($prm)";
+	  	$sexpr||="p($prm)";
 	  	$expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  	$inner->{expr}=$expr;
 	  	$multiple='multiple' if $cmlmain::prm->{$prm}->{extra}->{single} ne 'y';
