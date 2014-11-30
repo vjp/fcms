@@ -1565,7 +1565,7 @@ sub tag_actionlink {
 		    return qq(<a href='#' onclick="openPopup('?view=RESORTPOPUP&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	} 	elsif ($pl->{action} eq 'SAVE') {
 		    $title ||= &cmlmain::enc('Сохранить изменения');
-		    return qq(<a href='#' onclick="multiset(this,undefined,'silent',undefined,undefined)">$title</a>)
+		    return qq(<a href='#' $param onclick="multiset(this,undefined,'silent',undefined,undefined)">$title</a>)
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
