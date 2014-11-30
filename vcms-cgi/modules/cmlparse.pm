@@ -552,7 +552,7 @@ sub tag_menuitem	{
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
 		'addupkey','addlink','deleteexpr','addmethod','csv','value',
-		'template','deleteid','notdel',
+		'template','deleteid','notdel','icon'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -679,7 +679,8 @@ sub tag_menuitem	{
 	my $mtext;
 	
 	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-		$mtext=qq(<li><a href="$href"><span class="ico"><i class="icon-home"></i></span><span class="text">$itext</span></a></li>)
+		my $icon=$pl->{icon} || 'icon-edit';
+		$mtext=qq(<li><a href="$href"><span class="ico"><i class="$icon"></i></span><span class="text">$itext</span></a></li>)
 	} else {
 		$mtext=$pl->{action} eq 'NO'?
 		qq(
