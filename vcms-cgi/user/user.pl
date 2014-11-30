@@ -80,6 +80,12 @@ if (param('csv')||param('csvcontent')) {
 		-charset=>$GLOBAL->{CODEPAGE},
 		-attachment=>'export.csv',
 	);
+} elsif (param('xml')) {
+	print header(
+		-type=>'text/xml',
+		-charset=>'UTF-8',
+		-attachment=>'export.xml',
+	);
 } else {
 	push(@cookies,cookie(-name=>$_,-value=>$cmlcalc::COOKIE->{$_})) for keys %$cmlcalc::COOKIE;
 	print header(-type=>'text/html',-cookie=>\@cookies, -charset=>$GLOBAL->{CODEPAGE});
@@ -109,6 +115,11 @@ if (param('menu')) {
 } elsif (param('popupview')) {
 	$v=&cmlcalc::calculate({
 		key=>$cmlmain::GLOBAL->{NEWSTYLE}?'BSPOPUP':'BASEPOPUP',
+		expr=>"p($prm)",
+	});
+} elsif (param('rawdata')) {
+	$v=&cmlcalc::calculate({
+		key=>param('key'),
 		expr=>"p($prm)",
 	});	 	
 }else {
