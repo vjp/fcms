@@ -143,6 +143,12 @@ sub l($$) {
 }
 
 
+sub Clear($$) {
+	my ($self,$prm)=@_;
+	return vCMS::Proxy::ClearValue($self->ID,$prm); 
+}
+
+
 =item u( $pObj, {$prm1=>$value1,$prm2=>$value} );
 =item u( $pObj, $prm1,$value1);
 

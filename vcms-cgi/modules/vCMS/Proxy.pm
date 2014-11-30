@@ -209,6 +209,13 @@ sub GetValue ($$;$) {
 }
 
 
+sub ClearValue ($$) {
+	my ($objid,$prm)=@_;
+	my $tname=GetTableName('vls');
+	my $Q=DBUpdate("DELETE FROM $tname WHERE objid=? AND pkey=?",$objid,$prm);
+	return "DELETE FROM $tname WHERE objid=? AND pkey=? ,$objid,$prm";
+}
+
 sub SetValue ($$;$$) {
 	my ($id,$prm,$value,$opts)=@_;
 	return cmlcalc::set($id,$prm,$value,$opts);
