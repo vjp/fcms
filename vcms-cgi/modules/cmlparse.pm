@@ -1490,8 +1490,12 @@ sub tag_actionlink {
 		$href.='&'.$pl->{href} if $pl->{href};
 		my $header_title=$title || &cmlmain::enc('Параметры');
 		unless ($title) {
-			my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
-			$title="<img src='$imgurl' border='0'/>";
+			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+				$title="<i class='icon-edit'></i>"
+			} else {
+				my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
+				$title="<img src='$imgurl' border='0'/>";
+			}	
 		} 
 		if ($pl->{popup}) {
  		    my $width=$pl->{width} || 600;
@@ -2530,7 +2534,7 @@ sub tag_form {
   		'renameparam','renameprm', 'matrix','ukey','listprm',
   		'actionexpr','elementid','iframe','readonlyexpr'  		
   	]);
-	$param=$pl->{'str'};
+	#$param=$pl->{'str'};
 	
 	if    	($pl->{'id'})    {
 	    	$id=$pl->{'id'};
@@ -2891,7 +2895,12 @@ sub tag_inputtext {
   	}
   	my $tidstr=$pl->{elementid}?"id='$pl->{elementid}'":"id='$name'";	
   	
-  	my $clrstr=$pl->{color}?"class='color'":'';
+  	my $clrstr;
+  	
+  	$clrstr="class='color'" if $pl->{color};
+  	$clrstr="class='input-mini'" if $cmlmain::GLOBAL->{NEWSTYLE} && $cols && $cols<=5;
+  	
+  	
   	my $fcstr=$pl->{textcolor}?"style='color:$pl->{textcolor}'":'';
   	my $prmname=$cmlmain::prm->{$prm}->{name};
   	my $nnstr=$pl->{notnull}?"notnull='1'":'';
