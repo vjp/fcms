@@ -222,7 +222,7 @@ sub ajax_ok(;$$)
 	my ($message,$data)=@_;
 	$data->{'status'}=1;
 	$data->{'message'}=$message || enc('Óñïåøíî');	
-	$data->{'back'}=$CGIPARAM->{back};
+	$data->{'back'} ||=$CGIPARAM->{back};
 	$cmlcalc::ENV->{'LASTMESSAGE'}=$data->{'message'};
 	return $data
 }

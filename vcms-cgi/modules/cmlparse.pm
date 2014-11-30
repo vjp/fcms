@@ -1569,7 +1569,7 @@ sub tag_actionlink {
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
- 	    	my $callback=$pl->{callback} || $defajaxcallback;
+ 	    	my $callback=$pl->{callback} || 'defcallback';
  	    	my $dtstr='{}';
   	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
