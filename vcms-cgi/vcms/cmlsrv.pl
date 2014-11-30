@@ -329,7 +329,7 @@ if ($action) {
 			$need_exit;
 		} elsif ($action eq 'viewprm') {
 			my $k=param('pkey');
-			if ($cmlmain::pkey->{$k}) {
+			if ($cmlmain::prm->{$k}) {
         		viewprmform($k);
 			} elsif ($cmlmain::lmethod->{$k} || $cmlmain::method->{$k}) {
 				viewmethodform($k)
