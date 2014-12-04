@@ -3037,9 +3037,10 @@ sub tag_calendar {
 	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":'';
 	my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
 	my $prmname=$cmlmain::prm->{$prm}->{name};
+	my $clsstr=$cmlmain::GLOBAL->{NEWSTYLE}?"class='uneditable-input input-small'":'';
 	return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input type="text" $param value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
+	         <input type="text" $clsstr $param value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
              <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
  	 );
 }	
