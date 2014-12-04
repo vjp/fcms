@@ -213,7 +213,7 @@ sub ClearValue ($$) {
 	my ($objid,$prm)=@_;
 	my $tname=GetTableName('vls');
 	my $Q=DBUpdate("DELETE FROM $tname WHERE objid=? AND pkey=?",$objid,$prm);
-	return "DELETE FROM $tname WHERE objid=? AND pkey=? ,$objid,$prm";
+	return 1;
 }
 
 sub SetValue ($$;$$) {
