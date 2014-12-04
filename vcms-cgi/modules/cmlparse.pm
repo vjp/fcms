@@ -1662,7 +1662,7 @@ sub tag_a	{
 	my $mode=$pl->{'mode'} || ''; 
     if ($pl->{'href'}) {	
 		$ql=$pl->{'href'};
-		if ($ql!~/^(http|mailto|\/|\?)/ && $ql ne '#') {$ql="http://$ql"}
+		if ($ql!~/^(http|mailto|\/|\?)/ && $ql!~/^\#/) {$ql="http://$ql"}
 	} elsif ($pl->{'pagenum'}) {
 		my $pid=$pl->{'pagenum'};
 		$ql=$cmlcalc::QUERYSTRING;		
@@ -1723,7 +1723,7 @@ sub tag_a	{
  		} else {
  			return cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}) unless $v->{value};
  			$ql=$v->{value};
- 			if ($ql!~/^(http|\/|\?)/) { 
+ 			if ($ql!~/^(http|\/|\?)/ && $ql!~/^\#/) { 
  				if ($ql=~/\@/) {
  					$ql="mailto:$ql"
  				} else {
