@@ -86,7 +86,11 @@ sub LowList ($;$) {
 	my ($id,$filterexpr)=@_;
 	my @list;
 	if ($filterexpr) {
-		@list=cmlmain::fastsearch({up=>"u$id",clause=>$filterexpr});	
+		if ($filterexpr=~/&&/) {
+			@list=split(/;/,cmlcalc::lowlist("u$id",$filterexpr));	
+		} else {
+			@list=cmlmain::fastsearch({up=>"u$id",clause=>$filterexpr});
+		}		
 	} else {
 		cmlmain::checkload({uid=>$id}); 
     	@list= sort {$cmlmain::lobj->{$a}->{indx}<=>$cmlmain::lobj->{$b}->{indx}} @{$cmlmain::ltree->{$id}->{0}};
