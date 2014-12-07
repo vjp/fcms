@@ -2433,6 +2433,7 @@ sub tag_for {
 
 sub tag_date {
   	my $param=$_[0]->{param};
+  	my $data=$_[0]->{data};
   	my $key;
   	my $expr;
   	my $id;
@@ -2495,9 +2496,12 @@ sub tag_date {
     }
     $result=&cmlmain::enc(strftime $frmt,localtime($result)) if $result;
     push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
-  	return $result;
-
-	
+    if ($data) {
+    	$data=~s/!!TEXT!!/$result/;
+        return $data;	
+    }else { 
+		return $result;
+    }	
 }
 
 
