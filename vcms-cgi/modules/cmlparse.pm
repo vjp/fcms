@@ -2338,7 +2338,7 @@ sub tag_text {
         $result="<font color='$pl->{color}'>$result</font>" if $pl->{color};
         
         if ($data) {
-        	$data=~s/!!TEXT!!/$result/;
+        	$data=~s/\*/$result/;
         	return $data;	
         }else { 
 			return $result;
@@ -2497,7 +2497,7 @@ sub tag_date {
     $result=&cmlmain::enc(strftime $frmt,localtime($result)) if $result;
     push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
     if ($data) {
-    	$data=~s/!!TEXT!!/$result/;
+    	$data=~s/\*/$result/;
         return $data;	
     }else { 
 		return $result;
