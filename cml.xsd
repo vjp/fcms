@@ -9,31 +9,70 @@
 <xsd:complexType name="DocumentType" mixed="true">	  
 		<xsd:choice maxOccurs="unbounded">
 			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
 			<xsd:element name="LIST" type="ListType"/>
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
 		</xsd:choice>
 </xsd:complexType>
 
-<xsd:complexType name="IfType" mixed="true">	  
+
+<xsd:complexType name="ExecuteType" mixed="true">	  
 		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
 			<xsd:element name="LIST" type="ListType"/>
 			<xsd:element name="TEXT" type="TextType"/>
-			<xsd:element name="DATE" type="DateType"/>			
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
+		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="method" type="xsd:string" />	
+</xsd:complexType>
+
+
+<xsd:complexType name="IfType" mixed="true">	  
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
+		    <xsd:element name="USE" type="UseType"/>
+			<xsd:element name="LIST" type="ListType"/>
+			<xsd:element name="TEXT" type="TextType"/>
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
 		<xsd:attribute name="expr" type="xsd:string" />	
 </xsd:complexType>
 
+
+<xsd:complexType name="ElseType" mixed="true">	  
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
+		    <xsd:element name="USE" type="UseType"/>
+			<xsd:element name="LIST" type="ListType"/>
+			<xsd:element name="TEXT" type="TextType"/>
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
+		</xsd:choice>
+</xsd:complexType>
+
+
 <xsd:complexType name="UseType" mixed="true">
 		<xsd:choice maxOccurs="unbounded">
-		    <xsd:element name="IF" type="IfType"/>
-			<xsd:element name="LIST" type="ListType"/>			
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
+		    <xsd:element name="USE" type="UseType"/>
+			<xsd:element name="LIST" type="ListType"/>
 			<xsd:element name="TEXT" type="TextType"/>
-			<xsd:element name="DATE" type="DateType"/>			
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" />
 </xsd:complexType>
@@ -41,15 +80,19 @@
 
 <xsd:complexType name="ListType" mixed="true">	  
 		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
-		    <xsd:element name="IF" type="IfType"/>
+			<xsd:element name="LIST" type="ListType"/>
 			<xsd:element name="TEXT" type="TextType"/>
-			<xsd:element name="DATE" type="DateType"/>			
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
 		<xsd:attribute name="expr" type="xsd:string" />	
-		<xsd:attribute name="filterexpr" type="xsd:string" />	
+		<xsd:attribute name="filterexpr" type="xsd:string" />
+		<xsd:attribute name="var" type="xsd:string" />	
 </xsd:complexType>
 
 
