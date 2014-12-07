@@ -23,6 +23,9 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>			
 		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="expr" type="xsd:string" />	
 </xsd:complexType>
 
 <xsd:complexType name="UseType" mixed="true">
