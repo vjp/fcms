@@ -17,7 +17,7 @@ BEGIN
  use Net::IDN::Punycode::PP qw(:all);
  use URI::Escape;
  use Cache::Memcached;
- use POSIX qw(locale_h);
+ use POSIX qw(locale_h strftime);
   
  @ISA    = 'Exporter';
  @EXPORT = qw(
@@ -183,7 +183,8 @@ sub export_db (;$$)
 	my ($filename,$opts)=@_;
 	unless ($filename) {
 		backup_dir_create();
-		$filename = "$GLOBAL->{WWWPATH}/backup/db.gz";
+		my $tm=strftime ('%Y%m%d_%H%M',localtime());
+		$filename = "$GLOBAL->{WWWPATH}/backup/db${tm}.gz";
 	}
 	$str=export_db_str($opts);
 	my $output=`$str | gzip -c >$filename`;
