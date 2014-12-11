@@ -369,6 +369,26 @@ sub IsReady($) {
 }	
 
 
+
+=item History( $pObj, $opts )
+
+Returns params history 
+
+Examples:
+
+
+o(OBJECTKEY)->History(PRMNAME);
+o(OBJECTKEY)->History({prm=>PRMNAME});
+
+Options hashref:
+
+prm - returns single param history
+
+=cut
+
+
+
+
 sub History($;$) {
 	my ($self,$opts) = @_;
 	return vCMS::Proxy::History($self->ID,$opts);
