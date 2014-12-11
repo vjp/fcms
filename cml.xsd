@@ -36,7 +36,7 @@
 
 
 <xsd:complexType name="IfType" mixed="true">	  
-		<xsd:choice maxOccurs="unbounded">
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
 			<xsd:element name="IF" type="IfType"/>
 			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
@@ -52,7 +52,7 @@
 
 
 <xsd:complexType name="ElseType" mixed="true">	  
-		<xsd:choice maxOccurs="unbounded">
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
 			<xsd:element name="IF" type="IfType"/>
 			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
@@ -101,7 +101,8 @@
 		<xsd:attribute name="key" type="xsd:string" />
 		<xsd:attribute name="expr" type="xsd:string" />		
 		<xsd:attribute name="prm" type="xsd:string" />		
-		<xsd:attribute name="value" type="xsd:string" />				
+		<xsd:attribute name="value" type="xsd:string" />	
+		<xsd:attribute name="listseparator" type="xsd:string" />			
 </xsd:complexType>
 
 <xsd:complexType name="DateType" mixed="true">	  

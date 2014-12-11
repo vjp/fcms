@@ -2259,7 +2259,7 @@ sub tag_text {
         	'value','formparam', 
         	'format',
         	'name','key','ukey','uid','namecgi','idexpr','idcgi','id',
-        	'expr','typeexpr',
+        	'expr','typeexpr','listseparator'
         ]);
         
     	if 		($pl->{value})      {return $pl->{value}}
@@ -2336,6 +2336,7 @@ sub tag_text {
         push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
         $result="<b>$result</b>" if $pl->{bold} && !$cmlcalc::CSVMODE;
         $result="<font color='$pl->{color}'>$result</font>" if $pl->{color};
+        $result=~s/(\S);(\S)/$1$pl->{'listseparator'}$2/g if $pl->{'listseparator'};
         
         if ($data) {
         	$data=~s/\*/$result/;
