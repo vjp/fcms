@@ -34,6 +34,11 @@ sub GetObjectIDs ($) {
 	return \@l;
 }
 
+sub p($$;$) {
+	my($self,$prm,$opts)=@_;
+	my @l = map{ $_->p($prm,$opts) } @{$self->GetObjects()};
+	return \@l;
+}
 
 sub GetObject ($$) {
 	my ($self,$key)=@_;
