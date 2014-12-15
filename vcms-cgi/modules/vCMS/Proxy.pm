@@ -193,6 +193,7 @@ sub DumpLower($) {
 sub GetValue ($$;$) {
 	my ($id,$prm,$opts)=@_;
 	my $csv=$opts->{csv}?1:0;
+	$prm=&cmlcalc::prm($prm) if $prm=~/^\d+$/;
     my $v=&cmlcalc::calculate({
 		id=>$id,
 		expr=>"p($prm)",
