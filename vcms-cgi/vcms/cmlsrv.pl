@@ -1053,39 +1053,6 @@ sub evaluate {
 	print hr;
 }
 
-sub viewprmform{
-	my $pkey=$_[0];
-	print_top();
-	
-	
-	my $prm_struct=prminfo($pkey);
-	print "PRM $pkey";
-	print start_table();
-	print Tr(th(enc('Èìÿ')),th(enc('Òèï')),th(enc('Îáúåêò')),th(enc('Ôîğìóëà')),th(enc('Âûï')),th(enc('Èçì')),th(enc('Ñâîé')));
-	for my $p (@{$prm_struct->{prm}}) {
-		print Tr(
-			td($p->{pname}),
-			td($p->{ptype}),
-			td($p->{objid}),
-			td($p->{defval}),
-			td($p->{evaluate}),
-			td($p->{upd}),
-			td($p->{self}),
-		); 
-	}
-	print end_table();
-	print br;
-	print start_table();
-	for my $k (keys %{$prm_struct->{extra}}) {
-		print Tr(
-			th($k),
-			td($prm_struct->{extra}->{$k}),
-		); 
-	}
-	print end_table();
-	
-}
-
 
 sub template_list 
 {

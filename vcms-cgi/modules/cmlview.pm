@@ -14,7 +14,7 @@ BEGIN
  @ISA = 'Exporter';
  @EXPORT = qw( 
  	&buildvparam &print_top &editmethodform &editprmform &console &config 
- 	&viewhistoryform &viewallhistoryform &viewmethodform
+ 	&viewhistoryform &viewallhistoryform &viewmethodform &viewprmform
  );
 
 }
@@ -201,6 +201,39 @@ sub viewmethodform{
 	print "OBJID",a({-href=>"?action=editform&id=$struct->{ownerid}"},$struct->{ownerid}),br;
 	print textarea(-default=>$struct->{script},-rows=>10,-cols=>50),br;
 
+	
+}
+
+sub viewprmform{
+	my $pkey=$_[0];
+	print_top();
+	
+	
+	my $prm_struct=prminfo($pkey);
+	print "PRM $pkey";
+	print start_table();
+	print Tr(th(enc('Èìÿ')),th(enc('Òèï')),th(enc('Îáúåêò')),th(enc('Ôîğìóëà')),th(enc('Âûï')),th(enc('Èçì')),th(enc('Ñâîé')));
+	for my $p (@{$prm_struct->{prm}}) {
+		print Tr(
+			td($p->{pname}),
+			td($p->{ptype}),
+			td(a({-href=>"?action=editform&id=$p->{objid}"},$p->{objid})),
+			td($p->{defval}),
+			td($p->{evaluate}),
+			td($p->{upd}),
+			td($p->{self}),
+		); 
+	}
+	print end_table();
+	print br;
+	print start_table();
+	for my $k (keys %{$prm_struct->{extra}}) {
+		print Tr(
+			th($k),
+			td($prm_struct->{extra}->{$k}),
+		); 
+	}
+	print end_table();
 	
 }
 
