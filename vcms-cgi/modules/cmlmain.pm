@@ -1488,7 +1488,7 @@ sub setvalue  {
 	  		}
 	  	} else {
 			if ($value ne '') {
-				$sthIFS->execute($ind,$pkey,$cl,$value) || die $dbh->errstr;
+				$sthIFS->execute($ind,$pkey,$cl,$value) || die "Index problem id=$ind pkey=$pkey - ".$dbh->errstr;
 			} else {
 				$sthDFS->execute($ind,$pkey) || die $dbh->errstr;	
 			}	
