@@ -1474,7 +1474,7 @@ sub setvalue  {
  		}
 	}
 
-	if ($prm->{$pkey}->{extra}->{srch} || $pkey eq '_NAME') {
+	if ($prm->{$pkey}->{extra}->{srch} eq 'y' || $pkey eq '_NAME') {
  		my $cl;
  		if    ($_[0]->{lang})      {$cl=$_[0]->{lang}} 
  		elsif ($LANGUAGE) {		$cl=$LANGUAGE	 	}	
