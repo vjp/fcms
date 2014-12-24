@@ -443,5 +443,5 @@ function setSel(frm,id) {
 
 function BSModalHide() {
 	$('bsModal').retrieve('bootstrap:modal').hide();
-	$('bsModal').retrieve('bootstrap:modal').removeBackdrop();
+	//$('bsModal').retrieve('bootstrap:modal').removeBackdrop();
 }
