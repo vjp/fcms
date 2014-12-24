@@ -1115,6 +1115,23 @@ setvalue({convert=>1,key=>'BASEPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
 </html>
 )});
 
+addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BSPOPUP',name=>'BootStrap попап'});
+setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
+<div class="modal-header">
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <cml:form elementid='mff' matrix='1'>
+  <div class="modal-body">
+    <CML:INCLUDE name="_prm:popupview_"/>
+  </div>
+    </cml:form>   
+  <div class="modal-footer">
+    <button class="btn" onclick="BSModalHide()">Закрыть</button>
+    <cml:input class="btn btn-primary" type='button' onclick="setSelBS('mff','_prm:id_')" value='Изменить'/>    
+  </div>
+)});
+
+
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENULIST',name=>'Базовый шаблон меню'});
 setvalue({convert=>1,key=>'BASEMENULIST',pkey=>'PAGETEMPLATE',value=>qq(

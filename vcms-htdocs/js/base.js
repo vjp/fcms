@@ -387,7 +387,10 @@ function openPopup(url,wndprops) {
 
 function openBootstrapPopup (url,opts) {
 	new Ajax.Updater('bsModal', url,{
-		onComplete: function() {new BootStrap.Modal($("bsModal"),{show:1}) },
+		onComplete: function() {
+			$('myModalLabel').update(opts.title);			
+			new BootStrap.Modal($("bsModal"),{show:1});
+		},
 		method: 'get'
 	})
 }
