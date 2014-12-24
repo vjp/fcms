@@ -864,7 +864,7 @@ sub tag_select {
   	}
   	
   	if ($pl->{popup}) {
-  		my $template=$pl->{template} || 'POPUPSELECTOR';
+  		my $template=$pl->{template} || $cmlmain::GLOBAL->{NEWSTYLE}?'NSPOPUPSELECTOR':'POPUPSELECTOR';
   		my $singlestr=$cmlmain::prm->{$prm}->{extra}->{single} eq 'y'?'&single=1':'';
   		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
   		
