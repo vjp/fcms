@@ -393,6 +393,16 @@ function openBootstrapPopup (url,opts) {
 }
 
 
+function BSModalCallback(r) {
+	$(r.resultdiv).update(r.result);
+	BSModalHide()
+}
+
+function setSelBS(frm,id) {
+	var dt=$(frm).serialize(true);
+	lexecute('BASELPARSER',id,dt,BSModalCallback);
+}
+
 function closePopup () {
     popIts.activePopIts['ppWindow'].close();
 }
