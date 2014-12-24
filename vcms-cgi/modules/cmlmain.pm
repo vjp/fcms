@@ -1927,7 +1927,7 @@ sub addlowobject {
  	if ($upobj=~/u(\d+)/) {$upobj=$1}
   	#checkload({uid=>$upobj});
  	
-	unless ($name) {$name=enc('Новый объект')}
+	#unless ($name) {$name=enc('Новый объект')}
  	unless ($template) {
  		if    ( $lobj->{$up} && $lobj->{$up}->{template} && $obj->{$lobj->{$up}->{template}}->{ltemplate})   {$template=$obj->{$lobj->{$up}->{template}}->{ltemplate}}
  		elsif ($obj->{$obj->{$upobj}->{template}}->{ltemplate}) {$template=$obj->{$obj->{$upobj}->{template}}->{ltemplate}}
@@ -1966,7 +1966,7 @@ sub addlowobject {
    			$sthH->execute("$newid",'_KEY',$key,'TEXT',$lang,$cmlcalc::ENV->{USER}) || die $dbh->errstr;
     	}	
 	}
- 	setvalue({id=>$newid,param=>'_NAME',value=>$name,nohistory=>$nohistory});
+ 	setvalue({id=>$newid,param=>'_NAME',value=>$name,nohistory=>$nohistory}) if $name ne '';
  	return $newid;
 }
 
