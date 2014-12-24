@@ -864,12 +864,16 @@ sub tag_select {
   	}
   	
   	if ($pl->{popup}) {
-  		my $template=$pl->{template} || $cmlmain::GLOBAL->{NEWSTYLE}?'NSPOPUPSELECTOR':'POPUPSELECTOR';
+  		my $template=$pl->{template} || ($cmlmain::GLOBAL->{NEWSTYLE}?'NSPOPUPSELECTOR':'POPUPSELECTOR');
   		my $singlestr=$cmlmain::prm->{$prm}->{extra}->{single} eq 'y'?'&single=1':'';
   		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
   		
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-  			return qq(<a href='#' onclick="openBootstrapPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить'});return false">Изменить</a>)
+  			my $svalue=$v=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value}; 
+  			return qq(
+  				<div id='selDiv${id}${prm}'>$svalue</div>
+  				<a href='#' onclick="openBootstrapPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить'});return false">Изменить</a>
+  			)
   		} else {
 			return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'Изменить',width:600,height:400});return false">Изменить</a>)
   		}		
