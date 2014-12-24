@@ -1219,6 +1219,7 @@ sub baselparser (;$)
 		oldval=>$ov,
 		newval=>$nv,
 		result=>$CGIPARAM->{resultexpr}?calc($id,$CGIPARAM->{resultexpr}):0,
+		resultdiv=>$CGIPARAM->{resultdiv} || '',
 	});
 }
 

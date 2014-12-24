@@ -643,16 +643,15 @@ setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'NSPOPUPSELECTOR', name=>'Шаблон попапа для селектора больших списков (Новый стиль)'});
 setvalue({key=>'NSPOPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
-<cml:form matrix='1'>
-    <cml:input type='button' onclick='setSel(this,"_prm:id_")' value='Изменить'/><br/>
-    <cml:list expr='prmformula(cgi(selectorprm))||lowlist(_prm:lowlist_)'>
-         <cml:if expr='cgi(single)'>
-             <cml:radiobutton id='_prm:id_' param='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
-         </cml:if><cml:else>
-             <cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
-         </cml:else>    
-    </cml:list>
-</cml:form>
+<cml:list expr='prmformula(cgi(selectorprm))'>
+	<cml:if expr='cgi(single)'>
+    	<cml:radiobutton id='_prm:id_' param='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
+    </cml:if><cml:else>
+    	<cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
+    </cml:else>    
+</cml:list>
+<cml:input type='hidden' name='resultexpr' value="p(_NAME,p(_prm:selectorprm_,_prm:id_))"/>
+<cml:input type='hidden' name='resultdiv' value="selDiv_prm:id__prm:selectorprm_"/>
 )});
 
 
