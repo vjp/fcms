@@ -772,11 +772,15 @@ BootStrap.Modal = Class.create({
 	}
 
 	, hideModal: function () {
-		this.$element.hide()
-		this.backdrop(function(){
-			this.removeBackdrop()
-			this.$element.fire('bootstrap:hidden')
-		}.bind(this))
+		this.$element.hide();
+		
+		this.$backdrop && this.$backdrop.remove();
+		this.$backdrop = null;
+		
+		//this.backdrop(function(){
+		//	this.removeBackdrop()
+		//	this.$element.fire('bootstrap:hidden')
+		//}.bind(this))
 
 	}
 	, removeBackdrop: function () {
