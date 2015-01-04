@@ -2665,7 +2665,7 @@ sub tag_form {
 		
     }
     
-	for my $p qw( editprm piclistprm filelistprm ukey back iframe) {
+	for my $p (qw(editprm piclistprm filelistprm ukey back iframe)) {
 		my $pv=$pl->{$p} || $cmlcalc::CGIPARAM->{$p};
 		$data.="<input type='hidden' name='$p' value='$pv' id='frm$p'>" if $pv;
 	}
