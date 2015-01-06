@@ -825,7 +825,10 @@ sub editlow {
 
 	
 	
-	if (defined $_[0]->{key})       {$lobj->{$objid}->{key}=$_[0]->{key}}
+	if (defined $_[0]->{key})       {
+		$lobj->{$objid}->{key}=$_[0]->{key};
+		$nobj->{$_[0]->{key}}=$lobj->{$objid};
+	}
 	if (defined $_[0]->{indx})      {$lobj->{$objid}->{indx}=$_[0]->{indx}}
 	if ($_[0]->{upobj})     {
 		my $newupobj=$_[0]->{upobj};
