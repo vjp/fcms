@@ -115,6 +115,7 @@ $qs =~ s/\?.*$//;
 $qs =~ s/\/parsemethod\/.+$//;
 $qs ||=$ENV{'REQUEST_URI'};
 $cmlcalc::QUERYSTRING=$ENV{'REQUEST_URI'} || $qs;
+$cmlcalc::ENV->{'QUERYSTRING'}=$cmlcalc::QUERYSTRING;
 
 my $cgiparam=$cmlcalc::CGIPARAM;
 
