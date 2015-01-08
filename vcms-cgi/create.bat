@@ -12,7 +12,6 @@ del html.tar.gz
 ..\vcms-cgi\7za a html.tar *.gif -r
 ..\vcms-cgi\7za a html.tar *.jpg -r
 ..\vcms-cgi\7za a html.tar *.png -r
-..\vcms-cgi\7za a html.tar *.gif -r
 ..\vcms-cgi\7za a html.tar *.css -r
 ..\vcms-cgi\7za a html.tar *.tgz -r
 ..\vcms-cgi\7za a html.tar *.swf -r
