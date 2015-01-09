@@ -3116,7 +3116,11 @@ sub tag_deletebutton {
 	}elsif ($pl->{prm}) {	
 		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
 	} elsif ($pl->{moveto}) {
-		$scriptjs=qq(lexecute("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
+		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+			$scriptjs=qq(lexecutejq("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
+		} else {
+			$scriptjs=qq(lexecute("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
+		}
 	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
 		$scriptjs=qq(lexecute("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
 	} else {
