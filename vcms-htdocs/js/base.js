@@ -104,42 +104,6 @@ function lexecute(func,objid,data,callback,url) {
 }
 
 
-function lexecutejq(func,objid,data,callback,url) {
-	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
-	
-	$.ajax({
-		  type: "POST",
-		  url: url || def_url,
-	      data: ({
-				lfunc: func,
-				objid: objid,
-				data:  JSON.stringify(data)
-	      }),
-	      dataType: "html",
-	      success: function(msg){
-	         alert(msg);
-	      }
-	});
-	
-	/*new Ajax.Request(url || def_url, {
-		method:'post',	
-		parameters: {
-			lfunc: func,
-			objid:objid,
-			data: Object.toJSON(data)
-		},
-		onSuccess: function(transport) {
-			var json = transport.responseText.evalJSON();
-			if (callback) {
-				callback(json)
-			} else {
-				defcallback(json)
-			}	
-		}
-	});*/
-}
-
-
 
 function ajax_call(func,data,callback) {
 		new Ajax.Request('ajax-json.pl', {
