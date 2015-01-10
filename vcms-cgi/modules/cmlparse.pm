@@ -3116,7 +3116,7 @@ sub tag_deletebutton {
 	}elsif ($pl->{prm}) {	
 		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
 	} elsif ($pl->{moveto}) {
-		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+		if (vCMS::Config::Get('jquery')) {
 			$scriptjs=qq(lexecutejq("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
 		} else {
 			$scriptjs=qq(lexecute("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
