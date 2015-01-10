@@ -1574,12 +1574,19 @@ sub tag_actionlink {
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
- 	    	my $callback=$pl->{callback} || 'defcallback';
  	    	my $dtstr='{}';
   	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
- 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	    	 	    	
- 	    	my $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	 
+ 	    	my $onclick;   	 	    	
+ 	    	if (vCMS::Config::Get('jquery')) {
+	    		my $callback=$pl->{callback} || 'defcallbackjq';
+ 	    		$onclick=qq(onclick="${confirmstr}executejq('$pl->{method}',$dtstr, $callback);return false;");
+ 
+			} else {		    
+ 	    		my $callback=$pl->{callback} || 'defcallback';
+ 	    		$onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
+			}    
 			return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};

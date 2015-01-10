@@ -14,6 +14,26 @@ function defcallbackjq(json){
     }    
 }   
 
+function executejq(func,data,callback,url) {
+	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
+	
+	$.ajax({
+		  type: "POST",
+		  url: url || def_url,
+	      dataType: "json",
+	      data: ({
+				func: func,
+				data:  JSON.stringify(data)
+	      }),
+	      success: function(json) {
+	    	  if (callback) {
+	    		  callback(json)
+	    	  } else {
+	    		  defcallbackjq(json)
+	    	  }	
+		  } 
+	});	
+}
 
 function lexecutejq(func,objid,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
