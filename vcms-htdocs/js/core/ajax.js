@@ -35,21 +35,5 @@ function lexecutejq(func,objid,data,callback,url) {
 	    	  }	
 		  } 
 	});
-	
-	/*new Ajax.Request(url || def_url, {
-		method:'post',	
-		parameters: {
-			lfunc: func,
-			objid:objid,
-			data: Object.toJSON(data)
-		},
-		onSuccess: function(transport) {
-			var json = transport.responseText.evalJSON();
-			if (callback) {
-				callback(json)
-			} else {
-				defcallback(json)
-			}	
-		}
-	});*/
+
 }
