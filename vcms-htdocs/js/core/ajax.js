@@ -17,7 +17,7 @@ function defcallbackjq(json){
 function executejq(func,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
 	
-	$.ajax({
+	jQuery.ajax({
 		  type: "POST",
 		  url: url || def_url,
 	      dataType: "json",
@@ -38,7 +38,7 @@ function executejq(func,data,callback,url) {
 function lexecutejq(func,objid,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
 	
-	$.ajax({
+	jQuery.ajax({
 		  type: "POST",
 		  url: url || def_url,
 	      data: ({
