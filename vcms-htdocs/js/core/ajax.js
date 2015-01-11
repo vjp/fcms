@@ -57,3 +57,41 @@ function lexecutejq(func,objid,data,callback,url) {
 	});
 
 }
+
+
+
+function multisetjq (frm,fcallback,back,method,sortid) {
+	var dt=$(frm).up('form').serialize(true);
+	if (sortid) {
+		dt.sortstr=Sortable.serialize(sortid);
+	} else if ($('sortableList')) {
+		dt.sortstr=Sortable.serialize('sortableList');
+	}
+	dt.back=back;
+	execute(method || 'BASELPARSER',dt,fcallback || defcallback);
+}
+
+function multisetsingleobjjq (elm,id,fcallback,back,method) {
+	/*var nnattr=$(frm).up('form').select('input[notnull="1"]','select[notnull="1"]');
+	for (i=0;i<nnattr.length;i++) {
+		inp=nnattr[i];
+	    if (!inp.value || inp.value==0) {
+	    	alert (lbRequired+' "'+inp.attributes['prmname'].value+'"');
+	    	inp.activate();
+	    	return false;
+	    }
+	}
+	var dattr=$(frm).up('form').select('input[checkdigit="1"]');
+	for (i=0;i<dattr.length;i++) {
+		inp=dattr[i];
+	    if (inp.value && !inp.value.match(/^[\d+\.\-\,]+$/)) {
+	    	alert (lbDigit+' "'+inp.attributes['prmname'].value+'"');
+	    	inp.activate();
+	    	return false;
+	    }
+	}*/
+	var dt=jQuery(elm).parent().serializeObject();
+	dt.back=back;
+	lexecutejq(method || 'BASELPARSER',id,dt,fcallback || defcallbackjq);
+}
+

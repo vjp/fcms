@@ -3160,12 +3160,15 @@ sub tag_changebutton {
 	my @stl;
 	my $onclickstr;
 	my $retstr;
+	
 	if ($pl->{'ajax'} || $pl->{'callback'}){
 		if ($_[0]->{inner}->{matrix}) {
-			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multiset(this,$cstr,$rstr,$mstr,$sstr);return false;");	
+			my $funcname=vCMS::Config::Get('jquery')?'multisetjq':'multiset';
+			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();$funcname(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
+			my $funcname=vCMS::Config::Get('jquery')?'multisetsingleobjjq':'multisetsingleobj';
 			my $id=ref $_[0]->{inner}->{objid} eq 'HASH'?$_[0]->{inner}->{objid}->{id}:$_[0]->{inner}->{objid};
-			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();multisetsingleobj(this,$id,$cstr,$rstr,$mstr);return false;");
+			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();$funcname(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
 	} elsif ($pl->{method}) {
 		$retstr.="<input type='hidden' name='overrideparsemethod' value='$pl->{method}'>";
