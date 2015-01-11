@@ -1,5 +1,5 @@
 function defcallbackjq(json){
-	//$$('input[type="button"]').each(function(item) { item.enable();	});
+	jQuery('input[type="button"]').prop('disabled', false);
     if (json.status) {
         alert(json.message || lbSuccess);
         var r=json.redir || json.back;
