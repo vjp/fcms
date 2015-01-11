@@ -1575,7 +1575,13 @@ sub tag_actionlink {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $dtstr='{}';
-  	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
+ 	    	
+ 	    	
+ 	    	if ($pl->{collectdata}) {
+ 	    		$dtstr=vCMS::Config::Get('jquery')?
+ 	    			q(jQuery(this).parents('form').serializeForm()):
+ 	    			q($(this).up('form').serialize(true));
+ 	    	}
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
  	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	 
  	    	my $onclick;   	 	    	
