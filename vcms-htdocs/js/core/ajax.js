@@ -61,14 +61,14 @@ function lexecutejq(func,objid,data,callback,url) {
 
 
 function multisetjq (frm,fcallback,back,method,sortid) {
-	var dt=$(frm).up('form').serialize(true);
-	if (sortid) {
+	var dt=jQuery(elm).parents("form").serializeObject();
+	/*if (sortid) {
 		dt.sortstr=Sortable.serialize(sortid);
 	} else if ($('sortableList')) {
 		dt.sortstr=Sortable.serialize('sortableList');
-	}
+	}*/
 	dt.back=back;
-	execute(method || 'BASELPARSER',dt,fcallback || defcallback);
+	executejq(method || 'BASELPARSER',dt,fcallback || defcallbackjq);
 }
 
 function multisetsingleobjjq (elm,id,fcallback,back,method) {
@@ -90,7 +90,7 @@ function multisetsingleobjjq (elm,id,fcallback,back,method) {
 	    	return false;
 	    }
 	}*/
-	var dt=jQuery(elm).parent().serializeObject();
+	var dt=jQuery(elm).parents("form").serializeObject();
 	dt.back=back;
 	lexecutejq(method || 'BASELPARSER',id,dt,fcallback || defcallbackjq);
 }
