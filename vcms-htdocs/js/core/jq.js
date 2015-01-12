@@ -130,3 +130,13 @@ function openBootstrapPopupJq (url,opts) {
 	});
 }
 
+
+function BSModalCallbackJq(r) {
+	jQuery('#'+r.resultdiv).text(r.result);
+	jQuery('#bsModal').modal('hide');
+}
+
+function setSelBSJq(formid,id) {
+	lexecutejq('BASELPARSER',id,jQuery('#'+formid).serializeForm(),BSModalCallbackJq);
+}
+
