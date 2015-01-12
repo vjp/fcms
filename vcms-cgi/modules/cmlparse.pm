@@ -871,9 +871,10 @@ sub tag_select {
   		my $title=$pl->{title} || $ch_str;
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
   			my $svalue=$v=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value}; 
+  			$fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
   			return qq(
   				<div id='selDiv${id}${prm}'>$svalue</div>
-  				<a href='#' onclick="openBootstrapPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'$title'});return false">$ch_str</a>
+  				<a href='#' onclick="${fn_name}('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'$title'});return false">$ch_str</a>
   			)
   		} else {
 			return qq(<a href='#' onclick="openPopup('?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr}',{title:'$title',width:600,height:400});return false">$ch_str</a>)

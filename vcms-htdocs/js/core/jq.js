@@ -113,3 +113,20 @@ jQuery.fn.serializeForm = function () {
 	});
 	return o;
 };
+
+
+
+
+function openBootstrapPopupJq (url,opts) {
+	jQuery.ajax({
+		url: url,
+		type: "get",
+		dataType: "html",
+		success: function(returnData){
+			jQuery("#bsModal").html(returnData);
+			jQuery("#myModalLabel").text(opts.title);
+			jQuery('#bsModal').modal('show');
+		},
+	});
+}
+
