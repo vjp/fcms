@@ -3066,7 +3066,7 @@ sub tag_calendar {
 	 if (vCMS::Config::Get('jquery')) {
 		return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input type="text"   class='input-small' $param value="$fvalue" data-provide="datepicker" $iidstr/>
+	         <input type="text"   class='input-small' $param value="$fvalue" data-provide="datepicker" data-date-format="dd.mm.yyyy" $iidstr  onchange="jQuery(this).prev().val(jQuery(this).datepicker('getDate').getTime()/1000)"/>
  	 	);
 	 	
 	 } else {
