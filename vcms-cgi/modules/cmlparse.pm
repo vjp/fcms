@@ -3146,7 +3146,11 @@ sub tag_deletebutton {
 			$scriptjs=qq(lexecute("BASEMOVEMETHOD","$id",{moveto : "$pl->{moveto}",parseid : "$parseid"},defcallback));
 		}
 	} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
-		$scriptjs=qq(lexecute("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
+		if (vCMS::Config::Get('jquery')) {
+			$scriptjs=qq(lexecutejq("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" }));
+		} else {	
+			$scriptjs=qq(lexecute("BASEDELMETHOD","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
+		}	
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
