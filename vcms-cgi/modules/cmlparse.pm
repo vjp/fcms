@@ -1453,7 +1453,7 @@ sub tag_actionlink {
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
 	
-	my $rd='reloadPage()';
+	my $rd='location.reload()';
 	$rd="location.href='$pl->{redir}';" if $pl->{redir};
 	$rd="location.href=json.$pl->{redirvar};" if $pl->{redirvar};
 	
@@ -1541,7 +1541,12 @@ sub tag_actionlink {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
 		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
-			my $onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+			my $onclick;
+			if (vCMS::Config::Get('jquery')) {
+				$onclick=qq(onclick="executejq('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+			} else {
+				$onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+			}
 			return "<a href='#' $onclick >$title</a>";
 		} else {
 			return qq(
