@@ -1570,8 +1570,9 @@ sub tag_actionlink {
 		    my $title=&cmlmain::enc('Сортировка');
 		    return qq(<a href='#' onclick="openPopup('?view=RESORTPOPUP&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	} 	elsif ($pl->{action} eq 'SAVE') {
+			my $f_name=vCMS::Config::Get('jquery')?'multisetjq':'multiset';
 		    $title ||= &cmlmain::enc('Сохранить изменения');
-		    return qq(<a href='#' $param onclick="multiset(this,undefined,'silent',undefined,undefined)">$title</a>)
+		    return qq(<a href='#' $param onclick="${f_name}(this,undefined,'silent',undefined,undefined)">$title</a>)
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
