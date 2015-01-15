@@ -60,7 +60,7 @@ function lexecutejq(func,objid,data,callback,url) {
 
 
 
-function multisetjq (frm,fcallback,back,method,sortid) {
+function multisetjq (elm,fcallback,back,method,sortid) {
 	var dt=jQuery(elm).parents("form").serializeForm();
 	/*if (sortid) {
 		dt.sortstr=Sortable.serialize(sortid);
