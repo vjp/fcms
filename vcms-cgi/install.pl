@@ -18,6 +18,7 @@ my @execs=(
 	'viewer.pl',
 	'ajax-json.pl',
 	'stat.pl',
+	'install.pl',
 	'admin/admin.pl',
 	'admin/ajax-json.pl',
 	'user/user.pl',
