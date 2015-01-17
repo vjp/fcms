@@ -26,7 +26,7 @@ $OKLTIMAGEURL='/cmsimg/button_ok_lt.png';
 
 
 $DOUBLECONFIRM=0;
-$NEWSTYLE=0;
+$NEWSTYLE=1;
 $CACHE=<cache>;
 $MULTIDOMAIN=<multidomain>;
 $UTF=<utf>;
@@ -48,7 +48,8 @@ $MEMCACHEDSERVER='';
 $CONF={
     mcerows=>30,           ##строк в визивиге
     mcecols=>100,          ##симовлов в строке в визивиге
-    separate_startpage=>0  ##стартовая генерится отдельным шаблоном
+    separate_startpage=>0,  ##стартовая генерится отдельным шаблоном
+    jquery=><jquery>,
 };
 
 

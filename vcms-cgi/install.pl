@@ -11,7 +11,7 @@ use Cwd;
 use Encode;
 
 
-use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN);
+use vars qw ($DBHOST $DBPREFIX $DBNAME $DBPASSWORD $DBUSER $DOMAINNAME $ABSPATH $ROOTPATH $UTF $CACHE $MULTIDOMAIN $JQUERY);
  
  
 my @execs=(
@@ -58,6 +58,7 @@ if (param('refresh')) {
 	$DOMAINNAME=param('domainname');
 	$ABSPATH=param('abspath');
 	$UTF=0+param('utf');
+	$JQUERY=0+param('jquery');
 	$CACHE=0+param('cache');		
 	$ROOTPATH=param('rootpath');
 	$MULTIDOMAIN=0+param('multidomain');
@@ -164,6 +165,7 @@ if (param('refresh')) {
 			$cnf=~s/<rootpath>/$ROOTPATH/g;
 			$cnf=~s/<thisdir>/$path/g;
 			$cnf=~s/<utf>/$UTF/g;
+			$cnf=~s/<jquery>/$UTF/g;
 			$cnf=~s/<cache>/$CACHE/g;
 			$cnf=~s/<multidomain>/$MULTIDOMAIN/g;
 		}	
@@ -242,7 +244,7 @@ print qq(
   <tr><td>Путь к файлам групп и паролей</td><td><input size='100' name='abspath' value='$path'></td></tr>
   <tr><td>Путь к корневой директории (WWWROOT)</td><td><input size='100' name='rootpath' value='$wpath'></td></tr>
   <tr><td>Unicode (UTF8)</td><td><input type='checkbox' name='utf' value='1'  checked='checked'></td></tr>
-  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>
+  <tr><td>JQuery</td><td><input type='checkbox' name='jquery' value='1'  checked='checked'></td></tr>  <tr><td>Кеширование</td><td><input type='checkbox' name='cache' value='1' checked='checked'></td></tr>
   <tr><td>Мультидомен</td><td><input type='checkbox' name='multidomain' value='1'></td></tr>  
   <tr><td>Интерфейсы</td>
   	<td>
@@ -251,7 +253,7 @@ print qq(
   		/admin <input type='checkbox' name='i_admin' value='1' checked='checked'>
   		/user <input type='checkbox' name='i_user' value='1' checked='checked'>
   	</td>
-  </tr>  
+  </tr> 
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
