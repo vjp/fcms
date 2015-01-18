@@ -187,6 +187,45 @@ if (param('refresh')) {
 	
 	print hr();
 	exit;
+} elsif (param('cleardb')) {
+	eval {
+		require cmlinstall;
+		require cmlmain;
+		do "conf";
+		$DBHOST='localhost' unless $DBHOST;
+		$DBPREFIX.='_' if $DBPREFIX;
+		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD) || die $DBI::errstr;
+		print "Очищаем бд ...",br;
+		$dbh->do("DROP TABLE IF EXISTS 
+			${DBPREFIX}extraprm,
+			${DBPREFIX}links,
+			${DBPREFIX}log,
+			${DBPREFIX}method,
+			${DBPREFIX}lmethod,
+			${DBPREFIX}objects,
+			${DBPREFIX}prm,
+			${DBPREFIX}tree,
+			${DBPREFIX}tvls,
+			${DBPREFIX}uvls,
+			${DBPREFIX}vls,
+			${DBPREFIX}vlshist,
+			${DBPREFIX}users,
+			${DBPREFIX}fs,
+			${DBPREFIX}fsint,
+			${DBPREFIX}pagescache,
+			${DBPREFIX}linkscache,
+			${DBPREFIX}captcha,
+			${DBPREFIX}auth,
+			${DBPREFIX}queue
+		") || die $dbh->errstr;
+		print "... структура бд очищена",br;		
+	};
+	if ($@) {
+		print br(),"Ошибка очистки базы: $@",br();	
+	}
+	print '<a href="?createdb=1">Создать БД</a>',br();
+	print '<a href="/vcms">Перейти к конфигурированию</a>';
+	exit();
 } elsif (param('createdb')) {
 	eval {
 		require cmlinstall;
@@ -207,7 +246,12 @@ if (param('refresh')) {
 	    } else {
 			print "Создаем базовые структуры...",br;
 			&cmlmain::start('.');
-			&cmlinstall::install_structure();
+			if (&cmlcalc::id('CONTENT')) {
+				print "База уже заполнена контента,  для перезаписи очистите базу",br;
+				print '<a href="?cleardb=1">Очистить базу</a>',br();
+			} else {
+				&cmlinstall::install_structure();				
+			}
 	    }	
 	
 	
