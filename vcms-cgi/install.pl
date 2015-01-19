@@ -42,7 +42,7 @@ if (param('refresh')) {
 		print "Файл cgi.tar.gz не найден",br();
 	} else {
 		print "Произвожу распаковку архива cgi.tar.gz...",br();
-		my $str=`tar -xzf cgi.tar.gz`;
+		my $str=`tar -xzfp cgi.tar.gz`;
 		unlink "cgi.tar.gz";
 		unlink "conf.template";
 		unlink "install.pl";		
@@ -67,7 +67,7 @@ if (param('refresh')) {
 		print "Файл cgi.tar.gz не найден",br();
 	} else {
 		print "Произвожу распаковку архива cgi.tar.gz...",br();
-		my $str=`tar -xzf cgi.tar.gz`;
+		my $str=`tar -xzfp cgi.tar.gz`;
 		if (! -s 'conf.template') {
 			print "...Распаковка неудачная :$str",br();
 		} else {
@@ -116,7 +116,7 @@ if (param('refresh')) {
 				print "Файл html.tar.gz не найден",br();
 			} else {
 				print "Произвожу распаковку архива html.tar.gz...",br();
-				my $str=`tar -xzf html.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xzfp html.tar.gz -C $ROOTPATH`;
 				if (! -s "${ROOTPATH}/.htaccess") {
 					print "...Распаковка неудачная:$str",br();
 				} else {
@@ -127,14 +127,14 @@ if (param('refresh')) {
 			
 			if (-s 'docs.tar.gz' && -s "${ROOTPATH}/.htaccess") {
 				print "Найден архив статики, распаковываем...";
-				my $str=`tar -xzf docs.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xzfp docs.tar.gz -C $ROOTPATH`;
 				print "...OK",br();
 				system "rm docs.tar.gz";
 			}
 			
 			if (-s 'data.tar.gz' && -e "${ROOTPATH}/data") {
 				print "Найден архив контента, распаковываем...";
-				my $str=`tar -xzf data.tar.gz -C $ROOTPATH/data`;
+				my $str=`tar -xzfp data.tar.gz -C $ROOTPATH/data`;
 				print "...OK",br();
 				system "rm data.tar.gz";
 			}
