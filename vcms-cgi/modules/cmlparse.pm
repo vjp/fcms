@@ -3204,7 +3204,7 @@ sub tag_changebutton {
 	
 	my $classstr;
 	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-		$pl->{title} ||='Сохранить изменения';
+		$pl->{title} ||=&cmlmain::enc('Сохранить изменения');
 		$classstr='class="btn btn-primary"'
 	}
 	
