@@ -22,6 +22,7 @@ my @execs=(
 	'admin/admin.pl',
 	'admin/ajax-json.pl',
 	'user/user.pl',
+	'user/ajax-json.pl',
 	'gate/gate.pl',
 	'vcms/asyncprocessor.pl',
 	'vcms/autorun.pl',
