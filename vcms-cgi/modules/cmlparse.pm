@@ -1561,6 +1561,16 @@ sub tag_actionlink {
 		return qq(
 		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$pl->{id}' target='_blank'>$title</a>
 		);
+	} 	elsif ($pl->{action} eq 'LOGOUT') {	
+		$title=&cmlmain::enc('Выйти') unless $title;
+		return qq(
+		        <a href='#' target='_blank'  onclick='alert("IE NOT SUPPORTED")'>$title</a>
+		) if $ENV{HTTP_USER_AGENT}=~/MSIE/;
+		my $href=CGI::url(-path_info=>1)."?httplogout=1";
+		$href=~s/(http:\/\/)/${1}logout\@/;
+		return qq(
+		        <a href='$href' target='_blank'>$title</a>
+		)
 	} 	elsif ($pl->{action} eq 'DBBACKUP') {
 		return qq(
 		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=export&area=db' target='_blank'>$title</a>
