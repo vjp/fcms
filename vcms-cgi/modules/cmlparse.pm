@@ -1539,20 +1539,16 @@ sub tag_actionlink {
 		return "<a href='/cgi-bin/vcms/cmlsrv.pl?action=editlowform&objid=$pl->{id}' $param>$title</a>";
 	} 	elsif ($pl->{action} eq 'ADD') {
 		my $prf="$pl->{up}_$pl->{id}";
+		my $onclick;
 		my $linkval=$pl->{linkval} || $pl->{id};
-		if ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
-			my $onclick;
-			if (vCMS::Config::Get('jquery')) {
-				$onclick=qq(onclick="executejq('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
-			} else {
-				$onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
-			}
-			return "<a href='#' $onclick >$title</a>";
+		if (vCMS::Config::Get('jquery')) {
+			$onclick=qq(onclick="executejq('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+		} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
+			$onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
 		} else {
-			return qq(
-		        <a href='#' onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","","$pl->{method}")'>$title</a>
-			);
-		}	
+			$onclick=qq(onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","","$pl->{method}")');
+		}
+		return "<a href='#' $onclick >$title</a>";
 	} 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
