@@ -100,9 +100,9 @@ if (param('page') && $cmlmain::lmethod->{param('page').'PARSER'}->{script}){
 
 
 my $prm=param('prm') || 'PAGETEMPLATE';
-if (param('menu')) {
+if (!$cmlmain::GLOBAL->{NEWSTYLE} && param('menu')) {
 	$v=&cmlcalc::calculate({key=>'BASEMENU',expr=>"p($prm)"});
-}	elsif (param('body') && param('body') ne 'NULL') {
+}	elsif (!$cmlmain::GLOBAL->{NEWSTYLE} && param('body') && param('body') ne 'NULL') {
 	$v=&cmlcalc::calculate({
 		key=>'BASEMAIN',
 		expr=>"p($prm)",
