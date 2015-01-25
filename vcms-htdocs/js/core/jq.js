@@ -35,6 +35,23 @@ function executejq(func,data,callback,url) {
 	});	
 }
 
+function ajax_call_jq(func,data,callback) {
+	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
+	
+	jQuery.ajax({
+		type: "POST",
+		url: def_url,
+		data: ({
+			func: func, 
+			data: JSON.stringify(data)
+		}),
+		success: function(json) {
+			callback(json)
+	    } 
+	});
+}
+
+
 function lexecutejq(func,objid,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
 	
