@@ -2986,7 +2986,7 @@ sub tag_inputdate {
 		$frmt=~s{\%Y}{
 			my $ret="<select name='${name}_dY'>";
 			my $curv=&cmlcalc::curyear($value);
-			for my $y (2010..2012){
+			for my $y (2010..2018){
 				my $sel=$curv==$y?"selected='selected'":'';
 				$ret.="<option $sel>$y</option>";
 			}
