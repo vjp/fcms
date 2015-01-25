@@ -1405,7 +1405,7 @@ sub tag_actionlink {
 		'template', 'editprm', 'ukey', 'listprm', 
 		'orderby','ordertype','method','lmethod',
 		'alert','redir','back', 'callback','redirvar', 'button','title',
-		'filter','filterexpr','filterprm','collectdata', 'key', 'href',
+		'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
 		'width','height','popup','csv'
 
@@ -1516,7 +1516,8 @@ sub tag_actionlink {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
 		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
-		for (qw (id listprm link orderby ordertype filter filterexpr filterprm)) {
+		$pl->{filtervalue}=&cmlcalc::p($pl->{filterprm},$pl->{id}) if !defined $pl->{filtervalue} && $pl->{filterprm};
+		for (qw (id listprm link orderby ordertype filter filterexpr filterprm filtervalue)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
