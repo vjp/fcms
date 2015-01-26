@@ -478,7 +478,11 @@ sub check_password ($)
 sub check_session ()
 { 
 	return 0 unless CGI::cookie('__CJ_auth'); 
-	my $auth_data=decode_json(CGI::cookie('__CJ_auth'));
+	my $auth_data;
+	eval {
+		$auth_data=decode_json(CGI::cookie('__CJ_auth'));
+	};
+	return 0 if $@;	
 	my $sth1=$dbh->prepare("SELECT objid FROM ${DBPREFIX}auth WHERE login=? and scookie=? and flag&1");	
 	$sth1->execute($auth_data->{'login'},$auth_data->{'scookie'}) || die $dbh->errstr();
 	my ($sid)=$sth1->fetchrow();
