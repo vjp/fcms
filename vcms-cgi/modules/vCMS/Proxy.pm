@@ -136,6 +136,14 @@ sub IsMultilangParam ($) {
 	return $cmlmain::prm->{$pkey}->{type} eq 'TEXT' || $cmlmain::prm->{$pkey}->{type} eq 'LONGTEXT';
 }
 
+sub IsDataFileParam ($) {
+	my $pkey=shift;
+	return 	$cmlmain::prm->{$pkey}->{type} eq 'PICTURE' || 
+			$cmlmain::prm->{$pkey}->{type} eq 'FILE' || 
+			$cmlmain::prm->{$pkey}->{type} eq 'VIDEO' ||
+			$cmlmain::prm->{$pkey}->{type} eq 'AUDIO';
+}
+
 sub LowValues($) {
 	my $id=shift;
 	my $l=LowList($id);
