@@ -59,6 +59,7 @@ sub print_top {
 	<script src="/codemirror/mode/xml/xml.js"></script>
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
+    <script src="/codemirror/mode/javascript/javascript.js"></script>
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/codemirror/addon/edit/matchbrackets.js"></script>
 
@@ -924,7 +925,7 @@ sub editfilelinkfull
 	
 	my $mode='html';
 	$mode='css' if $filename=~/css$/;
-	$mode='js' if $filename=~/js$/;
+	$mode='javascript' if $filename=~/js$/;
 	
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$fcontent,-override=>1);
