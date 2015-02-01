@@ -552,7 +552,7 @@ sub tag_menuitem	{
 		'childlistprm','childukey', 'ukey', 'childlink', 'link',
 		'orderby','ordertype','readonly','delmethod','templatekey',
 		'addupkey','addlink','deleteexpr','addmethod','csv','value',
-		'template','deleteid','notdel','icon'
+		'template','deleteid','notdel','icon','method'
 	]);
 	my $id=$pl->{id} || $inner->{objid};
 	
@@ -560,8 +560,9 @@ sub tag_menuitem	{
 	my $targetstr_ico=$targetstr;
 	my $forced_href;
 	my $forced_target;
+	my $onclickstr;
 	
-	unless ($pl->{action}) {
+	if (!$pl->{action} && !$pl->{method}) {
 		$pl->{action}=$pl->{head}?'LISTEDIT':'EDIT';
 	}	   
 	
@@ -628,7 +629,11 @@ sub tag_menuitem	{
 		$forced_target=' target="_blank" ';
 	} elsif ($pl->{action} eq 'DBBACKUP') {
 		$forced_href="/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
-	}
+	} elsif ($pl->{method}) {
+		return undef if $cmlcalc::ENV->{READONLY};
+		$forced_href='#';
+		$onclickstr=qq(onclick="executejq('$pl->{method}',{}, defcallbackjq);return false;");
+ 	}
 	
 	
 	my $key=$pl->{key} || &cmlcalc::p(_KEY,$pl->{head}?$id:&cmlcalc::uobj($id));
@@ -680,7 +685,7 @@ sub tag_menuitem	{
 	
 	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
 		my $icon=$pl->{icon} || 'icon-edit';
-		$mtext=qq(<li><a href="$href"><span class="ico"><i class="$icon"></i></span><span class="text">$itext</span></a></li>)
+		$mtext=qq(<li><a href="$href" $onclickstr><span class="ico"><i class="$icon"></i></span><span class="text">$itext</span></a></li>)
 	} else {
 		$mtext=$pl->{action} eq 'NO'?
 		qq(
