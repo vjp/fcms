@@ -1593,8 +1593,6 @@ sub tag_actionlink {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $dtstr='{}';
- 	    	
- 	    	
  	    	if ($pl->{collectdata}) {
  	    		$dtstr=vCMS::Config::Get('jquery')?
  	    			q(jQuery(this).parents('form').serializeForm()):
@@ -1606,8 +1604,7 @@ sub tag_actionlink {
  	    	if (vCMS::Config::Get('jquery')) {
 	    		my $callback=$pl->{callback} || 'defcallbackjq';
  	    		$onclick=qq(onclick="${confirmstr}executejq('$pl->{method}',$dtstr, $callback);return false;");
- 
-			} else {		    
+ 			} else {		    
  	    		my $callback=$pl->{callback} || 'defcallback';
  	    		$onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
 			}    
@@ -1618,10 +1615,21 @@ sub tag_actionlink {
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
  	    	my $dtstr='{}';
- 	    	$dtstr=q($(this).up('form').serialize(true)) if $pl->{collectdata};
+ 	    	if ($pl->{collectdata}) {
+ 	    		$dtstr=vCMS::Config::Get('jquery')?
+ 	    			q(jQuery(this).parents('form').serializeForm()):
+ 	    			q($(this).up('form').serialize(true));
+ 	    	}
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
- 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	 	    	 	    	
-			my $onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback);return false;");
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';
+  	    	my $onclick;   	 	    	
+ 	    	if (vCMS::Config::Get('jquery')) {
+	    		my $callback=$pl->{callback} || 'defcallbackjq';
+ 	    		$onclick=qq(onclick="${confirmstr}lexecutejq('$pl->{lmethod}',$oid,$dtstr, $callback);return false;");
+ 			} else {		    
+ 	    		my $callback=$pl->{callback} || 'defcallback';
+ 	    		$onclick=qq(onclick="${confirmstr}lexecute('$pl->{lmethod}',$oid,$dtstr, $callback);return false;");
+			}    
 			return $pl->{button}?"<input type='button' $onclick value='$title' $param/>":"<a href='#' $onclick>$title</a>";
 	} elsif ($pl->{action} eq 'CSVEXPORT' || $pl->{action} eq 'EXPORTCSV') {
 		    $title='CSV' unless $title;
