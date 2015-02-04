@@ -236,32 +236,46 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   var lbRequired="Необходимо заполнить поле";
   var lbDigit="Введите числовое значение в поле";   
   var lbSelSuccess="Список изменен";  
-  var ajax_url = '<cml:text expr='env(AJAXURL)'/>';
+  var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
+   
+  jQuery.fn.datepicker.dates['en'] = {
+    days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
+    daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск"],
+    daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+    monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+    today: "Сегодня",
+    clear: "Очистить"
+  };
+  
 </script>
 )});
 
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'INITSCRIPTS',name=>'Инициализационная секция'});
 setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
-<link rel="stylesheet" href="/css/mce.css" type="text/css" />
-<link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
+<script language="javascript" type="text/javascript" src="/js/lib/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/bootstrap3.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/bootstrap-datepicker.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/sb-admin-2.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/metisMenu.js"></script>
 
 
-<script type="text/javascript" src="/js/swfobject.js"></script>
-<script type="text/javascript" src="/js/prototype.js"></script>
-<script type="text/javascript" src="/js/cookiejar.js"></script>
-<script type="text/javascript" src="/js/base.js"></script>
-<script type="text/javascript" src="/js/flowplayer.js"></script>
+<script language="javascript" type="text/javascript" src="/js/base.js"></script>
+<script language="javascript" type="text/javascript" src="/js/core/jq.js"></script>
 
-<script src="/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
+
+<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
+<script language="javascript" type="text/javascript" src="/admin/js/ajaxjq.js"></script>
+
+<script type="text/javascript" src="/jscolor/jscolor.js"></script>
+
+
 <cml:include key='JSDICTIONARY'/>
-<script src="/js/lightbox.js" type="text/javascript"></script>
-
-
-<script>  
-window.onerror = jsErrHandler;
+<cml:include key='MCEINIT'/>
+<script>
+  window.onerror = jsErrHandlerJq; 
 </script>
-
 )});
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'SITEHEADER',name=>'Шапка'});
