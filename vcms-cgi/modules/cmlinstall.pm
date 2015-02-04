@@ -936,26 +936,17 @@ setvalue({convert=>1,key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEINIT',name=>'Инициализация визуального редактора'});
 setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
-	    <script language="javascript" type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
-        <script language="javascript" type="text/javascript" src="/admin/js/mce.js"></script>
-        
+	<script language="javascript" type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/admin/js/mce.js"></script>
     <script language="javascript" type="text/javascript">
     tinyMCE.init({  mode : "specific_textareas",
         editor_selector : "mceEditor",
         convert_urls : false,
-        /*theme : "advanced",*/ 
-        /*theme_advanced_styles : "Без рамки=imlink;Без подчеркивания=noundlink",*/ 
         plugins : "paste,fullscreen,table,link,image",
-        /*plugins : "paste,fullscreen,table,style,advlink,advimage",*/
-        /*theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,|,forecolor,backcolor,|,sub,sup,|,link,unlink,anchor,image,cleanup,help,code",
-        theme_advanced_buttons2 : "fullscreen,|,styleprops,|,tablecontrols,|,hr,removeformat,visualaid,|,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo",
-        theme_advanced_buttons3 : "",
-        theme_advanced_toolbar_location : "top", */
         content_css : "/css/mce.css", 
         apply_source_formatting: true,
         extended_valid_elements : "div[id|style|class],img[onload|src|border|onmouseover|onmouseout|title|width|height|alt],iframe[src|height|width|webkitallowfullscreen|mozallowfullscreen|allowfullscreen|frameborder]",
         language : "ru" 
-    
     });
 </script>
 
