@@ -1163,6 +1163,7 @@ sub tag_list  	{
 
  			
   			$inner->{listindex}=$i+1;
+  			$cmlcalc::ENV->{LISTINDEX}=$inner->{listindex};
   			if ($pl->{selected} && $splist[$i] eq $pl->{selected}) {
   				$inner->{selected}=1 ;
   			} elsif ($pl->{selexpr} && &cmlcalc::p($pl->{selexpr},$splist[$i]))	{
