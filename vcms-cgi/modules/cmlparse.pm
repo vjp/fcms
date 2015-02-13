@@ -985,7 +985,7 @@ sub tag_list  	{
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
   			'headerprm','headerexpr','var','tbody','pagination',
-  			'switcher'
+  			'switcher','indexvar'
   		]);
   		$container=$pl->{'container'}||1;
   		
@@ -1164,6 +1164,9 @@ sub tag_list  	{
  			
   			$inner->{listindex}=$i+1;
   			$cmlcalc::ENV->{LISTINDEX}=$inner->{listindex};
+  			$cmlcalc::ENV->{$pl->{indexvar}}=$inner->{listindex} if $pl->{indexvar};
+  			
+  			
   			if ($pl->{selected} && $splist[$i] eq $pl->{selected}) {
   				$inner->{selected}=1 ;
   			} elsif ($pl->{selexpr} && &cmlcalc::p($pl->{selexpr},$splist[$i]))	{
