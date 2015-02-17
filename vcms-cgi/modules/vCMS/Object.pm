@@ -41,7 +41,10 @@ sub GetName ($) {
 sub GetFilename ($$) {
 	my ($self,$prm)=@_;
 	return $self->GetInternalFilename($prm) if vCMS::Proxy::IsDataFileParam($prm);
-	return vCMS::Proxy::GetGlobal(vCMS::Proxy::GetPrmExtra($prm,'cgi')?'CGIPATH':'WWWPATH').$self->p($prm);
+	my $path=vCMS::Proxy::GetGlobal('WWWPATH');
+	$path=vCMS::Proxy::GetGlobal('CGIPATH') if vCMS::Proxy::GetPrmExtra($prm,'cgi');
+	$path='' if vCMS::Proxy::GetPrmExtra($prm,'abs');
+	return $path.$self->p($prm);
 }
 
 sub GetFileName ($$) {

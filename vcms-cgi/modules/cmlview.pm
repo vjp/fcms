@@ -908,7 +908,9 @@ sub editfilelinkfull
  	my $val=calculate({id=>$id,uid=>$uid,expr=>"p($pkey)",noparse=>1,lang=>$lang});
     my $filename=$val->{value};
     my $fcontent;
-    my $fullpath=$prm->{$pkey}->{extra}->{cgi}?"$GLOBAL->{CGIPATH}/$filename":"$GLOBAL->{WWWPATH}/$filename";
+    my $fullpath="$GLOBAL->{WWWPATH}/$filename";
+    $fullpath="$GLOBAL->{CGIPATH}/$filename" if $prm->{$pkey}->{extra}->{cgi};
+    $fullpath=$filename if $prm->{$pkey}->{extra}->{abs};
     open (FC, "<$fullpath");
 	read (FC,$fcontent,-s FC);
 	close(FC); 
@@ -1378,15 +1380,23 @@ sub extraflag {
 sub extrafilelink {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
-	my $outp=enc('CGI');
-	$outp.=checkbox(
+	my $outp=enc('CGI').checkbox(
 			-name=>"excgi$pkey", 
 			-checked=>$extra->{cgi} eq 'y'?'checked':'', 
 			-override=>1, 
 			-value=>1, 
 			-onchange=>$_[0]->{check}?"document.$_[0]->{form}.$_[0]->{flag}.value=1":'', 
 			-label=>'',
+	);	
+	$outp.=enc('ABS').checkbox(
+			-name=>"exabs$pkey", 
+			-checked=>$extra->{abs} eq 'y'?'checked':'', 
+			-override=>1, 
+			-value=>1, 
+			-onchange=>$_[0]->{check}?"document.$_[0]->{form}.$_[0]->{flag}.value=1":'', 
+			-label=>'',
 	);		
+		
 	return $outp;	
 }
 
@@ -1497,8 +1507,8 @@ sub extraflagparse {
 
 sub extrafilelinkparse {
  	my $pkey=$_[0]->{pkey};
- 	my $prs=param("excgi$pkey")?'y':'n';
- 	setprmextra({pkey=>$pkey,extra=>'cgi',value=>$prs});
+    setprmextra({pkey=>$pkey,extra=>'cgi',value=>param("excgi$pkey")?'y':'n'}); 	
+ 	setprmextra({pkey=>$pkey,extra=>'abs',value=>param("exabs$pkey")?'y':'n'});
 }
 
 
