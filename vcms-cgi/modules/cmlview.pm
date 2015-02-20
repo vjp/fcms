@@ -35,7 +35,6 @@ sub code_mirror_js {
             	mode: "$opts->{mode}",
             	matchBrackets: true,
             	autoCloseBrackets: true,
-            	theme:"eclipse",
             	$add
 				lineNumbers: true
      	});
