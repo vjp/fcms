@@ -34,6 +34,7 @@ sub code_mirror_js {
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
             	mode: "$opts->{mode}",
             	matchBrackets: true,
+            	autoCloseBrackets: true,
             	theme:"eclipse",
             	$add
 				lineNumbers: true
@@ -62,6 +63,8 @@ sub print_top {
     <script src="/codemirror/mode/javascript/javascript.js"></script>
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="/codemirror/addon/edit/closebrackets.js"></script>
+    
 
     <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
     
