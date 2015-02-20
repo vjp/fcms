@@ -934,16 +934,8 @@ sub editfilelinkfull
 	
  	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$fcontent,-override=>1);
-	print qq(
-		<script language="javascript" type="text/javascript">
-		var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editarea"),{
-			lineNumbers: true,
-			mode:'$mode',
-			matchBrackets: true
-		});
-		myCodeMirror.setSize(1500, 800);
-		</script>
-	);
+	print code_mirror_js({mode=>$mode});
+	
  	print br;
 	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
  	print "</body></html>";
