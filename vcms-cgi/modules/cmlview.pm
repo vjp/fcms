@@ -55,7 +55,7 @@ sub print_top {
 
 	<script src="/codemirror/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="/codemirror/lib/codemirror.css">
-	<link rel="stylesheet" href="/codemirror/theme/eclipse.css">
+	<link rel="stylesheet" href="/codemirror/addon/dialog/dialog.css">
 	<script src="/codemirror/mode/xml/xml.js"></script>
     <script src="/codemirror/mode/css/css.js"></script>
     <script src="/codemirror/mode/perl/perl.js"></script>
@@ -63,6 +63,11 @@ sub print_top {
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/codemirror/addon/edit/matchbrackets.js"></script>
     <script src="/codemirror/addon/edit/closebrackets.js"></script>
+	<script src="/codemirror/addon/dialog/dialog.js"></script>
+	<script src="/codemirror/addon/search/searchcursor.js"></script>
+	<script src="/codemirror/addon/search/search.js"></script>
+    <script src="/codemirror/addon/scroll/annotatescrollbar.js"></script>
+    <script src="/codemirror/addon/search/matchesonscrollbar.js"></script>
     
 
     <link rel='stylesheet' type='text/css' href='/css/vcms.css'>
