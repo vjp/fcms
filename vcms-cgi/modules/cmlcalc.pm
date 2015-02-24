@@ -10,6 +10,7 @@ BEGIN
  use Time::HiRes qw (time);
  use JSON::PP;
  use POSIX;
+ use String::CRC::Cksum qw(cksum);
 
 
  @ISA = 'Exporter';

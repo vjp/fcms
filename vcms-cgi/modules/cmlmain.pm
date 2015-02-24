@@ -18,6 +18,7 @@ BEGIN
  use URI::Escape;
  use Cache::Memcached;
  use POSIX qw(locale_h strftime);
+ use String::CRC::Cksum qw(cksum);
   
  @ISA    = 'Exporter';
  @EXPORT = qw(
