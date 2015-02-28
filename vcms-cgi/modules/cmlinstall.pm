@@ -725,9 +725,9 @@ setvalue({key=>'BASELIST',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 my $bestr=qq(  
   <cml:use id='_prm:id_'>
   <cml:form>
-      <table>
+      <table class='table'>
           <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/></td></tr>
-          <tr><td colspan=2><cml:changebutton/></td></tr>
+          <tr><td colspan='2'><cml:changebutton/></td></tr>
       </table>
   </cml:form>
   </cml:use>
