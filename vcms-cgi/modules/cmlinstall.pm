@@ -727,7 +727,7 @@ my $bestr=qq(
   <cml:form>
       <table class='table'>
           <tr><td>Наименование: </td><td><cml:inputtext param='_NAME'/></td></tr>
-          <tr><td colspan='2'><cml:changebutton/></td></tr>
+          <tr><td colspan='2'><cml:changebutton ajax='1'/></td></tr>
       </table>
   </cml:form>
   </cml:use>
