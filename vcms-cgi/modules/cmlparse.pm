@@ -1536,7 +1536,7 @@ sub tag_actionlink {
 	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$href"' value='$title' $param/>):"<a href='$href' $param $tstr>$title</a>"
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
-		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
+		my $tstr=$cmlcalc::ENV->{NOFRAMES} || $cmlmain::GLOBAL->{NEWSTYLE} ?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
 		$pl->{filtervalue}=&cmlcalc::p($pl->{filterprm},$pl->{id}) if !defined $pl->{filtervalue} && $pl->{filterprm};
 		for (qw (id listprm link orderby ordertype filter filterexpr filterprm filtervalue)) {
