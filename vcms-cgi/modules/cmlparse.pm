@@ -1572,7 +1572,11 @@ sub tag_actionlink {
 			$onclick=qq(onclick='return addobject("$pl->{up}","$pl->{link}","$linkval","$pl->{setname}","","$pl->{method}")');
 		}
 		return "<a href='#' $onclick >$title</a>";
-	} 	elsif ($pl->{action} eq 'CLEAR') {
+	} 	elsif ($pl->{action} eq 'ADDEDIT') {
+		my $prf="$pl->{up}_$pl->{id}";
+		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval',menu:'$cmlcalc::CGIPARAM->{menu}',}, defcallbackjq)");
+		return "<a href='#' $onclick >$title</a>";
+    } 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
 		        <a href='#' onclick='return deletealllow("$pl->{id}")'>$title</a>
 		);
@@ -3193,7 +3197,7 @@ sub tag_deletebutton {
 	} else {
 		$scriptjs=qq(deleteobject("$parseid","$cmlcalc::CGIPARAM->{id}","$pl->{parseprm}","$pl->{deleteid}"));
 	}
-	my $istr=$cmlmain::GLOBAL->{NEWSTYLE}?qq(<i class="icon-remove" alt='$deltext'></i>):qq(<img border=0 src='$imgsrc' alt='$deltext'>);
+	my $istr=$cmlmain::GLOBAL->{NEWSTYLE}?qq(<i class="icon-remove glyphicon glyphicon-remove" alt='$deltext'></i>):qq(<img border=0 src='$imgsrc' alt='$deltext'>);
 	return qq(<a href='#' onclick='$confjs && $scriptjs;return false'>${istr}$_[0]->{data}</a>);		
 }	
 
