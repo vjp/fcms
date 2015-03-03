@@ -603,7 +603,15 @@ sub tag_menuitem	{
 			my $bodykey=$pl->{templatekey} && $pl->{templatekey} ne 'NULL'?$pl->{templatekey}:'EDIT_'.&cmlcalc::p(_KEY,&cmlcalc::uobj($id));
 			$pl->{href}="body=$bodykey";
 			$pl->{icohref}="body=$bodykey" unless $pl->{icohref};
-
+			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+				if ($cmlcalc::CGIPARAM->{menuid}) {
+					$pl->{href}.="&menuid=$cmlcalc::CGIPARAM->{menuid}";
+				} elsif ($cmlcalc::CGIPARAM->{id}) {
+					$pl->{href}.="&menuid=$cmlcalc::CGIPARAM->{id}";
+				}	
+				$pl->{href}.="&menu=$cmlcalc::CGIPARAM->{menu}"  if $cmlcalc::CGIPARAM->{menu};
+				$pl->{href}.="&ukey=$cmlcalc::CGIPARAM->{ukey}"  if $cmlcalc::CGIPARAM->{ukey};
+			}	
 		}
 			
 	} elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW') {
@@ -620,6 +628,8 @@ sub tag_menuitem	{
 		$pl->{href}.='&' if $pl->{href};
 		$pl->{href}.="body=EDIT_${ukey}" if $ukey;
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'VIEW';
+		
+		
 	} elsif ($pl->{action} eq 'LOGOUT') {
 		return undef if $ENV{HTTP_USER_AGENT}=~/MSIE/;
 		$forced_href=CGI::url(-path_info=>1)."?httplogout=1";
