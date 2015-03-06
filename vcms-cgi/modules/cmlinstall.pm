@@ -1334,6 +1334,24 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHO
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',script=>$addscript});
 
 
+
+addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDEDITMETHOD',name=>'Базовый метод создания с переходом на редактирование',script=>q(	
+	my $newid;
+	my $name=$CGIPARAM->{name} || 'Новый';
+	if ($CGIPARAM->{upobj}) {   
+			$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{upobj},up=>$CGIPARAM->{up}});
+	} else {   
+			$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{up}});
+	}
+	if ($CGIPARAM->{link}) {    
+		my $lv=$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id};    
+		setvalue ({id=>$newid,prm=>$CGIPARAM->{link},value=>$lv});
+	}
+    my $kn=o($CGIPARAM->{up})->p('_KEY');
+	ajax_ok("Новый объект создан",{redir=>"?body=EDIT_${kn}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=$CGIPARAM->{up}&id=$newid"});
+)});
+
+
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEDELMETHOD',name=>'Базовый метод удаления',script=>q(
 	my $id=$CGIPARAM->{parseid} || $CGIPARAM->{id};
 	deletelowobject($id);
