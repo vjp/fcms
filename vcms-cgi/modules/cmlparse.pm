@@ -1527,12 +1527,19 @@ sub tag_actionlink {
 			}	
 		} 
 		if ($pl->{popup}) {
- 		    my $width=$pl->{width} || 600;
-		    my $height=$pl->{height} || 400;
-		    return qq(<a href='#' onclick="openPopup('$href',{title:'$header_title',width:$width,height:$height})">$title</a>)
+			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+				my $template=$pl->{template} || "EDIT_$kn";
+				my $fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
+				my $pstr=qq(?popupview=$template&id=$iid);
+  				return qq(
+  					<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false"><span id='selDiv${iid}_NAME'>$title</span></a>
+  				)
+			} else {
+				my $width=$pl->{width} || 600;
+		    	my $height=$pl->{height} || 400;
+		    	return qq(<a href='#' onclick="openPopup('$href',{title:'$header_title',width:$width,height:$height})">$title</a>)	
+			}	
 		}
-		
-		
 	 	return $pl->{button}?qq(<input type='button' onclick='location.href="$href"' value='$title' $param/>):"<a href='$href' $param $tstr>$title</a>"
 	}	elsif ($pl->{action} eq 'LISTEDIT' || $pl->{action} eq 'LISTVIEW' ) {
 		my $ukey=$pl->{ukey} || $pl->{key} || $cmlmain::obj->{$pl->{id}}->{key};
