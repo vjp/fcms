@@ -1429,7 +1429,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height','popup','csv'
+		'width','height','popup','csv','appenddiv'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1581,7 +1581,16 @@ sub tag_actionlink {
 		return "<a href='#' $onclick >$title</a>";
 	} 	elsif ($pl->{action} eq 'ADDEDIT') {
 		my $prf="$pl->{up}_$pl->{id}";
-		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval',menu:'$cmlcalc::CGIPARAM->{menu}',}, defcallbackjq)");
+		my $linkval=$pl->{linkval} || $pl->{id};
+		my @ajax_opts;
+		push (@ajax_opts,"up:'$pl->{up}'") if $pl->{up};
+		push (@ajax_opts,"upobj:'$pl->{upobj}'") if $pl->{upobj};
+		push (@ajax_opts,"link:'$pl->{link}'") if $pl->{link};
+		push (@ajax_opts,"linkval:'$linkval'") if $linkval;
+		push (@ajax_opts,"menu:'$cmlcalc::CGIPARAM->{menu}'") if $cmlcalc::CGIPARAM->{menu};
+		push (@ajax_opts,"appenddiv:'$pl->{appenddiv}'") if $pl->{appenddiv};
+		my $astr=join(',',@ajax_opts);
+		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{$astr}, defcallbackjq)");
 		return "<a href='#' $onclick >$title</a>";
     } 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
@@ -2881,7 +2890,7 @@ sub tag_inputtext {
   		'key','id','textareaid','value','expr','type',
   		'param','prm','prmexpr','name','rows','cols',
   		'elementid','visual','csv','color','textcolor',
-  		'notnull','isnumber','up'
+  		'notnull','isnumber','up','matrix'
   	]);
   
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -2926,7 +2935,7 @@ sub tag_inputtext {
 	} else{
 		if ($pl->{key}) {
 			$name="_k$pl->{key}_p${prm}";	
-		} elsif ($_[0]->{inner}->{matrix}) {
+		} elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
 			$name="_o${id}_p${prm}";
 		} else {
 			$name="_p$prm";
@@ -3077,7 +3086,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull','matrix']);
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if (defined $pl->{value}) {
@@ -3102,7 +3111,7 @@ sub tag_calendar {
 	
 	if ($pl->{name}) {
 		$name=$pl->{name}
-	} elsif ($_[0]->{inner}->{matrix}) {
+	} elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
 		$name="_o${id}_p${prm}";
 	} else {
 		$name="_p$prm";
@@ -3134,7 +3143,7 @@ sub tag_calendar {
 
 sub tag_checkbox {
 	my $param=$_[0]->{param};
-	my $pl=fetchparam(\$param,['id','param','prm','name','value','nohidden','csv','forcehidden']);	
+	my $pl=fetchparam(\$param,['id','param','prm','name','value','nohidden','csv','forcehidden','matrix']);	
 	my $id=$pl->{id} || $_[0]->{inner}->{objid};
 	my $prm=$pl->{prm} || $pl->{param};
 	my $value=$pl->{value} || 1;	
@@ -3152,7 +3161,7 @@ sub tag_checkbox {
 	my $name;
 	if ($pl->{name}) {
 		$name=$pl->{name}
-	} elsif ($_[0]->{inner}->{matrix}) {
+	} elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
 		$name="_o${id}_p${prm}";
 	} else {
 		$name="_p$prm";

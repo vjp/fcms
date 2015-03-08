@@ -1,6 +1,17 @@
 function defcallbackjq(json){
 	jQuery('input[type="button"]').prop('disabled', false);
     if (json.status) {
+        if (json.appenddiv) {
+        	jQuery.ajax({
+        		url: json.redir,
+        		type: "get",
+        		dataType: "html",
+        		success: function(returnData){
+        			jQuery('#'+json.appenddiv).append(returnData);
+        		},
+        	});
+        	return 1;
+        }
         alert(json.message || lbSuccess);
         var r=json.redir || json.back;
         if (r=='silent') return 1;
