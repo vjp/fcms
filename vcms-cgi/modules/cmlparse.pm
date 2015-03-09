@@ -1590,7 +1590,7 @@ sub tag_actionlink {
 		push (@ajax_opts,"menu:'$cmlcalc::CGIPARAM->{menu}'") if $cmlcalc::CGIPARAM->{menu};
 		push (@ajax_opts,"appenddiv:'$pl->{appenddiv}'") if $pl->{appenddiv};
 		my $astr=join(',',@ajax_opts);
-		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{$astr}, defcallbackjq)");
+		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{$astr}, defcallbackjq);return false");
 		return "<a href='#' $onclick >$title</a>";
     } 	elsif ($pl->{action} eq 'CLEAR') {
 		return qq(
