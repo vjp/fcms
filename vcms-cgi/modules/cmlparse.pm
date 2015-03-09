@@ -812,7 +812,7 @@ sub tag_select {
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
   		'elementid','csv','notnull','popup','template',
-  		'lowlist','title','popupparams'
+  		'lowlist','title','popupparams','matrix'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -850,7 +850,7 @@ sub tag_select {
   	my $name;
 	if ($pl->{name}) {
 		$name=$pl->{name}
-	} elsif ($inner->{matrix}) {
+	} elsif ($inner->{matrix} || $pl->{matrix}) {
 		$name="_o${id}_p${prm}";
 	} else {
 		$name="_p$prm";
