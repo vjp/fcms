@@ -628,8 +628,6 @@ sub tag_menuitem	{
 		$pl->{href}.='&' if $pl->{href};
 		$pl->{href}.="body=EDIT_${ukey}" if $ukey;
 		$pl->{href}.="&readonly=1" if $pl->{action} eq 'VIEW';
-		
-		
 	} elsif ($pl->{action} eq 'LOGOUT') {
 		return undef if $ENV{HTTP_USER_AGENT}=~/MSIE/;
 		$forced_href=CGI::url(-path_info=>1)."?httplogout=1";
@@ -662,7 +660,19 @@ sub tag_menuitem	{
 	unless ($itext) {
 		$itext=&cmlcalc::p(_NAME,$id);
 	}
-	$href.="&id=$id";	 
+	$href.="&id=$id";
+	
+	if ($cmlmain::GLOBAL->{NEWSTYLE} && ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW')) {
+		if ($cmlcalc::CGIPARAM->{menuid}) {
+			$href.="&menuid=$cmlcalc::CGIPARAM->{menuid}";
+		} elsif ($cmlcalc::CGIPARAM->{id}) {
+			$href.="&menuid=$cmlcalc::CGIPARAM->{id}";
+		}	
+		$href.="&menu=$cmlcalc::CGIPARAM->{menu}"  if $cmlcalc::CGIPARAM->{menu};
+		$href.="&ukey=$cmlcalc::CGIPARAM->{ukey}"  if $cmlcalc::CGIPARAM->{ukey};
+	}	
+	
+		 
 	$icohref.="&id=$id";	 
 	$itext='пустой' unless $itext;
 	$itext="<b>$itext</b>" if $pl->{head};
