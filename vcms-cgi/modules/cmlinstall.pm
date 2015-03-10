@@ -1354,7 +1354,7 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDEDITM
         	redir=>"?view=EDIT_${kn}&ukey=$CGIPARAM->{up}&id=$newid",
     	});
 	} else {
-		ajax_ok("Новый объект создан",{redir=>"?body=EDIT_${kn}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=$CGIPARAM->{up}&id=$newid"});
+		ajax_ok("Новый объект создан",{redir=>"?body=EDIT_${kn}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=${kn}&id=$newid"});
 	}
 )});
 
