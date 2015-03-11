@@ -83,7 +83,7 @@ setvalue({key=>'ARTICLE_MAIN',pkey=>'ARTICLETEXT',convert=>1,value=>'Текст главн
 
 
 addobject({convertname=>1,upkey=>'CONTENT',key=>'NEWS',name=>'Новости'});
-addprm({convertname=>1,objkey=>'NEWS',name=>'Текст новости',type=>'LONGTEXT',key=>'NEWSTTEXT',evl=>'n'});
+addprm({convertname=>1,objkey=>'NEWS',name=>'Текст новости',type=>'LONGTEXT',key=>'NEWSTEXT',evl=>'n'});
 addprm({convertname=>1,objkey=>'NEWS',name=>'Дата новости',type=>'DATE',key=>'NEWSDATE',evl=>'n'});
 addprm({convertname=>1,objkey=>'NEWS',name=>'Ссылка новости',type=>'TEXT',key=>'NEWSLINK',evl=>'n'});
 
