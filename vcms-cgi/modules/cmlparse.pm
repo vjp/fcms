@@ -1480,7 +1480,7 @@ sub tag_actionlink {
 	$title=$pl->{title};
 	$title="<image src='$cmlmain::UNDOIMAGEURL' border='0'/>" if !$title && $pl->{action} eq 'UNDO';
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
-    $title="<image src='$cmlmain::PLUSBUTTONURL' border='0'/>" if !$title && $pl->{action} eq 'ADD';
+    
     	
 	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
 	my $err_mes=&cmlmain::enc('Ошибка');
@@ -1581,6 +1581,13 @@ sub tag_actionlink {
 		my $prf="$pl->{up}_$pl->{id}";
 		my $onclick;
 		my $linkval=$pl->{linkval} || $pl->{id};
+		unless ($title) {
+			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+				$title="<i class='fa fa-plus'></i>"; 
+			} else {
+				$title="<image src='$cmlmain::PLUSBUTTONURL' border='0'/>"
+			}
+		}
 		if (vCMS::Config::Get('jquery')) {
 			$onclick=qq(onclick="executejq('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
 		} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
