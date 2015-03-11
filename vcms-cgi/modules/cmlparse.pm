@@ -1507,7 +1507,7 @@ sub tag_actionlink {
     
     
 	if ($pl->{action} eq 'EDIT' || $pl->{action} eq 'VIEW' || $pl->{action} eq 'EDITVIEW') {
-		my $tstr=$cmlcalc::ENV->{NOFRAMES}?'':"target='adminmb'";
+		my $tstr=$cmlcalc::ENV->{NOFRAMES} || $cmlmain::GLOBAL->{NEWSTYLE}?'':"target='adminmb'";
 		if ($pl->{action} eq 'EDITVIEW') {
 			$pl->{action}=$access_denied?'VIEW':'EDIT';	
 		}
