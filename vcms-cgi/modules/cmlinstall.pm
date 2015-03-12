@@ -1124,6 +1124,7 @@ setvalue({convert=>1,key=>'BASEPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BSPOPUP',name=>'BootStrap попап'});
 setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
+
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -1134,13 +1135,18 @@ setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
       <div class="modal-body">
         <CML:INCLUDE name="_prm:popupview_"/>
       </div>
+      
+        <cml:input type='hidden' name='resultexpr' value="p(_NAME,_prm:id_)"/>
+        <cml:input type='hidden' name='resultdiv' value="selDiv_prm:id__NAME"/>  
+        
       </cml:form>   
    		<div class="modal-footer">
     		<button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
     		<cml:input class="btn btn-primary" type='button' onclick="setSelBSJq('mff','_prm:id_')" value='Изменить'/>    
   		</div>
     </div>
-  </div>
+</div>
+
 )});
 
 
