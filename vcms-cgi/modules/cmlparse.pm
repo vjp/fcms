@@ -3007,7 +3007,7 @@ sub tag_inputtext {
   	my $nnstr=$pl->{notnull}?"notnull='1'":'';
   	my $dstr=$pl->{isnumber}?"checkdigit='1'":''; 
 	if ($mode eq 'input') {
-		 my $sizestr=$cols?"size='$cols'":'';
+		 my $sizestr=$cols && !$cmlmain::GLOBAL->{NEWSTYLE}?"size='$cols'":'';
 		 $value=~s/"/&quot;/g;
  		 return qq(<input hasdata="1" type="text" value="$value" $param $sizestr name="$name" $typestr $tidstr $clrstr $fcstr prmname="$prmname" $nnstr $dstr/>);
 	} elsif ($mode eq 'textarea') {
@@ -3103,7 +3103,7 @@ sub tag_calendar {
 	
 	my $name;
 	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull','matrix']);
+	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull','matrix','class']);
 	my $readonly=$cmlcalc::ENV->{READONLY};
 	my $prm=$pl->{param} || $pl->{prm};
 	if (defined $pl->{value}) {
@@ -3138,11 +3138,11 @@ sub tag_calendar {
 	my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
 	my $prmname=$cmlmain::prm->{$prm}->{name};
 	my $clsstr=$cmlmain::GLOBAL->{NEWSTYLE}?"class='uneditable-input input-small'":'';
-	
+	my $classstr=$pl->{class} || 'input-small';
 	 if (vCMS::Config::Get('jquery')) {
 		return qq(
 			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input type="text"   class='input-small' $param value="$fvalue" data-provide="datepicker" data-date-format="dd.mm.yyyy" $iidstr  onchange="jQuery(this).prev().val(jQuery(this).datepicker('getDate').getTime()/1000)"/>
+	         <input type="text"   class='$classstr' $param value="$fvalue" data-provide="datepicker" data-date-format="dd.mm.yyyy" $iidstr  onchange="jQuery(this).prev().val(jQuery(this).datepicker('getDate').getTime()/1000)"/>
  	 	);
 	 	
 	 } else {
