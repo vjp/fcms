@@ -944,7 +944,7 @@ sub tag_radioselect {
 	if ($param=~s/(\W)optionid=(['"])(.+?)\2/$1/i)          {$optionid=$3} 
 	else {$optionid='_ID'} 
 	if ($param=~s/(\W)name=(['"])(.+?)\2/$1/i)       {$name=$3   }
-  	else {$name="_o${id}_p{$prm}"}
+  	else {$name="_o${id}_p${prm}"}
   	$inner->{name}=$name;
   	if (defined $sexpr) {
   		$inner->{selected}=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value};
