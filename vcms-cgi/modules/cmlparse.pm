@@ -1446,16 +1446,16 @@ sub tag_actionlink {
 	$pl->{button}=1 if $pl->{type} eq 'button';  	
 	$pl->{action}='del' if lc($pl->{action}) eq 'delete';
 	$pl->{action}=uc($pl->{action});
+	my $inner_id;
 	
 	if ($cmlcalc::CGIPARAM->{id} && $pl->{action} eq 'DEL')	{ 
 		$pl->{id}=$cmlcalc::CGIPARAM->{id};
 		$pl->{parseid}=$inner->{objid};
+	} elsif ($pl->{upobj} && $pl->{action} eq 'ADDUPRM') {	
+		$pl->{id}=$pl->{upobj}
 	} elsif (!$pl->{id}) {
-		$pl->{id}=$inner->{objid}
-	}
-	
-	if ($pl->{upobj}) { 
-		$pl->{id}=$pl->{upobj} if $pl->{action} eq 'ADDUPRM'; 		
+		$pl->{id}=$inner->{objid};
+		$inner_id=1;
 	}
 	
 	unless ($pl->{up}) {	
@@ -1556,9 +1556,10 @@ sub tag_actionlink {
 		my $tstr=$cmlcalc::ENV->{NOFRAMES} || $cmlmain::GLOBAL->{NEWSTYLE} ?'':"target='adminmb'";
 		my $hrf="?body=LISTEDIT_$ukey&ukey=$ukey";
 		$pl->{filtervalue}=&cmlcalc::p($pl->{filterprm},$pl->{id}) if !defined $pl->{filtervalue} && $pl->{filterprm};
-		for (qw (id listprm link orderby ordertype filter filterexpr filterprm filtervalue)) {
+		for (qw (listprm link orderby ordertype filter filterexpr filterprm filtervalue)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
+		$hrf.="&$id=$pl->{id}" if $pl->{id} && !$inner_id;
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
 		$hrf.="&csv=1" if $pl->{csv};		
 		$hrf.='&'.$pl->{href} if $pl->{href};
