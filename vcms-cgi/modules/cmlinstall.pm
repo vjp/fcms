@@ -229,24 +229,49 @@ setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'JSDICTIONARY',name=>'JS-словарь'});
 setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <script>
-  var lbLabelImage="Фото";
-  var lbLabelOf="из";
-  var lbError="Ошибка";
-  var lbSuccess="Успех";
-  var lbRequired="Необходимо заполнить поле";
-  var lbDigit="Введите числовое значение в поле";   
-  var lbSelSuccess="Список изменен";  
-  var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
+	var lbLabelImage="Фото";
+  	var lbLabelOf="из";
+  	var lbError="Ошибка";
+  	var lbSuccess="Успех";
+  	var lbRequired="Необходимо заполнить поле";
+ 	var lbDigit="Введите числовое значение в поле";   
+  	var lbSelSuccess="Список изменен";  
+  	var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
    
-  jQuery.fn.datepicker.dates['en'] = {
-    days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
-    daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск"],
-    daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-    monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-    today: "Сегодня",
-    clear: "Очистить"
-  };
+  	jQuery.fn.datepicker.dates['en'] = {
+    	days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
+    	daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск"],
+    	daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+    	months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+    	monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+    	today: "Сегодня",
+    	clear: "Очистить"
+  	};
+  
+  
+  
+  	var dtlang={
+  		"processing": "Подождите...",
+  		"search": "Поиск:",
+  		"lengthMenu": "Показать _MENU_ записей",
+  		"info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+  		"infoEmpty": "Записи с 0 до 0 из 0 записей",
+  		"infoFiltered": "(отфильтровано из _MAX_ записей)",
+  		"infoPostFix": "",
+  		"loadingRecords": "Загрузка записей...",
+  		"zeroRecords": "Записи отсутствуют.",
+  		"emptyTable:": "В таблице отсутствуют данные",
+  		"paginate": {
+    		"first": "Первая",
+    		"previous": "Предыдущая",
+    		"next": "Следующая",
+    		"last": "Последняя"
+  		},
+  		"aria": {
+    		"sortAscending": ": активировать для сортировки столбца по возрастанию",
+    		"sortDescending": ": активировать для сортировки столбца по убыванию"
+  		}
+	}
   
 </script>
 )});
