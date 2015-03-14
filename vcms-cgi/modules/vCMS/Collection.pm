@@ -108,5 +108,9 @@ sub GetIDs($) {
 	return $ids_ref
 }
  
+sub Str ($) {
+	my ($self)=@_;
+	return join(';',@{$self->GetObjectIDs()})
+}
 
 1;

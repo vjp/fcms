@@ -139,13 +139,17 @@ o(OBJECTKEY)->l(LISTPRMNAME);
 
 =cut
 
-sub l($$) {
-	my($self,$prm)=@_;
+sub l($$;$) {
+	my($self,$prm,$prm2)=@_;
 	if  (vCMS::Proxy::IsSingleLink($prm)) {
 		my $v=$self->p($prm);
 		return $v?vCMS::o($v):vCMS::null();
 	} else { 	
-		my @l=map {vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
+		my $ids;
+		my @l=map {$ids->{$_}=1; vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
+		if ($prm2) {
+			push (@l,map{$ids->{$_}=1;vCMS::o($_)} grep {!$ids->{$_}} @{$self->p($prm2,{formatted=>1})} ) 
+		}
 		return new vCMS::Collection(\@l);
 	}
 }
