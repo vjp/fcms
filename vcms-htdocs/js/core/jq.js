@@ -12,6 +12,10 @@ function defcallbackjq(json){
         	});
         	return 1;
         }
+        if (json.popup) {
+        	openBootstrapPopupJq(json.redir,{title:json.popuptitle});
+        	return 1;
+        }
         alert(json.message || lbSuccess);
         var r=json.redir || json.back;
         if (r=='silent') return 1;

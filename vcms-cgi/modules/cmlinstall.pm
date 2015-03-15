@@ -1390,6 +1390,13 @@ if ($CGIPARAM->{appenddiv}) {
     	appenddiv=>$CGIPARAM->{appenddiv},
         redir=>"?view=${template}&ukey=$CGIPARAM->{up}&id=$newid",
     });
+} elsif ($CGIPARAM->{popup}) {
+    my $title=$CGIPARAM->{popuptitle} || 'Редактировать объект'; 
+	ajax_ok("Новый объект создан",{
+    	popup=>1,
+        popuptitle=>$title,
+        redir=>"?popupview=$template&id=$newid",
+    });
 } else {
 	ajax_ok("Новый объект создан",{redir=>"?body=${template}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=${kn}&id=$newid"});
 }
