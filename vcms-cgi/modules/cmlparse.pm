@@ -1439,7 +1439,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height','popup','csv','appenddiv'
+		'width','height','popup','csv','appenddiv','template'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1607,6 +1607,7 @@ sub tag_actionlink {
 		push (@ajax_opts,"linkval:'$linkval'") if $linkval;
 		push (@ajax_opts,"menu:'$cmlcalc::CGIPARAM->{menu}'") if $cmlcalc::CGIPARAM->{menu};
 		push (@ajax_opts,"appenddiv:'$pl->{appenddiv}'") if $pl->{appenddiv};
+		push (@ajax_opts,"template:'$pl->{template}'") if $pl->{template};
 		my $astr=join(',',@ajax_opts);
 		my $onclick=qq(onclick="executejq('BASEADDEDITMETHOD',{$astr}, defcallbackjq);return false");
 		return "<a href='#' $onclick >$title</a>";
