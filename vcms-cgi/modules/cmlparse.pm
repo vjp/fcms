@@ -822,7 +822,7 @@ sub tag_select {
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
   		'elementid','csv','notnull','popup','template',
-  		'lowlist','title','popupparams','matrix'
+  		'lowlist','title','popupparams','matrix','resulttemplate'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -896,12 +896,15 @@ sub tag_select {
   		my $ch_str=&cmlmain::enc('Изменить');
   		my $title=$pl->{title} || $ch_str;
   		my $pstr=qq(?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr});
+  		$pstr.="&resulttemplate=$pl->{resulttemplate}" if $pl->{resulttemplate};
   		$pstr.="&$pl->{popupparams}" if $pl->{popupparams};
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
   			my $svalue=$v=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value}; 
   			$fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
+  			$resultdiv="selDiv${id}${prm}";
+  			$pstr.="&resultdiv=$resultdiv";
   			return qq(
-  				<div id='selDiv${id}${prm}'>$svalue</div>
+  				<div id='$resultdiv'>$svalue</div>
   				<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false">$ch_str</a>
   			)
   		} else {
@@ -1540,9 +1543,10 @@ sub tag_actionlink {
 			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
 				my $template=$pl->{template} || "EDIT_$kn";
 				my $fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
-				my $pstr=qq(?popupview=$template&id=$iid);
+				my $resultdiv="selDiv${iid}_NAME";
+				my $pstr=qq(?popupview=$template&id=$iid&resultdiv=$resultdiv);
   				return qq(
-  					<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false"><span id='selDiv${iid}_NAME'>$title</span></a>
+  					<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false"><span id='$resultdiv'>$title</span></a>
   				)
 			} else {
 				my $width=$pl->{width} || 600;

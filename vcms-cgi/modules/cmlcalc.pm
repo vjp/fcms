@@ -1210,7 +1210,14 @@ sub baselparser (;$)
 	}	
 	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
 	
-
+	my $result='';
+	if ($CGIPARAM->{resulttemplate}) {
+		$cmlcalc::ENV->{popupresult}=calc($id,$CGIPARAM->{resultexpr});
+		$result=p(PAGETEMPLATE,id($CGIPARAM->{resulttemplate}));
+		undef $cmlcalc::ENV->{popupresult};
+	} elsif ($CGIPARAM->{resultexpr}) {
+		$result=calc($id,$CGIPARAM->{resultexpr});
+	}
 	
 	return ({
 		status=>1,
@@ -1219,7 +1226,7 @@ sub baselparser (;$)
 		changed=>$changed,
 		oldval=>$ov,
 		newval=>$nv,
-		result=>$CGIPARAM->{resultexpr}?calc($id,$CGIPARAM->{resultexpr}):0,
+		result=>$result,
 		resultdiv=>$CGIPARAM->{resultdiv} || '',
 	});
 }
