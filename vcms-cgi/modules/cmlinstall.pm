@@ -654,15 +654,54 @@ setvalue({convert=>1,key=>'EDIT_LETTERS',pkey=>'PAGETEMPLATE',value=>q(
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'MAINCMSTEMPL', name=>'Главный шаблон интерфейса'});
 setvalue({convert=>1,key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
+<!DOCTYPE html>
 <html>
-<head>
-<TITLE>VCMS : Интерфейс администратора</TITLE>
-</head>
-<frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
-	<frame src="/cgi-bin/admin/admin.pl?menu=CMSMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-	<cml:frame src="/cgi-bin/admin/admin.pl?mbframe=1&body=_prm:framebody_&id=_prm:frameid_" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000"/>
-</frameset>
+	<head>
+		<title>VCMS ADMIN UI</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap3.css" />
+		<link rel="stylesheet" type="text/css" href="/css/datepicker3.css" />
+        <link rel="stylesheet" type="text/css" href="/css/sb-admin-2.css" />
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="/css/metisMenu.css" />
+        <link rel="stylesheet" type="text/css" href="/css/metisFolder.css" />
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        
+        <cml:include key='INITSCRIPTS'/>
+
+	</head>
+    <body>
+ <div class="modal fade" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  
+</div>
+     
+        
+	    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin">ADMIN INTERFACE</a>
+            </div>
+          
+            <div class="navbar-default sidebar" role="navigation">
+                <cml:include key='ADMINMENU'/>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <CML:INCLUDE name='_prm:body_'/>
+        </div>
+ 
+    </div>
+    </body>
 </html>
+
 )});
 
 
