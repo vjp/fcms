@@ -1200,8 +1200,8 @@ setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
         <CML:INCLUDE name="_prm:popupview_"/>
       </div>
       
-        <cml:input type='hidden' name='resultexpr' value="p(_NAME,_prm:id_)"/>
-        <cml:input type='hidden' name='resultdiv' value="selDiv_prm:id__NAME"/>  
+        <cml:input type='hidden' name='resultexpr' value="p(_NAME,p(_prm:selectorprm_,_prm:id_))"/>
+        <cml:input type='hidden' name='resultdiv' value="_prm:resultdiv_"/>  
         
       </cml:form>   
    		<div class="modal-footer">

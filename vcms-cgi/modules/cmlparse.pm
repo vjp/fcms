@@ -1544,7 +1544,7 @@ sub tag_actionlink {
 				my $template=$pl->{template} || "EDIT_$kn";
 				my $fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
 				my $resultdiv="selDiv${iid}_NAME";
-				my $pstr=qq(?popupview=$template&id=$iid&resultdiv=$resultdiv);
+				my $pstr=qq(?popupview=$template&id=$iid&resultdiv=$resultdiv&selectorprm=_ID);
   				return qq(
   					<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false"><span id='$resultdiv'>$title</span></a>
   				)
