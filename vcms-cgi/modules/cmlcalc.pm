@@ -1212,11 +1212,11 @@ sub baselparser (;$)
 	
 	my $result='';
 	if ($CGIPARAM->{resulttemplate}) {
-		$cmlcalc::ENV->{popupresult}=calc($id,$CGIPARAM->{resultexpr});
+		$cmlcalc::ENV->{popupresult}=p($CGIPARAM->{selectorprm},$id);
 		$result=p(PAGETEMPLATE,id($CGIPARAM->{resulttemplate}));
 		undef $cmlcalc::ENV->{popupresult};
 	} elsif ($CGIPARAM->{resultexpr}) {
-		$result=calc($id,$CGIPARAM->{resultexpr});
+		$result=p('_NAME',p($CGIPARAM->{selectorprm},$id));
 	}
 	
 	return ({

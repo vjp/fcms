@@ -164,7 +164,7 @@ function openBootstrapPopupJq (url,opts) {
 
 
 function BSModalCallbackJq(r) {
-	jQuery('#'+r.resultdiv).text(r.result);
+	jQuery('#'+r.resultdiv).html(r.result);
 	jQuery('#bsModal').modal('hide');
 }
 
