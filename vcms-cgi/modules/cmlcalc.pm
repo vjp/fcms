@@ -1215,7 +1215,7 @@ sub baselparser (;$)
 		$cmlcalc::ENV->{popupresult}=p($CGIPARAM->{selectorprm},$id);
 		$result=p(PAGETEMPLATE,id($CGIPARAM->{resulttemplate}));
 		undef $cmlcalc::ENV->{popupresult};
-	} elsif ($CGIPARAM->{resultexpr}) {
+	} elsif ($CGIPARAM->{selectorprm}) {
 		$result=p('_NAME',p($CGIPARAM->{selectorprm},$id));
 	}
 	

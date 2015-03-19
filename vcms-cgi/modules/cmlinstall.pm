@@ -1200,6 +1200,10 @@ setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
       
         <cml:input type='hidden' name='resultexpr' value="p(_NAME,p(_prm:selectorprm_,_prm:id_))"/>
         <cml:input type='hidden' name='resultdiv' value="_prm:resultdiv_"/>  
+        <cml:if expr='cgi(resulttemplate)'>
+          	<cml:input type='hidden' name='resulttemplate' value="_prm:resulttemplate_"/> 
+        </cml:if>  
+        
         
       </cml:form>   
    		<div class="modal-footer">
