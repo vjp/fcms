@@ -899,7 +899,14 @@ sub tag_select {
   		$pstr.="&resulttemplate=$pl->{resulttemplate}" if $pl->{resulttemplate};
   		$pstr.="&$pl->{popupparams}" if $pl->{popupparams};
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-  			my $svalue=$v=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value}; 
+  			my $svalue;
+  			if ($pl->{resulttemplate}) {
+				$cmlcalc::ENV->{popupresult}=&cmlcalc::p($prm,$id);
+				$svalue=&cmlcalc::p(PAGETEMPLATE,&cmlcalc::id($pl->{resulttemplate}));
+				undef $cmlcalc::ENV->{popupresult};
+  			} else {
+  				$svalue=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value};
+  			}	 
   			$fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
   			$resultdiv="selDiv${id}${prm}";
   			$pstr.="&resultdiv=$resultdiv";
