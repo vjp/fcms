@@ -729,8 +729,6 @@ setvalue({key=>'NSPOPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
     	<cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
     </cml:else>    
 </cml:list>
-<cml:input type='hidden' name='resultexpr' value="p(_NAME,p(_prm:selectorprm_,_prm:id_))"/>
-<cml:input type='hidden' name='resultdiv' value="selDiv_prm:id__prm:selectorprm_"/>
 )});
 
 
