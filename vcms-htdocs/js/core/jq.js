@@ -164,8 +164,12 @@ function openBootstrapPopupJq (url,opts) {
 
 
 function BSModalCallbackJq(r) {
-	jQuery('#'+r.resultdiv).html(r.result);
 	jQuery('#bsModal').modal('hide');
+	if (r.resultdiv) {
+		jQuery('#'+r.resultdiv).html(r.result);
+	} else {
+		location.reload();
+	}
 }
 
 function setSelBSJq(formid,id) {

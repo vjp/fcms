@@ -1192,19 +1192,21 @@ setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
+        <h4 class="modal-title" id="myModalLabel">Редактировать</h4>
       </div>
       <cml:form elementid='mff' matrix='1'>
       <div class="modal-body">
         <CML:INCLUDE name="_prm:popupview_"/>
       </div>
-      
-        <cml:input type='hidden' name='resultexpr' value="p(_NAME,p(_prm:selectorprm_,_prm:id_))"/>
-        <cml:input type='hidden' name='resultdiv' value="_prm:resultdiv_"/>  
+        <cml:if expr='cgi(selectorprm)'>
+        	<cml:input type='hidden' name='selectorprm' value="_prm:selectorprm_"/>
+        </cml:if>
+        <cml:if expr='cgi(resultdiv)'>
+        	<cml:input type='hidden' name='resultdiv' value="_prm:resultdiv_"/>  
+        </cml:if>  
         <cml:if expr='cgi(resulttemplate)'>
           	<cml:input type='hidden' name='resulttemplate' value="_prm:resulttemplate_"/> 
         </cml:if>  
-        
         
       </cml:form>   
    		<div class="modal-footer">
