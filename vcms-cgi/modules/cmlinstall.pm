@@ -284,6 +284,7 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <script language="javascript" type="text/javascript" src="/js/lib/bootstrap-datepicker.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/sb-admin-2.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/metisMenu.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/jquery.cookie.js"></script>
 
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
