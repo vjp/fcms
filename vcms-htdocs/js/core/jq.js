@@ -22,8 +22,9 @@ function defcallbackjq(json){
         if (r) {
         	location.href=r;
         } else {
+        	if (json.anchor) location.hash=json.anchor;
         	location.reload();
-        }	
+        } 
     } else {
         alert(json.message);
     }    

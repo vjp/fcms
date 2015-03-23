@@ -1395,20 +1395,14 @@ setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 my $addscript=q(
 	
-	my $newid;
-	my $name=$CGIPARAM->{name} || 'Новый';
-	if ($CGIPARAM->{upobj}) {   
-			$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{upobj},up=>$CGIPARAM->{up}});
-	} else {   
-			$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{up}});
-	}
-	if ($CGIPARAM->{link}) {    
-		my $lv=$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id};    
-		setvalue ({id=>$newid,prm=>$CGIPARAM->{link},value=>$lv});
-	}
-	alert("Новый объект создан");
-	ajax_ok("Новый объект создан");
-	
+	my $pObj=o($CGIPARAM->{up})->Create({_NAME=>$CGIPARAM->{name} || 'Новый'});
+	$pObj->Set({
+		$CGIPARAM->{link}=>$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id}
+	}) if $CGIPARAM->{link};
+	my $r;
+	$r->{anchor}=$CGIPARAM->{anchor} if $CGIPARAM->{anchor};
+	ajax_ok("Успешно",$r);	
+
 );
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',lflag=>1,script=>$addscript});
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',script=>$addscript});

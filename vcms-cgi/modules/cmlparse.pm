@@ -1449,7 +1449,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height','popup','csv','appenddiv','template','popuptitle'
+		'width','height','popup','csv','appenddiv','template','popuptitle','anchor'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1601,7 +1601,14 @@ sub tag_actionlink {
 			}
 		}
 		if (vCMS::Config::Get('jquery')) {
-			$onclick=qq(onclick="executejq('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
+			my @ajax_opts;
+			push (@ajax_opts,"up:'$pl->{up}'") if $pl->{up};
+			push (@ajax_opts,"upobj:'$pl->{upobj}'") if $pl->{upobj};
+			push (@ajax_opts,"link:'$pl->{link}'") if $pl->{link};
+			push (@ajax_opts,"linkval:'$linkval'") if $linkval;
+			push (@ajax_opts,"anchor:'$pl->{anchor}'") if $pl->{anchor};
+			my $astr=join(',',@ajax_opts);
+			$onclick=qq(onclick="executejq('BASEADDMETHOD',{$astr}, defcallbackjq);return false");
 		} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
 			$onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
 		} else {
