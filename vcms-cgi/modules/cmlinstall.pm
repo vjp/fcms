@@ -212,6 +212,18 @@ setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
 
 addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
 
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'BASEUPLOADER',name=>'Загрузчик'});
+setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<cml:use id='_prm:id_'>
+<cml:form insertinto='_prm:up_' link='_prm:link_'>
+  
+  	<cml:input type='file' name='_f_prm:fileprm_'/>
+  	<cml:changebutton/>
+  
+</cml:form>  
+</cml:use>
+)});
+
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'IFRAMEPARSER',name=>'Обработчик IFRAME'});
 setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:execute method='BASELPARSER' id='_prm:id_'>
@@ -225,6 +237,7 @@ setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 </script>
 </cml:execute>
 )});
+
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'JSDICTIONARY',name=>'JS-словарь'});
 setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(

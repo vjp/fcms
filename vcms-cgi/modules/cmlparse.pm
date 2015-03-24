@@ -88,6 +88,7 @@ sub initparser
     	'checkboxselect'=>1,
     	'menu'=>1,
     	'document'=>1,
+    	'uploader'=>1,
  	);
 }
 
@@ -2791,6 +2792,21 @@ sub tag_form {
 	$data.="<iframe id='iframe$id' width='0' height='0' name='iframe$id' src='' frameborder='0'></iframe>" if $pl->{iframe};
 	return $data;
 }	
+
+
+sub tag_uploader {
+	my $param=$_[0]->{param};
+	my $pl=fetchparam(\$param,[
+		'up','link','prm','param','id'
+  	]);
+  	my $fprm=$pl->{prm} || $pl->{param};
+  	my $id=$pl->{id} || $_[0]->{inner}->{objid}; 
+  	my $href="?view=BASEUPLOADER&fileprm=$fprm&id=$id";
+  	for ('up','link') {
+  		$href.="&$_=$pl->{$_}" if $pl->{$_};
+  	}
+  	return "<iframe src='$href'></iframe>";
+}
 
 sub tag_inputpic {
 	my $param=$_[0]->{param};
