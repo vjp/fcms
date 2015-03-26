@@ -214,14 +214,37 @@ addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Встав
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'BASEUPLOADER',name=>'Загрузчик'});
 setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<head>
+  <script language="javascript" type="text/javascript" src="/js/lib/jquery.js"></script>
+</head>
+
+<body>
 <cml:use id='_prm:id_'>
+  
 <cml:form insertinto='_prm:up_' link='_prm:link_'>
   
   	<cml:input type='file' name='_f_prm:fileprm_'/>
+    <cml:input type='hidden' name='resultdiv' value='_prm:resultdiv_'/>
+    <cml:input type='hidden' name='fileprm' value='_prm:fileprm_'/>
+    <cml:input type='hidden' name='up' value='_prm:up_'/>
+  
   	<cml:changebutton/>
   
 </cml:form>  
 </cml:use>
+  
+<cml:if value='_env:PARSERDATAresultdiv_'>
+	<cml:use id='_env:PARSERDATAobjid_'> 
+   	<div id='sandbox' style='display: none;'>
+     	<cml:include key='IPICBLOCK'/>
+   	</div> 
+   	</cml:use>   
+   	<script>
+      var divname="<cml:text value='_env:PARSERDATAresultdiv_'/>";
+      jQuery('#'+divname, parent.document).html(jQuery('#sandbox').html());
+  	</script>  
+</cml:if>  
+</body> 
 )});
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'IFRAMEPARSER',name=>'Обработчик IFRAME'});
