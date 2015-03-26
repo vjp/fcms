@@ -64,7 +64,9 @@ if(param('parsemethod') || param('overrideparsemethod')) {
 	if (param('parseid')) {$id=param('parseid')}
 	elsif (param('id')) {$id=param('id')}
 	my $method=param('overrideparsemethod') || param('parsemethod');
-	&cmlcalc::execute({id=>$id,method=>$method})
+	my $r=&cmlcalc::execute({id=>$id,method=>$method});
+	$cmlcalc::ENV->{"PARSERDATA$_"}=$r->{$_} for keys %$r;
+	$cmlcalc::ENV->{"PARSERDUMP"}=Dumper($r);
 }	
 
 my @cookies;

@@ -2797,12 +2797,12 @@ sub tag_form {
 sub tag_uploader {
 	my $param=$_[0]->{param};
 	my $pl=fetchparam(\$param,[
-		'up','link','prm','param','id'
+		'up','link','prm','param','id','resultdiv'
   	]);
   	my $fprm=$pl->{prm} || $pl->{param};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid}; 
   	my $href="?view=BASEUPLOADER&fileprm=$fprm&id=$id";
-  	for ('up','link') {
+  	for ('up','link','resultdiv') {
   		$href.="&$_=$pl->{$_}" if $pl->{$_};
   	}
   	return "<iframe src='$href'></iframe>";
