@@ -1197,16 +1197,17 @@ sub tag_list  	{
   			$cmlcalc::ENV->{LISTINDEX}=$inner->{listindex};
   			$cmlcalc::ENV->{$pl->{indexvar}}=$inner->{listindex} if $pl->{indexvar};
   			
-  			
-  			if ($pl->{selected} && $splist[$i] eq $pl->{selected}) {
-  				$inner->{selected}=1 ;
-  			} elsif ($pl->{selexpr} && &cmlcalc::p($pl->{selexpr},$splist[$i]))	{
+  			unless ($_[0]->{inner}->{selected}) {
+  				if ($pl->{selected} && $splist[$i] eq $pl->{selected}) {
+  					$inner->{selected}=1 ;
+  				} elsif ($pl->{selexpr} && &cmlcalc::p($pl->{selexpr},$splist[$i]))	{
   				
-  				$inner->{selected}=1 ;
-  			} elsif ($inner->{selectedlist}->{$splist[$i]})	{
-  				$inner->{selected}=1 ;	
-  			} else {
-  				undef $inner->{selected}
+  					$inner->{selected}=1 ;
+  				} elsif ($inner->{selectedlist}->{$splist[$i]})	{
+  					$inner->{selected}=1 ;	
+  				} else {
+  					undef $inner->{selected}
+  				}
   			}	
   			if ($iscont) {
   				$inner->{containerindex}=$conid;
