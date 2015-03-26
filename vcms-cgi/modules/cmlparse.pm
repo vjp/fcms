@@ -2805,7 +2805,7 @@ sub tag_uploader {
   	for ('up','link','resultdiv') {
   		$href.="&$_=$pl->{$_}" if $pl->{$_};
   	}
-  	return "<iframe src='$href'></iframe>";
+  	return "<iframe src='$href' $param></iframe>";
 }
 
 sub tag_inputpic {
