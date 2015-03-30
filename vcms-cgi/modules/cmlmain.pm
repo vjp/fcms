@@ -1475,10 +1475,15 @@ sub setvalue  {
  			my @oldvalue=split()
  		}
  		$sthDL->execute($ind,$pkey) || die $dbh->errstr;
- 		for (split(/\s*;\s*/,$value)) {
- 			$sthIL->execute($ind,$pkey,$_) || die $dbh->errstr;
- 			clearpagescache($_);
- 			undef $lobj->{$_} unless $_=~/^u/; 
+ 		for my $li (split(/\s*;\s*/,$value)) {
+ 			$sthIL->execute($ind,$pkey,$li) || die $dbh->errstr;
+ 			clearpagescache($li);
+ 			if ($lobj->{$li}) {
+ 				my $upobj=$lobj->{$li}->{upobj};
+ 				my $up=$lobj->{$li}->{up};
+ 				$ltree->{$upobj}->{$up}=[grep {!$li} @{$ltree->{$upobj}->{$up}}];
+ 				undef $lobj->{$li}  
+ 			}
  		}
 	}
 
