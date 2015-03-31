@@ -129,7 +129,7 @@ sub cmlparser
 
 	    	   			
    			if ($#stack==0)   {
-      			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner}) || '';
+      			$pstr=tagparse({name=>lc($tname),param=>" $tparam ",inner=>$inner});
    			}  else 	 {
    				$pstr="<cml:$tname $tparam/>"
    			}
@@ -153,7 +153,7 @@ sub cmlparser
    			my $xtra;
    			if ($#stack==0)   {
      			$xtra=pop(@stack) || '';
-     			$pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner}) || '';
+     			$pstr=tagparse({name=>lc($ztag),param=>" $xparam ",data=>$rdata,inner=>$inner});
      			if (lc($ztag) eq 'container' || lc($ztag) eq 'lowlevel') { 
     				unless ($felm) { $xtra=''} 
     				unless ($lelm) {$ztagdata=''}
