@@ -65,7 +65,8 @@ BEGIN
               
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
-              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str &restore_db &export_history
+              &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str 
+              &restore_db &export_history &backup_db
               
               &compile_date  &set_hru &json_ok &json_error &clear_unused_data
              );
@@ -177,7 +178,9 @@ sub export_history (;$)
 	return("$str - $output");
 }
 
-
+sub backup_db (;$$) {
+	export_db(@_);
+}
 
 sub export_db (;$$)
 {
@@ -189,7 +192,7 @@ sub export_db (;$$)
 	}
 	$str=export_db_str($opts);
 	my $output=`$str | gzip -c >$filename`;
-	return("$str - $output");
+	return("$str ($filename) : $output");
 }
 
 sub export_static (;$)
