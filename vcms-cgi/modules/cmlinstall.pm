@@ -221,7 +221,7 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <body>
 <cml:use id='_prm:id_'>
   
-<cml:form insertinto='_prm:up_' link='_prm:link_'>
+<cml:form insertinto='_prm:up_' link='_prm:link_' silent='1'>
   
   	<cml:input type='file' name='_f_prm:fileprm_'/>
     <cml:input type='hidden' name='resultdiv' value='_prm:resultdiv_'/>
