@@ -315,12 +315,27 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'INITSCRIPTS',name=>'Инициализационная секция'});
 setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<link rel="stylesheet" type="text/css" href="/css/bootstrap3.css" />
+<link rel="stylesheet" type="text/css" href="/css/datepicker3.css" />
+<link rel="stylesheet" type="text/css" href="/css/sb-admin-2.css" />
+<link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="/css/metisMenu.css" />
+<link rel="stylesheet" type="text/css" href="/css/lightbox.css" />
+      
+
+<!--[if lt IE 9]>	
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+        
+
 <script language="javascript" type="text/javascript" src="/js/lib/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/bootstrap3.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/bootstrap-datepicker.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/sb-admin-2.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/metisMenu.js"></script>
 <script language="javascript" type="text/javascript" src="/js/lib/jquery.cookie.js"></script>
+<script language="javascript" type="text/javascript" src="/js/lib/lightbox.js"></script>
 
 
 <script language="javascript" type="text/javascript" src="/js/base.js"></script>
@@ -336,7 +351,7 @@ setvalue({key=>'INITSCRIPTS',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:include key='JSDICTIONARY'/>
 <cml:include key='MCEINIT'/>
 <script>
-  window.onerror = jsErrHandlerJq; 
+  /* window.onerror = jsErrHandlerJq; */
 </script>
 )});
 
@@ -697,18 +712,6 @@ setvalue({convert=>1,key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 		<title>VCMS ADMIN UI</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-		<link rel="stylesheet" type="text/css" href="/css/bootstrap3.css" />
-		<link rel="stylesheet" type="text/css" href="/css/datepicker3.css" />
-        <link rel="stylesheet" type="text/css" href="/css/sb-admin-2.css" />
-        <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
-        <link rel="stylesheet" type="text/css" href="/css/metisMenu.css" />
-        <link rel="stylesheet" type="text/css" href="/css/metisFolder.css" />
-
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
         
         <cml:include key='INITSCRIPTS'/>
 

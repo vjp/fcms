@@ -2004,7 +2004,7 @@ sub tag_lightbox {
 		
 	}	
 	if ($href) {
-		return "<a href='$href' rel='$rel'>".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>"
+		return "<a href='$href' data-lightbox='$rel' data-title='' >".cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})."</a>"
 	} else {
 		return cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}})
 	}	 
