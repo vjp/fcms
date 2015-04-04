@@ -1203,7 +1203,7 @@ sub baselparser (;$)
     	 undef $cmlmain::lobj->{$_} for keys %{$changed};
     }
 
-	unless ($opts->{silent}) {
+	unless ($opts->{silent} || $CGIPARAM->{silent}) {
 		my $alerttext=$CGIPARAM->{alerttext};
 		$alerttext=enc('Значения изменены') unless $alerttext;
 		alert($alerttext);

@@ -2657,7 +2657,7 @@ sub tag_form {
   		'link','alert','action','prm','param','editprm',
   		'piclistprm','filelistprm','parseprm',
   		'renameparam','renameprm', 'matrix','ukey','listprm',
-  		'actionexpr','elementid','iframe','readonlyexpr'  		
+  		'actionexpr','elementid','iframe','readonlyexpr','silent'  		
   	]);
 	#$param=$pl->{'str'};
 	
@@ -2768,6 +2768,8 @@ sub tag_form {
 		$data.="<input type='hidden' name='parseid' value='$parserid'>" if $parserid;
 		$data.="<input type='hidden' name='parseprm' value='$pl->{parseprm}'>" if $pl->{'parseprm'};
 		$data.="<input type='hidden' name='listprm' value='$pl->{listprm}'>" if $pl->{'listprm'};
+		$data.="<input type='hidden' name='silent' value='1'>" if $pl->{'silent'};
+		
 	
 		if ($pl->{'postparser'}) {$data.="<input type='hidden' name='postparser' value='$pl->{postparser}'>";}
 		if ($pl->{'preparser'}) {$data.="<input type='hidden' name='preparser' value='$pl->{preparser}'>";}
