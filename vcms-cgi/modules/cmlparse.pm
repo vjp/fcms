@@ -186,10 +186,8 @@ sub tagparse {
 		$v='NULL' if $v eq '';
 		$v=~s/"/&quot/g;
 
- 		my $t=time()-$xts;
-   		$cmlmain::GLOBAL->{timers}->{ic}+=$t;
-   		$cmlmain::GLOBAL->{timers}->{icc}++;
-		
+		&cmlmain::tcalc('ic',$xts);
+
 		"$v"; 		
 	}iges;
     

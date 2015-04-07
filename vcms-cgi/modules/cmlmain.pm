@@ -68,13 +68,24 @@ BEGIN
               &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str 
               &restore_db &export_history &backup_db
               
-              &compile_date  &set_hru &json_ok &json_error &clear_unused_data
+              &compile_date  &set_hru &json_ok &json_error &clear_unused_data &tcalc
              );
 
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
+   
+   $GLOBAL->{tm} = {
+   		ic=>['ic','icc','tagparse cml:<prm>']
+   }
 }
 	
-
+sub tcalc ($$) {
+	my ($tkey,$timestart)=@_;
+	
+	my $t=time()-$timestart;
+   	$cmlmain::GLOBAL->{timers}->{$cmlmain::GLOBAL->{tm}->{$tkey}->[0]}+=$t;
+	$cmlmain::GLOBAL->{timers}->{$cmlmain::GLOBAL->{tm}->{$tkey}->[1]}++;
+		
+}
 
 
 sub set_hru ($$)
