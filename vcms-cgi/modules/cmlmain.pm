@@ -74,7 +74,8 @@ BEGIN
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
    
    $GLOBAL->{tm} = {
-   		ic=>['ic','icc','tagparse cml:<prm>']
+   		ic=>['ic','icc','tagparse cml:<prm>'],
+   		tp=>['tp','tpc','tagparse all inlines'],
    }
 }
 	

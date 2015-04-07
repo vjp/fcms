@@ -178,19 +178,26 @@ sub tagparse {
 		return "<cml:$_[0]->{name} $_[0]->{param}>$_[0]->{data}</cml:$_[0]->{name}>";
   	}	
   	
-  	
-	$_[0]->{param}=~s{_cml:(.+?)_} {
+	$_[0]->{param}=~s{__cml:(.+?)__} {
 		my $xts=time();
-
 		my $v=&cmlcalc::p($1,$_[0]->{inner}->{objid});
 		$v='NULL' if $v eq '';
 		$v=~s/"/&quot/g;
-
 		&cmlmain::tcalc('ic',$xts);
-
+		"$v"; 		
+	}iges;
+  	
+	$_[0]->{param}=~s{_cml:(.+?)_} {
+		my $xts=time();
+		my $v=&cmlcalc::p($1,$_[0]->{inner}->{objid});
+		$v='NULL' if $v eq '';
+		$v=~s/"/&quot/g;
+		&cmlmain::tcalc('ic',$xts);
 		"$v"; 		
 	}iges;
     
+
+
 
 
   	$_[0]->{param}=~s{_id:(.+?)_} {
@@ -266,9 +273,7 @@ sub tagparse {
 	$_[0]->{param}=~s/_PARENT/$_[0]->{inner}->{parent}/igs;
 	$_[0]->{param}=~s/_SELF/$_[0]->{inner}->{objid}/igs;
 	
-	my $t=time()-$ts;
-    $cmlmain::GLOBAL->{timers}->{tp}+=$t;
-    $cmlmain::GLOBAL->{timers}->{tpc}++;
+	&cmlmain::tcalc('tp',$ts);
 	
  	if ($CMLTAG{$_[0]->{name}})  	{
   		$subname="cmlparse::tag_$_[0]->{name}";
