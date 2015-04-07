@@ -145,7 +145,7 @@ warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  QUERY:$qs TIME:%.3f  INIT:%.
 	$GLOBAL->{ot},$GLOBAL->{otc},
 	$cmlcalc::TIMERS->{LOWTREE}->{sec},$cmlcalc::TIMERS->{LOWTREE}->{count},
 	$GLOBAL->{timers}->{bl},$GLOBAL->{timers}->{blc},
-	$cmlcalc::TIMERS->{CHECKLOAD}->{sec},$cmlcalc::TIMERS->{CHECKLOAD}->{count},
+	$GLOBAL->{timers}->{cl},$GLOBAL->{timers}->{clc},
 	$GLOBAL->{timers}->{br},$GLOBAL->{timers}->{brc},
 	$GLOBAL->{timers}->{fp},$GLOBAL->{timers}->{fpc},
 	$GLOBAL->{timers}->{tp},$GLOBAL->{timers}->{tpc},	

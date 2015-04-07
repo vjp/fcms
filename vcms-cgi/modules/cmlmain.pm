@@ -76,7 +76,8 @@ BEGIN
    $GLOBAL->{tm} = {
    		ic=>['ic','icc','tagparse cml:<prm>'],
    		tp=>['tp','tpc','tagparse all inlines'],
-   		et=>['et','etc','metthod execute'],
+   		et=>['et','etc','method execute'],
+   		cl=>['cl','clc','checkload'],
    }
 }
 	
@@ -2555,8 +2556,7 @@ sub checkload
     		return $upobj if $_[0]->{onlyup};
     		buildlowtree($upobj,$_[0]->{id});
    		}
-		$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
-		$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+   		&cmlmain::tcalc('cl',$t);
    		return $lobj->{$_[0]->{id}}->{upobj};
   	} elsif ($_[0]->{key})   {
   		if ($_[0]->{key}=~/(.+)\/(.+)/) {
@@ -2568,8 +2568,7 @@ sub checkload
     			(my $oid)=$sthK->fetchrow();
     			buildlowtree($uid,$oid);
   			}
-  			$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
-  			$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+  			&cmlmain::tcalc('cl',$t);
   			return $kobj->{$uid}->{$key}->{id};
   				
   		} else {
@@ -2579,16 +2578,14 @@ sub checkload
     			($upobj,$oid)=$sthK->fetchrow();
     			buildlowtree($upobj,$oid);
    			}
-   			$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
-  			$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+   			&cmlmain::tcalc('cl',$t);
    			return $nobj->{$_[0]->{key}}->{id};
    			
   		}	
   	}   elsif ($_[0]->{uid})   {
     	buildlowtree($_[0]->{uid},undef,$_[0]->{limit});
   	}
-	$cmlcalc::TIMERS->{CHECKLOAD}->{sec}+=(time-$t);
-  	$cmlcalc::TIMERS->{CHECKLOAD}->{count}++;
+	&cmlmain::tcalc('cl',$t);
 
 
 }
