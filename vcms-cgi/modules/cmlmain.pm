@@ -76,6 +76,7 @@ BEGIN
    $GLOBAL->{tm} = {
    		ic=>['ic','icc','tagparse cml:<prm>'],
    		tp=>['tp','tpc','tagparse all inlines'],
+   		et=>['et','etc','metthod execute'],
    }
 }
 	

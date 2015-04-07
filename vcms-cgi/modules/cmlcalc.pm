@@ -364,20 +364,7 @@ sub execute 	{
  		} else {
  			$res=$ev
  		}
-
- 	
- 	
- 		#for (@treeid) {
-	 	#	if ($cmlmain::obj->{$_}->{method}->{$method}) {
- 		#		eval "use cmlmain; $cmlmain::obj->{$_}->{method}->{$method}->{script}";
-	 	#		if ($@) {print "Error in expr $_[0]->{expr}:$@"} else {$res=1}
- 		#		last;
-	 	#	}	
- 		#}
- 		
- 		my $t=time()-$xts;
-   		$cmlmain::GLOBAL->{timers}->{et}+=$t;
-   		$cmlmain::GLOBAL->{timers}->{etc}++;
+ 		&cmlmain::tcalc('et',$xts);
  		
         return $res;
 }
