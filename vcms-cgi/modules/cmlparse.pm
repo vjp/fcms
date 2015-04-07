@@ -181,20 +181,16 @@ sub tagparse {
   	
 	$_[0]->{param}=~s{_cml:(.+?)_} {
 		my $xts=time();
-		my $prmid=$1;
-		
-		#my $v=&cmlcalc::calculate({id=>$_[0]->{inner}->{objid},expr=>"p($prmid)"});
-		my $v;
-		$v->{value}=&cmlcalc::p($prmid,$_[0]->{inner}->{objid});
-		
-		if ($v->{value} eq '') {$v->{value}='NULL'}
-		$v->{value}=~s/"/&quot/g;
+
+		my $v=&cmlcalc::p($1,$_[0]->{inner}->{objid});
+		$v='NULL' if $v eq '';
+		$v=~s/"/&quot/g;
 
  		my $t=time()-$xts;
    		$cmlmain::GLOBAL->{timers}->{ic}+=$t;
    		$cmlmain::GLOBAL->{timers}->{icc}++;
 		
-		"$v->{value}"; 		
+		"$v"; 		
 	}iges;
     
 
