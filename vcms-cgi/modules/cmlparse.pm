@@ -2799,11 +2799,12 @@ sub tag_form {
 sub tag_uploader {
 	my $param=$_[0]->{param};
 	my $pl=fetchparam(\$param,[
-		'up','link','prm','param','id','resultdiv'
+		'up','link','prm','param','id','resultdiv','template'
   	]);
   	my $fprm=$pl->{prm} || $pl->{param};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid}; 
-  	my $href="?view=BASEUPLOADER&fileprm=$fprm&id=$id";
+  	my $template=$pl->{template} || 'BASEUPLOADER';
+  	my $href="?view=$template&fileprm=$fprm&id=$id";
   	for ('up','link','resultdiv') {
   		$href.="&$_=$pl->{$_}" if $pl->{$_};
   	}
