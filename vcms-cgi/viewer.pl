@@ -97,6 +97,8 @@ for (param()) {
 $cmlcalc::CGIPARAM->{view}=uc $cmlcalc::CGIPARAM->{view};
 $cmlcalc::CGIPARAM->{tview}=uc $cmlcalc::CGIPARAM->{tview};
 
+$cmlcalc::ENV->{prevpage}=$cmlcalc::CGIPARAM->{page}-1 if $cmlcalc::CGIPARAM->{page};
+
 if (cookie('env')) {
 	for (split('&',cookie('env'))) {
 		(my $vn, my $vv)=split('=',$_);

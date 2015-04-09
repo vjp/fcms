@@ -1078,9 +1078,7 @@ sub tag_list  	{
   						$inner->{objid}=$splist[$i];
   						$body.=cmlparser({data=>$data,inner=>$inner,firstelm=>$felm,lastelm=>$lelm});
 					}  
-
-		} else {  	
-  	
+	} else {  	
   	    $pkey = $pl->{param} || $pl->{prm};
   	    if ($pkey) {
   			$expr = "p('$pkey')";
@@ -1100,31 +1098,25 @@ sub tag_list  	{
   		elsif ($param=~s/(\W)key=(['"])(.+?)\2/$1/i)   {$key=$3}
   		else     {$id=$inner->{objid}}
   	
-  	  $inner->{parent}=$id; 
+	  	$inner->{parent}=$id; 
   	
   		if ($param=~s/(\W)notop=(['"])(.+?)\2/$1/i)      {$notop=1}
-  		
-  		
-			my $listval;
-			if ($param=~s/(\W)value=(['"])(.+?)\2/$1/i)      {
-				$listval=$3;
-			} else {
-				my $v=&cmlcalc::calculate({id=>$id,expr=>$expr,uid=>$uid,ukey=>$ukey,key=>$key});
-				$listval=$v->{value};
-				&cmlmain::buildlist($v->{value}); 
-			}
-
-  		
-  		
-			my $felm;
-			my $lelm;
+  		my $listval;
+		if ($param=~s/(\W)value=(['"])(.+?)\2/$1/i)      {
+			$listval=$3;
+		} else {
+			my $v=&cmlcalc::calculate({id=>$id,expr=>$expr,uid=>$uid,ukey=>$ukey,key=>$key});
+			$listval=$v->{value};
+			&cmlmain::buildlist($v->{value}); 
+		}
 			
-			$listval='___DUMMY___' if $inner->{debug} && !$listval; 
-			my @splist=split(/\s*;\s*/,$listval);
-		  if ($notop)  {  	@splist=grep { /^\d+$/ } @splist	}	
+		my $felm;
+		my $lelm;
+			
+		$listval='___DUMMY___' if $inner->{debug} && !$listval; 
+		my @splist=split(/\s*;\s*/,$listval);
+		if ($notop)  {  	@splist=grep { /^\d+$/ } @splist	}	
 		  
-	  
-	  
 	  	for (@filarray) {
 	  		my $filter=$_;
 	  		my $filterexpr=shift(@filexparray);
@@ -1223,6 +1215,8 @@ sub tag_list  	{
   			}	
   			if ($iscont) {
   				$inner->{containerindex}=$conid;
+  				$cmlcalc::ENV->{containerindex}=$conid;
+
   				my $xdata=$cdata;
   				if (($i%$container)==0) {$xdata="$sdata$xdata"}
   				if ((($i%$container)==($container-1)) || ($i==$limit-1) ) {$xdata="$xdata$edata";$conid++}
@@ -1231,8 +1225,14 @@ sub tag_list  	{
   				$cmlcalc::ENV->{LASTINDEX}=($i==$#splist)?1:0;
   				$body.=cmlparser({data=>$data,inner=>$inner});
   			}	
+		}
+		if ($pl->{pagination}) {
+			my $cp=$cmlcalc::CGIPARAM->{page} || 1;
+			$cmlcalc::ENV->{nextpage}=$cp+1  if $splist[$limit+$start];
 		}	  
 	}
+
+	
 	$body.='</tbody>' if $pl->{tbody};
   	return  $body;
   
