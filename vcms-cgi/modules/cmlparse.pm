@@ -1015,15 +1015,15 @@ sub tag_list  	{
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
   			'headerprm','headerexpr','var','tbody','pagination',
-  			'switcher','indexvar'
+  			'switcher','indexvar','offset'
   		]);
   		$container=$pl->{'container'}||1;
   		
   		$body.='<tbody>' if $pl->{tbody};
   		
   		$limit=$pl->{pagination}?$_[0]->{uinner}->{pagelimit}:$pl->{limit};
-  		if ($pl->{start}) {
-  			$start=$pl->{start}
+  		if ($pl->{start} || $pl->{offset}) {
+  			$start=$pl->{start} || $pl->{offset}
   		} elsif ($pl->{page} && $pl->{page} ne 'NULL') {
   			$start=($pl->{page}-1)*$limit
   		} elsif ($pl->{pagination}) {
