@@ -77,8 +77,10 @@ unless ($pathinfo{view}) {
 	 %pathinfo=@pi;
 }	
 for (my $i=0;$i<=$#pi;$i++) {
-	$cmlcalc::CGIPARAM->{$i+1}=$pi[$i]
+	$cmlcalc::CGIPARAM->{$i+1}=$pi[$i];
+	$cmlcalc::CGIPARAM->{page}=$pi[$i+1] if $pi[$i] eq 'page';
 }
+
 for (keys %pathinfo) {
 	unless($_=~/^\d+$/) {	$
 		cmlcalc::CGIPARAM->{$_} =$pathinfo{$_} 

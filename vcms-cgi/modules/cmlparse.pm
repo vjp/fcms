@@ -1021,13 +1021,17 @@ sub tag_list  	{
   		
   		$body.='<tbody>' if $pl->{tbody};
   		
-  		$limit=$pl->{pagination}?$_[0]->{uinner}->{pagelimit}:$pl->{limit};
+  		$limit=($pl->{pagination} && $_[0]->{uinner}->{pagelimit})?$_[0]->{uinner}->{pagelimit}:$pl->{limit};
   		if ($pl->{start} || $pl->{offset}) {
   			$start=$pl->{start} || $pl->{offset}
   		} elsif ($pl->{page} && $pl->{page} ne 'NULL') {
   			$start=($pl->{page}-1)*$limit
   		} elsif ($pl->{pagination}) {
-  			$start=($_[0]->{uinner}->{page}-1)*$_[0]->{uinner}->{pagelimit}
+  			if ($_[0]->{uinner}->{pagelimit}) {
+  				$start=($_[0]->{uinner}->{page}-1)*$_[0]->{uinner}->{pagelimit}
+  			} elsif ($cmlcalc::CGIPARAM->{page}) {
+  				$start=($cmlcalc::CGIPARAM->{page}-1)*$limit
+  			}
   		} else {
   			$start=0;
   		}
