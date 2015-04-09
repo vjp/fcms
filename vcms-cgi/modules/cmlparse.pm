@@ -493,8 +493,9 @@ sub tag_pagination {
 		'page','limit','container',
 	]);
 	delete $pl->{page} if $pl->{page} eq 'NULL';
-	my $container=$pl->{container} || $pl->{limit};
+	my $container=$pl->{container} || $pl->{limit} || $_[0]->{uinner}->{pagelimit};
 	my $pid=$cmlcalc::CGIPARAM->{pagenum} || $cmlcalc::CGIPARAM->{page} || $pl->{page} || 1;
+	#$param.=" expr='$_[0]->{uinner}->{pageexpr}'" if $_[0]->{uinner}->{pageexpr};
 	my $rtext = qq(
 		<cml:list container='$container' $param>
 			<cml:if expr='_CONTAINERINDEX eq $pid'> <cml:text expr='_CONTAINERINDEX'/> </cml:if>
@@ -1015,7 +1016,7 @@ sub tag_list  	{
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
   			'headerprm','headerexpr','var','tbody','pagination',
-  			'switcher','indexvar','offset'
+  			'switcher','indexvar','offset','param','prm','expr'
   		]);
   		$container=$pl->{'container'}||1;
   		
@@ -1030,6 +1031,7 @@ sub tag_list  	{
   			if ($_[0]->{uinner}->{pagelimit}) {
   				$start=($_[0]->{uinner}->{page}-1)*$_[0]->{uinner}->{pagelimit}
   			} elsif ($cmlcalc::CGIPARAM->{page}) {
+  				$_[0]->{uinner}->{pagelimit}=$limit;
   				$start=($cmlcalc::CGIPARAM->{page}-1)*$limit
   			}
   		} else {
@@ -1079,11 +1081,18 @@ sub tag_list  	{
 
 		} else {  	
   	
-  		if ($param=~s/(\W)param=(['"])(.+?)\2/$1/i)          {$pkey=$3; $expr="p('$pkey')" }
-  		elsif ($param=~s/(\W)prm=(['"])(.+?)\2/$1/i)            {$pkey=$3; $expr="p('$pkey')" }
-  		elsif ($param=~s/(\W)expr=(['"])(.+?)\2/$1/i)        {$expr=$3}
-  		elsif (defined $inner->{expr})                       {$expr=$inner->{expr}}
+  	    $pkey = $pl->{param} || $pl->{prm};
+  	    if ($pkey) {
+  			$expr = "p('$pkey')";
+  	    } elsif ($pl->{expr}) {
+  	    	$expr=$pl->{expr}
+  	    } elsif (defined $inner->{expr})  {
+  	    	$expr=$inner->{expr}
+  	    }
   	
+ 		if ($expr && $pl->{'pagination'}) {
+ 			$_[0]->{uinner}->{pageexpr}=$expr;
+ 		} 	
   	
   		if ($param=~s/(\W)uid=(['"])(.+?)\2/$1/i)      {$uid=$3}
   		elsif ($param=~s/(\W)id=(['"])(.+?)\2/$1/i)    {$id=$3}
