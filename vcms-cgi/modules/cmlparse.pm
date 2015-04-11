@@ -3,16 +3,17 @@ package cmlparse;
 
 BEGIN
 {
- use Exporter();
- use Data::Dumper;
- use CGI  qw(param escapeHTML upload);
- use POSIX qw(strftime);
- use Time::HiRes qw (time);
- use URI::Escape; 
- use vCMS::Config;
+ 	use Exporter();
+ 	use Data::Dumper;
+ 	use CGI  qw(param escapeHTML upload);
+ 	use POSIX qw(strftime);
+ 	use Time::HiRes qw (time);
+ 	use URI::Escape; 
+ 	use vCMS::Config;
+ 	use List::Util qw(shuffle);
  
- @ISA = 'Exporter';
- @EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
+ 	@ISA = 'Exporter';
+ 	@EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
 }
 
 sub initparser
@@ -1129,7 +1130,9 @@ sub tag_list  	{
 		  	@splist=grep { 	&cmlcalc::calculate({id=>$_,expr=>$filterexpr})->{value}  } @splist	
 		}	
 		my $orderby=$pl->{orderby} || '';
-		unless ($orderby eq '_MANUAL') {
+		if ($orderby eq '_RAND') {
+			@splist=shuffle(@splist);
+		} elsif  ($orderby ne '_MANUAL') {
 			my $ordertype=$cmlmain::prm->{$orderby}->{type} || '';
 			my %oh;
 			my %oi;
