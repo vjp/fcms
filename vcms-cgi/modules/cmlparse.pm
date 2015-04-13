@@ -2815,13 +2815,13 @@ sub tag_form {
 sub tag_uploader {
 	my $param=$_[0]->{param};
 	my $pl=fetchparam(\$param,[
-		'up','link','prm','param','id','resultdiv','template'
+		'up','link','prm','param','id','resultdiv','template','sandboxtemplate'
   	]);
   	my $fprm=$pl->{prm} || $pl->{param};
   	my $id=$pl->{id} || $_[0]->{inner}->{objid}; 
   	my $template=$pl->{template} || 'BASEUPLOADER';
   	my $href="?view=$template&fileprm=$fprm&id=$id";
-  	for ('up','link','resultdiv') {
+  	for ('up','link','resultdiv','sandboxtemplate') {
   		$href.="&$_=$pl->{$_}" if $pl->{$_};
   	}
   	return "<iframe src='$href' $param></iframe>";

@@ -236,7 +236,7 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <cml:if value='_env:PARSERDATAresultdiv_'>
 	<cml:use id='_env:PARSERDATAobjid_'> 
    	<div id='sandbox' style='display: none;'>
-     	<cml:include key='IPICBLOCK'/>
+     	<cml:include key='_prm:sandboxtemplate_'/>
    	</div> 
    	</cml:use>   
    	<script>
@@ -1070,15 +1070,48 @@ setvalue({convert=>1,key=>'MCEINIT',pkey=>'PAGETEMPLATE',value=>qq(
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEPHOTO',name=>'Вставка фото в визивиг'});
 setvalue({convert=>1,key=>'MCEPHOTO',pkey=>'PAGETEMPLATE',value=>qq(
-<table><tr>
+<h3>Иллюстрации</h3>
+
+<div class="row">
     <cml:list prm='PICLINKS'>
-        <td><cml:deletebutton/><cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')"><cml:img border="0" prm='PIC' width="100"/></cml:a></td>
+                <cml:include key='IPICBLOCK'/>
     </cml:list>
-</tr></table>
-<cml:form insertinto='_id:GALLERY_' link='PICLINK'>
-     <cml:inputfile param='PIC'/>
-     <input type='submit' value='Новая картинка'>
-</cml:form>
+    <div id='newphoto'></div> 
+    <div class="col-lg-3 col-md-6" style="height:325px">
+       <cml:uploader up='_id:GALLERY_' link='PICLINK' prm='PIC' sandboxtemplate='IPICBLOCK' resultdiv='newphoto' scrolling="no" style="width:100%; height:100%; border:0; overflow:hidden;"/>  
+    </div>
+</div>
+
+)});
+
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'IPICBLOCK',name=>'Блок вставки картинки'});
+setvalue({convert=>1,key=>'IPICBLOCK',pkey=>'PAGETEMPLATE',value=>qq(
+<div class="col-lg-3 col-md-6">
+        	<div class="panel panel-primary">
+            	<div class="panel-heading">
+                            <div class="row" style="text-align:center; height:260px">
+
+                                <div class="col-xs-12">
+
+           <cml:a href='#' alt='_cml:_NAME_' onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')" title="Клините для вставки в текст">
+            <cml:img border="0" prm='PIC' style="max-width:90%; max-height:250px;"/>
+          </cml:a>
+                                  
+                              	</div>
+                            </div>
+                        </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">
+                                        <cml:deletebutton/>
+                                  <cml:radiobutton id='_cml:PICLINK_' prm='MAINPHOTO' value='_cml:_ID_'>Главное фото</cml:radiobutton>
+                              </span>
+                                <span class="pull-right"><a href="#" onclick="javascript:insertimage('_global:FILEURL_/_cml:PIC_')" title="Вставить в текст">
+                                  <i class="fa fa-arrow-circle-right"></i></a></span>
+                                <div class="clearfix"></div>
+                            </div>
+
+                    </div>
+                </div>     
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'MCEVIDEO',name=>'Вставка видео в визивиг'});
