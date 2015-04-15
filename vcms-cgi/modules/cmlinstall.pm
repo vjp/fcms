@@ -553,42 +553,42 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
 
       if (json.status) {
           alert('Пользователь создан');
-          window.location.href=window.location.href.sub(/\#$/,'');
+          location.reload();
       } else {
           alert('Ошибка: '+json.message);
       }   
   }
  
   function createManager() {
-     if (!$('login').value) {
+     if (!$('#login').val()) {
          alert('Логин не может быть пустым');
          return;
      }
-     if (!$('pswn').value || $('pswn').value!=$('rpswn').value) {
+     if (!$('#pswn').val() || $('#pswn').val()!=$('#rpswn').val()) {
          alert('Пароли не совпадают');
          return;
      }
      var dt = {
-       login : $('login').value,
-       pwd : $('pswn').value
+       login : $('#login').val(),
+       pwd : $('#pswn').val()
      };
-     execute('CREATEMANAGER',dt,managerCreated);
+     executejq('CREATEMANAGER',dt,managerCreated);
   }
 
   function changePass(id) {
-     if (!$('psw'+id).value || $('psw'+id).value!=$('rpsw'+id).value) {
+     if (!$('#psw'+id).val() || $('#psw'+id).val()!=$('#rpsw'+id).val()) {
          alert('Пароли не совпадают');
          return;
      }
      var dt = {
-         pwd : $('psw'+id).value
+         pwd : $('#psw'+id).val()
      };
-     lexec(id,'CHPASSMAN',dt);
+     lexecutejq(id,'CHPASSMAN',dt);
   } 
 </script>
 
 <cml:use key='_prm:ukey_'>
-<cml:text param='_NAME'/><br>
+<cml:text param='_NAME'/><br/>
 <table>
 <tr><th></th><th>Логин</th><th>Новый пароль</th><th>Повторить новый пароль</th><th></th></tr>
 <cml:list expr='lowlist()'>
@@ -602,9 +602,9 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
 </cml:list>
 <tr>
 <td></td>
-<td><input id='login'/></td>
-<td><input id='pswn' type='password'/></td>
-<td><input id='rpswn' type='password'/></td>
+<td><input id='login' value=''/></td>
+<td><input id='pswn' type='password' value=''/></td>
+<td><input id='rpswn' type='password' value=''/></td>
 <td><input type='button' value='Создать нового' onclick='createManager()'/></td>
 </tr>
 </table>
