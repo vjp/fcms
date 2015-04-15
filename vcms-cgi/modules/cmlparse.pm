@@ -3269,7 +3269,11 @@ sub tag_deletebutton {
 	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?qq(confirm("$alert1") && confirm("$alert2")):qq(confirm("$alert1"));
 	my $scriptjs;
 	if ($pl->{method}) {
-		$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
+		if (vCMS::Config::Get('jquery')) {
+			$scriptjs=qq(lexecutejq("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" }));
+		} else {	
+			$scriptjs=qq(lexecute("$pl->{method}","$id",{parseprm : "$pl->{parseprm}", deleteid : "$pl->{deleteid}", parseid : "$parseid" },defcallback));
+		}
 	}elsif ($pl->{prm}) {	
 		$scriptjs=qq(setvalue("$id","$pl->{prm}",""));
 	} elsif ($pl->{moveto}) {
