@@ -904,7 +904,9 @@ sub tag_select {
   			my $svalue;
   			if ($pl->{resulttemplate}) {
 				$cmlcalc::ENV->{popupresult}=&cmlcalc::p($prm,$id);
-				$svalue=&cmlcalc::p(PAGETEMPLATE,&cmlcalc::id($pl->{resulttemplate}));
+				my $tid=&cmlcalc::id($pl->{resulttemplate});
+				$svalue=&cmlcalc::p(PAGETEMPLATE,$tid);
+				undef $cmlmain::lobj->{$tid};
 				undef $cmlcalc::ENV->{popupresult};
   			} else {
   				$svalue=&cmlcalc::calculate({id=>$id,expr=>"p(_NAME,p($prm))"})->{value};
