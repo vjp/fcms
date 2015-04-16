@@ -473,9 +473,8 @@ return $result;
 
 addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'SYSTEMUSERS_user',key=>'DELETEMANAGER',name=>'Удалить менеджера',script=>q(
 my $login=p(_NAME);
-deluser($login);
-$result->{'status'}='Пользователь удален';
-return $result;
+edituser($login,$CGIPARAM->{'pwd'},'user');
+ajax_ok("Пароль пользователя $login изменен");
 )});
 
 addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'SYSTEMUSERS_user',key=>'CHPASSMAN',name=>'Сменить пароль',script=>q(
@@ -583,7 +582,7 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
      var dt = {
          pwd : $('#psw'+id).val()
      };
-     lexecutejq(id,'CHPASSMAN',dt);
+     lexecutejq('CHPASSMAN',id,dt);
   } 
 </script>
 
