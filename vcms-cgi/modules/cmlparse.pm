@@ -1790,7 +1790,7 @@ sub tag_a	{
 		'extraprm','adminextraprm',
 		'param','prm','expr','id',
 		'ifprm','ifparam','ifexpr',
-		'blank','elementid',
+		'blank','elementid','counterprm',
 	]);
 	
 	my $ql;
@@ -1891,6 +1891,11 @@ sub tag_a	{
 	my $estr=$ifval?'</a>':'';
 	
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
+	
+	if ($pl->{counterprm} && $ql) {
+		$ql="/cgi-bin/viewer.pl?rid=${id}&rprm=$pl->{counterprm}&redir=".uri_escape($ql);
+	}
+	
 	if ($ifval) {
   		if ($mode eq 'openwindow') {
   			$bstr=qq(<a href="javascript:openwindow('$ql')" $param $idstr>);

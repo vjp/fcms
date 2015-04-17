@@ -8,7 +8,7 @@ use CGI  qw/param url header cookie redirect/;
 use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
-
+use vCMS;
  
 
 
@@ -211,6 +211,10 @@ my $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
 my $CACHEFLAG=$HTTPSTATUS==200?$GLOBAL->{CACHE}:0;
 if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
+} elsif ($cgiparam->{redir}) {	
+	o($cgiparam->{rid})->Inc($cgiparam->{rprm}) if $cgiparam->{rid} && $cgiparam->{rprm};
+	print redirect($cgiparam->{redir});
+	exit();
 }elsif ($cgiparam->{view}) {
 	if ($dom_vhost || ($cmlcalc::SITEVARS->{subdomain} && $vh == 1)) {
  		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
