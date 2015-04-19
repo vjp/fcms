@@ -1073,9 +1073,20 @@ sub baselparser (;$)
 	my $id;
 	if ($CGIPARAM->{insertinto}) {	
 		my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
-		$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
-		if ($CGIPARAM->{link}) {		
-			setvalue({id=>$id,prm=>$CGIPARAM->{link},value=>$lid}); 	
+		
+		if ($CGIPARAM->{filedata}) {
+			$id=uploadprmfile({
+				insertinto	=>$CGIPARAM->{insertinto},
+				link		=>$CGIPARAM->{link},
+				pkey		=>$CGIPARAM->{fileprm},
+				cgiparam	=>'filedata',
+				id			=>$lid,
+			});
+		} else {
+			$id=addlowobject({upobj=>$CGIPARAM->{insertinto}});	
+			if ($CGIPARAM->{link}) {		
+				setvalue({id=>$id,prm=>$CGIPARAM->{link},value=>$lid}); 	
+			}
 		}
 	} elsif ( $opts && $opts->{id}) {
 	    $id=$opts->{id};

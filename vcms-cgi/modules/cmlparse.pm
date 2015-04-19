@@ -3488,37 +3488,48 @@ sub tag_else {
 }
 
 
-
-
-
-sub uploadprmfile
-{
- my $prm;	
- if ($_[0]->{pkey}) {$prm=$_[0]->{pkey}}
- if ($_[0]->{param}) {$prm=$_[0]->{param}}
- 
- my $id=$_[0]->{id};
- my $prmname=$_[0]->{cgiparam};
- 
- my $fname=param($prmname);
- $fname =lc $fname; 
- 
- if ($cmlmain::GLOBAL->{CODEPAGE} eq 'utf-8') {
+sub _filter_fname {
+	my $fname=$_[0];
+	$fname =lc $fname; 
+ 	if ($cmlmain::GLOBAL->{CODEPAGE} eq 'utf-8') {
  		$fname = Encode::encode('windows-1251',Encode::decode('utf-8',$fname));
- }	
-  
- $fname =~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
- $fname =~s{[à-ÿÀ-ß\"\s\'\#\+]}{}g;
+ 	}	
+	$fname =~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
+ 	$fname =~s{[à-ÿÀ-ß\"\s\'\#\+]}{}g;
+	$fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
+	return $fname;
+}
 
- $fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
-
- my $fh = upload($prmname);
- open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
- while ($buffer=<$fh>) { 
-  	print FILE $buffer; 
- }
- close  FILE;
- &cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
+sub uploadprmfile {
+	my $prm;	
+ 	if ($_[0]->{pkey}) {$prm=$_[0]->{pkey}}
+ 	if ($_[0]->{param}) {$prm=$_[0]->{param}}
+ 	my $prmname=$_[0]->{cgiparam}; 	
+	if ($_[0]->{insertinto}) {
+		my $fname=param($prmname);
+	 	$fname=_filter_fname($fname);
+		my $fh = upload($prmname);
+ 		open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
+ 		while ($buffer=<$fh>) { 
+  			print FILE $buffer; 
+ 		}
+ 		close  FILE;
+ 		my $id=&cmlmain::addlowobject({upobj=>$_[0]->{insertinto}});	
+		&cmlmain::setvalue({id=>$id,pkey=>$_[0]->{link},value=>$_[0]->{id}}) if $_[0]->{link}; 
+		&cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
+		return $id;
+ 	} else {
+ 		my $id=$_[0]->{id};
+	 	my $fname=param($prmname);
+	 	$fname=_filter_fname($fname);
+		my $fh = upload($prmname);
+ 		open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
+ 		while ($buffer=<$fh>) { 
+  			print FILE $buffer; 
+ 		}
+ 		close  FILE;
+ 		&cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
+ 	}
 }
 
 
