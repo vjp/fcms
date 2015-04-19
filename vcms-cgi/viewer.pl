@@ -213,6 +213,7 @@ if (!$opensite && !cookie('dev')) {
 	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
 } elsif ($cgiparam->{redir}) {	
 	o($cgiparam->{rid})->Inc($cgiparam->{rprm}) if $cgiparam->{rid} && $cgiparam->{rprm};
+	o($cgiparam->{rid})->e($cgiparam->{rmtd}) if $cgiparam->{rid} && $cgiparam->{rmtd};
 	print redirect($cgiparam->{redir});
 	exit();
 }elsif ($cgiparam->{view}) {

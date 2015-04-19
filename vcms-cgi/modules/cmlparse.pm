@@ -1791,6 +1791,7 @@ sub tag_a	{
 		'param','prm','expr','id',
 		'ifprm','ifparam','ifexpr',
 		'blank','elementid','counterprm',
+		'proxymethod'
 	]);
 	
 	my $ql;
@@ -1894,7 +1895,10 @@ sub tag_a	{
 	
 	if ($pl->{counterprm} && $ql) {
 		$ql="/cgi-bin/viewer.pl?rid=${id}&rprm=$pl->{counterprm}&redir=".uri_escape($ql);
+	} elsif ($pl->{proxymethod} && $ql) {
+		$ql="/cgi-bin/viewer.pl?rid=${id}&rmtd=$pl->{proxymethod}&redir=".uri_escape($ql);
 	}
+
 	
 	if ($ifval) {
   		if ($mode eq 'openwindow') {
