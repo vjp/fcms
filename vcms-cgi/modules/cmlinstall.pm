@@ -223,7 +223,9 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
   
 <cml:form insertinto='_prm:up_' link='_prm:link_' silent='1'>
   
-  	<cml:input type='file' name='_f_prm:fileprm_'/>
+
+  	<cml:input type='file' name='filedata' />
+  	
     <cml:input type='hidden' name='resultdiv' value='_prm:resultdiv_'/>
     <cml:input type='hidden' name='fileprm' value='_prm:fileprm_'/>
     <cml:input type='hidden' name='up' value='_prm:up_'/>
@@ -234,11 +236,13 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 </cml:use>
   
 <cml:if value='_env:PARSERDATAresultdiv_'>
-	<cml:use id='_env:PARSERDATAobjid_'> 
+	
    	<div id='sandbox' style='display: none;'>
+   	<cml:list value='_env:PARSERDATAobjid_'> 
      	<cml:include key='_prm:sandboxtemplate_'/>
+    </cml:list> 	
    	</div> 
-   	</cml:use>   
+ 
    	<script>
       var divname="<cml:text value='_env:PARSERDATAresultdiv_'/>";
       jQuery('#'+divname, parent.document).append(jQuery('#sandbox').html());

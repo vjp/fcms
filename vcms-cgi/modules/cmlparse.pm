@@ -3506,18 +3506,24 @@ sub uploadprmfile {
  	if ($_[0]->{param}) {$prm=$_[0]->{param}}
  	my $prmname=$_[0]->{cgiparam}; 	
 	if ($_[0]->{insertinto}) {
-		my $fname=param($prmname);
-	 	$fname=_filter_fname($fname);
-		my $fh = upload($prmname);
- 		open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
- 		while ($buffer=<$fh>) { 
-  			print FILE $buffer; 
- 		}
- 		close  FILE;
- 		my $id=&cmlmain::addlowobject({upobj=>$_[0]->{insertinto}});	
-		&cmlmain::setvalue({id=>$id,pkey=>$_[0]->{link},value=>$_[0]->{id}}) if $_[0]->{link}; 
-		&cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
-		return $id;
+	 	my @fhs = upload($prmname);
+	 	my @fnames=param($prmname);
+	 	my @ids;
+	 	my $cnt=0;
+	 	for my $fh (@fhs) {
+	 		my $fname=_filter_fname($fnames[$cnt]);
+ 			open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
+ 			while ($buffer=<$fh>) { 
+  				print FILE $buffer; 
+ 			}
+ 			close  FILE;
+ 			my $id=&cmlmain::addlowobject({upobj=>$_[0]->{insertinto}});
+ 			&cmlmain::setvalue({id=>$id,pkey=>$_[0]->{link},value=>$_[0]->{id}}) if $_[0]->{link}; 
+			&cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
+			push (@ids,$id);
+			$cnt++;
+	 	}
+		return join(';',@ids);
  	} else {
  		my $id=$_[0]->{id};
 	 	my $fname=param($prmname);
