@@ -865,7 +865,7 @@ sub editmethodform ($$;$)
 	
 	my $save_js="editmethod('$id','$pkey','$lflag',myCodeMirror.getValue())";
 	my $savenrun_js="vcms_console(myCodeMirror.getValue())";
-	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>40,-cols=>150,-override=>1);
+	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>25,-cols=>150,-override=>1);
 	print br;
 	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
 	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
@@ -897,12 +897,8 @@ sub editmethodform ($$;$)
             }
 		</script>		
 	));
-	print code_mirror_js();
-	
-	
-	
-	print hr,"<div id='resultDiv'></div>";
-	
+	print code_mirror_js({height=>400});
+	print hr,"<textarea id='resultDiv' rows='15' cols='200'></textarea>";
 }	
 
 sub editfilelinkfull
