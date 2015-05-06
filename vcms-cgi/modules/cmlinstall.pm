@@ -245,8 +245,13 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
  
    	<script>
       var divname="<cml:text value='_env:PARSERDATAresultdiv_'/>";
+      <cml:if expr='cgi(up)'>
       jQuery('#'+divname, parent.document).append(jQuery('#sandbox').html());
-  	</script>  
+      </cml:if>
+      <cml:else>
+      jQuery('#'+divname, parent.document).html(jQuery('#sandbox').html());  
+      </cml:else>  
+  	</script>   
 </cml:if>  
 </body> 
 )});
