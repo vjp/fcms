@@ -1589,7 +1589,7 @@ sub tag_actionlink {
 		for (qw (listprm link orderby ordertype filter filterexpr filterprm filtervalue)) {
 				$hrf.="&$_=$pl->{$_}" if $pl->{$_};
 		}
-		$hrf.="&$id=$pl->{id}" if $pl->{id} && !$inner_id;
+		$hrf.="&id=$pl->{id}" if $pl->{id} && !$inner_id;
 		$hrf.="&readonly=1" if $pl->{action} eq 'LISTVIEW' || $access_denied;
 		$hrf.="&csv=1" if $pl->{csv};		
 		$hrf.='&'.$pl->{href} if $pl->{href};
