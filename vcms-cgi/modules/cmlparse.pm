@@ -1019,7 +1019,8 @@ sub tag_list  	{
   			'orderby','ordertype','orderexpr',
   			'limit','start','page','container',
   			'headerprm','headerexpr','var','tbody','pagination',
-  			'switcher','indexvar','offset','param','prm','expr'
+  			'switcher','indexvar','offset','param','prm','expr',
+  			'cgifilter'
   		]);
   		$container=$pl->{'container'}||1;
   		
@@ -1131,6 +1132,13 @@ sub tag_list  	{
 		if ($filterexpr) {
 		  	@splist=grep { 	&cmlcalc::calculate({id=>$_,expr=>$filterexpr})->{value}  } @splist	
 		}	
+		
+		if ($pl->{cgifilter} && $cmlcalc::CGIPARAM->{filterprm}) {
+			@splist=grep { 	
+				&cmlcalc::p($cmlcalc::CGIPARAM->{filterprm},$_) eq $cmlcalc::CGIPARAM->{filtervalue}  
+			} @splist
+		}
+		
 		my $orderby=$pl->{orderby} || '';
 		if ($orderby eq '_RAND') {
 			@splist=shuffle(@splist);
