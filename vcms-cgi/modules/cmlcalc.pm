@@ -1071,7 +1071,8 @@ sub baselparser (;$)
 {
 	my ($opts)=@_;
 	my $id;
-	if ($CGIPARAM->{insertinto} && $CGIPARAM->{insertinto} ne 'NULL') {	
+	my $iif=$CGIPARAM->{insertinto} && ($CGIPARAM->{insertinto} ne 'NULL');
+	if ($iif) {	
 		my $lid=$CGIPARAM->{parseid}?$CGIPARAM->{parseid}:$CGIPARAM->{id};	
 		
 		if ($CGIPARAM->{filedata}) {
@@ -1173,7 +1174,7 @@ sub baselparser (;$)
 			$id=$1;
 			uploadprmfile({id=>$id,pkey=>$2,cgiparam=>$cgiprm});
 			push (@{$changed->{$id}},$2);
-		} elsif ($cgiprm eq 'filedata') {
+		} elsif ($cgiprm eq 'filedata' && !$iif) {
 			uploadprmfile({
 				pkey		=>$CGIPARAM->{fileprm},
 				cgiparam	=>'filedata',
