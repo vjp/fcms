@@ -50,6 +50,7 @@ $CONF={
     mcecols=>100,          ##симовлов в строке в визивиге
     separate_startpage=>0,  ##стартовая генерится отдельным шаблоном
     jquery=><jquery>,
+    uniqfiles=>1,
 };
 
 
