@@ -3519,13 +3519,17 @@ sub uploadprmfile {
 	 	my @ids;
 	 	my $cnt=0;
 	 	for my $fh (@fhs) {
-	 		my $fname=_filter_fname($fnames[$cnt]);
- 			open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
+ 			my $id=&cmlmain::addlowobject({upobj=>$_[0]->{insertinto}});
+			my $fname=_filter_fname($fnames[$cnt]);
+			if (vCMS::Config::Get('uniqfiles')) {
+				mkdir "$cmlmain::GLOBAL->{FILEPATH}/$id";
+				$fname="$id/$fname";
+			}
+			open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
  			while ($buffer=<$fh>) { 
   				print FILE $buffer; 
  			}
  			close  FILE;
- 			my $id=&cmlmain::addlowobject({upobj=>$_[0]->{insertinto}});
  			&cmlmain::setvalue({id=>$id,pkey=>$_[0]->{link},value=>$_[0]->{id}}) if $_[0]->{link}; 
 			&cmlmain::setvalue({id=>$id,pkey=>$prm,value=>$fname}) if -s "$cmlmain::GLOBAL->{FILEPATH}/$fname";
 			push (@ids,$id);
@@ -3537,7 +3541,11 @@ sub uploadprmfile {
 	 	my $fname=param($prmname);
 	 	$fname=_filter_fname($fname);
 		my $fh = upload($prmname);
- 		open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
+		if (vCMS::Config::Get('uniqfiles')) {
+			mkdir "$cmlmain::GLOBAL->{FILEPATH}/$id" unless -e "$cmlmain::GLOBAL->{FILEPATH}/$id";
+			$fname="$id/$fname";
+		}
+		open FILE,">$cmlmain::GLOBAL->{FILEPATH}/$fname" || die $!;
  		while ($buffer=<$fh>) { 
   			print FILE $buffer; 
  		}
