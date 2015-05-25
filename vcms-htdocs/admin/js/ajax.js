@@ -1,10 +1,10 @@
 function alertreload_callback(json){
-                    if (json.status) {
-                        alert(json.status); 
-                        window.location.href=window.location.href.sub(/\#$/,'');
-                    } else {
-                        alert(json.message);
-                    }    
+	if (json.status) {
+		alert(json.status); 
+        location.reload();
+    } else {
+    	alert(json.message);
+    }    
 }   
     
 function deleteobject (parseid,id,parseprm,deleteid) {
