@@ -406,6 +406,43 @@ addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'AUTH',name=>'Авторизацио
 setvalue({key=>'AUTH',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(Здесь должна быть авторизационная секция)});
 
 
+addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'ARTICLEVIDEO',name=>'Вставка видео в статью'});
+setvalue({key=>'ARTICLEVIDEO',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
+<cml:list prm='VIDLINKS'>
+<script language="JavaScript">
+        var divn="player<cml:text prm='_ID'/>";
+        
+         var psrc='<cml:text value="_global:FILEURL_/_cml:PIC_"/>';
+         var src='<cml:text value="_global:FILEURL_/_cml:MOVIE_"/>';
+        
+         function html5player () {
+            jQuery('#'+divn).html('<video style="width:540px;height:420px" controls poster="'+psrc+'" src="'+src+'"></video>');
+         }
+        
+        
+        if (jQuery('#'+divn)) {
+            flowplayer(divn,{
+                src     : "/swf/flowplayer.swf",
+                version : [9, 115],
+                bgcolor : "#FFFFF",
+                onFail  : html5player
+            },{
+                clip: { 
+                scaling:'fit'
+            },  
+            canvas: {
+                backgroundColor: '#FFFFFF'
+            },
+            playlist: [
+                {url: '<cml:text value="_global:FILEURL_/_cml:PIC_"/>', autoPlay: true},
+                {url: '<cml:text value="_global:FILEURL_/_cml:MOVIE_"/>', autoPlay: false},
+                {url: '<cml:text value="_global:FILEURL_/_cml:PIC_"/>', autoPlay: true}
+            ]});
+       }     
+</script>
+</cml:list>
+)});
+
 
 addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'MAINTEMPLATE',name=>'Базовый шаблон'});
 setvalue({key=>'MAINTEMPLATE',pkey=>'PAGETEMPLATE',value=>qq(
@@ -420,6 +457,7 @@ addlowobject({convertname=>1,upobjkey=>'DESIGN',key=>'ARTICLE',name=>'Статья'});
 setvalue({key=>'ARTICLE',pkey=>'PAGETEMPLATE',value=>q(
 <cml:use id='_cgi:1_'>
 <cml:text param='ARTICLETEXT'/>
+<cml:include key='ARTICLEVIDEO'/>
 </cml:use>
 )});
 
