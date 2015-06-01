@@ -1146,14 +1146,16 @@ sub tag_list  	{
 			my $ordertype=$cmlmain::prm->{$orderby}->{type} || '';
 			my %oh;
 			my %oi;
-			
+			my $allnumeric=1;
 			for (@splist) {
+				$cmlcalc::ENV->{$pl->{var}}=$_ if $pl->{var};
 				$oh{$_}=&cmlcalc::calculate({id=>$_,expr=>$orderexpr})->{value};
 				$oi{$_}=$orderexpr eq 'p(_INDEX)'?$oh{$_}:&cmlcalc::calculate({id=>$_,expr=>'p(_INDEX)'})->{value};
+				$allnumeric=0 if $oh{$_}!~/^[\d-\.]+$/;
 			}	
 			
 			
-			if ( $orderexpr eq 'p(_INDEX)' || $ordertype eq 'DATE' || $ordertype eq 'NUMBER') {
+			if ( $orderexpr eq 'p(_INDEX)' || $ordertype eq 'DATE' || $ordertype eq 'NUMBER' || $allnumeric) {
   				@splist=sort {
   					$oh{$a}==$oh{$b}?$oi{$a}<=>$oi{$b}:$oh{$a}<=>$oh{$b};
   				} @splist;
