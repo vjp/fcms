@@ -556,8 +556,13 @@ sub calcgt {
 	return $_[0] > $_[1];
 }
 
+
 sub calclt {
 	return $_[0] < $_[1];
+}
+
+sub between {
+	return $_[0] > $_[1] && $_[0] < $_[2]
 }
 
 sub iscurrent {
