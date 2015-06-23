@@ -15,6 +15,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 </xsd:complexType>
 
@@ -28,6 +29,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -44,6 +46,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -60,6 +63,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 </xsd:complexType>
 
@@ -73,6 +77,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" />
 </xsd:complexType>
@@ -87,6 +92,7 @@
 			<xsd:element name="TEXT" type="TextType"/>
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -114,7 +120,13 @@
 		<xsd:attribute name="format" type="xsd:string" />				
 </xsd:complexType>
 
-
+<xsd:complexType name="ImageType" mixed="true">	  
+		<xsd:attribute name="id" type="xsd:string"/>
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="expr" type="xsd:string" />		
+		<xsd:attribute name="prm" type="xsd:string" />		
+		<xsd:attribute name="value" type="xsd:string" />	
+</xsd:complexType>
 
 
 </xsd:schema>

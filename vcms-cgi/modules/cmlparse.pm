@@ -2100,7 +2100,8 @@ sub tag_img 	{
 			my $fn="$cmlmain::GLOBAL->{FILEPATH}/$v->{value}";
 			open FILE,"<$fn" || die $!;
 			read (FILE,$src,-s $fn);
-			$src="data:image/jpeg;base64,".MIME::Base64::encode_base64($src);
+			$src=MIME::Base64::encode_base64($src);
+			$src="data:image/jpeg;base64,$src" unless $cmlcalc::ENV->{WORDML};
 		} elsif ($pkey && $cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
 			$src=$v->{value};
 		} else {
@@ -2125,7 +2126,16 @@ sub tag_img 	{
     
     my $astr=$alt?"alt='$alt' title='$alt'":'';
  	
- 	return "<img src='$src' $param $astr $idstr $omestr />$blstr";
+ 	if ($cmlcalc::ENV->{WORDML}) {
+ 		return qq(<w:pict>
+            <w:binData w:name="wordml://ii$id.jpg">$src</w:binData>
+            <v:shape id="_x0000_i$id" style="width:100%;height:auto" type="#_x0000_t75">
+              <v:imagedata o:title="network" src="wordml://ii$id.jpg"/>
+            </v:shape>
+          </w:pict>);
+ 	} else {
+ 		return "<img src='$src' $param $astr $idstr $omestr />$blstr";
+ 	}
  	
 }	
 
