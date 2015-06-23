@@ -2062,7 +2062,7 @@ sub tag_img 	{
 		'alt','altparam','altprm', 'path', 'src', 
 		'elementid','onmouseoverparam','blink','inline' 
 	]);
-	
+	$pl->{inline}=1 if $cmlcalc::ENV->{WORDML};
 
 	if       ($pl->{id})    {$id=$pl->{id}    }
 	elsif    ($pl->{idcgi}) {$id=param($pl->{idcgi})}

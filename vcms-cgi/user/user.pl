@@ -29,8 +29,17 @@ $cmlcalc::ENV->{BENCHMARK}=&cmlcalc::p('USERBENCHMARK',&cmlcalc::id('CMSDESIGN')
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%user';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
-$cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly};
+$cmlcalc::ENV->{READONLY}=$cmlcalc::CGIPARAM->{readonly}?1:0;
 $cmlcalc::ENV->{AJAXURL}='/cgi-bin/user/ajax-json.pl';
+$cmlcalc::ENV->{RAWDATA}=1 if $cmlcalc::CGIPARAM->{rawdata};
+$cmlcalc::ENV->{XML}=1 if $cmlcalc::CGIPARAM->{xml};
+if ($cmlcalc::CGIPARAM->{wordml}) {
+	$cmlcalc::ENV->{WORDML}=1;
+	$cmlcalc::ENV->{RAWDATA}=1;
+	$cmlcalc::ENV->{XML}=1;
+}	
+
+
 message("ENABLE TAG BENCHMARKING") if $cmlcalc::ENV->{BENCHMARK}; 
 
 
@@ -80,7 +89,7 @@ if (param('csv')||param('csvcontent')) {
 		-charset=>$GLOBAL->{CODEPAGE},
 		-attachment=>'export.csv',
 	);
-} elsif (param('xml')) {
+} elsif ($cmlcalc::ENV->{XML}) {
 	print header(
 		-type=>'text/xml',
 		-charset=>'UTF-8',
@@ -117,7 +126,7 @@ if (param('menu')) {
 		key=>$cmlmain::GLOBAL->{NEWSTYLE}?'BSPOPUP':'BASEPOPUP',
 		expr=>"p($prm)",
 	});
-} elsif (param('rawdata')) {
+} elsif ($cmlcalc::ENV->{RAWDATA}) {
 	$v=&cmlcalc::calculate({
 		key=>param('key'),
 		expr=>"p($prm)",
