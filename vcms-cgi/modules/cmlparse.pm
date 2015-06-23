@@ -11,6 +11,7 @@ BEGIN
  	use URI::Escape; 
  	use vCMS::Config;
  	use List::Util qw(shuffle);
+ 	use MIME::Base64;
  
  	@ISA = 'Exporter';
  	@EXPORT = qw( &cmlparser &initparser %CMLTAG %DYNTAG &uploadprmfile);
@@ -2059,7 +2060,7 @@ sub tag_img 	{
 	my $pl=fetchparam(\$param,[
 		'id','idcgi','name','key', 'param' ,'prm','expr', 
 		'alt','altparam','altprm', 'path', 'src', 
-		'elementid','onmouseoverparam','blink' 
+		'elementid','onmouseoverparam','blink','inline' 
 	]);
 	
 
@@ -2095,7 +2096,12 @@ sub tag_img 	{
 			#if ($alt) {return $alt}
 			return undef
 		}
-		if ($pkey && $cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
+		if ($pl->{inline}) {
+			my $fn="$cmlmain::GLOBAL->{FILEPATH}/$v->{value}";
+			open FILE,"<$fn" || die $!;
+			read (FILE,$src,-s $fn);
+			$src="data:image/jpeg;base64,".MIME::Base64::encode_base64($src);
+		} elsif ($pkey && $cmlmain::prm->{$pkey}->{type} eq 'FILELINK') {
 			$src=$v->{value};
 		} else {
 			my $pstr=$path eq 'absolute' ? $cmlmain::GLOBAL->{ABSFILEURL}:$cmlmain::GLOBAL->{FILEURL};
@@ -2118,9 +2124,8 @@ sub tag_img 	{
     my $blstr=($pl->{blink} && $pl->{elementid})?"<script>blink('$pl->{elementid}')</script>":'';
     
     my $astr=$alt?"alt='$alt' title='$alt'":'';
-    
-	return "<img src='$src' $param $astr $idstr $omestr />$blstr";	
-	
+ 	
+ 	return "<img src='$src' $param $astr $idstr $omestr />$blstr";
  	
 }	
 
