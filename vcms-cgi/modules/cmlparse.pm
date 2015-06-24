@@ -825,7 +825,8 @@ sub tag_select {
   		'optionid','name','optionparam',
   		'defoptvalue','defoptname','nodefopt',
   		'elementid','csv','notnull','popup','template',
-  		'lowlist','title','popupparams','matrix','resulttemplate'
+  		'lowlist','title','popupparams','matrix','resulttemplate',
+  		'placeholder'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -870,8 +871,9 @@ sub tag_select {
 	}
 
 	my $defoptvalue=$pl->{'defoptvalue'};
-	if ($pl->{'defoptname'} ne '') {
-		$defopt="<option value='$defoptvalue'>$pl->{'defoptname'}</option>"
+	my $defopt=$pl->{'defoptname'} || $pl->{'placeholder'};
+	if ($defopt ne '') {
+		$defopt="<option value='$defoptvalue'>$defopt</option>"
 	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
 		$defopt=&cmlmain::enc("<option value='0'>Не задан</option>")
 }
@@ -984,7 +986,10 @@ sub tag_checkboxselect {
 	  $expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  $param.=" expr='$expr'";
 	}
-    my $data="<cml:checkbox id='$id' param='$prm' value='_cml:_ID_'><cml:text param='_NAME'/></cml:checkbox><br/>";
+	my $data=$_[0]->{data}?
+  		cmlparser({data=>$_[0]->{data},inner=>$inner}):
+  		"<cml:checkbox id='$id' param='$prm' value='_cml:_ID_'><cml:text param='_NAME'/></cml:checkbox><br/>";
+    
     return "<input type='hidden' value='0' name='_o${id}_p${prm}'>".tag_list({data=>$data,inner=>$inner,param=>$param});
 }	
 
