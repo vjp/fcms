@@ -975,6 +975,7 @@ sub tag_radioselect {
 sub tag_checkboxselect {
 	my $param=$_[0]->{param};
   	my $inner; %{$inner}=%{$_[0]->{inner}};
+  	my $data=$_[0]->{data};
   	my $sexpr;
   	my $id=$inner->{objid};
   	my $expr;
@@ -986,9 +987,13 @@ sub tag_checkboxselect {
 	  $expr=$cmlmain::prm->{$prm}->{extra}->{formula};
 	  $param.=" expr='$expr'";
 	}
-	my $data=$_[0]->{data}?
-  		cmlparser({data=>$_[0]->{data},inner=>$inner}):
-  		"<cml:checkbox id='$id' param='$prm' value='_cml:_ID_'><cml:text param='_NAME'/></cml:checkbox><br/>";
+  	$inner->{name}="_o${id}_p${prm}";
+  	if (defined $sexpr) {
+  		$inner->{selected}=&cmlcalc::calculate({id=>$id,expr=>$sexpr})->{value};
+  	}	
+  	unless($data) {
+  		$data="<cml:checkbox id='$id' param='$prm' value='_cml:_ID_'> <cml:text param='_NAME'/></cml:checkbox><br/>"
+  	}
     
     return "<input type='hidden' value='0' name='_o${id}_p${prm}'>".tag_list({data=>$data,inner=>$inner,param=>$param});
 }	
@@ -3276,8 +3281,10 @@ sub tag_checkbox {
 	my $name;
 	if ($pl->{name}) {
 		$name=$pl->{name}
-	} elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
+	} elsif (($_[0]->{inner}->{matrix} || $pl->{matrix}) && $prm) {
 		$name="_o${id}_p${prm}";
+	} elsif ($_[0]->{inner}->{name}) {
+		$name=$_[0]->{inner}->{name}
 	} else {
 		$name="_p$prm";
 	}
