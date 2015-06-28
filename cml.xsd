@@ -16,6 +16,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 </xsd:complexType>
 
@@ -30,6 +31,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -47,6 +49,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -64,6 +67,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 </xsd:complexType>
 
@@ -78,6 +82,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" />
 </xsd:complexType>
@@ -93,6 +98,7 @@
 			<xsd:element name="DATE" type="DateType"/>
 			<xsd:element name="EXECUTE" type="ExecuteType"/>
 			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
@@ -101,6 +107,24 @@
 		<xsd:attribute name="var" type="xsd:string" />	
 </xsd:complexType>
 
+
+<xsd:complexType name="HrefType" mixed="true">	  
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="IF" type="IfType"/>
+			<xsd:element name="ELSE" type="ElseType"/>
+		    <xsd:element name="USE" type="UseType"/>
+			<xsd:element name="LIST" type="ListType"/>
+			<xsd:element name="TEXT" type="TextType"/>
+			<xsd:element name="DATE" type="DateType"/>
+			<xsd:element name="EXECUTE" type="ExecuteType"/>
+			<xsd:element name="IMAGE" type="ImageType"/>
+			<xsd:element name="A" type="HrefType"/>
+		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attribute name="prm" type="xsd:string" />
+		<xsd:attribute name="param" type="xsd:string" />
+		<xsd:attribute name="href" type="xsd:string" />	
+</xsd:complexType>
 
 <xsd:complexType name="TextType" mixed="true">	  
 		<xsd:attribute name="id" type="xsd:string"/>

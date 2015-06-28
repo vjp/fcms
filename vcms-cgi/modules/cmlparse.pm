@@ -1910,8 +1910,8 @@ sub tag_a	{
   	$ql='/' if $ql eq '//';
 
 	my $bstr;
-	my $estr=$ifval?'</a>':'';
-	
+	my $estr;
+
 	my $idstr=$pl->{elementid}?"id='$pl->{elementid}'":'';
 	
 	if ($pl->{counterprm} && $ql) {
@@ -1926,8 +1926,18 @@ sub tag_a	{
   			$bstr=qq(<a href="javascript:openwindow('$ql')" $param $idstr>);
   		}	else {
   			my $blstr=$pl->{'blank'} && $pl->{'blank'} ne 'NULL'?"target='_blank'":'';
- 			$bstr=qq(<a href='$ql' $blstr $param $idstr>);
+  			if ($cmlcalc::ENV->{WORDML}) {
+  				$bstr=qq(<w:hlink w:dest="$ql">)
+  			} else {
+ 				$bstr=qq(<a href='$ql' $blstr $param $idstr>);
+  			}
  		}
+ 		
+ 		if ($cmlcalc::ENV->{WORDML}) {
+			$estr='</w:hlink>'
+		} else {
+			$estr='</a>'
+		}
 	}	
  	return $bstr.cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}).$estr;	
 }
