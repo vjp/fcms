@@ -85,6 +85,7 @@
 			<xsd:element name="A" type="HrefType"/>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="id" type="xsd:string" />
 </xsd:complexType>
 
 
