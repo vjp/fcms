@@ -110,7 +110,7 @@
 
 
 <xsd:complexType name="HrefType" mixed="true">	  
-		<xsd:choice maxOccurs="unbounded">
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
 			<xsd:element name="IF" type="IfType"/>
 			<xsd:element name="ELSE" type="ElseType"/>
 		    <xsd:element name="USE" type="UseType"/>
