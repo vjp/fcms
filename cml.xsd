@@ -135,7 +135,8 @@
 		<xsd:attribute name="expr" type="xsd:string" />		
 		<xsd:attribute name="prm" type="xsd:string" />		
 		<xsd:attribute name="value" type="xsd:string" />	
-		<xsd:attribute name="listseparator" type="xsd:string" />			
+		<xsd:attribute name="listseparator" type="xsd:string" />
+		<xsd:attribute name="plain" type="xsd:boolean"/>			
 </xsd:complexType>
 
 <xsd:complexType name="DateType" mixed="true">	  

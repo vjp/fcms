@@ -2449,7 +2449,7 @@ sub tag_text {
         	'value','formparam', 
         	'format',
         	'name','key','ukey','uid','namecgi','idexpr','idcgi','id',
-        	'expr','typeexpr','listseparator'
+        	'expr','typeexpr','listseparator','plain'
         ]);
         
     	if 		($pl->{value})      {return $pl->{value}}
@@ -2527,6 +2527,11 @@ sub tag_text {
         $result="<b>$result</b>" if $pl->{bold} && !$cmlcalc::CSVMODE;
         $result="<font color='$pl->{color}'>$result</font>" if $pl->{color};
         $result=~s/(\S);(\S)/$1$pl->{'listseparator'}$2/g if $pl->{'listseparator'};
+        if ($pl->{'plain'}) {
+        	$result=~s/<.+?\/?>//g;
+        	$result=~s/&nbsp;/ /g;
+        } 
+        
         
         if ($data) {
         	$data=~s/\*/$result/;
