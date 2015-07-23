@@ -53,7 +53,8 @@
 		</xsd:choice>
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="key" type="xsd:string" />
-		<xsd:attribute name="expr" type="xsd:string" />	
+		<xsd:attribute name="expr" type="xsd:string" />
+		<xsd:attribute name="prm" type="xsd:string" />	
 </xsd:complexType>
 
 
@@ -124,7 +125,8 @@
 		<xsd:attribute name="id" type="xsd:string" />
 		<xsd:attribute name="prm" type="xsd:string" />
 		<xsd:attribute name="param" type="xsd:string" />
-		<xsd:attribute name="href" type="xsd:string" />	
+		<xsd:attribute name="href" type="xsd:string" />
+		<xsd:attribute name="ifprm" type="xsd:string" />
 </xsd:complexType>
 
 <xsd:complexType name="TextType" mixed="true">	  
