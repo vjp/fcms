@@ -901,10 +901,11 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMENU',name=>'Шаблон меню'});
 setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
-<CML:INCLUDE name='USERMENUHEADER'/>
-<CML:INCLUDE name='_prm:menu_'/>
-<CML:INCLUDE name='USERHEADMENU'/>
-<CML:INCLUDE name='BASEMENUFOOTER'/>
+<div class="sidebar-nav navbar-collapse">
+<ul class="nav" id="side-menu">
+<li><cml:menuitem action='LISTEDIT' key='ITEMS'><span class="glyphicon glyphicon-picture"></span> Каталог</cml:menuitem></li>   
+</ul>
+</div>
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMAINMENU',name=>'Главное меню пользовательсокго интерфейса'});
