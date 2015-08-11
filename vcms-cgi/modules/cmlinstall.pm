@@ -1024,9 +1024,41 @@ setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMA
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERCMSTEMPLNOFRAMES',name=>'Шаблон страницы без фреймов'});
 setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
-	<CML:INCLUDE name='BASEMAINHEADER'/>
-	<CML:INCLUDE name='_prm:body_'/>
-	<CML:INCLUDE name='BASEMAINFOOTER'/>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VCMS USER UI</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        
+        <cml:include key='INITSCRIPTS'/>
+
+	</head>
+    <body>
+ <div class="modal fade" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  
+</div>
+     
+        
+	    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin">USER INTERFACE</a>
+            </div>
+          
+            <div class="navbar-default sidebar" role="navigation">
+                <cml:include key='USERMENU'/>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <CML:INCLUDE name='_prm:body_'/>
+        </div>
+ 
+    </div>
+    </body>
+</html>
 )});
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERSTARTPAGE',name=>'Стартовая страница интерфейса пользователя'});
