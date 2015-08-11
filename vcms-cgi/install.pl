@@ -117,7 +117,7 @@ if (param('refresh')) {
 				print "Файл html.tar.gz не найден",br();
 			} else {
 				print "Произвожу распаковку архива html.tar.gz...",br();
-				my $str=`tar -xzfp html.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xzpf html.tar.gz -C $ROOTPATH`;
 				if (! -s "${ROOTPATH}/.htaccess") {
 					print "...Распаковка неудачная:$str",br();
 				} else {
@@ -128,7 +128,7 @@ if (param('refresh')) {
 			
 			if (-s 'docs.tar.gz' && -s "${ROOTPATH}/.htaccess") {
 				print "Найден архив статики, распаковываем...";
-				my $str=`tar -xzfp docs.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xzpf docs.tar.gz -C $ROOTPATH`;
 				print "...OK",br();
 				system "rm docs.tar.gz";
 			}
