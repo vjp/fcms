@@ -338,6 +338,10 @@ if ($action) {
      	} elsif ($action eq 'editprmform') {
         	editprmform(param('id'),param('pname'));
           	$need_exit=1;
+     	} elsif ($action eq 'console') {
+     		print_top('VCMSCONS');
+     		console();
+     		$need_exit=1;   
      	}
      
 }
@@ -345,7 +349,6 @@ if ($action) {
 unless ($need_exit) {
 	if ($action)  {
 		print_top();
-		if ($action eq 'console')    {console()} 
 		if ($action eq 'config') 	{config()}
     	if ($action eq 'parsequery') {evaluate(param('script'));console(param('script'))} 
 		if ($action eq 'viewlow')  { print "<hr>"; viewlow(param('id'),param('all')) }
@@ -467,7 +470,7 @@ sub viewusers {
 sub viewleft {
 	viewtree(0,0,1);
 	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},enc('Пользователи и .htaccess'));
-	print br,a({-href=>'?action=console',-target=>'mainbody'},enc('Консоль'));
+	print br,a({-href=>'?action=console',-target=>'_blank'},enc('Консоль'));
 	print br,a({-href=>'?action=config',-target=>'mainbody'},enc('Конфигурация'));
 	
 	print br,a({-href=>'?action=clearcache'},enc('Очистить кеш'));
