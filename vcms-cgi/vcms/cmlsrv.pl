@@ -50,7 +50,7 @@ if ($action) {
 		} elsif (param('area') eq 'docs'){
 			print "Content-Disposition: attachment; filename=docs.$dt.tar.gz\n";
 			print "Content-type: application/octet-stream\n\n";
-			system("tar -cz -C $GLOBAL->{WWWPATH} -f - --exclude='data/*' --exclude='userdata/*' . ");
+			system(cmlmain::export_static_str('-'));
 		} elsif (param('area') eq 'data'){
 			print "Content-Disposition: attachment; filename=data.$dt.tar.gz\n";
 			print "Content-type: application/octet-stream\n\n";

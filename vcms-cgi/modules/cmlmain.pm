@@ -66,7 +66,7 @@ BEGIN
               &ajax_ok &ajax_error &rf_name &rf_enc_name &snapshot
               
               &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str 
-              &restore_db &export_history &backup_db
+              &restore_db &export_history &backup_db &export_static_str
               
               &compile_date  &set_hru &json_ok &json_error &clear_unused_data &tcalc
              );
@@ -180,6 +180,8 @@ sub export_history_str ()
 	return $str;		
 }
 
+
+
 sub export_history (;$)
 {
 	my ($filename)=@_;
@@ -209,6 +211,13 @@ sub export_db (;$$)
 	return("$str ($filename) : $output");
 }
 
+sub export_static_str ($) 
+{
+	my ($filename)=@_;
+	return "tar -cz -C $GLOBAL->{WWWPATH} --exclude='data/*' -f $filename --exclude='userdata/*' --exclude='backup/*' --exclude='.htaccess'  --exclude='cgi-bin/*' ."
+}
+
+
 sub export_static (;$)
 {
 	my ($filename)=@_;
@@ -216,8 +225,8 @@ sub export_static (;$)
 		backup_dir_create();		
 		$filename = "$GLOBAL->{WWWPATH}/backup/docs.tar.gz";
 	}
-	my $str="tar -cz -C $GLOBAL->{WWWPATH} -f $filename  --exclude='data/*'  --exclude='backup/*' .";
-	my $output=`$str`;
+	my $str=export_static_str($filename);
+	my $output=`$str -f $filename`;
 	return("$str - $output");
 }
 
