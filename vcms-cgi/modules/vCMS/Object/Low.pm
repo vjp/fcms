@@ -48,4 +48,14 @@ sub IsNull ($) {
 }
 
 
+sub Copy ($$$) {
+	my ($self,$opts)=@_;
+	my $pUpObj=vCMS::o($self->p('_UP'));
+	my $pNewObj=$pUpObj->Create({
+		_NAME=>$self->p(_NAME)
+	}); 
+	return $pNewObj;
+}
+
+
 1;
