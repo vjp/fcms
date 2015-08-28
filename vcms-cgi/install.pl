@@ -64,11 +64,16 @@ if (param('refresh')) {
 	$ROOTPATH=param('rootpath');
 	$MULTIDOMAIN=0+param('multidomain');
 	
+	unless (-s 'cgi.tar.gz') {
+		print "пытаемся скачать cgi.tzr.gz",br();
+		`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz`;
+	}
+	
 	if (! -s 'cgi.tar.gz') {
 		print "Файл cgi.tar.gz не найден",br();
 	} else {
 		print "Произвожу распаковку архива cgi.tar.gz...",br();
-		my $str=`tar -xzfp cgi.tar.gz`;
+		my $str=`tar -xpzf cgi.tar.gz`;
 		if (! -s 'conf.template') {
 			print "...Распаковка неудачная :$str",br();
 		} else {
@@ -113,11 +118,17 @@ if (param('refresh')) {
 		close FT;
 		if ($tstr eq 'test') {
 			print '...Директория доступна',br();
+
+			unless (-s 'html.tar.gz') {
+				print "пытаемся скачать html.tar.gz",br();
+				`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/html.tar.gz`;
+			}			
+			
 			if (! -s 'html.tar.gz') {
 				print "Файл html.tar.gz не найден",br();
 			} else {
 				print "Произвожу распаковку архива html.tar.gz...",br();
-				my $str=`tar -xzpf html.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xpzf html.tar.gz -C $ROOTPATH`;
 				if (! -s "${ROOTPATH}/.htaccess") {
 					print "...Распаковка неудачная:$str",br();
 				} else {
