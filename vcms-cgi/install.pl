@@ -73,7 +73,7 @@ if (param('refresh')) {
 		print "Файл cgi.tar.gz не найден",br();
 	} else {
 		print "Произвожу распаковку архива cgi.tar.gz...",br();
-		my $str=`tar -xpzf cgi.tar.gz`;
+		my $str=`tar -xzf cgi.tar.gz`;
 		if (! -s 'conf.template') {
 			print "...Распаковка неудачная :$str",br();
 		} else {
@@ -128,7 +128,7 @@ if (param('refresh')) {
 				print "Файл html.tar.gz не найден",br();
 			} else {
 				print "Произвожу распаковку архива html.tar.gz...",br();
-				my $str=`tar -xpzf html.tar.gz -C $ROOTPATH`;
+				my $str=`tar -xzf html.tar.gz -C $ROOTPATH`;
 				if (! -s "${ROOTPATH}/.htaccess") {
 					print "...Распаковка неудачная:$str",br();
 				} else {
