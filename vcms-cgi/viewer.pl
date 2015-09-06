@@ -57,6 +57,7 @@ $cmlcalc::CGIPARAM->{pathinfo}=$pathinfostr;
 
 my $xmlmode;
 my $csvmode;
+my $mswordmode;
 unless ($pathinfo{view}) {
 	 my $firstparam=shift @pi;
 	 if ($firstparam) {
@@ -66,7 +67,10 @@ unless ($pathinfo{view}) {
 	 	} elsif ($firstparam=~/^(.+)\.csv$/i) {
 	 		$csvmode=1;
 	 		$firstparam=$1;
-	 	} 
+	 	} elsif ($firstparam=~/^(.+)\.mswordhtml$/i) {
+	 		$mswordmode=1;
+	 		$firstparam=$1;
+	 	}
 	 	 
 	 	if ($firstparam=~/^__(.+)$/) {
 	 		$cmlcalc::CGIPARAM->{tview}=$1
@@ -297,6 +301,11 @@ if ($csvmode) {
 		-charset=>$GLOBAL->{CODEPAGE},
 		-attachment=>'export.csv',
 	);
+} elsif ($mswordmode) {
+	print header(
+		-type=>'application/octet-stream',
+		-attachment=>'export.mswordhtml',
+	);	
 } else {
 	if ($ENV{MOD_PERL} && $HTTPSTATUS ne '200') {
 		
