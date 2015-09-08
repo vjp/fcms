@@ -1239,6 +1239,7 @@ sub baselparser (;$)
 		newval=>$nv,
 		result=>$result,
 		resultdiv=>$CGIPARAM->{resultdiv} || '',
+		callback=>$CGIPARAM->{callback} || '',
 	});
 }
 

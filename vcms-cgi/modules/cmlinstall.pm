@@ -1358,11 +1358,14 @@ setvalue({convert=>1,key=>'BSPOPUP',pkey=>'PAGETEMPLATE',value=>qq(
         <cml:if expr='cgi(resulttemplate)'>
           	<cml:input type='hidden' name='resulttemplate' value="_prm:resulttemplate_"/> 
         </cml:if>  
-        
       </cml:form>   
    		<div class="modal-footer">
     		<button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
-    		<cml:input class="btn btn-primary" type='button' onclick="setSelBSJq('mff','_prm:id_')" value='Изменить'/>    
+    		<cml:if expr='cgi(callback)'>
+    	      	<cml:input class="btn btn-primary" type='button' onclick="setSelBSJq('mff','_prm:id_',_prm:callback_)" value='Изменить'/> 
+            </cml:if><cml:else>
+	    		<cml:input class="btn btn-primary" type='button' onclick="setSelBSJq('mff','_prm:id_')" value='Изменить'/>
+	    	</cml:else>    
   		</div>
     </div>
 </div>

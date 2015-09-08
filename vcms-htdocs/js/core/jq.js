@@ -173,8 +173,8 @@ function BSModalCallbackJq(r) {
 	}
 }
 
-function setSelBSJq(formid,id) {
-	lexecutejq('BASELPARSER',id,jQuery('#'+formid).serializeForm(),BSModalCallbackJq);
+function setSelBSJq(formid,id,callback) {
+	lexecutejq('BASELPARSER',id,jQuery('#'+formid).serializeForm(),callback || BSModalCallbackJq);
 }
 
 

@@ -826,7 +826,7 @@ sub tag_select {
   		'defoptvalue','defoptname','nodefopt',
   		'elementid','csv','notnull','popup','template',
   		'lowlist','title','popupparams','matrix','resulttemplate',
-  		'placeholder'
+  		'placeholder','callback'
   	]);
   	my $multiple=$pl->{'multiple'}?'multiple':'';
   	my $id=$pl->{'id'} || $inner->{objid};
@@ -902,6 +902,7 @@ sub tag_select {
   		my $title=$pl->{title} || $ch_str;
   		my $pstr=qq(?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr});
   		$pstr.="&resulttemplate=$pl->{resulttemplate}" if $pl->{resulttemplate};
+  		$pstr.="&callback=$pl->{callback}" if $pl->{callback};
   		$pstr.="&$pl->{popupparams}" if $pl->{popupparams};
   		if ($cmlmain::GLOBAL->{NEWSTYLE}) {
   			my $svalue;
