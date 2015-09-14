@@ -2047,14 +2047,14 @@ sub install_db ($$) {
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
- 			`cachekey` varchar(700) NOT NULL default '',
+ 			`cachekey` varchar(700) CHARACTER SET latin1 NOT NULL default '',
   			`pagetext` mediumtext,
   			`ts` datetime default NULL,
   			`objid` int(11) NOT NULL default '0',
   			`dev` tinyint NOT NULL default '0',
   			`lang` varchar(7) NOT NULL default '',
   			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
-  		) ENGINE=MyISAM DEFAULT CHARSET=latin1
+  		)
   	") || die $dbh->errstr();
 	
 	$dbh->do("
