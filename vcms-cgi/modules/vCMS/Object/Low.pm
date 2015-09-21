@@ -48,7 +48,7 @@ sub IsNull ($) {
 }
 
 
-sub Copy ($$$) {
+sub Copy ($$) {
 	my ($self,$opts)=@_;
 	my $pUpObj=vCMS::o($self->p('_UP'));
 	my $h;
@@ -59,7 +59,23 @@ sub Copy ($$$) {
   		$h->{$_}=$v->{$_}->{langvalue}?$v->{$_}->{langvalue}->{rus}:$v->{$_}->{value}
 	}
 	my $pNewObj=$pUpObj->Create($h); 
+	my $nid=$pNewObj->GetID();
+	if ($opts->{copylinks}) {
+		for my $sprm (keys %{$opts->{copylinks}}) {
+			my $dprm=$opts->{copylinks}->{$sprm};
+			for my $iObj (@{$self->l($sprm)->GetObjects()}) {
+				my $icObj=$iObj->Copy();
+    			$icObj->Set($dprm,$nid);
+			}
+		}
+	}
 	return $pNewObj;
+}
+
+
+sub GetObjects ($) {
+	my ($self)=shift;
+	return [$self]
 }
 
 
