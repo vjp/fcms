@@ -51,9 +51,14 @@ sub IsNull ($) {
 sub Copy ($$$) {
 	my ($self,$opts)=@_;
 	my $pUpObj=vCMS::o($self->p('_UP'));
-	my $pNewObj=$pUpObj->Create({
-		_NAME=>$self->p(_NAME)
-	}); 
+	my $h;
+	$h->{_NAME}=$self->p(_NAME);
+	$self->LoadPrmVals();
+	my $v=$self->{vals};
+	for (keys %{$v}) {
+  		$h->{$_}=$v->{$_}->{langvalue}?$v->{$_}->{langvalue}->{rus}:$v->{$_}->{value}
+	}
+	my $pNewObj=$pUpObj->Create($h); 
 	return $pNewObj;
 }
 
