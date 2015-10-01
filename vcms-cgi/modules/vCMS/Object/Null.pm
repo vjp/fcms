@@ -49,4 +49,9 @@ sub LoadPrmVals($) {
 }
 
 
+sub GetObjects ($) {
+	my ($self)=shift;
+	return []
+}
+
 1;

@@ -56,6 +56,7 @@ sub Copy ($$) {
 	$self->LoadPrmVals();
 	my $v=$self->{vals};
 	for (keys %{$v}) {
+		next if $opts->{skipprms}->{$_};
   		$h->{$_}=$v->{$_}->{langvalue}?$v->{$_}->{langvalue}->{rus}:$v->{$_}->{value}
 	}
 	my $pNewObj=$pUpObj->Create($h); 
