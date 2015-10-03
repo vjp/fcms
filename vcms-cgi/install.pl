@@ -39,6 +39,12 @@ print qq(
 );
 
 if (param('refresh')) { 
+	unless (-s 'cgi.tar.gz') {
+		print "пытаемся скачать cgi.tzr.gz",br();
+		`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz`;
+	}
+	
+	
 	if (! -s 'cgi.tar.gz') {
 		print "Файл cgi.tar.gz не найден",br();
 	} else {
