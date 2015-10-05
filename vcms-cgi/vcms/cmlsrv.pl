@@ -133,6 +133,16 @@ if ($action) {
 		alert(enc('Кеш очищен'));
 		$action='viewleft';
 	}
+
+	if ($action eq 'updatescripts') {
+		`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz`;
+		`tar -xzf cgi.tar.gz -C $GLOBAL->{CGIPATH}`;
+		unlink "cgi.tar.gz";
+		alert(enc('Скрипты обновлены'));
+		$action='viewleft';
+	}
+
+
 	
 	if ($action eq 'addnewuser') {
 	    	$action='viewusers';$cf=0;
@@ -477,6 +487,10 @@ sub viewleft {
 	
 	print br,a({-href=>'?action=viewleft'},enc('Обновить'));
     print br,a({-href=>'https://github.com/vjp/fcms/wiki',-target=>'_blank'},enc('Документация'));	
+    print br,a({-href=>'?action=updatescripts'},enc('Обновить скрипты'));
+    
+    
+    
 	
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
 	print br,enc('Перейти к объекту');
