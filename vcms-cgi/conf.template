@@ -48,9 +48,10 @@ $MEMCACHEDSERVER='';
 $CONF={
     mcerows=>30,           ##строк в визивиге
     mcecols=>100,          ##симовлов в строке в визивиге
-    separate_startpage=>0,  ##стартовая генерится отдельным шаблоном
-    jquery=><jquery>,
+    separate_startpage=>0, ##стартовая генерится отдельным шаблоном
+    jquery=><jquery>,      ##используется jquery
     uniqfiles=>1,
+    mobile=>0,             ##есть мобильная версия 
 };
 
 
