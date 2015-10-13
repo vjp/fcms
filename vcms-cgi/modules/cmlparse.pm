@@ -3366,7 +3366,7 @@ sub tag_changebutton {
   		'ajax','callback','title',
   		'redir','method','hidden',
   		'elementid','sortid','imgsrc',
-  		'noreload'
+  		'noreload','forcejq'
   	]);
 	my $imgsrc=$pl->{imgsrc} || $cmlmain::POSTBUTTONURL;  	
   	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -3382,13 +3382,15 @@ sub tag_changebutton {
 	my @stl;
 	my $onclickstr;
 	my $retstr;
+	my $jq=vCMS::Config::Get('jquery') || $pl->{'forcejq'};
+	
 	
 	if ($pl->{'ajax'} || $pl->{'callback'}){
 		if ($_[0]->{inner}->{matrix}) {
-			my $funcname=vCMS::Config::Get('jquery')?'multisetjq':'multiset';
+			my $funcname=$jq?'multisetjq':'multiset';
 			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();$funcname(this,$cstr,$rstr,$mstr,$sstr);return false;");	
 		}else {
-			my $funcname=vCMS::Config::Get('jquery')?'multisetsingleobjjq':'multisetsingleobj';
+			my $funcname=$jq?'multisetsingleobjjq':'multisetsingleobj';
 			my $id=ref $_[0]->{inner}->{objid} eq 'HASH'?$_[0]->{inner}->{objid}->{id}:$_[0]->{inner}->{objid};
 			$onclickstr=qq(onclick="this.disabled=true;if(typeof tinyMCE!='undefined') tinyMCE.triggerSave();$funcname(this,$id,$cstr,$rstr,$mstr);return false;");
 		}	
