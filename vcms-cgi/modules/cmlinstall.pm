@@ -209,6 +209,12 @@ return 1;
 
 addprm({convertname=>1,objkey=>'DESIGN',name=>'Шаблон',type=>'LONGTEXT',key=>'PAGETEMPLATE',evl=>'n'});
 setprmextra({pkey=>'PAGETEMPLATE',extra=>'parse',value=>'y'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Мобильный шаблон',type=>'LONGTEXT',key=>'MOBTEMPLATE',evl=>'n'});
+setprmextra({pkey=>'MOBTEMPLATE',extra=>'parse',value=>'y'});
+addprm({convertname=>1,objkey=>'DESIGN',name=>'Селектор шаблона',type=>'LONGTEXT',key=>'TMPL',evl=>'y',
+	   defval=>"vCMS::Config::IsMobile()?(p(MOBTEMPLATE) || p(PAGETEMPLATE)):p(PAGETEMPLATE)"
+});
+
 
 addobject({convertname=>1,forced=>1,upkey=>'DESIGN',key=>'INCLUDES',name=>'Вставки'});
 

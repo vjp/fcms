@@ -2935,29 +2935,29 @@ sub createhtaccess {
 
 sub fromcache {
 	my ($key,$dev,$lang)=@_;
-	$sthSC->execute($key,0+$dev,"$lang") || die $dbh->errstr;
+    my $flags=vCMS::Config::CacheFlags($dev);
+	$sthSC->execute($key,$flags,"$lang") || die $dbh->errstr;
 	return $sthSC->fetchrow();
 }	
 
 sub dropcache {
 	my ($key,$dev,$lang)=@_;
-	$sthDDC->execute($key,0+$dev,"$lang") || die $dbh->errstr;
-	
+	my $flags=vCMS::Config::CacheFlags($dev);
+	$sthDDC->execute($key,$flags,"$lang") || die $dbh->errstr;
 }
 
 sub tocache {
 	my ($key,$value,$links,$dev,$lang)=@_;
-	$dev = 0 unless $dev;	
+	my $flags=vCMS::Config::CacheFlags($dev);
 	$lang = '' unless $lang;
-	
 	my $ts=time();
-	$sthDC->execute($key,0+$dev,$lang) ||  die $dbh->errstr;
+	$sthDC->execute($key,$flags,$lang) ||  die $dbh->errstr;
 	my %inserted;
 	my @il;
 	for (@$links) {
 		if ($_ && !$inserted{$_}) {
 			if ($_=~/^u?\d+$/) {
-				push (@il,"('$key','$_','$dev','$lang')");
+				push (@il,"('$key','$_','$flags','$lang')");
 			} else {
 				warn "linkcache bad element key=$key element=$_";
 			} 	
@@ -2970,7 +2970,7 @@ sub tocache {
 		my $q="REPLACE ${DBPREFIX}linkscache (cachekey,objlink,dev,lang) VALUES $istr";
 		$dbh->do($q) || die $dbh->errstr()." q=$q";
 	}
-	$sthIC->execute($key,$value,$dev,$lang) || die $dbh->errstr;
+	$sthIC->execute($key,$value,$flags,$lang) || die $dbh->errstr;
     $GLOBAL->{timers}->{tc}+=time()-$ts;
 	
 }	

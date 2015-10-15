@@ -214,7 +214,7 @@ my $stime=Time::HiRes::time();
 my $HTTPSTATUS=$cmlcalc::ENV->{'HTTPSTATUS'};
 my $CACHEFLAG=$HTTPSTATUS==200?$GLOBAL->{CACHE}:0;
 if (!$opensite && !cookie('dev')) {
-	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('PAGETEMPLATE')"});
+	$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCT',expr=>"p('TMPL')"});
 } elsif ($cgiparam->{redir}) {	
 	o($cgiparam->{rid})->Inc($cgiparam->{rprm}) if $cgiparam->{rid} && $cgiparam->{rprm};
 	o($cgiparam->{rid})->e($cgiparam->{rmtd}) if $cgiparam->{rid} && $cgiparam->{rmtd};
@@ -224,13 +224,13 @@ if (!$opensite && !cookie('dev')) {
 	if ($dom_vhost || ($cmlcalc::SITEVARS->{subdomain} && $vh == 1)) {
  		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
 		unless ($v) {
-			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p(PAGETEMPLATE)"});
+			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p(TMPL)"});
 	 	} 	 
  	} else {
- 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG});
+ 		$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(TMPL)", cache=>$CACHEFLAG});
  	}	
 }elsif ($cgiparam->{tview}) { 	
- 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG});
+ 		 		$v=&cmlcalc::calculate({key=>$cgiparam->{tview},expr=>"p(TMPL)", cache=>$CACHEFLAG});
 }elsif ($cgiparam->{fview}) { 	
  		 		$v=&cmlcalc::calculate({id=>$cgiparam->{id},expr=>"p($cgiparam->{fview})"});
  		 		if ($v->{value}) {
@@ -245,20 +245,20 @@ if (!$opensite && !cookie('dev')) {
 					print $buf;
 					exit;
  		 		} else {
- 		 			$v=&cmlcalc::calculate({key=>'ERROR404',expr=>"p('PAGETEMPLATE')"});
+ 		 			$v=&cmlcalc::calculate({key=>'ERROR404',expr=>"p('TMPL')"});
  		 		}	
 } else {
 	 	if ($dom_vhost || ($cmlcalc::SITEVARS->{subdomain} && $vh == 1)) {
 	 		$cmlcalc::CGIPARAM->{view}='PAGE1'; 
 	 		$v=&cmlcalc::calculate({id=>$cmlcalc::SITEVARS->{VHOST}->{ID},expr=>"p(VHDTEMPLATE,p(DESIGNVER))"});
 	   		unless ($v) {
-	 			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('PAGETEMPLATE')"});
+	 			$v=&cmlcalc::calculate({key=>'VHOSTSTARTPAGE',expr=>"p('TMPL')"});
 	 		} 	 
 	 	} else {	
-	 		$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(PAGETEMPLATE)"});
+	 		$v=&cmlcalc::calculate({key=>'UNDERCONSTRUCTION',expr=>"p(TMPL)"});
 	 		unless ($v->{value}) {
 	 			if (vCMS::Config::Get('separate_startpage')) {
-	 				$v=&cmlcalc::calculate({key=>'STARTPAGE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG });
+	 				$v=&cmlcalc::calculate({key=>'STARTPAGE',expr=>"p(TMPL)", cache=>$CACHEFLAG });
 	 			} else {
 	 				$cmlcalc::CGIPARAM->{view}='STARTPAGE';
 	 				if ($dom_objid) {
@@ -268,7 +268,7 @@ if (!$opensite && !cookie('dev')) {
 	 					$cmlcalc::CGIPARAM->{$t_prm}=$t_val;
 	 					$cmlcalc::CGIPARAM->{view}=$t_key;
 	 				}
-     				$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(PAGETEMPLATE)", cache=>$CACHEFLAG });
+     				$v=&cmlcalc::calculate({key=>'MAINTEMPLATE',expr=>"p(TMPL)", cache=>$CACHEFLAG });
 	 			}	
      		}		
    		}  
@@ -392,7 +392,7 @@ warn sprintf("DBG: QUERY:$qs TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) DBLT (%.3f:%d) 
 
 sub errorpage
 {
- my $v=&cmlcalc::calculate({key=>'ERRORPAGE',expr=>"p('PAGETEMPLATE')"});
+ my $v=&cmlcalc::calculate({key=>'ERRORPAGE',expr=>"p('TMPL')"});
  my $body=$v->{value};
  if ($body) {print $body}
  else       {print "Ошибка вывода !!!!"}
