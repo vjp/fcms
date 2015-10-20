@@ -24,12 +24,12 @@ sub Get ($;$) {
 
 
 sub IsMobile () {
-	return 0 unless $cmlmain::GLOBAL->{CONF}->{'mobile'};
-	return 0 unless $ENV{HTTP_USER_AGENT};
-    return $ENV{MOBILE_USER_AGENT} if defined $ENV{MOBILE_USER_AGENT};
+    return $cmlcalc::ENV->{MOBILE_USER_AGENT} if defined $cmlcalc::ENV->{MOBILE_USER_AGENT};
+    return 0 unless $cmlmain::GLOBAL->{CONF}->{'mobile'};
+    return 0 unless $ENV{HTTP_USER_AGENT};
     my $ua=HTTP::BrowserDetect->new($ENV{HTTP_USER_AGENT});
-	$ENV{MOBILE_USER_AGENT}=$ua->mobile?1:0;
-    return $ENV{MOBILE_USER_AGENT};
+	$cmlcalc::ENV->{MOBILE_USER_AGENT}=$ua->mobile?1:0;
+    return $cmlcalc::ENV->{MOBILE_USER_AGENT};
 }
 
 

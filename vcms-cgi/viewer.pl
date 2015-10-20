@@ -102,6 +102,8 @@ $cmlcalc::CGIPARAM->{view}=uc $cmlcalc::CGIPARAM->{view};
 $cmlcalc::CGIPARAM->{tview}=uc $cmlcalc::CGIPARAM->{tview};
 
 $cmlcalc::ENV->{prevpage}=$cmlcalc::CGIPARAM->{page}-1 if $cmlcalc::CGIPARAM->{page};
+$cmlcalc::ENV->{MOBILE_USER_AGENT}=1 if $cmlcalc::CGIPARAM->{forcemobile};
+
 
 if (cookie('env')) {
 	for (split('&',cookie('env'))) {
