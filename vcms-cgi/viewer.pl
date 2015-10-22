@@ -401,35 +401,5 @@ sub errorpage
  else       {print "Ошибка вывода !!!!"}
 }
 
-sub stat_injection 
-{
-	my ($mtime,$bodyref,$cached)=@_;
-	$mtime=int(1000*$mtime);
-	my $cv=$cached?1:0;
-	my $stat_script=qq(
-	
-	 <script type="text/javascript">
-             var drt;
-             var wlt;
-             var mt=$mtime;
-             jQuery(document).ready(function() {
-                 drt=Date.now()-timerStart+mt;
-             });
-             jQuery(window).load(function() {
-                 wlt=Date.now()-timerStart+mt;
-                 var newImg = new Image;
-                 newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt+'&c=$cv';
-             });
-             
-        </script>       
-	
-	
-	);
-	my $init_script=qq(<script type="text/javascript">var timerStart = Date.now();</script>);
 
-
-	${$bodyref}=~s/<!-- INIT INJECTION -->/$init_script/i;
-	${$bodyref}=~s/<!-- STAT INJECTION -->/$stat_script/i;
-
-}
 

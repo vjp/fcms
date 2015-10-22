@@ -68,7 +68,7 @@ BEGIN
               &import_db &import_static &export_db &recover_object &export_static &export_db_str &import_db_str 
               &restore_db &export_history &backup_db &export_static_str
               
-              &compile_date  &set_hru &json_ok &json_error &clear_unused_data &tcalc
+              &compile_date  &set_hru &json_ok &json_error &clear_unused_data &tcalc  &stat_injection
              );
 
    @ptypes=( 'TEXT', 'NUMBER', 'LONGTEXT', 'FLAG', 'DATE', 'LIST', 'MATRIX' , 'PICTURE', 'FILE', 'FILELINK', 'VIDEO', 'AUDIO'  );
@@ -3166,6 +3166,39 @@ sub clear_unused_data (;$)
 		move ("$GLOBAL->{FILEPATH}/$_","$GLOBAL->{WWWPATH}/$path/$_") for @need_clear;
 	}	
 	return \@need_clear;  
+}
+
+
+sub stat_injection 
+{
+    my ($mtime,$bodyref,$cached)=@_;
+    $mtime=int(1000*$mtime);
+    my $cv=$cached?1:0;
+    my $stat_script=qq(
+    
+     <script type="text/javascript">
+             var drt;
+             var wlt;
+             var mt=$mtime;
+             jQuery(document).ready(function() {
+                 drt=Date.now()-timerStart+mt;
+             });
+             jQuery(window).load(function() {
+                 wlt=Date.now()-timerStart+mt;
+                 var newImg = new Image;
+                 newImg.src = '/cgi-bin/stat.pl?d='+drt+'&w='+wlt+'&s='+mt+'&c=$cv';
+             });
+             
+        </script>       
+    
+    
+    );
+    my $init_script=qq(<script type="text/javascript">var timerStart = Date.now();</script>);
+
+
+    ${$bodyref}=~s/<!-- INIT INJECTION -->/$init_script/i;
+    ${$bodyref}=~s/<!-- STAT INJECTION -->/$stat_script/i;
+
 }
 
 

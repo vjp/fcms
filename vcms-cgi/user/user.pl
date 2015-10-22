@@ -145,6 +145,7 @@ if (param('menu')) {
 viewlog();
 
 my $body=$v->{value};
+stat_injection (time-$ts_start,\$body,0);
 if ($body) {print $body}
 else       {errorpage()}
 
