@@ -134,12 +134,17 @@ if ($action) {
 		$action='viewleft';
 	}
 
-	if ($action eq 'updatescripts') {
-		`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz`;
-		`tar -xzf cgi.tar.gz -C $GLOBAL->{CGIPATH}`;
-		unlink "cgi.tar.gz";
-		alert(enc('Скрипты обновлены'));
-		$action='viewleft';
+    if ($action eq 'updatescripts') {
+        my $addr='https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz';
+        `wget --no-check-certificate $addr`;
+        if (-s 'cgi.tar.gz') {
+            `tar -xzf cgi.tar.gz -C $GLOBAL->{CGIPATH}`;
+            unlink "cgi.tar.gz";
+            alert(enc('Скрипты обновлены'));
+        } else {
+            alert(enc("Проблема скачивания архива скриптов по адресу $addr"));
+        }
+        $action='viewleft';
 	}
 
 
