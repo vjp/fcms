@@ -1552,6 +1552,7 @@ sub init	{
 	my $cf=($ENV{CGIPATH} || $_[0])."/conf";
 	die "no conf file $cf" unless -s "$cf";
  	do "$cf";
+    $GLOBAL->{CONF}=$CONF;
   	$GLOBAL->{CODEPAGE}=$UTF?'utf-8':'windows-1251';
   	$GLOBAL->{ENCODING}=$UTF?'utf8':'cp1251';
   	setlocale(LC_ALL, $UTF?"en_US.UTF-8":"ru_RU.CP1251");
@@ -1560,7 +1561,8 @@ sub init	{
  	$DBPREFIX=$DBPREFIX?"${DBPREFIX}_":'';
   
  	dbconnect({dbname=>$DBNAME,dbuser=>$DBUSER,dbpassword=>$DBPASSWORD,dbhost=>$DBHOST});
- 	$dbh->do("SET NAMES $GLOBAL->{ENCODING}");
+ 	$dbh->do("SET NAMES $GLOBAL->{ENCODING}") if vCMS::Config::Get('forcenames');
+ 	#$dbh->do("SET NAMES $GLOBAL->{ENCODING}");
  	$sthDD=$dbh->prepare("DELETE FROM ${DBPREFIX}vls WHERE objid=? AND pkey=? AND lang=?");
  	$sthUDD=$dbh->prepare("DELETE FROM ${DBPREFIX}uvls WHERE objid=? AND pkey=? AND lang=?");
  	$sthI =$dbh->prepare("REPLACE ${DBPREFIX}vls (objid,pkey,value,upobj,lang) VALUES (?,?,?,?,?)") || die $dbh->errstr;
@@ -1638,7 +1640,7 @@ sub init	{
   	$GLOBAL->{NEWSTYLE}=$NEWSTYLE;  	
   	$GLOBAL->{CACHE}=$CACHE;
   	$GLOBAL->{MULTIDOMAIN}=$MULTIDOMAIN;
-	$GLOBAL->{CONF}=$CONF;
+
 
     if ($MEMCACHEDSERVER) {
     	$GLOBAL->{USEMEMCACHED}=1;
@@ -2505,12 +2507,12 @@ sub buildlowtree
    }
    
    
-      my $jstr=join(',',@idlist); 
+      my $jstr=join(',', map {"'$_'"} @idlist); 
       my $sthN;
       my $ff=1;
       if ($objid) {
  		 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id=?")|| die $dbh->errstr;
-      	 $sthN->execute($objid) || die $dbh->errstr;
+      	 $sthN->execute("$objid") || die $dbh->errstr;
       } elsif ($jstr) {
       	 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id in ($jstr)") || die $dbh->errstr; 
       	 $sthN->execute() || die $dbh->errstr;
