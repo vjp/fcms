@@ -379,7 +379,7 @@ warn sprintf("DBG: QUERY:%s TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) DBLT (%.3f:%d) D
     $qs,
 	$cmlcalc::TIMERS->{MAIN}->{sec},$its,
 	$GLOBAL->{ot},$GLOBAL->{otc},
-	$cmlcalc::TIMERS->{LOWTREE}->{sec},$cmlcalc::TIMERS->{LOWTREE}->{count},
+	$GLOBAL->{timers}->{lt},$GLOBAL->{timers}->{ltc},
 	$GLOBAL->{timers}->{bl},$GLOBAL->{timers}->{blc},
 	$GLOBAL->{timers}->{cl},$GLOBAL->{timers}->{clc},
 	$GLOBAL->{timers}->{br},$GLOBAL->{timers}->{brc},

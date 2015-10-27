@@ -2460,76 +2460,68 @@ sub snapshot ($)
 	return  $sid;
 }
 
-sub buildlowtree
-{
- 	my $upobj=$_[0];
- 	my $objid=$_[1];
- 	my $limit=$_[2];
+sub buildlowtree    {
 
- 
+    my $upobj=$_[0];
+    my $objid=$_[1];
+    my $limit=$_[2];
+    my $t=time;
+    my $sthL;
+    if ($objid) {
+        $sthL=$sthLTT1;
+        $sthL->execute($upobj,$objid) || die $dbh->errstr
+    } elsif ($limit){
+        $sthL=$sthLTTL;
+        $sthL->execute($upobj,$limit) || die $dbh->errstr	
+    } else {
+        $sthL=$sthLTT;
+        $sthL->execute($upobj) || die $dbh->errstr
+    }
+    my $lang=$upobj?$obj->{$upobj}->{lang}:'';
+    my @idlist;	 
+    while ($item=$sthL->fetchrow_hashref) {
+       	unless ($lobj->{$item->{id}}->{id}) {
+            push (@{$ltree->{$upobj}->{$item->{up}}},$item->{id});
+            push (@idlist,$item->{id});
+            $lobj->{$item->{id}}->{key}=$item->{keyname};
+            $lobj->{$item->{id}}->{up}=$item->{up};
+            $lobj->{$item->{id}}->{upobj}=$upobj;
+            $lobj->{$item->{id}}->{type}='L';
+            $lobj->{$item->{id}}->{ind}=$item->{id};
+            $lobj->{$item->{id}}->{id}=$item->{id};
+            $lobj->{$item->{id}}->{template}=$item->{template};
+            $lobj->{$item->{id}}->{indx}=$item->{indx};
+            $lobj->{$item->{id}}->{lang}=$obj->{$upobj}->{lang};
+            if ($item->{keyname}) {
+                $nobj->{$item->{keyname}}=$lobj->{$item->{id}};
+                $kobj->{$upobj}->{$item->{keyname}}=$lobj->{$item->{id}};
+            }
+        }
+    }
+    my $jstr=join(',', map {"'$_'"} @idlist); 
+    my $sthN;
+    my $ff=1;
+    my $tt=time();
+    if ($objid) {
+        $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id=?")|| die $dbh->errstr;
+        $sthN->execute("$objid") || die $dbh->errstr;
+    } elsif ($jstr) {
+        $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id in ($jstr)") || die $dbh->errstr; 
+        $sthN->execute() || die $dbh->errstr;
+    }   else {
+        $ff=0
+    }
 
-	my $t=time; 	
-	 
-	 my $sthL;
-	 if ($objid) {
-	 	$sthL=$sthLTT1;
-	 	$sthL->execute($upobj,$objid) || die $dbh->errstr
-	 } elsif ($limit){
-	 	$sthL=$sthLTTL;
-	 	$sthL->execute($upobj,$limit) || die $dbh->errstr	
-	 } else {
-	 	 $sthL=$sthLTT;
-	 	 $sthL->execute($upobj) || die $dbh->errstr
-	 }
-	 
-	 my $lang=$upobj?$obj->{$upobj}->{lang}:'';
-	
-	my @idlist;	 
-   while ($item=$sthL->fetchrow_hashref)
-   {
-   	unless ($lobj->{$item->{id}}->{id}) {
-    	push (@{$ltree->{$upobj}->{$item->{up}}},$item->{id});
-    	push (@idlist,$item->{id});
-    	$lobj->{$item->{id}}->{key}=$item->{keyname};
-    	$lobj->{$item->{id}}->{up}=$item->{up};
-    	$lobj->{$item->{id}}->{upobj}=$upobj;
-    	$lobj->{$item->{id}}->{type}='L';
-    	$lobj->{$item->{id}}->{ind}=$item->{id};
-    	$lobj->{$item->{id}}->{id}=$item->{id};
-    	$lobj->{$item->{id}}->{template}=$item->{template};
-    	$lobj->{$item->{id}}->{indx}=$item->{indx};
-    	$lobj->{$item->{id}}->{lang}=$obj->{$upobj}->{lang};
-    	if ($item->{keyname}) {
-    		$nobj->{$item->{keyname}}=$lobj->{$item->{id}};
-    		$kobj->{$upobj}->{$item->{keyname}}=$lobj->{$item->{id}};
-    	}	
-    }	
-   }
-   
-   
-      my $jstr=join(',', map {"'$_'"} @idlist); 
-      my $sthN;
-      my $ff=1;
-      if ($objid) {
- 		 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id=?")|| die $dbh->errstr;
-      	 $sthN->execute("$objid") || die $dbh->errstr;
-      } elsif ($jstr) {
-      	 $sthN=$dbh->prepare("SELECT * FROM ${DBPREFIX}fs WHERE prm='_NAME' AND id in ($jstr)") || die $dbh->errstr; 
-      	 $sthN->execute() || die $dbh->errstr;
-      }else {$ff=0}	
-		
-  	  if($ff) {	
-  		while ($item=$sthN->fetchrow_hashref) {
-  			if (  ($lang eq 'mul' && ($item->{lang} eq $LANGS[0])) || ($lang eq $item->{lang})	|| (!$item->{lang})	) {
-  					$lobj->{$item->{id}}->{name}=$item->{val};
-  			}	
-  			$lobj->{$item->{id}}->{"name_$item->{lang}"}=$item->{val}
-		}	
-  	  }
-
-	  $cmlcalc::TIMERS->{LOWTREE}->{sec}+=(time-$t);
-  	  $cmlcalc::TIMERS->{LOWTREE}->{count}++;
-
+    if($ff) {
+        while ($item=$sthN->fetchrow_hashref) {
+            if (  ($lang eq 'mul' && ($item->{lang} eq $LANGS[0])) || ($lang eq $item->{lang})	|| (!$item->{lang})	) {
+                $lobj->{$item->{id}}->{name}=$item->{val};
+            }
+            $lobj->{$item->{id}}->{"name_$item->{lang}"}=$item->{val}
+        }
+    }
+    $GLOBAL->{timers}->{ltc}++;
+    $GLOBAL->{timers}->{lt}+=(time-$t);      
 }
 
 sub buildtabtree {
