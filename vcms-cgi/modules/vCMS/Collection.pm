@@ -40,6 +40,18 @@ sub p($$;$) {
 	return \@l;
 }
 
+sub l($$) {
+    my($self,$prm)=@_;
+    
+    my $ids;
+    for  (map { $_->p($prm,{formatted=>1}) } @{$self->GetObjects()}) {
+        $ids->{$_}=1 for @$_;
+    }
+    my @l = map {vCMS::o($_)} keys %$ids; 
+    return new vCMS::Collection(\@l);
+}
+
+
 sub GetObject ($$) {
 	my ($self,$key)=@_;
 
