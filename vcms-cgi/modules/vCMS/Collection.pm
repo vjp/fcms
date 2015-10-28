@@ -35,9 +35,18 @@ sub GetObjectIDs ($) {
 }
 
 sub p($$;$) {
-	my($self,$prm,$opts)=@_;
-	my @l = map{ $_->p($prm,$opts) } @{$self->GetObjects()};
-	return \@l;
+    my($self,$prm,$opts)=@_;
+    my @l;
+    if ($opts->{formatted}) {
+        my $ids;
+        for  (map { $_->p($prm,{formatted=>1}) } @{$self->GetObjects()}) {
+            $ids->{$_}=1 for @$_;
+        }
+        @l = keys %$ids; 
+    } else {
+        @l = map{ $_->p($prm,$opts) } @{$self->GetObjects()};
+    }
+    return \@l;
 }
 
 sub l($$) {
