@@ -906,7 +906,7 @@ setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENUUSER',key=>'USERMENU',name=>'Шаблон меню'});
-setvalue({key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
+setvalue({convert=>1,key=>'USERMENU',pkey=>'PAGETEMPLATE',value=>q(
 <div class="sidebar-nav navbar-collapse">
 <ul class="nav" id="side-menu">
 <li><cml:menuitem action='LISTEDIT' key='ITEMS'><span class="glyphicon glyphicon-picture"></span> Каталог</cml:menuitem></li>   
