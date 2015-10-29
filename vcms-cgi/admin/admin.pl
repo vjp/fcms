@@ -65,7 +65,9 @@ if(param('parsemethod') || param('overrideparsemethod')) {
 	elsif (param('id')) {$id=param('id')}
 	my $method=param('overrideparsemethod') || param('parsemethod');
 	my $r=&cmlcalc::execute({id=>$id,method=>$method});
-	$cmlcalc::ENV->{"PARSERDATA$_"}=$r->{$_} for keys %$r;
+    if (ref $r eq 'HASH') {
+       $cmlcalc::ENV->{"PARSERDATA$_"}=$r->{$_} for keys %$r;
+    }
 	$cmlcalc::ENV->{"PARSERDUMP"}=Dumper($r);
 }	
 
