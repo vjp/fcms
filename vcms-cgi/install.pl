@@ -70,13 +70,29 @@ if (param('refresh')) {
 	$ROOTPATH=param('rootpath');
 	$MULTIDOMAIN=0+param('multidomain');
 	
+	print "Проверка прав на запись в директорию cgi-bin ...",br();
+    open (FT,">.test") || print "Open file error :$!",br();
+    print FT 'test';
+    close FT || print "Close file error $!",br();
+    open (FT,"<.test");
+    my $tstr=<FT>;
+    close FT;
+    if ($tstr eq 'test') {
+        print '...Директория доступна',br();
+        unlink 'test';
+    } else {
+        print b('...Запись в директорию не удалась'),br();
+        exit();
+    }
+	
 	unless (-s 'cgi.tar.gz') {
 		print "пытаемся скачать cgi.tzr.gz",br();
 		`wget https://github.com/vjp/fcms/raw/master/vcms-cgi/cgi.tar.gz`;
 	}
 	
 	if (! -s 'cgi.tar.gz') {
-		print "Файл cgi.tar.gz не найден",br();
+		print b("Файл cgi.tar.gz не найден"),br();
+		exit();
 	} else {
 		print "Произвожу распаковку архива cgi.tar.gz...",br();
 		my $str=`tar -xzf cgi.tar.gz`;
@@ -297,7 +313,7 @@ print qq(
 
 <form method='post'>
 <table>
-  <tr><td>Хост БД</td><td><input size='100' name='dbhost'></td></tr>
+  <tr><td>Хост БД</td><td><input size='100' name='dbhost' value='localhost'></td></tr>
   <tr><td>Имя БД</td><td><input size='100' name='dbname'></td></tr>
   <tr><td>Пользователь БД</td><td><input size='100' name='dbuser'></td></tr>
   <tr><td>Пароль БД</td><td><input size='100' type='password' name='dbpassword'></td></tr>
