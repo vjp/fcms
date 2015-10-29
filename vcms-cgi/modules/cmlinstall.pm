@@ -235,6 +235,7 @@ setvalue({key=>'BASEUPLOADER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
     <cml:input type='hidden' name='resultdiv' value='_prm:resultdiv_'/>
     <cml:input type='hidden' name='fileprm' value='_prm:fileprm_'/>
     <cml:input type='hidden' name='up' value='_prm:up_'/>
+    <cml:input type='hidden' name='sandboxtemplate' value='_prm:sandboxtemplate_'/>
   
   	<cml:changebutton/>
   
