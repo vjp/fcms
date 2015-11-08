@@ -896,13 +896,34 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENU',name=>'Шаблон меню'});
-setvalue({key=>'BASEMENU',pkey=>'PAGETEMPLATE',value=>"
-<CML:INCLUDE name='BASEMENUHEADER'/>
-<CML:INCLUDE name='_prm:menu_'/>
-<CML:INCLUDE name='CMSHEADMENU'/>
-<CML:INCLUDE name='BASEMENUFOOTER'/>
-"});
+
+addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'ADMINMENU',name=>'Меню администратора'});
+setvalue({key=>'ADMINMENU',pkey=>'PAGETEMPLATE',value=>q(
+<div class="sidebar-nav navbar-collapse">
+<ul class="nav" id="side-menu">
+  
+  <cml:if expr='cgi(menu)'>
+    <CML:INCLUDE name='_prm:menu_'/>  
+  </cml:if><cml:else>
+     <CML:INCLUDE name='LISTMENU_ARTICLES'/>
+  </cml:else>
+  
+  
+<li><cml:menuitem action='LISTEDIT' key='BANNERS'><span class="glyphicon glyphicon-picture"></span> Баннеры</cml:menuitem></li>   
+
+<li><cml:menuitem action='LISTEDIT' key='SYSTEMUSERS_user'><span class="glyphicon glyphicon-user"></span>&nbsp;Пользователи</cml:menuitem></li>    
+  
+<li><a href="#"><i class="fa fa-wrench fa-fw"></i> Настройки отображения <span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level"> 
+    <li><cml:menuitem action='LISTEDIT' key='SITEBLOCKS'><i class="glyphicon glyphicon-th-large"></i> Блоки</cml:menuitem></li>
+    <li><cml:menuitem action='LISTEDIT' key='PAGES'><i class="fa fa-files-o fa-fw"></i> Страницы</cml:menuitem></li> <!-- MENULIST -->
+    <li><cml:menuitem action='LISTEDIT' key='ARTICLES'><i class="fa fa-list"></i> Разделы</cml:menuitem></li> 
+    </ul>
+</li> 
+    
+</ul>
+</div>
+)});
 
 
 
@@ -957,79 +978,6 @@ h1, h2, h3, h4, h5, h6          {font-family: Trebuchet MS, Tahoma, sans-serif; 
 
 
 
-addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'BASEMENUHEADER',name=>'Базовый шаблон заголовка меню'});
-setvalue({convert=>1,key=>'BASEMENUHEADER',pkey=>'PAGETEMPLATE',value=>qq(
-<html>
-<head>
-<style type=text/css>
-<!--
-td, body				{font-family: Tahoma,  Arial; font-size: 11px; color: #000000;}
-body					{scrollbar-base-color: #000066; scrollbar-arrow-color: #ffffff; scrollbar-highlight-color: #FFFFFF; scrollbar-shadow-color: #FFFFFF; scrollbar-face-color: #909090; scrollbar-track-color: #f0f0f0; }
-a:,a:link, a:visited			{font-family: Tahoma, sans-serif; font-size: 11px; color: #1E609C; text-decoration: underline;}
-a:active, a:hover			{font-family: Tahoma, sans-serif; font-size: 11px; color: #9C1E1E; text-decoration: none;}
-hr			{border: 0; width: 100%; color: #770000; background-color: #D96926; height: 2px;}
-li			{font-family: "Lucida Console", monospace; font-size: 11px; font-weight : bold; list-style : square;}
-ul			{font-family: Verdana, Arial, Helvetica, sans-serif; list-style: square; margin-bottom : 0; margin-top : 0;}
-input, select		{font-family: Verdana, Arial, sans-serif; font-size: 12px; font-weight : bold;}
-small, .small				{font-family: Tahoma, sans-serif; font-size: 9px; color: #565B64; font-weight : normal;}
-h1, h2, h3, h4, h5, h6			{font-family: Trebuchet MS, Tahoma, sans-serif; font-size: 18px; color: #00458B; font-weight : bold;}
--->
-</style>
-
-<script language="javascript" type="text/javascript" src="/js/base.js"></script>
-<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-<script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
-
-
-</head>
-<body bgcolor="#FFFFFF" text="#000000" link="#1E609C"  leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-
-<center><a href="/admin/" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></a></center>
-
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-
-
-Отладка:
-<cml:if expr='dev()'>
-<a href="#" onclick="setCookie('dev','0');window.location.reload();return false"><img border='0' src='/cmsimg/save.gif' alt='Отладка включена' title='Отладка включена'/></a>
-</cml:if>
-<cml:else>
-<a href="#" onclick="setCookie('dev','1');window.location.reload();return false"><img border='0' src='/cmsimg/delete.png' alt='Отладка выключена' title='Отладка выключена'/></a>
-</cml:else>
-<a href="/" target="_top">На сайт</a> 
-
-
-
-<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
-)});
-
-
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMENUFOOTER',name=>'Базовый шаблон подвала меню'});
-setvalue({key=>'BASEMENUFOOTER',pkey=>'PAGETEMPLATE',value=>q(
-</td></tr></table>
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
-</body>
-</html>
-)});
-
-
-
-my $bm="
-<CML:INCLUDE name='BASEMAINHEADER'/>
-<CML:INCLUDE name='_prm:body_'/>
-<CML:INCLUDE name='BASEMAINFOOTER'/>
-";
-
-addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN',key=>'BASEMAIN',name=>'Базовый шаблон правого фрейма'});
-setvalue({key=>'BASEMAIN',pkey=>'PAGETEMPLATE',value=>$bm});
-
-addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERMAIN',name=>'Шаблон страницы'});
-setvalue({key=>'USERMAIN',pkey=>'PAGETEMPLATE',value=>"<CML:INCLUDE name='BASEMAIN'/>"});
-
 addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER',key=>'USERCMSTEMPLNOFRAMES',name=>'Шаблон страницы без фреймов'});
 setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
 <!DOCTYPE html>
@@ -1075,64 +1023,6 @@ setvalue({key=>'USERSTARTPAGE',pkey=>'PAGETEMPLATE',value=>qq(
 <cml:include name='DEFAULTDESKTOP'/>
 </cml:use>
 )});
-
-
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINHEADER',name=>'Базовый шаблон заголовка правого фрейма'});
-setvalue({convert=>1,key=>'BASEMAINHEADER',pkey=>'PAGETEMPLATE',value=>qq(
-<html>
-<head>
-
-<link rel="stylesheet" type="text/css" href="/css/admin.css" />
-<link rel="stylesheet" type="text/css" href="/css/PopIt.css" />
-<link rel="stylesheet" type="text/css" href="/css/calendar_date_select/red.css"  />
-<cml:include key='JSDICTIONARY'/>
-<script language="javascript" type="text/javascript" src="/js/base.js"></script>
-<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-<script language="javascript" type="text/javascript" src="/js/flowplayer.js"></script>
-<script language="javascript" type="text/javascript" src="/js/swfobject.js"></script>
-<script language="javascript" type="text/javascript" src="/jscolor/jscolor.js"></script>
-<script language="javascript" type="text/javascript" src="/js/scriptaculous.js?load=effects,builder,dragdrop" type="text/javascript"></script>
-<script language="javascript" type="text/javascript" src='/js/PopIt.js'></script>
-<script language="javascript" type="text/javascript" src="/js/calendar_date_select/calendar_date_select.js"></script>
-<script language="javascript" type="text/javascript" src="/js/calendar_date_select/format_db_e.js"></script>
-<script>
-  _translations = {
-    "OK": "OK",
-    "Now": "Сейчас",
-    "Today": "Сегодня",
-    "Clear": "Очистить" 
-  };
-  Date.weekdays = \$w("пн вт ср чт пт сб вс");
-  Date.months = \$w("Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь" );
-</script>
-
-<script language="javascript" type="text/javascript" src="/admin/js/ajax.js"></script>
-<cml:include key='MCEINIT'/>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000" link="#1E609C" leftmargin="0" rightmargin="0" marginwidth="0" topmargin="0" marginheight="0">
-
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-
-<cml:if value='_env:NOFRAMES_'>
-<table border="1">
-<tr>
-<td><cml:a href="_prm:_ROOT_" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></td>
-<cml:include key='NOFRAMESMENU'/>
-</tr>
-</table>
-</cml:if>
-<cml:else>
-<center><cml:a href="_prm:_ROOT_" target="_top"><img src="/cmsimg/design/topic_110x50.jpg" width="110" height="50" alt="VCMS" border="0"></cml:a></center>
-</cml:else>
-
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=5 alt="" border=0></td></tr></table>
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% cellspacing=10 cellpadding=0><tr align=left valign=top><td>
-
-)});
-
 
 
 
@@ -1232,21 +1122,6 @@ setvalue({convert=>1,key=>'MCEFILES',pkey=>'PAGETEMPLATE',value=>qq(
 
 
 
-my $bmf=qq(
-</td></tr></table>
-
-<img src="/i/0.gif" width=1 height=3 alt="" border=0><br>
-<table width=100% bgcolor=#770000 cellspacing=3 cellpadding=0><tr align=left valign=middle><td class=atoptext><img src="/i/0.gif" width=1 height=10 alt="" border=0></td></tr></table>
-<script>  setCookie('_jsOK',1); </script>
-</body>
-</html>
-);
-
-
-
-
-addlowobject({convertname=>1,upobjkey=>'BASECMS',key=>'BASEMAINFOOTER',name=>'Базовый шаблон подвала правого фрейма'});
-setvalue({convert=>1,key=>'BASEMAINFOOTER',pkey=>'PAGETEMPLATE',value=>$bmf});
 
 
 $bm=qq(
