@@ -898,7 +898,7 @@ setvalue({key=>'BASEEDIT',pkey=>'PAGETEMPLATE',value=>$bestr,convert=>1});
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSMENUADMIN',key=>'ADMINMENU',name=>'Меню администратора'});
-setvalue({key=>'ADMINMENU',pkey=>'PAGETEMPLATE',value=>q(
+setvalue({key=>'ADMINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>q(
 <div class="sidebar-nav navbar-collapse">
 <ul class="nav" id="side-menu">
   
