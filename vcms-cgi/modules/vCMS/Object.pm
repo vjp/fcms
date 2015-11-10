@@ -209,6 +209,15 @@ sub GetFileData ($$) {
 	return $fcontent;
 }
 
+sub GetContent ($$) {
+    return GetFileData($_[0],$_[1]);
+}
+
+sub GetFileContent ($$) {
+    return GetFileData($_[0],$_[1]);
+}
+
+
 sub SetFile ($$$) {
 	my ($self,$prm,$cgifileprm)=@_;
 	return vCMS::Proxy::UploadFile($self->ID,$prm,$cgifileprm);
