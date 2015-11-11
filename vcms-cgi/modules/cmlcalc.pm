@@ -581,6 +581,14 @@ sub splitprice {
 	return $number;
 }
 
+sub splitduration {
+    my ($dur)=@_;
+    $dur = sprintf "%02d:%02d:%02d:%02d", (gmtime($dur))[7,2,1,0];
+    $dur =~ s/\G00://g;
+    return $dur
+}
+
+
 
 sub csv ($;$$)
 {
