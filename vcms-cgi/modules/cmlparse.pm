@@ -1490,7 +1490,7 @@ sub tag_actionlink {
 		'alert','redir','back', 'callback','redirvar', 'button','title',
 		'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
 		'forcereadonly','jsdata','type','setname','confirm', 'hidden',
-		'width','height','popup','csv','appenddiv','template','popuptitle','anchor'
+		'width','height','popup','csv','appenddiv','template','popuptitle','anchor','popup'
 
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
@@ -1616,6 +1616,15 @@ sub tag_actionlink {
 		$hrf.="&csv=1" if $pl->{csv};		
 		$hrf.='&'.$pl->{href} if $pl->{href};
 		$title=&cmlcalc::p('_NAME',&cmlcalc::id($ukey)) unless $title;	
+		
+        if ($pl->{popup}) {
+            my $template='POPUPLESELECTOR';
+            my $title=$pl->{title} || &cmlmain::enc('Изменить');
+            my $pstr=qq(?popupview=$template&id=$pl->{id}&selectorprm=$pl->{prm}&upkey=$pl->{upkey}&link=$pl->{link});
+            return qq(
+                <a href='#' onclick="openBootstrapPopupJq('${pstr}',{title:'$title'});return false">$title</a>
+            )
+        }
 		return $pl->{button}?qq(<input type='button' onclick='location.href="$hrf"' value='$title' $param/>):"<a href='$hrf' $param $tstr>$title</a>";
 
   	}	elsif ($pl->{action} eq 'EDITARTICLE' ) {
@@ -1648,8 +1657,10 @@ sub tag_actionlink {
 			push (@ajax_opts,"link:'$pl->{link}'") if $pl->{link};
 			push (@ajax_opts,"linkval:'$linkval'") if $linkval;
 			push (@ajax_opts,"anchor:'$pl->{anchor}'") if $pl->{anchor};
+			push (@ajax_opts,"appenddiv:'$pl->{appenddiv}'") if $pl->{appenddiv};
 			my $astr=join(',',@ajax_opts);
-			$onclick=qq(onclick="executejq('BASEADDMETHOD',{$astr}, defcallbackjq);return false");
+			my  $callbackfn=$pl->{callback} || 'defcallbackjq'; 
+			$onclick=qq(onclick="executejq('BASEADDMETHOD',{$astr}, $callbackfn);return false");
 		} elsif ($cmlcalc::CGIPARAM->{_MODE} eq 'USER') {
 			$onclick=qq(onclick="execute('BASEADDMETHOD',{up:'$pl->{up}',upobj:'$pl->{upobj}',link:'$pl->{link}',linkval:'$linkval'}, $defajaxcallback)");
 		} else {

@@ -812,17 +812,15 @@ setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 </cml:form>
 )});
 
-
-addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'NSPOPUPSELECTOR', name=>'Шаблон попапа для селектора больших списков (Новый стиль)'});
-setvalue({key=>'NSPOPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
-<cml:list expr='prmformula(cgi(selectorprm))'>
-	<cml:if expr='cgi(single)'>
-    	<cml:radiobutton id='_prm:id_' param='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
-    </cml:if><cml:else>
-    	<cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
-    </cml:else>    
+addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPLESELECTOR', name=>'Попап редактирования списка объектов'});
+setvalue({key=>'POPUPLESELECTOR',pkey=>'PAGETEMPLATE',value=>q(
+<cml:list expr='p(_prm:selectorprm_,_prm:id_)'>
+    <cml:inputtext prm='_NAME'/><br/>
 </cml:list>
+<div id='sandbox'></div> 
+<cml:actionlink action='ADD' link='_prm:link_' linkval='_prm:id_' upkey='_prm:upkey_' appenddiv='sandbox'>Добавить новый</cml:actionlink>
 )});
+
 
 
 
@@ -1121,7 +1119,12 @@ setvalue({convert=>1,key=>'MCEFILES',pkey=>'PAGETEMPLATE',value=>qq(
 )});
 
 
-
+addlowobject({convertname=>1,upobjkey=>'CMSINCLUDES',key=>'POPUPLEBLOCK',name=>'Блок вставки строки редактирования в попап'});
+setvalue({convert=>1,key=>'POPUPLEBLOCK',pkey=>'PAGETEMPLATE',value=>qq(
+<cml:use id='_prm:id_'>
+   <cml:inputtext prm='_NAME' matrix='1'/><br/>
+</cml:use>
+)});
 
 
 $bm=qq(
@@ -1430,15 +1433,17 @@ setvalue({key=>'CMSMAINMENU',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 )});
 
 my $addscript=q(
-	
-	my $pObj=o($CGIPARAM->{up})->Create({_NAME=>$CGIPARAM->{name} || 'Новый'});
-	$pObj->Set({
-		$CGIPARAM->{link}=>$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id}
-	}) if $CGIPARAM->{link};
-	my $r;
-	$r->{anchor}=$CGIPARAM->{anchor} if $CGIPARAM->{anchor};
-	ajax_ok("Успешно",$r);	
-
+    my $pObj=o($CGIPARAM->{up})->Create({_NAME=>$CGIPARAM->{name} || 'Новый'});
+    $pObj->Set({
+        $CGIPARAM->{link}=>$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id}
+    }) if $CGIPARAM->{link};
+    my $r;
+    $r->{anchor}=$CGIPARAM->{anchor} if $CGIPARAM->{anchor};
+    if ($CGIPARAM->{appenddiv}) {
+        $r->{appenddiv}=$CGIPARAM->{appenddiv};
+        $r->{redir}='/user/?view=POPUPLEBLOCK&id='.$pObj->GetID();
+    }
+    ajax_ok("Успешно",$r);  
 );
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',lflag=>1,script=>$addscript});
 addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDMETHOD',name=>'Базовый метод добавления',script=>$addscript});
