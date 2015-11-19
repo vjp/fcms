@@ -12,7 +12,7 @@ BEGIN
  	@EXPORT = qw(
  		&install_structure &install_mce &install_db 
  		&create_db &create_db_user &populate_db &unpack_file &create_config
- 		&copy_site &ext_user_password
+ 		&copy_site &ext_user_password &create_cache_tables
  	);
 }
 sub install_cron ($){
@@ -1746,6 +1746,30 @@ sub create_config ($$)
 	
 }
 
+sub create_cache_tables ($$) {
+    $dbh->do("
+        CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
+            `cachekey` varchar(700) CHARACTER SET latin1 NOT NULL default '',
+            `pagetext` mediumtext,
+            `ts` datetime default NULL,
+            `objid` int(11) NOT NULL default '0',
+            `dev` tinyint NOT NULL default '0',
+            `lang` varchar(7) NOT NULL default '',
+            PRIMARY KEY  (`cachekey`,`dev`,`lang`)
+        )
+    ") || die $dbh->errstr();
+    
+    $dbh->do("
+         CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
+            `cachekey` varchar(700) NOT NULL default '',
+            `objlink` varchar(12) NOT NULL default '',
+            `dev` tinyint NOT NULL default '0',
+            `lang` varchar(7) NOT NULL default '',
+            PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
+            KEY `ol` (`objlink`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1
+    ") || die $dbh->errstr();
+}
 
 
 sub install_db ($$) {
@@ -1932,28 +1956,6 @@ sub install_db ($$) {
 		)
 	") || die $dbh->errstr();
 	
-	$dbh->do("
-		CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
- 			`cachekey` varchar(700) CHARACTER SET latin1 NOT NULL default '',
-  			`pagetext` mediumtext,
-  			`ts` datetime default NULL,
-  			`objid` int(11) NOT NULL default '0',
-  			`dev` tinyint NOT NULL default '0',
-  			`lang` varchar(7) NOT NULL default '',
-  			PRIMARY KEY  (`cachekey`,`dev`,`lang`)
-  		)
-  	") || die $dbh->errstr();
-	
-	$dbh->do("
-		 CREATE TABLE IF NOT EXISTS ${DBPREFIX}linkscache (
-  			`cachekey` varchar(700) NOT NULL default '',
-  			`objlink` varchar(12) NOT NULL default '',
-  			`dev` tinyint NOT NULL default '0',
-  			`lang` varchar(7) NOT NULL default '',
-  			PRIMARY KEY  (`cachekey`,`objlink`,`dev`,`lang`),
-  			KEY `ol` (`objlink`)
-		) ENGINE=MyISAM DEFAULT CHARSET=latin1
-	") || die $dbh->errstr();
 	
 	$dbh->do("
 		CREATE TABLE IF NOT EXISTS ${DBPREFIX}captcha (
@@ -1994,7 +1996,7 @@ sub install_db ($$) {
 		)
 	") || die $dbh->errstr();
 	
-	
+	create_cache_tables($dbh,$DBPREFIX);
 }
 
 return 1;

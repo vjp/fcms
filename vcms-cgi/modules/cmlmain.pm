@@ -8,6 +8,7 @@ BEGIN
  use DBI;
  use cmlcalc;
  use cmlparse;
+ use cmlinstall;
  use Time::Local;
  use Time::HiRes qw (time);
  use JSON::PP;
@@ -1622,8 +1623,7 @@ sub init	{
  	#$sthCH=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN (SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?)");
 
  	
- 	$sthCCP=$dbh->prepare("DELETE FROM ${DBPREFIX}pagescache");
- 	$sthCCL=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache");
+
  	
  	$GLOBAL->{FILEPATH}=$FILEPATH;
  	$GLOBAL->{WWWPATH}=$WWWPATH;
@@ -1683,8 +1683,9 @@ sub clear_history
 
 sub clearcache 
 {
-	$sthCCP->execute || die $dbh->errstr();
-	$sthCCL->execute || die $dbh->errstr();
+    $dbh->do("DROP TABLE ${DBPREFIX}pagescache") || die $dbh->errstr;
+    $dbh->do("DROP TABLE ${DBPREFIX}linkscache") || die $dbh->errstr;
+    cmlinstall::create_cache_tables();
 }
 
 sub recover_object ($$)
