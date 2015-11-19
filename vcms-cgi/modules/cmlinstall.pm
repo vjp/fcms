@@ -1747,6 +1747,7 @@ sub create_config ($$)
 }
 
 sub create_cache_tables ($$) {
+    my ($dbh,$DBPREFIX)=@_;
     $dbh->do("
         CREATE TABLE IF NOT EXISTS ${DBPREFIX}pagescache (
             `cachekey` varchar(700) CHARACTER SET latin1 NOT NULL default '',

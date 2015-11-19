@@ -1683,9 +1683,9 @@ sub clear_history
 
 sub clearcache 
 {
-    $dbh->do("DROP TABLE ${DBPREFIX}pagescache") || die $dbh->errstr;
-    $dbh->do("DROP TABLE ${DBPREFIX}linkscache") || die $dbh->errstr;
-    cmlinstall::create_cache_tables();
+    $dbh->do("DROP TABLE IF EXISTS ${DBPREFIX}pagescache") || die $dbh->errstr;
+    $dbh->do("DROP TABLE IF EXISTS ${DBPREFIX}linkscache") || die $dbh->errstr;
+    cmlinstall::create_cache_tables($dbh,$DBPREFIX);
 }
 
 sub recover_object ($$)
