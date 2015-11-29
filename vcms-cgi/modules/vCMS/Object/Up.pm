@@ -125,10 +125,13 @@ sub fs ($$$) {
 }
 
 
-sub gc ($$) {
-    my ($self,$key)=@_;
+sub gc ($$;$) {
+    my ($self,$key,$prms)=@_;
     my $pObj=vCMS::o($key);
-    $pObj=$self->Create({_KEY=>$key}) if $pObj->IsNull();
+    my $p={};
+    $p=$prms if $prms;
+    $p->{_KEY}=$key;
+    $pObj=$self->Create($p) if $pObj->IsNull();
     return $pObj
 }
 
