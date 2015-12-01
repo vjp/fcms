@@ -126,7 +126,8 @@ if (param('refresh')) {
 		if ($tstr eq 'test') {
 			print '...Директория доступна',br();
 		} else {
-				print '...Создать файл не удалось',br();
+            print '...Создать файл не удалось',br();
+            exit();
 		}
 	}
 	
@@ -147,12 +148,14 @@ if (param('refresh')) {
 			}			
 			
 			if (! -s 'html.tar.gz') {
-				print "Файл html.tar.gz не найден",br();
+                print "Файл html.tar.gz не найден",br();
+                exit();
 			} else {
 				print "Произвожу распаковку архива html.tar.gz...",br();
 				my $str=`tar -xzf html.tar.gz -C $ROOTPATH`;
 				if (! -s "${ROOTPATH}/.htaccess") {
-					print "...Распаковка неудачная:$str",br();
+                    print "...Распаковка неудачная:$str",br();
+                    exit();
 				} else {
 					print "...Распаковка удачная",br();
 					system "rm html.tar.gz";
