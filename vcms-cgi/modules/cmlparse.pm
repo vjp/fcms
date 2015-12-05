@@ -1226,6 +1226,7 @@ sub tag_list  	{
  			
   			$inner->{listindex}=$i+1;
   			$cmlcalc::ENV->{LISTINDEX}=$inner->{listindex};
+  			$cmlcalc::ENV->{FIRSTINDEX}=$i==$start?1:0; 
   			$cmlcalc::ENV->{$pl->{indexvar}}=$inner->{listindex} if $pl->{indexvar};
   			
   			unless ($_[0]->{inner}->{selected}) {
