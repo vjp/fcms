@@ -9,11 +9,20 @@ use Data::Dumper;
 use CGI::Carp qw /fatalsToBrowser/;
 use Time::HiRes qw (time);
 use vCMS;
- 
-
 
 my $st=time;
 start('.');
+
+
+my $rh=$GLOBAL->{CONF}->{restrictheader};
+if ($rh && $ENV{$rh}) {
+    warn "restricted header $rh found, exiting";
+    print header(-status => 404);
+    print "<title>404 Not Found</title>\n";
+    print "<h1>404 Not Found</h1>\n";
+    exit();
+}
+
 my $its=time-$st;
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%viewer';
 $cmlcalc::ENV->{dev}=cookie('dev');
