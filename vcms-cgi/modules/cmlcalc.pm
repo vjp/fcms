@@ -37,6 +37,19 @@ sub initcalc
   );
 }
 
+sub dmp ($) {
+    local $Data::Dumper::Useqq = 1;
+    { no warnings 'redefine';
+        sub Data::Dumper::qquote {
+            my $s = shift;
+            return "'$s'";
+        }
+    }
+    return Encode::encode('UTF8',Dumper($_[0]));
+}
+
+
+
 sub jsoncookie ($) {
 	my ($name)=@_;
 	my $cval=CGI::cookie($name=~/^__CJ_/?$name:"__CJ_$name");
