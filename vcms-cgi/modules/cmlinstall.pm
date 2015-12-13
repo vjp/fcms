@@ -823,22 +823,6 @@ setvalue({key=>'POPUPLESELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 
 
 
-
-
-addlowobject({convertname=>1,upobjkey=>'CMSFORMUSER', key=>'USERCMSTEMPL', name=>'Главный шаблон дополнительного интерфейса'});
-setvalue({convert=>1,key=>'USERCMSTEMPL',pkey=>'PAGETEMPLATE',value=>qq(
-<html>
-<head>
-<TITLE>VCMS : Интерфейс пользовтеля</TITLE>
-</head>
-<frameset cols="30%,*" SCROLLING=YES BORDERCOLOR="#770000">
-	<frame src="/cgi-bin/user/user.pl?menu=USERMAINMENU" name='adminlm' SCROLLING=YES BORDERCOLOR="#770000">
-	<cml:frame src="/cgi-bin/user/user.pl?mbframe=1&body=_prm:framebody_&id=_prm:frameid_" name='adminmb' SCROLLING=YES BORDERCOLOR="#770000"/>
-</frameset>
-</html>
-)});
-
-
 addlowobject({convertname=>1,upobjkey=>'DESKTOP', key=>'DEFAULTDESKTOP', name=>'Рабочий стол по умолчанию'});
 setvalue({convert=>1,key=>'DEFAULTDESKTOP',pkey=>'PAGETEMPLATE',value=>qq(...рабочий стол...)});
 
