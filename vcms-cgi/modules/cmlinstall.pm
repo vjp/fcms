@@ -33,7 +33,7 @@ addobject({convertname=>1,forced=>1,up=>0,key=>'MAINPRM',name=>'Параметры'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'AUTOMATE',name=>'Автозапуск'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'GATE',name=>'Внешний интерфейс'});
 addobject({convertname=>1,forced=>1,up=>0,key=>'STAT',name=>'Статистика'});
-addobject({convertname=>1,forced=>1,up=>0,key=>'TASKTRACKER',name=>'Задачи'});
+addobject({convertname=>1,forced=>1,up=>0,key=>'TASKTRACKER',name=>'Управление задачами'});
 
 
 addprm({convertname=>1,objkey=>'CONTENT',name=>'Сайт открыт',type=>'FLAG',key=>'OPENSITE',evl=>'n',self=>1});
@@ -1608,6 +1608,12 @@ return 1;
 addmethod ({convertname=>1,objkey=>'GATE',key=>'TESTGATE',name=>'Тест внешнего интерфейса',script=>q(
 json_ok('SUCCESS TEST GATE - УСПЕШНЫЙ ТЕСТ ГЕЙТА',{time=>scalar localtime});
 )});
+
+
+addobject({convertname=>1,upkey=>'TASKTRACKER',key=>'TASK',name=>'Задачи'});
+addobject({convertname=>1,upkey=>'TASKTRACKER',key=>'WORKS',name=>'Работы'});
+
+
 
 alert(enc('Структура создана успешно'));
 
