@@ -998,7 +998,7 @@ setvalue({key=>'USERCMSTEMPLNOFRAMES',pkey=>'PAGETEMPLATE',value=>qq(
 
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/admin">USER INTERFACE</a>
+                <a class="navbar-brand" href="/user">USER INTERFACE</a>
             </div>
           
             <div class="navbar-default sidebar" role="navigation">
