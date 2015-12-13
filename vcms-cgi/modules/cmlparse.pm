@@ -1582,7 +1582,7 @@ sub tag_actionlink {
 		my $header_title=$title || &cmlmain::enc('Параметры');
 		unless ($title) {
 			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-				$title="<i class='icon-edit'></i>"
+				$title="<i class='icon-edit glyphicon glyphicon-edit'></i>"
 			} else {
 				my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
 				$title="<img src='$imgurl' border='0'/>";
