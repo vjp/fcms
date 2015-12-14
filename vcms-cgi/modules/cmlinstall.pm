@@ -641,8 +641,8 @@ setvalue({convert=>1,key=>'LISTEDIT_SYSTEMUSERS_user',pkey=>'PAGETEMPLATE',value
 </script>
 
 <cml:use key='_prm:ukey_'>
-<cml:text param='_NAME'/><br/>
-<table>
+<h4><cml:text param='_NAME'/></h4>
+<table class='table'>
 <tr><th></th><th>Логин</th><th>Новый пароль</th><th>Повторить новый пароль</th><th></th></tr>
 <cml:list expr='lowlist()'>
 <tr>
