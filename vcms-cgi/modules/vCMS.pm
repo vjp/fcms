@@ -13,7 +13,7 @@ BEGIN
 { 
 	use Exporter();
 	@ISA = 'Exporter';
-	@EXPORT = qw( &o &v &ll &r &u &nn);
+	@EXPORT = qw( &o &v &ll &r &u &nn &db &gr);
 }	 
 
 sub o(;$); 
@@ -93,5 +93,30 @@ sub r ($) {
 	my ($user,$password,$host)=($connectstr=~/^(.+?)\:(.+)\@(.+?)$/);
 	return new vCMS::RPC($host,$user,$password)
 }
+
+
+sub db {
+    return vCMS::Proxy::DBSelect(@_);
+}
+
+
+sub gr ($$$;$) {
+    my ($pkey,$pattern,$rpattern,$limit)=@_;
+    $limit ||=1;
+    my $tname=vCMS::Proxy::GetTableName('vls');
+    my $list=db("SELECT objid,pkey FROM $tname WHERE pkey=? and VALUE LIKE ? LIMIT $limit",$pkey,'%'.$pattern.'%');
+
+    my $r;
+    for (@$list) {
+        my $pObj=o($_->{'objid'});
+        my $v=$pObj->p($pkey);
+        $v=~s/$pattern/$rpattern/g;
+        $pObj->Set($pkey,$v);
+        push (@$r,$pObj);
+    }
+    
+    return new vCMS::Collection($r);
+}
+
 
 1;
