@@ -515,13 +515,16 @@ sub tag_pagination {
 }
 
 sub tag_dynamic {
-	my $data=$_[0]->{data};
-	my $inner; %{$inner}=%{$_[0]->{inner}};
-	if ($inner->{dyncalc} || !$cmlmain::GLOBAL->{CACHE}) {
-		return cmlparser({data=>$data,inner=>$inner});
-	} else {
-		return $data;
-	}
+    my $param=$_[0]->{param};
+    my $data=$_[0]->{data};
+    my $inner; %{$inner}=%{$_[0]->{inner}};
+    my $pl=fetchparam($param,['id']);
+    if ($inner->{dyncalc} || !$cmlmain::GLOBAL->{CACHE}) {
+        return cmlparser({data=>$data,inner=>$inner});
+    } else {
+        $data="<cml:use id='$pl->{id}'>$data</cml:use>" if $pl->{id};
+        return $data;
+    }
 }
 
 sub tag_groupheader {
