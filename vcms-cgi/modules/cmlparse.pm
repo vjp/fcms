@@ -519,10 +519,13 @@ sub tag_dynamic {
     my $data=$_[0]->{data};
     my $inner; %{$inner}=%{$_[0]->{inner}};
     my $pl=fetchparam($param,['id']);
+    
+    my $id=$pl->{id} || $inner->{objid};
+
     if ($inner->{dyncalc} || !$cmlmain::GLOBAL->{CACHE}) {
         return cmlparser({data=>$data,inner=>$inner});
     } else {
-        $data="<cml:use id='$pl->{id}'>$data</cml:use>" if $pl->{id};
+        $data="<cml:use id='$id'>$data</cml:use>" if $id;
         return $data;
     }
 }
