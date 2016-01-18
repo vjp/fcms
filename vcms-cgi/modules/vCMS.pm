@@ -109,8 +109,8 @@ sub gr ($$$;$) {
     my $r;
     for (@$list) {
         my $pObj=o($_->{'objid'});
-        my $v=$pObj->p($pkey);
-        $v=~s/$pattern/$rpattern/g;
+        my $v=$pObj->p($pkey,{noparse=>1});
+        $v=~s/$pattern/$rpattern/ig;
         $pObj->Set($pkey,$v);
         push (@$r,$pObj);
     }

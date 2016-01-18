@@ -199,26 +199,26 @@ sub DumpLower($) {
 }
 
 sub GetValue ($$;$) {
-	my ($id,$prm,$opts)=@_;
-	my $csv=$opts->{csv}?1:0;
-	$prm=&cmlcalc::prm($prm) if $prm=~/^\d+$/;
+    my ($id,$prm,$opts)=@_;
+    my $csv=$opts->{csv}?1:0;
+    $prm=&cmlcalc::prm($prm) if $prm=~/^\d+$/;
     my $v=&cmlcalc::calculate({
-		id=>$id,
-		expr=>"p($prm)",
-		csv=>$csv,
-	});
-	my $value=$v->{value};
-	if ($opts->{formatted}) {
-		if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
-			my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
-			$value=&cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
-		} elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
-			my @v=split(/;/,$value);
-			$value=\@v;
-		}		
-		
-	}
-	return $value;
+        id=>$id,
+        expr=>"p($prm)",
+        csv=>$csv,
+        noparse=>$opts->{noparse}?1:0,
+    });
+    my $value=$v->{value};
+    if ($opts->{formatted}) {
+        if ($cmlmain::prm->{$prm}->{type} eq 'DATE') {
+            my $dfrmt=$cmlmain::prm->{$prm}->{extra}->{format};
+            $value=&cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
+        } elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
+            my @v=split(/;/,$value);
+            $value=\@v;
+        }
+    }
+    return $value;
 }
 
 
