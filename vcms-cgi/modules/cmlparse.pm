@@ -1450,18 +1450,22 @@ sub tag_use
 	
 	
 	my $e404;
-	if ($pl->{'validupkey'}) {
-		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'};
-	} 	elsif ($pl->{'validupexpr'}) {
-		$e404=1 if &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1;
-	} 	elsif ($pl->{'validexpr'}) {
-		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1;
-	}	 	 
+    if ($pl->{'validupkey'} && cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'}) {
+        $cmlcalc::ENV->{'WARNSTATUS'}="validupkey=$pl->{'validupkey'}  param=$_[0]->{param}";
+        $e404=1;
+    }   elsif ($pl->{'validupexpr'} && &cmlcalc::calculate({id=>&cmlcalc::p(_UP,$id),expr=>$pl->{'validupexpr'}})->{value} ne 1) {
+        $cmlcalc::ENV->{'WARNSTATUS'}="validupexpr=$pl->{'validupexpr'} param=$_[0]->{param}";
+        $e404=1;
+    }   elsif ($pl->{'validexpr'} && &cmlcalc::calculate({id=>$id,expr=>$pl->{'validexpr'}})->{value} ne 1) {
+        $cmlcalc::ENV->{'WARNSTATUS'}="validupexpr=$pl->{'validexpr'} param=$_[0]->{param}";
+        $e404=1; 
+    }
 
 	if ($e404) {
-		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
-		$cmlcalc::STOPCACHE=1;
-		return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
+        warn "USEVALIDATIONERROR id=$id $cmlcalc::ENV->{'WARNSTATUS'}";
+        $cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
+        $cmlcalc::STOPCACHE=1;
+        return cmlparser({data=>"<cml:include key='NOTFOUND'/>",inner=>$inner});		
 	}
 	my $setreadonly=$pl->{readonly} && ($pl->{readonly} ne 'NULL') && !$cmlcalc::ENV->{READONLY};
 	if ($pl->{readonlyexpr}) {
