@@ -5,11 +5,11 @@ use vCMS::Proxy;
 
 sub Quandl ($) {
     my %h=(
-        'GOLD'=>'LBMA/GOLD',
-        'SILVER'=>'LBMA/SILVER',
-        'PALL'=>'LPPM/PALL',
-        'PLAT'=>'LPPM/PLAT',
-        'PR_CU'=>'LME/PR_CU',
+        'AU'=>'LBMA/GOLD',
+        'AG'=>'LBMA/SILVER',
+        'PD'=>'LPPM/PALL',
+        'PT'=>'LPPM/PLAT',
+        'CU'=>'LME/PR_CU',
     );
     return $h{$_[0]} || undef;
 }
