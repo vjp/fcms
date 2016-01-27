@@ -3,21 +3,25 @@ package vCMS::Currency;
 use lib "..";
 use vCMS::Proxy;
 
-sub IsLBMA ($) {
+sub Quandl ($) {
     my %h=(
-        'GOLD'=>1,
-        'SILVER'=>1,
-        'PALL'=>1,
-        'PLAT'=>1,
-        'PR_CU'=>1,
+        'GOLD'=>'LBMA/GOLD',
+        'SILVER'=>'LBMA/SILVER',
+        'PALL'=>'LPPM/PALL',
+        'PLAT'=>'LPPM/PLAT',
+        'PR_CU'=>'LME/PR_CU',
     );
-    return $h{$_[0]}?1:0;
+    return $h{$_[0]} || undef;
 }
+
+
+
 
 sub Exchange ($) {
     my ($key)=@_;
-    if (IsLBMA($key)) {
-        my $r=vCMS::Proxy::GetURL("https://www.quandl.com/api/v3/datasets/LBMA/$key/data.xml?rows=1&column_index=1");
+    my $qkey=Quandl($key);
+    if ($qkey) {
+        my $r=vCMS::Proxy::GetURL("https://www.quandl.com/api/v3/datasets/$qkey/data.xml?rows=1&column_index=1");
         if ($r->{content}) {
             my ($rate)=($r->{content}=~m{<datum type="float">([\d\.]+)</datum>}si);
             return $rate;
