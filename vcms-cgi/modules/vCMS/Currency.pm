@@ -10,6 +10,7 @@ sub Quandl ($) {
         'PD'=>'LPPM/PALL',
         'PT'=>'LPPM/PLAT',
         'CU'=>'LME/PR_CU',
+        'EURUSD'=>'ECB/EURUSD',
     );
     return $h{$_[0]} || undef;
 }
