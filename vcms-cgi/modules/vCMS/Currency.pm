@@ -2,6 +2,7 @@ package vCMS::Currency;
 
 use lib "..";
 use vCMS::Proxy;
+use  Data::Dumper;
 
 sub Quandl ($) {
     my %h=(
@@ -18,8 +19,10 @@ sub Quandl ($) {
 
 
 
-sub Exchange ($) {
-    my ($key)=@_;
+sub Exchange ($;$) {
+    my ($key,$opts)=@_;
+    my $debug;
+    $debug=1 if $opts;
     my $qkey=Quandl($key);
     if ($qkey) {
         my $r=vCMS::Proxy::GetURL("https://www.quandl.com/api/v3/datasets/$qkey/data.xml?rows=1&column_index=1");
@@ -27,7 +30,7 @@ sub Exchange ($) {
             my ($rate)=($r->{content}=~m{<datum type="float">([\d\.]+)</datum>}si);
             return $rate;
         } else {
-            return undef;
+            return $debug?$r:undef;
         };
     }
     my $r=vCMS::Proxy::GetURL("http://www.cbr.ru/scripts/XML_daily.asp");
@@ -36,7 +39,7 @@ sub Exchange ($) {
         $rate=~s/,/./;
         return $rate;
     } else {
-        return undef;
+        return $debug?$r:undef;
     }
 }
 
