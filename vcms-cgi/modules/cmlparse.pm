@@ -3235,68 +3235,70 @@ sub tag_inputdate {
 }	
 
 sub tag_calendar {
-	my $param=$_[0]->{param};
-	my $id=$_[0]->{inner}->{objid};
-	
-	
-	my $value;
-	my $fvalue;
-	
-	my $name;
-	my $frmtstr;
-	my $pl=fetchparam(\$param,['param','prm','name','elementid','onchange','interfaceid','value','notnull','matrix','class']);
-	my $readonly=$cmlcalc::ENV->{READONLY};
-	my $prm=$pl->{param} || $pl->{prm};
-	if (defined $pl->{value}) {
-			$value=$pl->{value};
-			undef ($value) if $value eq 'NULL';
-	} elsif ($prm) {
-			$value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value}; 
-	}
-	my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
-	
-	if ($readonly) {
-		if ($value && $cmlmain::prm->{$prm}->{extra}->{format}) {
-			$value=strftime($cmlmain::prm->{$prm}->{extra}->{format},localtime($value));
-		}
-		return $value;	 
-	}
-	
-	my $fvformat=$need_time?"%d.%m.%Y %H:%M":"%d.%m.%Y";
-	my $size=$need_time?15:10;
-	my $calopts=$need_time?"{time:'mixed', year_range:2 }":"{year_range:2 }";
-	$fvalue=strftime($fvformat,localtime($value)) if $value;
-	
-	if ($pl->{name}) {
-		$name=$pl->{name}
-	} elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
-		$name="_o${id}_p${prm}";
-	} else {
-		$name="_p$prm";
-	}
-	my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":"id='$name'";
-	my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":'';
-	my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
-	my $prmname=$cmlmain::prm->{$prm}->{name};
-	my $clsstr=$cmlmain::GLOBAL->{NEWSTYLE}?"class='uneditable-input input-small'":'';
-	my $classstr=$pl->{class} || 'input-small';
-	 if (vCMS::Config::Get('jquery')) {
-		return qq(
-			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input type="text"   class='$classstr' $param value="$fvalue" data-provide="datepicker" data-date-format="dd.mm.yyyy" $iidstr  onchange="jQuery(this).prev().val(jQuery(this).datepicker('getDate').getTime()/1000+12*60*60)"/>
- 	 	);
-	 	
-	 } else {
-		return qq(
-			 <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
-	         <input type="text" $clsstr $param value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
-             <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
- 	 	);
-	 }
-	
-}	
+    my $param=$_[0]->{param};
+    my $id=$_[0]->{inner}->{objid};
 
+    my $value;
+    my $fvalue;
 
+    my $name;
+    my $frmtstr;
+    my $pl=fetchparam(\$param,[
+       'param','prm','name','elementid','onchange',
+       'interfaceid','value','notnull','matrix','class',
+       'expr',
+    ]);
+    my $readonly=$cmlcalc::ENV->{READONLY};
+    my $prm=$pl->{param} || $pl->{prm};
+    if (defined $pl->{value}) {
+        $value=$pl->{value};
+        undef ($value) if $value eq 'NULL';
+    } elsif ($prm) {
+        $value=&cmlcalc::calculate({id=>$id,expr=>"p($prm)"})->{value};
+    } elsif ($pl->{expr}) {
+        $value=&cmlcalc::calculate({id=>$id,expr=>$pl->{'expr'}})->{value};
+    }
+    my $need_time=$cmlmain::prm->{$prm}->{extra}->{format}=~/\%[cH]/?1:0;
+    if ($readonly) {
+        if ($value && $cmlmain::prm->{$prm}->{extra}->{format}) {
+            $value=strftime($cmlmain::prm->{$prm}->{extra}->{format},localtime($value));
+        }
+        return $value;
+    }
+    my $fvformat=$need_time?"%d.%m.%Y %H:%M":"%d.%m.%Y";
+    my $size=$need_time?15:10;
+    my $calopts=$need_time?"{time:'mixed', year_range:2 }":"{year_range:2 }";
+    $fvalue=strftime($fvformat,localtime($value)) if $value;
+
+    if ($pl->{name}) {
+        $name=$pl->{name}
+    } elsif ($_[0]->{inner}->{matrix} || $pl->{matrix}) {
+        $name="_o${id}_p${prm}";
+    } elsif ($prm) {
+        $name="_p$prm";
+    } else {
+        $name="calendar";
+    }
+
+    my $idstr=$pl->{'elementid'}?"id='$pl->{elementid}'":"id='$name'";
+    my $iidstr=$pl->{'interfaceid'}?"id='$pl->{interfaceid}'":'';
+    my $nnstr=$pl->{'notnull'}?"notnull='1'":''; 
+    my $prmnamestr=$prm?"prmname='$cmlmain::prm->{$prm}->{name}'":'';
+    my $clsstr=$cmlmain::GLOBAL->{NEWSTYLE}?"class='uneditable-input input-small'":'';
+    my $classstr=$pl->{class} || 'input-small';
+    if (vCMS::Config::Get('jquery')) {
+        return qq(
+            <input type="hidden" value="$value" name="$name" $idstr $nnstr $prmnamestr/>
+            <input type="text"   class='$classstr' $param value="$fvalue" data-provide="datepicker" data-date-format="dd.mm.yyyy" $iidstr  onchange="jQuery(this).prev().val(jQuery(this).datepicker('getDate').getTime()/1000+12*60*60)"/>
+        );
+    } else {
+        return qq(
+            <input type="hidden" value="$value" name="$name" $idstr $nnstr prmname='$prmname'/>
+            <input type="text" $clsstr $param value="$fvalue" size='$size' $iidstr onchange="\$(this).previous().value=this.calendar_date_select.target_element.value?parseInt(this.calendar_date_select.selected_date.getTime()/1000):0;$pl->{onchange}">
+            <img onclick="new CalendarDateSelect( \$(this).previous(), $calopts );" src="/cmsimg/calendar.gif" style="border: 0px none; cursor: pointer;" />
+        );
+    }
+}
 
 
 sub tag_checkbox {
