@@ -799,7 +799,7 @@ setvalue({convert=>1,key=>'MAINCMSTEMPL',pkey=>'PAGETEMPLATE',value=>q(
 
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPSELECTOR', name=>'Шаблон попапа для селектора больших списков'});
-setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
+setvalue({convert=>1,key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
 <cml:form matrix='1'>
     <cml:list expr='prmformula(cgi(selectorprm))||lowlist(_prm:lowlist_)'>
          <cml:if expr='cgi(single)'>
@@ -811,6 +811,19 @@ setvalue({key=>'POPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
     <cml:input type='button' onclick='setSel(this,"_prm:id_")' value='Изменить'/>
 </cml:form>
 )});
+
+
+addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'NSPOPUPSELECTOR', name=>'Шаблон попапа для селектора больших списков (новый стиль)'});
+setvalue({convert=>1,key=>'NSPOPUPSELECTOR',pkey=>'PAGETEMPLATE',value=>q(
+<cml:list expr='prmformula(cgi(selectorprm))' orderby='_prm:orderby_'>
+    <cml:if expr='cgi(single)'>
+        <cml:radiobutton id='_prm:id_' param='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
+    </cml:if><cml:else>
+        <cml:checkbox id='_prm:id_' prm='_prm:selectorprm_' value='_cml:_ID_'/><cml:text prm='_NAME'/><br/>
+    </cml:else>    
+</cml:list>
+)});
+
 
 addlowobject({convertname=>1,upobjkey=>'CMSFORMADMIN', key=>'POPUPLESELECTOR', name=>'Попап редактирования списка объектов'});
 setvalue({key=>'POPUPLESELECTOR',pkey=>'PAGETEMPLATE',value=>q(
