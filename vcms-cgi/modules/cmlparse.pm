@@ -1590,23 +1590,24 @@ sub tag_actionlink {
 		$href.="&csv=1" if $pl->{csv};
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		$href.='&'.$pl->{href} if $pl->{href};
-		my $header_title=$title || &cmlmain::enc('Параметры');
-		unless ($title) {
-			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-				$title="<i class='icon-edit glyphicon glyphicon-edit'></i>"
-			} else {
-				my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
-				$title="<img src='$imgurl' border='0'/>";
-			}	
-		} 
+		my $header_title=$pl->{title} || &cmlmain::enc('Параметры');
+        unless ($title) {
+            if ($cmlmain::GLOBAL->{NEWSTYLE}) {
+            $title="<i class='icon-edit glyphicon glyphicon-edit'></i>";
+            } else {
+                my $imgurl=$pl->{action} eq 'EDIT'?$cmlmain::EDITIMAGEURL:$cmlmain::VIEWIMAGEURL;
+                $title="<img src='$imgurl' border='0'/>";
+            }
+        }
 		if ($pl->{popup}) {
+            my $popup_title=$pl->{popuptitle} || $header_title;
 			if ($cmlmain::GLOBAL->{NEWSTYLE}) {
 				my $template=$pl->{template} || "EDIT_$kn";
 				my $fn_name=vCMS::Config::Get('jquery')?'openBootstrapPopupJq':'openBootstrapPopup';
 				my $resultdiv="selDiv${iid}_NAME";
 				my $pstr=qq(?popupview=$template&id=$iid&resultdiv=$resultdiv&selectorprm=_ID);
   				return qq(
-  					<a href='#' onclick="${fn_name}('${pstr}',{title:'$title'});return false"><span id='$resultdiv'>$title</span></a>
+  					<a href='#' onclick="${fn_name}('${pstr}',{title:'$popup_title'});return false"><span id='$resultdiv'>$title</span></a>
   				)
 			} else {
 				my $width=$pl->{width} || 600;
