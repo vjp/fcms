@@ -882,7 +882,7 @@ sub tag_select {
 		$defopt="<option value='$defoptvalue'>$defopt</option>"
 	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
 		$defopt=&cmlmain::enc("<option value='0'>Не задан</option>")
-}
+    }
 	
 	undef $inner->{selectedlist};
   	if (defined $sexpr) {
@@ -931,20 +931,22 @@ sub tag_select {
   			)
   		} else {
 			return qq(<a href='#' onclick="openPopup('${pstr}',{title:'$title',width:600,height:400});return false">$ch_str</a>)
-  		}		
+        }
   	}
-  	
-  	
-  	my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
-  	my $idtxt=$pl->{elementid}?"id='$pl->{elementid}'":"";
-  	my $nnstr=$pl->{notnull}?"notnull='1'":'';
-  	my $pnstr=$prmname?"prmname='$prmname'":'';
-  	my $itext=$_[0]->{data}?
-  		cmlparser({data=>$_[0]->{data},inner=>$inner}):
-  		tag_list({data=>$data,inner=>$inner,param=>$param});
-  	return $access_denied?&cmlcalc::p(_NAME,&cmlcalc::p($prm,$id)) :"$hd<select name='$name' $param $multiple $idtxt $nnstr $pnstr>$defopt\n$itext</select>";
 
-}	
+    my $hd=$multiple?"<input type='hidden' value='0' name='$name'>":'';
+    my $idtxt=$pl->{elementid}?"id='$pl->{elementid}'":"";
+    my $nnstr=$pl->{notnull}?"notnull='1'":'';
+    my $pnstr=$prmname?"prmname='$prmname'":'';
+
+    my $sparam=$param;
+    $sparam.=" orderby='$pl->{orderby}'" if $pl->{orderby};
+
+    my $itext=$_[0]->{data}?
+        cmlparser({data=>$_[0]->{data},inner=>$inner}):
+        tag_list({data=>$data,inner=>$inner,param=>$sparam});
+    return $access_denied?&cmlcalc::p(_NAME,&cmlcalc::p($prm,$id)) :"$hd<select name='$name' $param $multiple $idtxt $nnstr $pnstr>$defopt\n$itext</select>";
+}
 
 
 
