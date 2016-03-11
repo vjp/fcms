@@ -388,8 +388,9 @@ sub UploadFile($$$) {
 	}	
 }
 
-sub ExportDBStr() {
-	return cmlmain::export_db_str();
+sub ExportDBStr(;$) {
+    my ($opts)=@_;
+    return cmlmain::export_db_str($opts);
 }
 
 sub ImportDBStr () {
@@ -489,15 +490,16 @@ sub GetLoginByObjID ($) {
 }
 
 sub BackupDB(;$) {
-	my ($backupname)=@_;
-	unless ($backupname) {
-		$backupname = vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
-		cmlmain::backup_dir_create();
-	}	
-	my $str=vCMS::Proxy::ExportDBStr();
-	system("$str | gzip -c >$backupname");
-	return $backupname;
-}	
+    my ($opts)=@_;
+    my $backupname=ref $opts eq 'HASH'?$opts->{filename}:$opts;    
+    unless ($backupname) {
+        $backupname = vCMS::Proxy::GetGlobal('WWWPATH').'/backup/db'.strftime ('%Y%m%d_%H%M',localtime()).'.gz';
+        cmlmain::backup_dir_create();
+    }
+    my $str=vCMS::Proxy::ExportDBStr(ref $opts eq 'HASH'?$opts:undef);
+    system("$str | gzip -c >$backupname");
+    return $backupname;
+}
 
 
 sub FastSearch($$$) {

@@ -167,14 +167,14 @@ sub backup_dir_create ()
 	return 1;
 }
 
-sub export_db_str (;$) 
-{
-	my ($opts)=@_;
-	#optimization keys -Q --max_allowed_packet=16777216
-	my $cache=$opts->{cache}?'':"--ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}pagescache --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}linkscache";
-	my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}vlshist  $cache";
-	my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
-	return $str;		
+sub export_db_str (;$) {
+    my ($opts)=@_;
+    #optimization keys -Q --max_allowed_packet=16777216
+    my $cache=$opts->{cache}?'':"--ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}pagescache --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}linkscache";
+    my $cset=$opts->{charset}?"--default-character-set=$opts->{charset}":'';
+    my $estr="mysqldump -q -u$GLOBAL->{DBUSER} -p$GLOBAL->{DBPASSWORD} -h$GLOBAL->{DBHOST} $GLOBAL->{DBNAME} --ignore-table=$GLOBAL->{DBNAME}.${DBPREFIX}vlshist  $cache $cset";
+    my $str=-e '/usr/local/bin/mysqldump'?"/usr/local/bin/$estr":$estr;
+    return $str;		
 }
 
 sub export_history_str () 

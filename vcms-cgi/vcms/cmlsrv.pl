@@ -37,32 +37,32 @@ my $action=param('action');
 my $need_exit;
 
 if ($action) {
-	if ($action eq 'remotesync') {
-		print "Content-type: text/html\n\n";
-		remote_sync(param('path'),param('type'),param('key'),param('value'));
-		exit();
-	}elsif ($action eq 'export') {
-		my $dt=strftime ('%Y%m%d_%H%M',localtime());
-		if (param('area') eq 'scripts') {
-			print "Content-Disposition: attachment; filename=cgi-bin.$dt.tar.gz\n";
-			print "Content-type: application/octet-stream\n\n";
-			system("tar -cz -C $GLOBAL->{CGIPATH} -f - .");
-		} elsif (param('area') eq 'docs'){
-			print "Content-Disposition: attachment; filename=docs.$dt.tar.gz\n";
-			print "Content-type: application/octet-stream\n\n";
-			system(cmlmain::export_static_str('-'));
-		} elsif (param('area') eq 'data'){
-			print "Content-Disposition: attachment; filename=data.$dt.tar.gz\n";
-			print "Content-type: application/octet-stream\n\n";
-			system("tar -cz -C $GLOBAL->{FILEPATH} -f - . ");
-		} elsif (param('area') eq 'db'){
-			print "Content-Disposition: attachment; filename=db.$dt.gz\n";
-			print "Content-type: application/octet-stream\n\n";
-			my $str=cmlmain::export_db_str();
-			system("$str | gzip -c");
-		}			
-		exit;
-	}	
+    if ($action eq 'remotesync') {
+        print "Content-type: text/html\n\n";
+        remote_sync(param('path'),param('type'),param('key'),param('value'));
+        exit();
+    }elsif ($action eq 'export') {
+        my $dt=strftime ('%Y%m%d_%H%M',localtime());
+        if (param('area') eq 'scripts') {
+            print "Content-Disposition: attachment; filename=cgi-bin.$dt.tar.gz\n";
+            print "Content-type: application/octet-stream\n\n";
+            system("tar -cz -C $GLOBAL->{CGIPATH} -f - .");
+        } elsif (param('area') eq 'docs'){
+            print "Content-Disposition: attachment; filename=docs.$dt.tar.gz\n";
+            print "Content-type: application/octet-stream\n\n";
+            system(cmlmain::export_static_str('-'));
+        } elsif (param('area') eq 'data'){
+            print "Content-Disposition: attachment; filename=data.$dt.tar.gz\n";
+            print "Content-type: application/octet-stream\n\n";
+            system("tar -cz -C $GLOBAL->{FILEPATH} -f - . ");
+        } elsif (param('area') eq 'db'){
+            print "Content-Disposition: attachment; filename=db.$dt.gz\n";
+            print "Content-type: application/octet-stream\n\n";
+            my $str=cmlmain::export_db_str({charset=>param('charset')});
+            system("$str | gzip -c");
+        }
+        exit;
+    }
 }
 
 print header(-type=>'text/html', -charset=>$GLOBAL->{CODEPAGE});

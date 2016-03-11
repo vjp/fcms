@@ -87,14 +87,15 @@ sub DBDump  ($$) {
 
 
 
-sub DBSync  ($) {
-    my ($self)=@_;
+sub DBSync  ($;$) {
+    my ($self,$opt)=@_;
     my $test=$self->Test();
     return "Gate test error: ".$test->{error} if $test->{error};
     vCMS::Proxy::DropPagesCache();
     my $backupname=vCMS::Proxy::BackupDB();
     return "cant backup ($backupname)" unless -s $backupname;
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
+    $uri.="&charset=$opt->{charset}" if $opt->{charset};
     my $istr=vCMS::Proxy::ImportDBStr();
     my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
     my $e=`$str`;
