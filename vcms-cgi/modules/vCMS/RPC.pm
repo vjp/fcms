@@ -88,19 +88,19 @@ sub DBDump  ($$) {
 
 
 sub DBSync  ($) {
-	my ($self)=@_;
-	my $test=$self->Test();
-	return "Gate test error: ".$test->{error} if $test->{error};
-	vCMS::Proxy::DropPagesCache();
-	my $backupname=vCMS::Proxy::BackupDB();
-	return "cant backup" unless -s $backupname;
+    my ($self)=@_;
+    my $test=$self->Test();
+    return "Gate test error: ".$test->{error} if $test->{error};
+    vCMS::Proxy::DropPagesCache();
+    my $backupname=vCMS::Proxy::BackupDB();
+    return "cant backup ($backupname)" unless -s $backupname;
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=db";
-	my $istr=vCMS::Proxy::ImportDBStr();
-	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
-	my $e=`$str`;
-	$backupname=~s/.gz/.2.gz/;
-	vCMS::Proxy::BackupDB($backupname);
-	return "str:$str e:$e";
+    my $istr=vCMS::Proxy::ImportDBStr();
+    my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | gzip -d | $istr";
+    my $e=`$str`;
+    $backupname=~s/.gz/.2.gz/;
+    vCMS::Proxy::BackupDB($backupname);
+    return "str:$str e:$e";
 }
 
 sub StaticSync ($) {
