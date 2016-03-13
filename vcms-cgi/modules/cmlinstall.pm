@@ -1442,30 +1442,35 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEADDEDITM
 my $newid;
 my $name=$CGIPARAM->{name} || 'Новый';
 if ($CGIPARAM->{upobj}) {   
-	$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{upobj},up=>$CGIPARAM->{up}});
+    $newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{upobj},up=>$CGIPARAM->{up}});
 } else {   
-	$newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{up}});
+    $newid=addlowobject({name=>$name,upobj=>$CGIPARAM->{up}});
 }
+my $lv=$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id};
 if ($CGIPARAM->{link}) {    
-	my $lv=$CGIPARAM->{linkval}?$CGIPARAM->{linkval}:$CGIPARAM->{id};    
-	setvalue ({id=>$newid,prm=>$CGIPARAM->{link},value=>$lv});
+    setvalue ({id=>$newid,prm=>$CGIPARAM->{link},value=>$lv});
 }
+
+if ($CGIPARAM->{selflink}) {
+    o($lv)->Set($CGIPARAM->{selflink},$newid);
+}
+
 my $kn=o($CGIPARAM->{up})->p('_KEY');
 my $template=$CGIPARAM->{template} || "EDIT_${kn}";
 if ($CGIPARAM->{appenddiv}) {
-	ajax_ok("Новый объект создан",{
-    	appenddiv=>$CGIPARAM->{appenddiv},
+    ajax_ok("Новый объект создан",{
+        appenddiv=>$CGIPARAM->{appenddiv},
         redir=>"?view=${template}&ukey=$CGIPARAM->{up}&id=$newid",
     });
 } elsif ($CGIPARAM->{popup}) {
     my $title=$CGIPARAM->{popuptitle} || 'Редактировать объект'; 
-	ajax_ok("Новый объект создан",{
-    	popup=>1,
+    ajax_ok("Новый объект создан",{
+        popup=>1,
         popuptitle=>$title,
         redir=>"?popupview=$template&id=$newid",
     });
 } else {
-	ajax_ok("Новый объект создан",{redir=>"?body=${template}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=${kn}&id=$newid"});
+    ajax_ok("Новый объект создан",{redir=>"?body=${template}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=${kn}&id=$newid"});
 }
 )});
 

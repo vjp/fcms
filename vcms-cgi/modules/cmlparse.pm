@@ -1496,7 +1496,7 @@ sub tag_actionlink {
 	my $title;
 	
 	my $pl=fetchparam(\$param,[
-		'action','id','upobj','up','upkey','link','linkval',
+		'action','id','upobj','up','upkey','link','linkval','selflink',
 		'setflag','name','value','prm','param',
 		'piclist','filelist','vidlist',
 		'template', 'editprm', 'ukey', 'listprm', 
@@ -1655,7 +1655,6 @@ sub tag_actionlink {
 	} 	elsif ($pl->{action} eq 'DEBUG') {
 		return "<a href='/cgi-bin/vcms/cmlsrv.pl?action=editlowform&objid=$pl->{id}' $param>$title</a>";
 	} 	elsif ($pl->{action} eq 'ADD') {
-		my $prf="$pl->{up}_$pl->{id}";
 		my $onclick;
 		my $linkval=$pl->{linkval} || $pl->{id};
 		unless ($title) {
@@ -1683,13 +1682,13 @@ sub tag_actionlink {
 		}
 		return "<a href='#' $onclick >$title</a>";
 	} 	elsif ($pl->{action} eq 'ADDEDIT') {
-		my $prf="$pl->{up}_$pl->{id}";
 		my $linkval=$pl->{linkval} || $pl->{id};
 		my @ajax_opts;
 		push (@ajax_opts,"up:'$pl->{up}'") if $pl->{up};
 		push (@ajax_opts,"upobj:'$pl->{upobj}'") if $pl->{upobj};
 		push (@ajax_opts,"link:'$pl->{link}'") if $pl->{link};
-		push (@ajax_opts,"linkval:'$linkval'") if $linkval;
+        push (@ajax_opts,"selflink:'$pl->{selflink}'") if $pl->{selflink};
+        push (@ajax_opts,"linkval:'$linkval'") if $linkval;
 		push (@ajax_opts,"menu:'$cmlcalc::CGIPARAM->{menu}'") if $cmlcalc::CGIPARAM->{menu};
 		push (@ajax_opts,"appenddiv:'$pl->{appenddiv}'") if $pl->{appenddiv};
 		push (@ajax_opts,"template:'$pl->{template}'") if $pl->{template};
