@@ -2410,14 +2410,14 @@ sub tag_include {
   	}
   	
   	
-  	if ($pl->{param}) {
-  		$expr="p('$pl->{param}')" 
-  	} elsif ($pl->{prm}) {
-  		$expr="p('$pl->{prm}')"
-  	} else {
-  		$expr='p(PAGETEMPLATE)';
-  	}
-  
+    if ($pl->{param}) {
+        $expr="p('$pl->{param}')" 
+    } elsif ($pl->{prm}) {
+        $expr="p('$pl->{prm}')"
+    } else {
+        $expr=vCMS::Config::IsMobile()?"p(MOBTEMPLATE) || p(PAGETEMPLATE)":"p(PAGETEMPLATE)";
+    }
+
     my $e404;
 	if ($pl->{'validupkey'}) {
 		$e404=1 if &cmlcalc::calculate({id=>$id,expr=>"p(_KEY,p(_UP))"})->{value} ne $pl->{'validupkey'};
@@ -2446,7 +2446,7 @@ sub tag_include {
 			$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 			$cmlcalc::STOPCACHE=1;
 		}	
-		return  cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}});
+		return cmlparser({data=>$body, inner=>$inner, readonly=>$pl->{readonly}});
 	} elsif ($pl->{validempty}) {
 		$cmlcalc::ENV->{'HTTPSTATUS'}='404 Not Found';
 		$cmlcalc::STOPCACHE=1;
