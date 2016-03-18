@@ -3249,8 +3249,10 @@ sub tag_calendar {
     my $pl=fetchparam(\$param,[
        'param','prm','name','elementid','onchange',
        'interfaceid','value','notnull','matrix','class',
-       'expr',
+       'expr','id'
     ]);
+    
+    my $id=$pl->{id} || $_[0]->{inner}->{objid};
     my $readonly=$cmlcalc::ENV->{READONLY};
     my $prm=$pl->{param} || $pl->{prm};
     if (defined $pl->{value}) {
