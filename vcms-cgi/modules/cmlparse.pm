@@ -1964,8 +1964,9 @@ sub tag_a	{
 		} else {
 			$estr='</a>'
 		}
-	}	
- 	return $bstr.cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}).$estr;	
+	}
+    my $body=$_[0]->{data}?cmlparser({data=>$_[0]->{data},inner=>$_[0]->{inner}}):"<i class='icon-edit glyphicon glyphicon-download'></i>";
+    return $bstr.$body.$estr;
 }
 
 
