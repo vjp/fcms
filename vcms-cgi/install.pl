@@ -35,6 +35,11 @@ print "Content-Type: text/html; charset=windows-1251\n\n";
 print qq(
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</head>
 <body>
 );
 
@@ -315,7 +320,7 @@ print qq(
 <a href='install.pl?refresh=1'>Обновить скрипты</a>
 
 <form method='post'>
-<table>
+<table class="table table-striped">
   <tr><td>Хост БД</td><td><input size='100' name='dbhost' value='localhost'></td></tr>
   <tr><td>Имя БД</td><td><input size='100' name='dbname'></td></tr>
   <tr><td>Пользователь БД</td><td><input size='100' name='dbuser'></td></tr>
