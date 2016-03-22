@@ -1234,11 +1234,11 @@ sub setpicture
  
  
  $fh = upload("v$pkey");
- open FILE,">$GLOBAL->{FILEPATH}/$fname" || die $!;
+ open FILE,">$GLOBAL->{FILEPATH}/$fname" || die "open file error (fname=$GLOBAL->{FILEPATH}/$fname) $!";
  while ($buffer=<$fh>) { 
  	print FILE $buffer; 
  }
- close  FILE || die $!;
+ close  FILE || die "close file error (fname=$GLOBAL->{FILEPATH}/$fname) $!";
  setvalue({id=>$objid,uid=>$objuid,pkey=>$pkey,value=>$fname,tabkey=>$tabkey,tabpkey=>$tabpkey});
 }
 
