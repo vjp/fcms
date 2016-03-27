@@ -38,9 +38,11 @@ print qq(
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"  crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
 );
 
 if (param('refresh')) { 
@@ -315,7 +317,7 @@ $wpath=$path unless -s $wpath;
 chomp $path;
 chomp $wpath;
 
-print qq(
+print q(
 
 <a href='install.pl?refresh=1'>Обновить скрипты</a>
 
@@ -343,6 +345,61 @@ print qq(
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
+
+<a href='#' onclick='$("#consoleDiv").toggle();return false'>Консоль</a>
+<div id='consoleDiv' style='display:none'>
+
+<hr/>
+
+<script>
+
+function ajax_call(func,data,callback) {
+    jQuery.ajax({
+        type: "POST",
+        url: '/cgi-bin/install.pl',
+        data: ({
+            func: func, 
+            data: JSON.stringify(data)
+        }),
+        success: function(json) {
+            callback(json)
+        } 
+    });
+}
+
+</script>
+
+
+<textarea id='editarea' rows='5' cols='100'></textarea><br/>
+<input type='button' onclick='ajax_call("console",{dt:$("#editarea").value},console_callback)' value='Выполнить скрипт'/>
+
+<table><tr><td>Результат выполнения скрипта : </td><td><div id='statusDiv'></div>
+
+<hr/>
+<textarea id='resultDiv' rows='30' cols='100'></textarea>
+
+            <script language="javascript" type="text/javascript">
+            function vcms_console (script) {
+                $('resultDiv').update('...');
+                $('statusDiv').update('ВЫПОЛНЕНИЕ');
+                var dt={script: script};
+                ajax_call('console', dt, console_callback);
+            }
+            function console_callback(json){
+                     $('resultDiv').update(json.result);
+                     var statusstr;
+                     if (json.status=='SUCCESS') {
+                        statusstr='УСПЕХ';
+                     } else {
+                        statusstr='ОШИБКА';
+                     }      
+                     $('statusDiv').update(statusstr);
+                     
+            }
+            </script>
+
+</div>
+
 </body>
 </html> 
 );
