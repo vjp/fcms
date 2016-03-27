@@ -1457,17 +1457,18 @@ if ($CGIPARAM->{selflink}) {
 
 my $kn=o($CGIPARAM->{up})->p('_KEY');
 my $template=$CGIPARAM->{template} || "EDIT_${kn}";
-if ($CGIPARAM->{appenddiv}) {
-    ajax_ok("Новый объект создан",{
-        appenddiv=>$CGIPARAM->{appenddiv},
-        redir=>"?view=${template}&ukey=$CGIPARAM->{up}&id=$newid",
-    });
-} elsif ($CGIPARAM->{popup}) {
+if ($CGIPARAM->{popup}) {
     my $title=$CGIPARAM->{popuptitle} || 'Редактировать объект'; 
     ajax_ok("Новый объект создан",{
         popup=>1,
         popuptitle=>$title,
+        appenddiv=>$CGIPARAM->{appenddiv},
         redir=>"?popupview=$template&id=$newid",
+    });
+} elsif ($CGIPARAM->{appenddiv}) {
+    ajax_ok("Новый объект создан",{
+        appenddiv=>$CGIPARAM->{appenddiv},
+        redir=>"?view=${template}&ukey=$CGIPARAM->{up}&id=$newid",
     });
 } else {
     ajax_ok("Новый объект создан",{redir=>"?body=${template}&menuid=$CGIPARAM->{up}&menu=$CGIPARAM->{menu}&ukey=${kn}&id=$newid"});
