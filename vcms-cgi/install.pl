@@ -317,7 +317,7 @@ $wpath=$path unless -s $wpath;
 chomp $path;
 chomp $wpath;
 
-print q(
+print qq(
 
 <a href='install.pl?refresh=1'>Обновить скрипты</a>
 
@@ -345,7 +345,9 @@ print q(
 </table>
 <input type='submit' name='install' value='начать установку'/>
 </form>
+);
 
+print q(
 <a href='#' onclick='$("#consoleDiv").toggle();return false'>Консоль</a>
 <div id='consoleDiv' style='display:none'>
 
