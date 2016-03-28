@@ -105,14 +105,19 @@ sub DBSync  ($;$) {
 }
 
 sub StaticSync ($) {
-	my ($self)=@_;
-	my $test=$self->Test();
-	return "Gate test error: ".$test->{error} if $test->{error};		
-	my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=docs";
-	my $wwwpath=vCMS::Proxy::GetGlobal('WWWPATH');
-	my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $wwwpath";
-	my $output=`$str`;
-	return("$str - $output");
+    my ($self)=@_;
+    my $test=$self->Test();
+    return "Gate test error: ".$test->{error} if $test->{error};
+
+    my $wwwpath=vCMS::Proxy::GetGlobal('WWWPATH');
+    my $cgipath=vCMS::Proxy::GetGlobal('CGIPATH');    
+    copy("$wwwpath/.htaccess","$wwwpath/.htaccessbackup");
+    copy("$cgipath/conf","$cgipath/conf.backup");
+
+    my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=docs";
+    my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $wwwpath";
+    my $output=`$str`;
+    return("$str - $output");
 }
 
 sub DataSync ($) {
