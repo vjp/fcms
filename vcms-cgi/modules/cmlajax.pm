@@ -9,6 +9,7 @@ BEGIN
  use Encode;
  use JSON::PP;
  use File::Copy;
+ use POSIX qw(strftime);
  @ISA = 'Exporter';
  @EXPORT = qw( &data_prepare );
 
@@ -144,7 +145,7 @@ sub ajax_console ($)
 sub ajax_setconf ($) 
 {
 	my ($r)=@_;
-    copy("$cmlmain::GLOBAL->{CGIPATH}/conf","$cmlmain::GLOBAL->{CGIPATH}/conf.backup");
+    copy("$cmlmain::GLOBAL->{CGIPATH}/conf","$cmlmain::GLOBAL->{CGIPATH}/conf.".strftime ('%Y%m%d_%H%M',localtime()).".backup");
     $r->{conf}=Encode::encode('cp1251',$r->{conf}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
     eval "$r->{conf}";
     if ($@) {
@@ -161,7 +162,7 @@ sub ajax_setconf ($)
 sub ajax_sethtaccess ($) {
     my ($r)=@_;
     my $fpath="$cmlmain::GLOBAL->{WWWPATH}/.htaccess";
-    copy($fpath,"$cmlmain::GLOBAL->{WWWPATH}/.htaccessbackup");
+    copy($fpath,"$cmlmain::GLOBAL->{WWWPATH}/.htaccess.".strftime ('%Y%m%d_%H%M',localtime()).".backup");
     $r->{conf}=Encode::encode('cp1251',$r->{conf}) unless $GLOBAL->{CODEPAGE} eq 'utf-8';
     open (FC, ">$fpath") || return ({message=>enc("Ошибка сохранения ($fpath) $!")});
     print (FC $r->{conf});

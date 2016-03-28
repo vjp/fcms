@@ -111,8 +111,8 @@ sub StaticSync ($) {
 
     my $wwwpath=vCMS::Proxy::GetGlobal('WWWPATH');
     my $cgipath=vCMS::Proxy::GetGlobal('CGIPATH');    
-    copy("$wwwpath/.htaccess","$wwwpath/.htaccessbackup");
-    copy("$cgipath/conf","$cgipath/conf.backup");
+    copy("$wwwpath/.htaccess","$wwwpath/.htaccess.".strftime ('%Y%m%d_%H%M',localtime()).".backup");
+    copy("$cgipath/conf","$cgipath/conf.".strftime ('%Y%m%d_%H%M',localtime()).".backup");
 
     my $uri="http://$self->{_host}/cgi-bin/vcms/cmlsrv.pl?action=export&area=docs";
     my $str="curl --user $self->{_username}:$self->{_password} \"$uri\" | tar -zxf - -C $wwwpath";
