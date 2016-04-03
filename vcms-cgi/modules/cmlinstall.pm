@@ -1458,10 +1458,9 @@ if ($CGIPARAM->{selflink}) {
 my $kn=o($CGIPARAM->{up})->p('_KEY');
 my $template=$CGIPARAM->{template} || "EDIT_${kn}";
 if ($CGIPARAM->{popup}) {
-    my $title=$CGIPARAM->{popuptitle} || 'Редактировать объект'; 
     ajax_ok("Новый объект создан",{
         popup=>1,
-        popuptitle=>$title,
+        popuptitle=>$CGIPARAM->{popuptitle},
         appenddiv=>$CGIPARAM->{appenddiv},
         redir=>"?popupview=$template&id=$newid",
     });

@@ -1,34 +1,34 @@
 function defcallbackjq(json){
 	jQuery('input[type="button"]').prop('disabled', false);
     if (json.status) {
-        if (json.appenddiv) {
-        	jQuery.ajax({
-        		url: json.redir,
-        		type: "get",
-        		dataType: "html",
-        		success: function(returnData){
-        			jQuery('#'+json.appenddiv).append(returnData);
-        		},
-        	});
-        	return 1;
-        }
         if (json.popup) {
-        	openBootstrapPopupJq(json.redir,{title:json.popuptitle});
-        	return 1;
+            openBootstrapPopupJq(json.redir,{title:json.popuptitle});
+            return 1;
+        }
+        if (json.appenddiv) {
+            jQuery.ajax({
+                url: json.redir,
+                type: "get",
+                dataType: "html",
+                success: function(returnData){
+                    jQuery('#'+json.appenddiv).append(returnData);
+                },
+            });
+            return 1;
         }
         alert(json.message || lbSuccess);
         var r=json.redir || json.back;
         if (r=='silent') return 1;
         if (r) {
-        	location.href=r;
+            location.href=r;
         } else {
-        	if (json.anchor) location.hash=json.anchor;
-        	location.reload();
-        } 
+            if (json.anchor) location.hash=json.anchor;
+            location.reload();
+        }
     } else {
         alert(json.message);
-    }    
-}   
+    }
+}
 
 function executejq(func,data,callback,url) {
 	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
@@ -148,19 +148,17 @@ jQuery.fn.serializeForm = function () {
 };
 
 
-
-
 function openBootstrapPopupJq (url,opts) {
-	jQuery.ajax({
-		url: url,
-		type: "get",
-		dataType: "html",
-		success: function(returnData){
-			jQuery("#bsModal").html(returnData);
-			jQuery("#myModalLabel").text(opts.title);
-			jQuery('#bsModal').modal('show');
-		},
-	});
+    jQuery.ajax({
+        url: url,
+        type: "get",
+        dataType: "html",
+        success: function(returnData){
+            jQuery("#bsModal").html(returnData);
+            if (opts.title) jQuery("#myModalLabel").text(opts.title);
+            jQuery('#bsModal').modal('show');
+        },
+    });
 }
 
 
