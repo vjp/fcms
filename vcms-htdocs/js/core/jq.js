@@ -1,5 +1,5 @@
 function defcallbackjq(json){
-	jQuery('input[type="button"]').prop('disabled', false);
+    jQuery('input[type="button"]').prop('disabled', false);
     if (json.status) {
         if (json.popup) {
             openBootstrapPopupJq(json.redir,{title:json.popuptitle});
