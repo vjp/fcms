@@ -37,7 +37,12 @@ sub Reset () {
 
 
 sub Status () {
-	vCMS::Proxy::QueueStatus();
+    vCMS::Proxy::QueueStatus();
 }
 
+
+sub ViewStat () {
+    my $r=vCMS::Proxy::QueueStatus();
+    return  vCMS::Proxy::SetEnv('QSTAT',"QSTAT=".$r);
+}
 1;

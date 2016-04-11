@@ -234,6 +234,9 @@ sub SetValue ($$;$$) {
 	return cmlcalc::set($id,$prm,$value,$opts);
 }
 
+sub SetEnv ($$) {
+    return cmlcalc::setenv(@_);
+}
 
 sub DefaultValue ($$;$) {
 	my ($id,$prm)=@_;
