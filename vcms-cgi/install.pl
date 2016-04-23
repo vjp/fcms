@@ -310,6 +310,7 @@ if (param('refresh')) {
 
 my $path=getcwd();
 $path=~s/cgi-bin\s*//s;
+$path=~s/cgi\s*//s;
 
 my $wpath="${path}www/";
 $wpath=$path unless -s $wpath;
