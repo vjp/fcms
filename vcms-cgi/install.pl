@@ -313,6 +313,7 @@ $path=~s/cgi-bin\s*//s;
 $path=~s/cgi\s*//s;
 
 my $wpath="${path}www/";
+$wpath="${path}docs/" unless -s $wpath;
 $wpath=$path unless -s $wpath;
 
 chomp $path;
