@@ -1458,11 +1458,13 @@ if ($CGIPARAM->{selflink}) {
 my $kn=o($CGIPARAM->{up})->p('_KEY');
 my $template=$CGIPARAM->{template} || "EDIT_${kn}";
 if ($CGIPARAM->{popup}) {
+    my $redir="?popupview=$template&id=$newid";
+    $redir.="&resultdiv=$CGIPARAM->{appenddiv}" if $CGIPARAM->{appenddiv};
+    $redir.="&resulttemplate=$CGIPARAM->{resulttemplate}" if $CGIPARAM->{resulttemplate};
     ajax_ok("Новый объект создан",{
         popup=>1,
         popuptitle=>$CGIPARAM->{popuptitle},
-        appenddiv=>$CGIPARAM->{appenddiv},
-        redir=>"?popupview=$template&id=$newid",
+        redir=>$redir,
     });
 } elsif ($CGIPARAM->{appenddiv}) {
     ajax_ok("Новый объект создан",{
