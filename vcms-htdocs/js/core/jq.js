@@ -1,5 +1,9 @@
 function defcallbackjq(json){
     jQuery('input[type="button"]').prop('disabled', false);
+    if (json.output) {
+        $('#'+json.output).append(json.message || lbSuccess);
+        return 1;
+    }
     if (json.status) {
         if (json.popup) {
             openBootstrapPopupJq(json.redir,{title:json.popuptitle});
@@ -69,29 +73,30 @@ function ajax_call_jq(func,data,callback) {
 
 
 function lexecutejq(func,objid,data,callback,url) {
-	var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
-	
-	jQuery.ajax({
-		  type: "POST",
-		  url: url || def_url,
-	      data: ({
-				lfunc: func,
-				objid: objid,
-				data:  JSON.stringify(data)
-	      }),
-	      dataType: "json",
-	      success: function(json) {
-	    	  if (callback) {
-	    		  callback(json)
-	    	  } else {
-	    		  defcallbackjq(json)
-	    	  }	
-		  } 
-	});
-
+    var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
+    
+    if (data.output) {
+       $('#'+data.output).append(data.startmessage+"\n" || "Function:"+func+" running...\n");
+    }
+    
+    jQuery.ajax({
+        type: "POST",
+        url: url || def_url,
+        data: ({
+                lfunc: func,
+                objid: objid,
+                data:  JSON.stringify(data)
+        }),
+        dataType: "json",
+        success: function(json) {
+            if (callback) {
+                callback(json)
+            } else {
+                defcallbackjq(json)
+            }
+        }
+    });
 }
-
-
 
 function multisetjq (elm,fcallback,back,method,sortid) {
 	var dt=jQuery(elm).parents("form").serializeForm();

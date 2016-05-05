@@ -1505,7 +1505,7 @@ sub tag_actionlink {
         'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
         'forcereadonly','jsdata','type','setname','confirm', 'hidden',
         'width','height','popup','csv','appenddiv','template','popuptitle','anchor','popup',
-        'resulttemplate'
+        'resulttemplate','output','startmessage'
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
 	$pl->{button}=1 if $pl->{type} eq 'button';  	
@@ -1749,7 +1749,7 @@ sub tag_actionlink {
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
- 	    	my $dtstr='{}';
+ 	    	my $dtstr=$pl->{output}?"{output:'$pl->{output}',startmessage:'$pl->{startmessage}'}":'{}';
  	    	if ($pl->{collectdata}) {
  	    		$dtstr=vCMS::Config::Get('jquery')?
  	    			q(jQuery(this).parents('form').serializeForm()):

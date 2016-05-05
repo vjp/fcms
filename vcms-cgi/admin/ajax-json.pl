@@ -39,16 +39,17 @@ $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 if (param('lfunc')) {
-	my $lfunc=param('lfunc');
-	my $data=param('data') || $json->encode ([]);
-	$cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
-	my $result=execute({lmethod=>$lfunc,id=>param('objid')});
-	if (ref $result ne 'HASH') {
-		my $rstr=enc("Ошибка выполнения. Метод: $lfunc Ошибка: ").$result;
-		print $json->encode ({status=>1,message=>$rstr});
-	} else {	
-    	print $json->encode ($result);
-	}	
+    my $lfunc=param('lfunc');
+    my $data=param('data') || $json->encode ([]);
+    $cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
+    my $result=execute({lmethod=>$lfunc,id=>param('objid')});
+    $result->{output}=$cmlcalc::CGIPARAM->{output} if $cmlcalc::CGIPARAM->{output};
+    if (ref $result ne 'HASH') {
+        my $rstr=enc("Ошибка выполнения. Метод: $lfunc Ошибка: ").$result;
+        print $json->encode ({status=>1,message=>$rstr});
+    } else {
+        print $json->encode ($result);
+	}
 } elsif ($AJAX_FUNCS->{$func}) {
 	my $subname="cmlajax::ajax_$func";
 	my $r=decode_json($data);
