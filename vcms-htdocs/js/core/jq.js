@@ -2,6 +2,7 @@ function defcallbackjq(json){
     jQuery('input[type="button"]').prop('disabled', false);
     if (json.output) {
         $('#'+json.output).append(json.message || lbSuccess);
+        $('#'+json.output).append("\n");
         return 1;
     }
     if (json.status) {
