@@ -134,4 +134,11 @@ sub Str ($) {
 	return join(';',@{$self->GetObjectIDs()})
 }
 
+
+sub Limit ($$) {
+    my ($self,$limit)=@_;
+    my @lst=splice (@{$self->{_list}},0,$limit);
+    return new vCMS::Collection(\@lst);
+}
+
 1;
