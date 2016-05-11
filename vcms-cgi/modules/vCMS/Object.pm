@@ -129,29 +129,41 @@ sub url ($$) {
 	return vCMS::Proxy::GetGlobal('ABSFILEURL').'/'.$self->p($prm);
 }
 
-=item l( $pObj, $prmname )
+=item l( $pObj, $prmname $opts)
 
 Returns vCMS::Collection or vCMS::Object for this $param
 
 Examples:
 
 o(OBJECTKEY)->l(LISTPRMNAME);
+o(OBJECTKEY)->l(LISTPRMNAME,{limit=>5});
+o(OBJECTKEY)->l(LISTPRMNAME,{prm2=>LISTPRM2}); 
+
+
 
 =cut
 
 sub l($$;$) {
-	my($self,$prm,$prm2)=@_;
-	if  (vCMS::Proxy::IsSingleLink($prm)) {
-		my $v=$self->p($prm);
-		return $v?vCMS::o($v):vCMS::null();
-	} else { 	
-		my $ids;
-		my @l=map {$ids->{$_}=1; vCMS::o($_)} @{$self->p($prm,{formatted=>1})};
-		if ($prm2) {
-			push (@l,map{$ids->{$_}=1;vCMS::o($_)} grep {!$ids->{$_}} @{$self->p($prm2,{formatted=>1})} ) 
-		}
-		return new vCMS::Collection(\@l);
-	}
+    my($self,$prm,$opts)=@_;
+
+    my $prm2;
+    if (ref $opts eq 'HASH') {
+       $prm2=$opts->{prm2}
+    } else {
+        $prm2=$opts
+    }
+
+    if  (vCMS::Proxy::IsSingleLink($prm)) {
+        my $v=$self->p($prm);
+        return $v?vCMS::o($v):vCMS::null();
+    } else {
+        my $ids;
+        my @l=map {$ids->{$_}=1; vCMS::o($_)} @{$self->p($prm,{formatted=>1,limit=>$opts->{limit}})};
+        if ($prm2) {
+            push (@l,map{$ids->{$_}=1;vCMS::o($_)} grep {!$ids->{$_}} @{$self->p($prm2,{formatted=>1})} ) 
+        }
+        return new vCMS::Collection(\@l);
+    }
 }
 
 

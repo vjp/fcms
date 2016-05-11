@@ -215,6 +215,7 @@ sub GetValue ($$;$) {
             $value=&cmlmain::enc(strftime ($dfrmt,localtime($value))) if $dfrmt;
         } elsif ($cmlmain::prm->{$prm}->{type} eq 'LIST') {
             my @v=split(/;/,$value);
+            @v=splice(@v,0,$opts->{limit}) if $opts->{limit};
             $value=\@v;
         }
     }
