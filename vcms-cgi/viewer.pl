@@ -111,9 +111,8 @@ $cmlcalc::CGIPARAM->{view}=uc $cmlcalc::CGIPARAM->{view};
 $cmlcalc::CGIPARAM->{tview}=uc $cmlcalc::CGIPARAM->{tview};
 
 $cmlcalc::ENV->{prevpage}=$cmlcalc::CGIPARAM->{page}-1 if $cmlcalc::CGIPARAM->{page};
-$cmlcalc::ENV->{MOBILE_USER_AGENT}=1 if $cmlcalc::CGIPARAM->{forcemobile};
-$cmlcalc::ENV->{MOBILE_USER_AGENT}=0 if $cmlcalc::CGIPARAM->{forcedesktop} || cookie('forcedesktop');
-
+$cmlcalc::ENV->{MOBILE_USER_AGENT}=1 if $cmlcalc::CGIPARAM->{forcemobile}  || (cookie('force') eq 'm' && !$cmlcalc::CGIPARAM->{forcedesktope}); ;
+$cmlcalc::ENV->{MOBILE_USER_AGENT}=0 if $cmlcalc::CGIPARAM->{forcedesktop} || (cookie('force') eq 'd' && !$cmlcalc::CGIPARAM->{forcemobile});
 
 
 if (cookie('env')) {
@@ -202,8 +201,8 @@ if ($cmlcalc::SETSITEVARS || cookie('setlang')) {
 	my $slc=cookie(-name=>'setlang',-value=>0);
 	push (@cookies,$slc);
 }
-push (@cookies,cookie(-name=>'forcedesktop',-value=>1)) if $cmlcalc::CGIPARAM->{forcedesktop};
-push (@cookies,cookie(-name=>'forcedesktop',-value=>0)) if $cmlcalc::CGIPARAM->{forcemobile};
+push (@cookies,cookie(-name=>'force',-value=>'d')) if $cmlcalc::CGIPARAM->{forcedesktop};
+push (@cookies,cookie(-name=>'force',-value=>'m')) if $cmlcalc::CGIPARAM->{forcemobile};
 
 
 
