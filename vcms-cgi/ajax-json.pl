@@ -18,7 +18,7 @@ my $ts_start=time();
 start('.');
 
 my $json = new JSON::PP;
-my $data=param('data') || $json->encode ([]);
+my $data=param('data') || $json->encode ({});
 my $func=param('func') || param('lfunc');
 my $oid=param('objid');
 
