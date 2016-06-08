@@ -377,8 +377,11 @@ sub execute 	{
  		} else {
  			$res=$ev
  		}
- 		&cmlmain::tcalc('et',$xts);
  		
+        #### very strange does not work in root ajax-json.pl
+        unless ($cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX') {
+            &cmlmain::tcalc('et',$xts);
+        }
         return $res;
 }
 

@@ -7,7 +7,7 @@ use JSON::PP;
 
 
 use cmlmain;
-use cmlcalc;
+#use cmlcalc;
 use cmlajax;
 use CGI  qw/:standard/;     
 use CGI::Carp qw /fatalsToBrowser/;
@@ -34,9 +34,9 @@ $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 warn "DBG: START: FUNC:$func OID:$oid";
 my $result;
 if (param('func')) {
-	$result=execute({method=>param('func')});
+	$result=&cmlcalc::execute({method=>param('func')});
 } elsif (param('lfunc')) {
-	$result=execute({lmethod=>param('lfunc'),id=>param('objid')});
+	$result=&cmlcalc::execute({lmethod=>param('lfunc'),id=>param('objid')});
 } else {
 	$result=enc('Метод не задан')
 }	
