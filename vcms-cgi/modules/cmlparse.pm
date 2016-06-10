@@ -1505,9 +1505,11 @@ sub tag_actionlink {
         'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
         'forcereadonly','jsdata','type','setname','confirm', 'hidden',
         'width','height','popup','csv','appenddiv','template','popuptitle','anchor','popup',
-        'resulttemplate','output','startmessage'
+        'resulttemplate','output','startmessage','forcejquery',
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
+    my $jq=vCMS::Config::Get('jquery') || $pl->{forcejquery};
+    
 	$pl->{button}=1 if $pl->{type} eq 'button';  	
 	$pl->{action}='del' if lc($pl->{action}) eq 'delete';
 	$pl->{action}=uc($pl->{action});
@@ -1728,22 +1730,22 @@ sub tag_actionlink {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::method->{$pl->{method}}->{name} unless $title;
  	    	my $dtstr='{}';
- 	    	if ($pl->{collectdata}) {
- 	    		$dtstr=vCMS::Config::Get('jquery')?
- 	    			q(jQuery(this).parents('form').serializeForm()):
- 	    			q($(this).up('form').serialize(true));
- 	    	}
+            if ($pl->{collectdata}) {
+                $dtstr=$jq?
+                    q(jQuery(this).parents('form').serializeForm()):
+                    q($(this).up('form').serialize(true));
+            }
  	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
- 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';	 
- 	    	my $onclick;   	 	    	
- 	    	if (vCMS::Config::Get('jquery')) {
-	    		my $callback=$pl->{callback} || 'defcallbackjq';
- 	    		$onclick=qq(onclick="${confirmstr}executejq('$pl->{method}',$dtstr, $callback);return false;");
- 			} else {		    
- 	    		my $callback=$pl->{callback} || 'defcallback';
- 	    		$onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
-			}    
-			return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
+ 	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';
+ 	    	my $onclick;
+            if ($jq) {
+                my $callback=$pl->{callback} || 'defcallbackjq';
+                $onclick=qq(onclick="${confirmstr}executejq('$pl->{method}',$dtstr, $callback);return false;");
+            } else {
+                my $callback=$pl->{callback} || 'defcallback';
+                $onclick=qq(onclick="${confirmstr}execute('$pl->{method}',$dtstr, $callback);return false;");
+            }
+            return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick $clstr>$title</a>";
 	} elsif ($pl->{lmethod}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
