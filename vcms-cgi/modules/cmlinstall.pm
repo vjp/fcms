@@ -281,23 +281,24 @@ setvalue({key=>'IFRAMEPARSER',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 addlowobject({convertname=>1,upobjkey=>'INCLUDES',key=>'JSDICTIONARY',name=>'JS-словарь'});
 setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
 <script>
-	var lbLabelImage="Фото";
-  	var lbLabelOf="из";
-  	var lbError="Ошибка";
-  	var lbSuccess="Успех";
-  	var lbRequired="Необходимо заполнить поле";
- 	var lbDigit="Введите числовое значение в поле";   
-  	var lbSelSuccess="Список изменен";  
-  	var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
-   
-  	jQuery.fn.datepicker.dates['en'] = {
-    	days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
-    	daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск"],
-    	daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-    	months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-    	monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-    	today: "Сегодня",
-    	clear: "Очистить"
+    var lbLabelImage="Фото";
+    var lbLabelOf="из";
+    var lbError="Ошибка";
+    var lbSuccess="Успех";
+    var lbRequired="Необходимо заполнить поле";
+    var lbDigit="Введите числовое значение в поле";   
+    var lbSelSuccess="Список изменен";  
+    var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
+
+    jQuery.fn.datepicker.dates['en'] = {
+        days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
+        daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск"],
+        daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+        months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+        today: "Сегодня",
+        clear: "Очистить",
+        weekStart: 1
   	};
   
   
