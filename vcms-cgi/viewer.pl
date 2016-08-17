@@ -405,12 +405,14 @@ warn sprintf("DBG: QUERY:%s TIME:%.3f  INIT:%.3f DBRV:(%.3f:%d) DBLT (%.3f:%d) D
 
 
 
-sub errorpage
-{
- my $v=&cmlcalc::calculate({key=>'ERRORPAGE',expr=>"p('TMPL')"});
- my $body=$v->{value};
- if ($body) {print $body}
- else       {print "Ошибка вывода !!!!"}
+sub errorpage   {
+	my $v=&cmlcalc::calculate({key=>'ERRORPAGE',expr=>"p('TMPL')"});
+ 	my $body=$v->{value};
+ 	if ($body) {
+ 		print $body
+ 	}  else       {
+ 		print "Errorpage output error"
+ 	}
 }
 
 
