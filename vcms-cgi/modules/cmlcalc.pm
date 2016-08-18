@@ -792,8 +792,9 @@ sub today {
 	return time();
 }	
 
-sub month {
-	my @tm=localtime();
+sub month (;$) {
+    my ($datestamp)=@_;
+	my @tm=$datestamp?localtime($datestamp):localtime();
 	return mktime(0,0,0,1,$tm[4],$tm[5]);
 }
 
