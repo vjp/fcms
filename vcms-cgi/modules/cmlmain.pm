@@ -1679,9 +1679,9 @@ sub enc
 	return $val;
 }
 
-sub clear_history 
-{
-  $dbh->do("DELETE FROM ${DBPREFIX}vlshist");
+sub clear_history {
+  	$dbh->do("DELETE FROM ${DBPREFIX}vlshist");
+    $dbh->do("OPTIMIZE TABLE ${DBPREFIX}vlshist"); 
 }
 
 sub clearcache 
