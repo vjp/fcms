@@ -111,8 +111,13 @@ $cmlcalc::CGIPARAM->{view}=uc $cmlcalc::CGIPARAM->{view};
 $cmlcalc::CGIPARAM->{tview}=uc $cmlcalc::CGIPARAM->{tview};
 
 $cmlcalc::ENV->{prevpage}=$cmlcalc::CGIPARAM->{page}-1 if $cmlcalc::CGIPARAM->{page};
-$cmlcalc::ENV->{MOBILE_USER_AGENT}=1 if !vCMS::Config::Get('no_forcemobile') && ($cmlcalc::CGIPARAM->{forcemobile} || (cookie('force') eq 'm' && !$cmlcalc::CGIPARAM->{forcedesktop})); 
-$cmlcalc::ENV->{MOBILE_USER_AGENT}=0 if $cmlcalc::CGIPARAM->{forcedesktop} || (cookie('force') eq 'd' && !$cmlcalc::CGIPARAM->{forcemobile});
+
+my $fm_name=vCMS::Config::Get('forcemobile_param_name')  || 'forcemobile';
+my $fd_name=vCMS::Config::Get('forcedesktop_param_name') || 'forcedesktop';
+my $fc_name=vCMS::Config::Get('force_cookie_name') || 'force';
+
+$cmlcalc::ENV->{MOBILE_USER_AGENT}=1 if $cmlcalc::CGIPARAM->{$fm_name} || (cookie($fc_name) eq 'm' && !$cmlcalc::CGIPARAM->{$fd_name}); 
+$cmlcalc::ENV->{MOBILE_USER_AGENT}=0 if $cmlcalc::CGIPARAM->{$fd_name} || (cookie($fc_name) eq 'd' && !$cmlcalc::CGIPARAM->{$fm_name});
 
 
 if (cookie('env')) {
@@ -201,8 +206,8 @@ if ($cmlcalc::SETSITEVARS || cookie('setlang')) {
 	my $slc=cookie(-name=>'setlang',-value=>0);
 	push (@cookies,$slc);
 }
-push (@cookies,cookie(-name=>'force',-value=>'d')) if $cmlcalc::CGIPARAM->{forcedesktop};
-push (@cookies,cookie(-name=>'force',-value=>'m')) if $cmlcalc::CGIPARAM->{forcemobile};
+push (@cookies,cookie(-name=>$fc_name,-value=>'d')) if $cmlcalc::CGIPARAM->{$fd_name};
+push (@cookies,cookie(-name=>$fc_name,-value=>'m')) if $cmlcalc::CGIPARAM->{$fm_name};
 
 
 
