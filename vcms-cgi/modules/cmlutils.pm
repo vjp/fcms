@@ -44,7 +44,7 @@ sub sitesearch ($;$)
 	my $page=$opts->{'page'} || 0;
 	my $url=$opts->{'url'} || 'http://xmlsearch.yandex.ru/xmlsearch';
 	my $positions=$opts->{'positions'} || 10;
-	$site="www.$site";
+	$site="www.$site" if $opts->{'www'};
 
 	require LWP::UserAgent;
 	require XML::Simple;	    
