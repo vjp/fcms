@@ -1505,7 +1505,7 @@ sub tag_actionlink {
         'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
         'forcereadonly','jsdata','type','setname','confirm', 'hidden',
         'width','height','popup','csv','appenddiv','template','popuptitle','anchor','popup',
-        'resulttemplate','output','startmessage','forcejquery',
+        'resulttemplate','output','startmessage','forcejquery'
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
     my $jq=vCMS::Config::Get('jquery') || $pl->{forcejquery};
@@ -1751,13 +1751,18 @@ sub tag_actionlink {
 		    $title=$cmlmain::lmethod->{$pl->{lmethod}}->{name} unless $title;
 			my $oid=$pl->{id} || $_[0]->{inner}->{objid};
 			my $callback=$pl->{callback} || $defajaxcallback;
- 	    	my $dtstr=$pl->{output}?"{output:'$pl->{output}',startmessage:'$pl->{startmessage}'}":'{}';
+			my $dtstr;
  	    	if ($pl->{collectdata}) {
  	    		$dtstr=vCMS::Config::Get('jquery')?
  	    			q(jQuery(this).parents('form').serializeForm()):
  	    			q($(this).up('form').serialize(true));
- 	    	}
- 	    	$dtstr="{$pl->{jsdata}}" if $pl->{jsdata}; 
+ 	    	} else {
+				my @dtstr;
+				push (@dtstr,"output:'$pl->{output}'") if $pl->{output};
+				push (@dtstr,"startmessage:'$pl->{startmessage}'") if $pl->{startmessage};
+				push (@dtstr,"$jsdata") if $pl->{jsdata};
+				$dtstr='{'.join(',',@dtstr).'}';
+			}		
  	    	$confirmstr=$pl->{confirm}?"confirm('$pl->{confirm}') && ":'this.disabled=true;';
   	    	my $onclick;   	 	    	
  	    	if (vCMS::Config::Get('jquery')) {

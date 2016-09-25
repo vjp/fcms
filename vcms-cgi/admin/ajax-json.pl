@@ -48,6 +48,7 @@ if (param('lfunc')) {
         my $rstr=enc("Ошибка выполнения. Метод: $lfunc Ошибка: ").$result;
         print $json->encode ({status=>1,message=>$rstr});
     } else {
+    	$result->{objid}=param('objid');
         print $json->encode ($result);
 	}
 } elsif ($AJAX_FUNCS->{$func}) {

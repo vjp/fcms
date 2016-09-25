@@ -3,6 +3,12 @@ function defcallbackjq(json){
     if (json.output) {
         $('#'+json.output).append(json.message || lbSuccess);
         $('#'+json.output).append("\n");
+        if (json.nextmethod) {
+        	lexecutejq(json.nextmethod,json.objid,{
+        		output:json.output,
+        		startmessage:json.nextmessage
+        	});
+        }
         return 1;
     }
     if (json.status) {
@@ -76,8 +82,8 @@ function ajax_call_jq(func,data,callback) {
 function lexecutejq(func,objid,data,callback,url) {
     var def_url=(typeof(ajax_url) != "undefined")?ajax_url:'/cgi-bin/ajax-json.pl';
     
-    if (data.output) {
-       $('#'+data.output).append(data.startmessage+"\n" || "Function:"+func+" running...\n");
+    if (data.output && data.startmessage) {
+       $('#'+data.output).append(data.startmessage+"\n");
     }
     
     jQuery.ajax({
