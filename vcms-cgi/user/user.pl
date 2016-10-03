@@ -107,7 +107,7 @@ my $key;
 my $its=time()-$ts_start;
 
 my $prm=param('prm') || 'PAGETEMPLATE';
-if (param('menu')) {
+if (!$cmlmain::GLOBAL->{NEWSTYLE} && param('menu')) {
 	$v=&cmlcalc::calculate({key=>'USERMENU',expr=>"p($prm)"});
 }	elsif (param('body') && param('body') ne 'NULL') {
 	$v=&cmlcalc::calculate({
