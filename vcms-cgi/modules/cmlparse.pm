@@ -347,12 +347,14 @@ sub tag_flag {
 	my $expr=$pl->{expr};
 	$expr="p($prm)" if $prm;
 	my $id=$pl->{id} || $inner->{objid};	
-	my $iurl=$pl->{light}?$cmlmain::OKLTIMAGEURL:$cmlmain::OKIMAGEURL;
-	$iurl=$cmlmain::OKLTIMAGEURL if $pl->{lightexpr} && &cmlcalc::calculate({id=>$id,expr=>$pl->{lightexpr}})->{value};
 	my $value=$expr?&cmlcalc::calculate({id=>$id,expr=>$expr})->{value}:1;
 	if ($cmlcalc::CSVMODE) {
 		return $value?'+':'';
+	} elsif ($cmlmain::GLOBAL->{NEWSTYLE}) {
+		return $value?'<i class="fa fa-check" aria-hidden="true"></i>':'<i class="fa fa-ban" aria-hidden="true"></i>'	
 	} else {
+		my $iurl=$pl->{light}?$cmlmain::OKLTIMAGEURL:$cmlmain::OKIMAGEURL;
+		$iurl=$cmlmain::OKLTIMAGEURL if $pl->{lightexpr} && &cmlcalc::calculate({id=>$id,expr=>$pl->{lightexpr}})->{value};		
     	return $value?"<image src='$iurl'/>":'';
 	}	
 }
