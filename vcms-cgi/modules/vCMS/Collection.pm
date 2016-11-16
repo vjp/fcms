@@ -18,6 +18,11 @@ sub Empty ($) {
 	return $self->{_list}->[0]?0:1;
 }
 
+sub IsNull ($) {
+	my ($self)=shift;
+	return $self->Empty();
+}
+
 sub First ($) {
 	my ($self)=shift;
 	return $self->Empty()?new vCMS::Object::Null():$self->{_list}->[0]; 
