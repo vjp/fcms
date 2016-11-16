@@ -604,6 +604,10 @@ sub splitduration {
     return $dur
 }
 
+sub durationsec {
+	my @dur=reverse split(/:/,$_[0]);
+	return $dur[0]+$dur[1]*60+$dur[2]*3600;
+}
 
 
 sub csv ($;$$)
