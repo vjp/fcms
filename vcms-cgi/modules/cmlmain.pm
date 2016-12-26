@@ -2823,7 +2823,7 @@ sub loaduserlist {
 
 
 sub adduser {
-	my ($login,$password,$group,$fio)=@_;
+	my ($login,$password,$group,$fio,$opts)=@_;
 	if ($login!~/^[a-zA-Z][a-zA-Z0-9_]+$/) {
 		return (undef,'Неправильные символы в логине');
 	}
@@ -2832,7 +2832,7 @@ sub adduser {
 	}
 	my $upkey='SYSTEMUSERS';
 	$upkey.="_$group" if $group;
-	my $oid=&cmlcalc::add(&cmlcalc::id($upkey),{
+	my $oid=&cmlcalc::add($opts->{up} || &cmlcalc::id($upkey),{
 		_NAME=>$fio || $login,
 		_KEY=>"SU_$login",
 		SULOGIN=>$login,
