@@ -17,6 +17,15 @@ sub new($;$$) {
     return $self;	
 }
 
+
+sub Dump ($) {
+	my ($self)=shift;
+	return {
+		'ID'=>$self->{_id},
+		'LOGIN'=>$self->{_login},
+	}
+}
+
 sub GetLogin ($) {
 	my ($self)=@_;
 	return $self->{_login};
@@ -60,7 +69,9 @@ sub Existed ($$) {
 
 sub Create ($$$;$) {
 	my ($class,$login,$upperobj,$password)=@_;
+	return undef if $upperobj->IsNull;
 	my $luObj=$upperobj->Create({_KEY=>"SU_$login",_NAME=>$login});
+	return undef if $luObj->IsNull;
 	my $uid=vCMS::Proxy::AddUser($luObj->GetID(),$login,$password);
 	return $class->new($uid,$login);
 }
