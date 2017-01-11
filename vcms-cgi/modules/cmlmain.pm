@@ -492,12 +492,13 @@ sub check_external_auth ($;$)
 
 
 
-sub check_password ($)
+sub check_password ($;$)
 {
-	my ($password)=@_;
-	return (0,0) unless $cmlcalc::ENV->{'AUTHUSERID'};
+	my ($password,$objid)=@_;
+	$objid ||= $cmlcalc::ENV->{'AUTHUSERID'};
+	return (0,0) unless $objid;
 	my $sth1=$dbh->prepare("SELECT id,flag FROM ${DBPREFIX}auth WHERE objid=? and pwd=old_password(?)");
-	$sth1->execute($cmlcalc::ENV->{'AUTHUSERID'},$password);
+	$sth1->execute($objid,$password);
 	my ($sid,$flag)=$sth1->fetchrow();
 	if ($sid && ($flag & 1)) {
 		return (1,0);
