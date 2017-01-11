@@ -67,12 +67,14 @@ sub Existed ($$) {
 	return vCMS::Proxy::CheckUser($login);
 }
 
-sub Create ($$$;$) {
-	my ($class,$login,$upperobj,$password)=@_;
+sub Create ($$$;$$) {
+	my ($class,$login,$upperobj,$password,$prmvals)=@_;
+	return undef unless $login;
 	return undef if $upperobj->IsNull;
 	my $luObj=$upperobj->Create({_KEY=>"SU_$login",_NAME=>$login});
 	return undef if $luObj->IsNull;
 	my $uid=vCMS::Proxy::AddUser($luObj->GetID(),$login,$password);
+	$luObj->Set($prmvals) if $prmvals;
 	return $class->new($uid,$login);
 }
 
