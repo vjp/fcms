@@ -467,6 +467,14 @@ sub CheckUser ($) {
 	return  ($r2 && $r2->[0]->{objid})?$r2->[0]->{objid}:0;
 }
 
+sub CheckUserPassword ($$) {
+	my ($userid,$pswd)=@_;
+	my $taname=GetTableName('auth');
+	my $r2=DBSelect("SELECT id, flag  FROM $taname WHERE objid=? and pwd=old_password(?)",$userid,$pswd);
+	return  ($r2 && ($r2->[0]->{flag} & 1))?1:0;
+}
+
+
 sub AddUser ($$;$) {
 	my ($objid,$login,$password)=@_;
 	my $uid;

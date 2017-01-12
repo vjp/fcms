@@ -65,7 +65,14 @@ sub LoginBySessionKey ($$$) {
 sub Existed ($$) {
 	my ($class,$login)=@_;
 	return vCMS::Proxy::CheckUser($login);
+	
 }
+
+sub CheckPassword ($$) {
+	my ($self,$pswd)=@_;
+	return vCMS::Proxy::CheckUserPassword($self->GetID(),$pswd);
+}
+
 
 sub Create ($$$;$$) {
 	my ($class,$login,$upperobj,$password,$prmvals)=@_;
