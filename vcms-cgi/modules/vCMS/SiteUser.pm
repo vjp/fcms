@@ -73,6 +73,10 @@ sub CheckPassword ($$) {
 	return vCMS::Proxy::CheckUserPassword($self->GetID(),$pswd);
 }
 
+sub SetPassword ($$) {
+	my ($self,$pswd)=@_;
+	return vCMS::Proxy::SetUserPassword($self->GetID(),$pswd);
+}
 
 sub Create ($$$;$$) {
 	my ($class,$login,$upperobj,$password,$prmvals)=@_;

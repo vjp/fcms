@@ -474,6 +474,11 @@ sub CheckUserPassword ($$) {
 	return  ($r2 && ($r2->[0]->{flag} & 1))?1:0;
 }
 
+sub SetUserPassword ($$) {
+	my ($userid,$pswd)=@_;
+	my $taname=GetTableName('auth');
+	DBQuery("UPDATE  $taname SET pwd=old_password(?) WHERE objid=?",$pswd,$userid);
+}
 
 sub AddUser ($$;$) {
 	my ($objid,$login,$password)=@_;
