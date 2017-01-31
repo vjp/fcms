@@ -1,12 +1,14 @@
 function defcallbackjq(json){
     jQuery('input[type="button"]').prop('disabled', false);
     if (json.output) {
+    	if (json.elapsed) json.message+=' t:'+json.timer+'s';
         $('#'+json.output).append(json.message || lbSuccess);
         $('#'+json.output).append("\n");
         if (json.nextmethod) {
         	lexecutejq(json.nextmethod,json.objid,{
         		output:json.output,
-        		startmessage:json.nextmessage
+        		startmessage:json.nextmessage,
+        		elapsed:json.elapsed
         	});
         }
         return 1;

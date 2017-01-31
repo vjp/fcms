@@ -301,6 +301,7 @@ sub execute 	{
  		undef $OBJID;	
  		my $low;
  	  	my $xts=time();
+ 	  	$cmlmain::GLOBAL->{timers}->{lastexecstart}=$xts;
  		if (ref $_[0] eq 'HASH')   {
 
     		if ($_[0]->{method}) {
@@ -382,6 +383,7 @@ sub execute 	{
         unless ($cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX') {
             &cmlmain::tcalc('et',$xts);
         }
+        $res->{timer}=sprintf("%.2f",time() - $xts) if ref $res eq 'HASH';
         return $res;
 }
 

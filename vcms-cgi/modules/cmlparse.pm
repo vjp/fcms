@@ -1507,7 +1507,7 @@ sub tag_actionlink {
         'filter','filterexpr','filterprm','filtervalue','collectdata', 'key', 'href',
         'forcereadonly','jsdata','type','setname','confirm', 'hidden',
         'width','height','popup','csv','appenddiv','template','popuptitle','anchor','popup',
-        'resulttemplate','output','startmessage','forcejquery'
+        'resulttemplate','output','startmessage','forcejquery', 'elapsed'
 	]);
 	my $access_denied=$cmlcalc::ENV->{READONLY};
     my $jq=vCMS::Config::Get('jquery') || $pl->{forcejquery};
@@ -1760,8 +1760,9 @@ sub tag_actionlink {
  	    			q($(this).up('form').serialize(true));
  	    	} else {
 				my @dtstr;
-				push (@dtstr,"output:'$pl->{output}'") if $pl->{output};
-				push (@dtstr,"startmessage:'$pl->{startmessage}'") if $pl->{startmessage};
+				for ('output','startmessage','elapsed') {
+					push (@dtstr,"$_: '$pl->{$_}'") if $pl->{$_};
+				}
 				push (@dtstr,"$jsdata") if $pl->{jsdata};
 				$dtstr='{'.join(',',@dtstr).'}';
 			}		
