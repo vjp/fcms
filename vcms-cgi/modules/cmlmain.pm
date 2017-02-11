@@ -1290,11 +1290,12 @@ sub clearpagescache ($) {
 		push(@h,"'$key'");
 	}
 	my $dstr=join(',',@h);
-	warn sprintf "cache collecion %.3f",time()-$tt;
-	if ((scalar @h) > 1000) {
+	my $cnt=scalar @h;
+	warn sprintf "cache collecion cnt=$cnt time=%.3fs.",time()-$tt;
+	if ($cnt > 1000) {
 		$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
 		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
-	    warn sprintf "global clear %.3f",time()-$tt;		
+	    warn sprintf "global clear time=%.3fs",time()-$tt;		
 	}elsif (@h){
 		unless ($dbh->do("DELETE FROM ${DBPREFIX}pagescache WHERE cachekey IN ($dstr)")) {
 			warn "pagescache del problem - ".$dbh->errstr();
@@ -1302,7 +1303,7 @@ sub clearpagescache ($) {
 		}
 		my $sthd=$dbh->prepare("DELETE FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
 		$sthd->execute($obj)|| die $dbh->errstr();
-	    warn sprintf "increment clear %.3f",time()-$tt;		
+	    warn sprintf "increment clear time=%.3fs.",time()-$tt;		
 	}
 }
 

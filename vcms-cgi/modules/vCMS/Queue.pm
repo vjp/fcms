@@ -20,12 +20,13 @@ sub Job (;$){
 	$processor_id ||= Time::HiRes::time();
 	my $ev=vCMS::Proxy::GetQueueEvent($processor_id);
 	if ($ev) {
-		warn "Processing event $ev->{objid} : $ev->{method}";
+		warn "[[QJOB]] ".scalar localtime()." Start processing event $ev->{objid} : $ev->{method}";
 		my $r=vCMS::o($ev->{objid})->e($ev->{method});
 		vCMS::Proxy::DeleteQueueEvent($ev->{qid});
+		warn "[[QJOB]] ".scalar localtime()." Finish processing event $ev->{objid} : $ev->{method}";
 		return $r;
 	} else {
-		warn "Empty queue";
+		warn "[[QJOB]] ".scalar localtime()." Empty queue";
 		return undef;
 	}	
 }
