@@ -24,9 +24,8 @@ sub Job (;$){
 		my $r=vCMS::o($ev->{objid})->e($ev->{method});
 		vCMS::Proxy::DeleteQueueEvent($ev->{qid});
 		warn "[[QJOB]] ".scalar localtime()." Finish processing event $ev->{objid} : $ev->{method}";
-		return $r;
+		return 1;
 	} else {
-		warn "[[QJOB]] ".scalar localtime()." Empty queue";
 		return undef;
 	}	
 }

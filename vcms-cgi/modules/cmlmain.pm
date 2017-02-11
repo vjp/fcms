@@ -753,9 +753,9 @@ sub editprm  {
 
 
 
-sub dbconnect
-{
- $dbh=DBI->connect("DBI:mysql:$_[0]->{dbname}:$_[0]->{dbhost}",$_[0]->{dbuser},$_[0]->{dbpassword}) || die $DBI::errstr;
+sub dbconnect	{
+	$dbh=DBI->connect("DBI:mysql:$_[0]->{dbname}:$_[0]->{dbhost}",$_[0]->{dbuser},$_[0]->{dbpassword}) || die $DBI::errstr;
+ 	$dbh->{mysql_auto_reconnect} = 1;
 }
 
 
@@ -1428,11 +1428,15 @@ sub setvalue  {
   		if ($GLOBAL->{USEMEMCACHED}) {
         		$GLOBAL->{MEMD}->delete($objid);
        	}
- 			
- 		$sthDD->execute($objid,$pkey,$cl) || die $dbh->errstr;
+
  		if (defined $value && ($value ne '')) {
+ 			my $l=length $value;
+ 			warn "try save large value: $l" if $l>1000000;
  			$sthI->execute($objid,$pkey,$value,$lobj->{$objid}->{upobj},$cl) || die $dbh->errstr;
+ 		} else {
+ 			$sthDD->execute($objid,$pkey,$cl) || die $dbh->errstr;	
  		}	
+ 		
  		unless ($obj->{$lobj->{$objid}->{upobj}}->{nolog}) {
  			if ($value ne '' && !$nohistory) {
  				$sthH->execute($objid,$pkey,$value,$prm->{$pkey}->{type},$cl,$cmlcalc::ENV->{USER}) || die $dbh->errstr;

@@ -17,5 +17,7 @@ start('..');
 $cmlcalc::ENV->{USER}='%asyncprocessor';
 $cmlcalc::CGIPARAM->{_MODE}='ASYNCPROCESSOR';
 ($cmlcalc::ENV->{SERVER}) = ($GLOBAL->{ABSFILEURL}=~m{http://(.+)/data});
-vCMS::Queue::Job();
+for (1..20) {
+	last unless vCMS::Queue::Job();
+}
 
