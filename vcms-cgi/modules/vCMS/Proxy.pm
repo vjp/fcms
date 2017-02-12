@@ -295,7 +295,7 @@ sub QueueStatus () {
 sub GetQueueEvent($) {
 	my ($uniqid)=@_;
 	my $tname=GetTableName('queue');
-	DBUpdate("UPDATE $tname SET processorid=?,status=1 WHERE status=0 AND exectime<NOW() LIMIT 1",$uniqid);
+	DBUpdate("UPDATE $tname SET processorid=?,status=1 WHERE status=0 AND exectime<NOW() ORDER BY qid LIMIT 1",$uniqid);
 	my $r=DBSelect("SELECT * FROM $tname WHERE processorid=?",$uniqid);
 	return $r->[0];
 }
