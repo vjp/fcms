@@ -206,6 +206,14 @@ sub SetValue ($$;$$) {
 	return u($self,$prm,$value,$opts);
 }
 
+sub SetValueNoHistory ($$;$$) {
+	my ($self,$prm,$value,$opts)=@_;
+	$opts->{nohistory}=1;
+	return u($self,$prm,$value,$opts);
+}
+
+
+
 sub GetFileData ($$) {
 	my ($self,$prm)=@_;
 	my $filename=$self->p($prm);
