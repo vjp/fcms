@@ -1687,9 +1687,15 @@ sub enc
 	return $val;
 }
 
-sub clear_history {
-  	$dbh->do("DELETE FROM ${DBPREFIX}vlshist");
-    $dbh->do("OPTIMIZE TABLE ${DBPREFIX}vlshist"); 
+sub clear_history  (;$){
+	my ($limit)=@_;
+	$limit ||= 1000000;
+  	$dbh->do("DELETE FROM ${DBPREFIX}vlshist LIMIT $limit");
+    my $sth=$dbh->prepare("SELECT count(*) as cnt  FROM ${DBPREFIX}vlshist");
+    $sth->execute();
+	my ($cnt)=$sth->fetchrow();
+	$dbh->do("OPTIMIZE TABLE ${DBPREFIX}vlshist") unless $cnt; 
+	return $cnt;
 }
 
 sub clearcache 
