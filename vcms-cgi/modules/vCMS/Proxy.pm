@@ -204,7 +204,7 @@ sub GetValue ($$;$) {
     $prm=&cmlcalc::prm($prm) if $prm=~/^\d+$/;
     my $v=&cmlcalc::calculate({
         id=>$id,
-        expr=>"p($prm)",
+        expr=>"p('$prm')",
         csv=>$csv,
         noparse=>$opts->{noparse}?1:0,
     });
