@@ -4,6 +4,7 @@ function defcallbackjq(json){
     	if (json.elapsed) json.message+=' t:'+json.timer+'s';
         $('#'+json.output).append(json.message || lbSuccess);
         $('#'+json.output).append("\n");
+        $('#'+json.output).scrollTop($('#'+json.output)[0].scrollHeight);	
         if (json.nextmethod) {
         	lexecutejq(json.nextmethod,json.objid,{
         		output:json.output,
