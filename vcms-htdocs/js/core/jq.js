@@ -1,7 +1,7 @@
 function defcallbackjq(json){
     jQuery('input[type="button"]').prop('disabled', false);
     if (json.output) {
-    	if (json.elapsed) json.message+=' t:'+json.timer+'s';
+    	if (json.elapsed) json.message+="\n"+lbElapsed+json.timer+"\n";
         $('#'+json.output).append(json.message || lbSuccess);
         $('#'+json.output).append("\n");
         $('#'+json.output).scrollTop($('#'+json.output)[0].scrollHeight);	

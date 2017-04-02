@@ -288,6 +288,7 @@ setvalue({key=>'JSDICTIONARY',pkey=>'PAGETEMPLATE',convert=>1,value=>qq(
     var lbRequired="Необходимо заполнить поле";
     var lbDigit="Введите числовое значение в поле";   
     var lbSelSuccess="Список изменен";  
+    var lbElapsed="Время выполнения (сек):";   
     var ajax_url = '<cml:text expr='env(AJAXURL)'/>';  
 
     jQuery.fn.datepicker.dates['en'] = {
