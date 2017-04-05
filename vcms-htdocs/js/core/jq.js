@@ -27,6 +27,9 @@ function defcallbackjq(json){
                 success: function(returnData){
                     jQuery('#'+json.appenddiv).append(returnData);
                 },
+                error: function(xhr, textStatus, errorThrown){
+                	jQuery('#'+json.appenddiv).append('ajax error: '+errorThrown+' code:'+textStatus);
+                }
             });
             return 1;
         }
@@ -61,7 +64,10 @@ function executejq(func,data,callback,url) {
 	    	  } else {
 	    		  defcallbackjq(json)
 	    	  }	
-		  } 
+		  },
+	      error: function(xhr, textStatus, errorThrown){
+	            alert('ajax error: '+errorThrown+' code:'+textStatus);
+	      }
 	});	
 }
 
@@ -77,7 +83,10 @@ function ajax_call_jq(func,data,callback) {
 		}),
 		success: function(json) {
 			callback(json)
-	    } 
+	    }, 
+    	error: function(xhr, textStatus, errorThrown){
+    		alert('ajax error: '+errorThrown+' code:'+textStatus);
+    	}	
 	});
 }
 
@@ -104,6 +113,9 @@ function lexecutejq(func,objid,data,callback,url) {
             } else {
                 defcallbackjq(json)
             }
+        },
+        error: function(xhr, textStatus, errorThrown){
+            alert('ajax error: '+errorThrown+' code:'+textStatus);
         }
     });
 }
