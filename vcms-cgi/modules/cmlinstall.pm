@@ -1547,6 +1547,38 @@ addmethod ({convertname=>1,convertscript=>1,objkey=>'BASECMS',key=>'BASEPARSER',
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',lflag=>1,script=>'baselparser()'});
 addmethod ({convertname=>1,objkey=>'BASECMS',key=>'BASELPARSER',name=>'обработчик',script=>'baselparser()'});
 
+addmethod ({
+	convertname=>1,
+	convertscript=>1,
+	lflag=>1,
+	objkey=>'BASECMS',
+	key=>'SAFEBASELPARSER',name=>'Безопасный метод сохранения данных',
+	script=>q(
+if ($CGIPARAM->{parseid}) {
+	$id=$CGIPARAM->{parseid}
+} elsif ($CGIPARAM->{insertinto}) {
+	$id=addlowobject({upobj=>$CGIPARAM->{insertinto}})
+} else {$id=$CGIPARAM->{id}}
+
+for (grep (/^_p/,keys %$CGIPARAM)) {
+   (my $prm)=($_=~/_p(.+)/);
+   my $value=$CGIPARAM->{$_}; 
+   if ($CGIPARAM->{"_d$prm"}) {
+        $value=fetchdate($value,$CGIPARAM->{"_d$prm"});
+   }
+   if ($cmlmain::prm->{$prm}->{'type'} eq 'FLAG' && $value) {  
+  	$value=1;
+   }
+   setvalue({id=>$id,prm=>$prm,value=>$value}); 
+ 
+}
+
+for (grep (/^_f/,keys %$CGIPARAM)) {
+   if ($CGIPARAM->{$_}) {
+      (my $prm)=($_=~/_f(.+)/);
+      uploadprmfile({id=>$id,pkey=>$prm,cgiparam=>$_});
+   }   
+})});
 
 addmethod ({convertname=>1,convertscript=>1,lflag=>1,objkey=>'BASECMS',key=>'BASESAVEMETHOD',name=>'Базовый метод сохранения параметра',script=>q(
 my $id=p(_ID);
