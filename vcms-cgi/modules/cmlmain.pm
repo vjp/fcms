@@ -1282,7 +1282,6 @@ sub clearpagescache ($) {
 	}
 	
 	my $tt=time;
-	warn "start clear cache obj=$obj";
     my $sth=$dbh->prepare("SELECT cachekey FROM ${DBPREFIX}linkscache WHERE objlink=?") || die $dbh->errstr();
     $sth->execute($obj) || die $dbh->errstr();
     my @h;
@@ -1291,7 +1290,7 @@ sub clearpagescache ($) {
 	}
 	my $dstr=join(',',@h);
 	my $cnt=scalar @h;
-	warn sprintf "cache collecion cnt=$cnt time=%.3fs.",time()-$tt;
+	warn sprintf "cache collecion obj=$obj cnt=$cnt time=%.3fs.",time()-$tt if $cnt;
 	if ($cnt > 1000) {
 		$dbh->do("DELETE FROM ${DBPREFIX}pagescache") || die $dbh->errstr();
 		$dbh->do("DELETE FROM ${DBPREFIX}linkscache") || die $dbh->errstr();
