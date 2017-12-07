@@ -7,7 +7,7 @@ no strict "refs";
 use lib "../modules/";
 use Data::Dumper;
 use JSON::PP;
-
+use Time::HiRes qw (time);
 
 use cmlmain;
 use cmlcalc;
@@ -28,24 +28,26 @@ $AJAX_FUNCS={
 	resort=>1,
 };   
 
-
+my $ts_start=time();
 start('..');
 print "Content-Type: application/json; charset=$GLOBAL->{CODEPAGE}\n\n";
 
 my $data=param('data');
 my $func=param('func');
+my $oid=param('objid');
+
 my $json = new JSON::PP;
 $cmlcalc::ENV->{SERVER}=$ENV{HTTP_HOST};
 $cmlcalc::ENV->{USER}=$ENV{REMOTE_USER} || '%admin';
 $cmlcalc::ENV->{USERID}=&cmlcalc::id("SU_$ENV{REMOTE_USER}");
 if (param('lfunc')) {
-    my $lfunc=param('lfunc');
+    $func=param('lfunc');
     my $data=param('data') || $json->encode ([]);
     $cmlcalc::CGIPARAM=data_prepare($data,$GLOBAL->{CODEPAGE});
-    my $result=execute({lmethod=>$lfunc,id=>param('objid')});
+    my $result=execute({lmethod=>$func,id=>param('objid')});
     $result->{output}=$cmlcalc::CGIPARAM->{output} if $cmlcalc::CGIPARAM->{output};
     if (ref $result ne 'HASH') {
-        my $rstr=enc("Ошибка выполнения. Метод: $lfunc Ошибка: ").$result;
+        my $rstr=enc("Ошибка выполнения. Метод: $func Ошибка: ").$result;
         print $json->encode ({status=>1,message=>$rstr});
     } else {
     	$result->{objid}=param('objid');
@@ -76,4 +78,6 @@ if (param('lfunc')) {
 	#my $rstr=enc("Неправильная функция $func");
 	#print $json->encode ({result=>$rstr});
 }	
+my $ts=time()-$ts_start;
+warn "DBG: END: FUNC:$func OID:$oid TIME:$ts UA:$ENV{HTTP_USER_AGENT} COOKIE:$ENV{HTTP_COOKIE}";
 
