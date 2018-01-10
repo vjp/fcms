@@ -543,6 +543,15 @@ sub envhash($;$) {
 	return $cmlcalc::ENV->{$name}->{$key};
 }
 
+sub calcrange ($$;$$) {
+	my ($start,$end,$startrange,$endrange)=@_;
+	$startrange ||=$cmlcalc::CGIPARAM->{startrange};
+	$endrange ||=$cmlcalc::CGIPARAM->{endrange};
+	return 1 if !$startrange && !$endrange;
+	return ($start>$startrange && $start<$endrange && $end>$startrange && $end<$endrange)?1:0; 
+}
+
+
 sub cgi {
 	return $cmlcalc::CGIPARAM->{$_[0]} ne 'NULL'?$cmlcalc::CGIPARAM->{$_[0]}:'';
 }
