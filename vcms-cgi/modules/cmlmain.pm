@@ -1375,6 +1375,10 @@ sub setvalue  {
  	    $value=join(';',@v);
 	}
  	
+ 	if ($prm->{$pkey}->{type} eq 'NUMBER' && vCMS::Config::Get('fix_decimal_splitter')) {
+ 		$value=~s/(\d+)\,(\d+)/$1\.$2/;
+ 	}
+ 	
  	if ($_[0]->{tabkey})  {	
  		my $objid;
                 if ($id) {$objid=$id} else {$objid="u$uid"}
