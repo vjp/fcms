@@ -1634,9 +1634,10 @@ if ($CGIPARAM->{url}=~/^http/) {
 )});
 
 addobject({convertname=>1,upkey=>'ERRORS',key=>'ERR404',name=>'Ошибки - страница не найдена'});
+addprm({convertname=>1,objkey=>'ERRORS',name=>'Включить обработку ошибок',type=>'FLAG',key=>'ENABLE404HANDLE',evl=>'n',self=>1});
 
 addmethod ({convertname=>1,objkey=>'ERRORS',key=>'ERR404PARSER',name=>'Обработчик страница не найдена',convertscript=>1,script=>q(
-staterror("$ENV{REQUEST_URI} - $ENV{HTTP_REFERER}",$ENV{REQUEST_URI},$ENV{HTTP_USER_AGENT},"ERR404");
+staterror("$ENV{REQUEST_URI} - $ENV{HTTP_REFERER}",$ENV{REQUEST_URI},$ENV{HTTP_USER_AGENT},"ERR404") if p(ERR404HANDLE,id(ERRORS));
 return 1;
 )});
 
