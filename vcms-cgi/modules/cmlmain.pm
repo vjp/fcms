@@ -1616,7 +1616,7 @@ sub init	{
  	$sthIL=$dbh->prepare("REPLACE INTO ${DBPREFIX}links (objid,pkey,vallink) VALUES (?,?,?)") || die $dbh->errstr;
  
  	$sthUVL=$dbh->prepare("SELECT * FROM ${DBPREFIX}links WHERE vallink=? AND pkey=?") || die $dbh->errstr;
- 	$sthVL=$dbh->prepare("select ${DBPREFIX}links.objid,${DBPREFIX}objects.upobj from ${DBPREFIX}links,${DBPREFIX}objects where vallink=? and pkey=? and ${DBPREFIX}objects.id=${DBPREFIX}links.objid") || die $dbh->errstr; 
+ 	$sthVL=$dbh->prepare("select ${DBPREFIX}objects.id as objid,${DBPREFIX}objects.upobj from ${DBPREFIX}links,${DBPREFIX}objects where vallink=? and pkey=? and ${DBPREFIX}objects.id=${DBPREFIX}links.objid") || die $dbh->errstr; 
  
  	$sthIFS=$dbh->prepare("REPLACE ${DBPREFIX}fs (id,prm,lang,val) VALUES (?,?,?,?)") || die $dbh->errstr;
  	$sthDFS=$dbh->prepare("DELETE FROM ${DBPREFIX}fs  WHERE id=? AND prm=?") || die $dbh->errstr;
