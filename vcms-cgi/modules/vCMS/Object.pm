@@ -238,8 +238,9 @@ sub GetFileContent ($$) {
 }
 
 
-sub SetFile ($$$) {
+sub SetFile ($$;$) {
 	my ($self,$prm,$cgifileprm)=@_;
+	$cgifileprm ||= "_f$prm";
 	return vCMS::Proxy::UploadFile($self->ID,$prm,$cgifileprm);
 }
 
