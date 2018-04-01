@@ -38,9 +38,9 @@ sub GetName ($) {
 	return $self->Name();
 }
 
-sub GetFilename ($$) {
-	my ($self,$prm)=@_;
-	return $self->GetInternalFilename($prm) if vCMS::Proxy::IsDataFileParam($prm);
+sub GetFilename ($$;$) {
+	my ($self,$prm,$filename)=@_;
+	return $self->GetInternalFilename($prm,$filename) if vCMS::Proxy::IsDataFileParam($prm);
 	my $path=vCMS::Proxy::GetGlobal('WWWPATH');
 	$path=vCMS::Proxy::GetGlobal('CGIPATH') if vCMS::Proxy::GetPrmExtra($prm,'cgi');
 	$path='' if vCMS::Proxy::GetPrmExtra($prm,'abs');
@@ -51,9 +51,10 @@ sub GetFileName ($$) {
 	return $_[0]->GetFilename($_[1]);
 }
         
-sub GetInternalFilename ($$) {
-	my ($self,$prm)=@_;
-	return vCMS::Proxy::GetGlobal('FILEPATH').'/'.$self->p($prm);
+sub GetInternalFilename ($$;$) {
+	my ($self,$prm,$filename)=@_;
+	$filename||= $self->p($prm);
+	return vCMS::Proxy::GetGlobal('FILEPATH').'/'.$filename;
 }
         
 
@@ -244,10 +245,17 @@ sub SetFile ($$;$) {
 	return vCMS::Proxy::UploadFile($self->ID,$prm,$cgifileprm);
 }
 
-sub SetToFile ($$$) {
-	my ($self,$prm,$value)=@_;
-	my $path='>'.$self->GetFilename($prm);
+sub SetToFile ($$$;$) {
+	my ($self,$prm,$value,$filename)=@_;
+	if ($filename && vCMS::Config::Get('uniqfiles')) {
+		my $id=$self->GetID();
+		my $fp=vCMS::Proxy::GetGlobal('FILEPATH');
+		mkdir "$fp/$id";
+		$filename="$id/$filename";
+	}
+	my $path='>'.$self->GetFilename($prm,$filename);
     my $status=(open (FH,$path))&&(print FH $value)&&(close FH); 
+    $self->Set($prm,$filename) if $filename;
     return $status?(1):(0,"$!:$path");
 }
 
