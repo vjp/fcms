@@ -2,6 +2,8 @@
 
 
 use lib "modules/";
+use lib "../../../perl/usr/lib/perl5/x86_64-linux-thread-multi";
+
 use strict;
 use CGI  qw/:standard *Tr *table *td code/;
 use Data::Dumper;

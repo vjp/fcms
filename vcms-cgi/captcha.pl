@@ -6,6 +6,7 @@ use strict;
 use CGI  qw/param/;
 use Image::Magick; 
 use lib "./modules/";
+use lib "../../../perl/usr/lib/perl5/x86_64-linux-thread-multi";
 use cmlmain;
 
 &cmlmain::init('.');

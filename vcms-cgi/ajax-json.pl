@@ -3,6 +3,7 @@
 
 use strict;
 use lib "./modules/";
+use lib "../../../perl/usr/lib/perl5/x86_64-linux-thread-multi";
 use JSON::PP;
 
 
