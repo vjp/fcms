@@ -276,7 +276,7 @@ if (param('refresh')) {
 	eval {
 		require cmlinstall;
 		require cmlmain;
-		do "conf";
+		do "./conf";
 		$DBHOST='localhost' unless $DBHOST;
 		$DBPREFIX.='_' if $DBPREFIX;
 		my $dbh=DBI->connect("DBI:mysql:$DBNAME:$DBHOST",$DBUSER,$DBPASSWORD) || die $DBI::errstr;
