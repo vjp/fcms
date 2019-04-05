@@ -192,7 +192,7 @@ sub config {
 	
 	print hr;
 	print enc("Ёкспорт"),br;
-	print endform();
+	print end_form();
 	print a({-href=>"?action=export&area=scripts"},enc('скрипты')),br;
 	print a({-href=>"?action=export&area=docs"},enc('статика')),br;
 	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
