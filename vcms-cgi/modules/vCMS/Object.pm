@@ -117,7 +117,7 @@ csv - returns csv template
 
 sub P($$;$) {
 	my($self,$prm,$opts)=@_;
-	return (defined $self->{vals}->{$prm} && !$opts)?$self->{vals}->{$prm}:vCMS::Proxy::GetValue($self->ID,$prm,$opts);
+	return (defined $self->{vals}->{$prm} && defined $self->{vals}->{$prm}->{value}  && !$opts)?$self->{vals}->{$prm}->{value}:vCMS::Proxy::GetValue($self->ID,$prm,$opts);
 }
 
 sub p($$;$) {
