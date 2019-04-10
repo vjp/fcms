@@ -3104,6 +3104,7 @@ sub email {
   	
   	my $defcharset=$GLOBAL->{CODEPAGE} eq 'utf-8'?'utf-8':'windows-1251';
   	my $echarset=$charset || $defcharset;
+        $subject = encode('utf-8',$subject) if $GLOBAL->{CODEPAGE} eq 'utf-8';
 	$subject = '=?'.$echarset.'?b?'.encode_base64($subject,'').'?=';
   	Encode::from_to( $message, $defcharset, $charset) if $charset;
   
