@@ -106,6 +106,9 @@ sub set_hru ($$)
 	read (FC,$fcontent,-s FC);
 	close(FC); 
 	
+
+   ### RewriteRule ^news(/|/page/.*)?$ /_INFO/19795$1
+
 	$fcontent=~s{(### VCMS START ###)(\n?.*?)(\n### VCMS END ###)}{
    		my $start=$1;
    		$start="$start\n" unless $2;
@@ -114,10 +117,10 @@ sub set_hru ($$)
    		my @rdyn;
    		for (@dyn) {
    			next if /RewriteRule (\S+?) $redirectvalue\s*/;
-   			next if /RewriteRule \^$hrukey\/\?\$ (\S+)/;
+   			next if /RewriteRule \^${hrukey}\(\/\|\/page\/\.\*\)\?\$ (\S+)/;
    			push (@rdyn,$_);
    		}	 
-   		push (@rdyn,"RewriteRule ^$hrukey\/\?\$ $redirectvalue");
+   		push (@rdyn,"RewriteRule ^${hrukey}\(\/\|\/page\/\.\*\)\?\$ ${redirectvalue}");
    		$start.join ("\n",@rdyn).$end;
 	}es;
 	open (FC, ">$GLOBAL->{WWWPATH}/.htaccess");
