@@ -120,7 +120,7 @@ sub set_hru ($$)
    			next if /RewriteRule \^${hrukey}\(\/\|\/page\/\.\*\)\?\$ (\S+)/;
    			push (@rdyn,$_);
    		}	 
-   		push (@rdyn,"RewriteRule ^${hrukey}\(\/\|\/page\/\.\*\)\?\$ ${redirectvalue}");
+   		push (@rdyn,"RewriteRule ^${hrukey}\(\/\|\/page\/\.\*\)\?\$ ${redirectvalue}\$1");
    		$start.join ("\n",@rdyn).$end;
 	}es;
 	open (FC, ">$GLOBAL->{WWWPATH}/.htaccess");
