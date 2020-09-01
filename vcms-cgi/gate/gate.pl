@@ -55,7 +55,11 @@ if ($data) {
 }			
 my $json=new JSON::PP;
 my $result=&cmlcalc::execute({method=>$method_name,key=>'GATE'});
-print header(-type=>$cmlcalc::ENV->{'JSON'} || !$result?'application/json':'text/html', -charset=>$GLOBAL->{CODEPAGE});
+print header(
+	-type=>$cmlcalc::ENV->{'JSON'} || !$result?'application/json':'text/html', 
+	-charset=>$GLOBAL->{CODEPAGE},
+	-access_control_allow_origin=>'*',
+);
 if ($result) {
 	print $result 
 } elsif ($@){
