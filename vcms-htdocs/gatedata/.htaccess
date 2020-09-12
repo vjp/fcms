@@ -1,1 +1,4 @@
-Header set Access-Control-Allow-Origin "*"
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Cache-Control "max-age=0, no-cache, must-revalidate, proxy-revalidate"
+</IfModule>
