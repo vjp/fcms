@@ -6,8 +6,8 @@ del cgi.tar.gz
 7za a cgi.tar.gz cgi.tar
 del cgi.tar   
 
-cd ..\vcms-htdocs
 del html.tar.gz
+cd ..\vcms-htdocs
 ..\vcms-cgi\7za a html.tar *.htm -r
 ..\vcms-cgi\7za a html.tar *.gif -r
 ..\vcms-cgi\7za a html.tar *.jpg -r
