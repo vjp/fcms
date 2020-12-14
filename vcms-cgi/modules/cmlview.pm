@@ -912,8 +912,8 @@ sub editfilelinkfull
     my $filename=$val->{value};
     my $fcontent;
     my $fullpath="$GLOBAL->{WWWPATH}/$filename";
-    $fullpath="$GLOBAL->{CGIPATH}/$filename" if $prm->{$pkey}->{extra}->{cgi};
-    $fullpath=$filename if $prm->{$pkey}->{extra}->{abs};
+    $fullpath="$GLOBAL->{CGIPATH}/$filename" if $prm->{$pkey}->{extra}->{cgi} eq 'y';
+    $fullpath=$filename if $prm->{$pkey}->{extra}->{abs} eq 'y';
     open (FC, "<$fullpath");
 	read (FC,$fcontent,-s FC);
 	close(FC); 
@@ -922,7 +922,7 @@ sub editfilelinkfull
  	if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
  	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
-	print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)");
+	print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)"),enc(" Файл "),b($fullpath);
 	print enc(" Язык "),b($LANGS{$lang}) if $lang;
 	print br(),br();  
 	my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
