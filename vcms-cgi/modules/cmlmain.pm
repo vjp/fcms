@@ -20,6 +20,11 @@ BEGIN
  use Cache::Memcached;
  use POSIX qw(locale_h strftime);
  use String::CRC::Cksum qw(cksum);
+ use Lingua::EN::Numbers qw(num2en);
+ use Lingua::RU::Number qw(num2words);
+
+
+
   
  @ISA    = 'Exporter';
  @EXPORT = qw(

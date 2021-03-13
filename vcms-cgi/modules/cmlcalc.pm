@@ -11,6 +11,8 @@ BEGIN
  use JSON::PP;
  use POSIX;
  use String::CRC::Cksum qw(cksum);
+ use Lingua::EN::Numbers qw(num2en);
+ use Lingua::RU::Number qw(num2words);
 
 
  @ISA = 'Exporter';
