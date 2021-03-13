@@ -39,6 +39,12 @@ sub initcalc
   );
 }
 
+
+sub num2ru ($) {
+	return Encode::encode('utf-8',num2words($_[0]));
+}
+
+
 sub dmp ($) {
     local $Data::Dumper::Useqq = 1;
     { no warnings 'redefine';
