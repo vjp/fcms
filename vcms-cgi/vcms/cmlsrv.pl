@@ -82,8 +82,8 @@ if ($action) {
 }	
 	
 unless (checkdatastruct()) {
-	print "База данных пуста",br();
-	print a({-href=>"?action=installstruct"},'Заполнить базу данных');
+	print "Р‘Р°Р·Р° РґР°РЅРЅС‹С… РїСѓСЃС‚Р°",br();
+	print a({-href=>"?action=installstruct"},'Р—Р°РїРѕР»РЅРёС‚СЊ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…');
 	viewlog();
 	print "</body></html>";
 	exit();
@@ -132,7 +132,7 @@ if ($action) {
 	}
 	if ($action eq 'clearcache') {
 		clearcache();
-		alert(enc('Кеш очищен'));
+		alert(encu('РљРµС€ РѕС‡РёС‰РµРЅ'));
 		$action='viewleft';
 	}
 
@@ -142,9 +142,9 @@ if ($action) {
         if (-s 'cgi.tar.gz') {
             `tar -xzf cgi.tar.gz -C $GLOBAL->{CGIPATH}`;
             unlink "cgi.tar.gz";
-            alert(enc('Скрипты обновлены'));
+            alert(encu('РЎРєСЂРёРїС‚С‹ РѕР±РЅРѕРІР»РµРЅС‹'));
         } else {
-            alert(enc("Проблема скачивания архива скриптов по адресу $addr"));
+            alert(encu("РџСЂРѕР±Р»РµРјР° СЃРєР°С‡РёРІР°РЅРёСЏ Р°СЂС…РёРІР° СЃРєСЂРёРїС‚РѕРІ РїРѕ Р°РґСЂРµСЃСѓ $addr"));
         }
         $action='viewleft';
 	}
@@ -153,15 +153,15 @@ if ($action) {
 	
 	if ($action eq 'addnewuser') {
 	    	$action='viewusers';$cf=0;
-	    	if (!param('password')) {alert (enc('Пароль не задан'))}
-	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
+	    	if (!param('password')) {alert (encu('РџР°СЂРѕР»СЊ РЅРµ Р·Р°РґР°РЅ'))}
+	    	elsif (param('password') ne param('retpassword')) {alert(encu('РџР°СЂРѕР»СЊ РЅРµ СЃРѕРІРїР°РґР°РµС‚'))}
 				else {
 					my ($uid,$err)=adduser(param('nusername'),param('password'),param('group'));
 					if ($uid) {
-						alert(enc('Пользователь добавлен'));
+						alert(encu('РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РґРѕР±Р°РІР»РµРЅ'));
 						$cf=1;
 					} else {
-						alert(enc("Ошибка создания пользователя: $err"));
+						alert(encu("РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: $err"));
 					}		
 				}	    	
 	    }
@@ -173,12 +173,12 @@ if ($action) {
 	    	$action='viewusers';
 	    	unless (param('password') ne '') {
 	    		edituser(param('username'),undef,param('group'));
-	    		alert(enc('Данные изменены'));
+	    		alert(encu('Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹'));
 	    	}
-	    	elsif (param('password') ne param('retpassword')) {alert(enc('Пароль не совпадает'))}
+	    	elsif (param('password') ne param('retpassword')) {alert(encu('РџР°СЂРѕР»СЊ РЅРµ СЃРѕРІРїР°РґР°РµС‚'))}
 				else {
 					edituser(param('username'),param('password'),param('group'));
-					alert(enc('Данные изменены'));
+					alert(encu('Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹'));
 				}
 	    }
 	    
@@ -392,9 +392,9 @@ warn sprintf("DBG: END: USER:$cmlcalc::ENV->{USER}  TIME:%.3f QUERY:$ENV{REQUEST
 
 sub viewusers {
 	 my $ul=loaduserlist();
-	 print enc("Список пользователей");
+	 print encu("РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№");
 	 print start_table();
-	 print Tr(th,th(enc('Логин')),th(enc('Группа')),th(enc('Новый пароль')),th(enc('Повторить пароль')),th());
+	 print Tr(th,th(encu('Р›РѕРіРёРЅ')),th(encu('Р“СЂСѓРїРїР°')),th(encu('РќРѕРІС‹Р№ РїР°СЂРѕР»СЊ')),th(encu('РџРѕРІС‚РѕСЂРёС‚СЊ РїР°СЂРѕР»СЊ')),th());
 	 for (@$ul) {
 	 	print start_form(-action=>'');
 	 	print Tr(	td(a({-href=>"?action=deluser&username=$_->{login}"},'X')),
@@ -404,14 +404,14 @@ sub viewusers {
 	 								-override=>1,
 	 								-values=>['','admin','user'],
 	 								-labels=>{
-	 										''=>enc('Не определена'),
-	 										'admin'=>enc('Администраторы'),
-	 										'user'=>enc('Пользователи')
+	 										''=>encu('РќРµ РѕРїСЂРµРґРµР»РµРЅР°'),
+	 										'admin'=>encu('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹'),
+	 										'user'=>encu('РџРѕР»СЊР·РѕРІР°С‚РµР»Рё')
 	 								}
 	 				)),		
 	 	         	td(password_field({-name=>'password',override=>1})), 
 	 	         	td(password_field({-name=>'retpassword',override=>1})),
-	 	         	td (submit(-value=>enc('Изменить'))), 
+	 	         	td (submit(-value=>encu('РР·РјРµРЅРёС‚СЊ'))), 
 	 	);
 	 	print hidden(-name=>'action',-value=>'edituser',override=>1);
 	 	print hidden(-name=>'username',-value=>$_->{login},override=>1);
@@ -424,14 +424,14 @@ sub viewusers {
 	 								-override=>1,
 	 								-values=>['','admin','user'],
 	 								-labels=>{
-	 									''=>enc('Не определена'),
-	 									'admin'=>enc('Администраторы'),
-	 									'user'=>enc('Пользователи')
+	 									''=>encu('РќРµ РѕРїСЂРµРґРµР»РµРЅР°'),
+	 									'admin'=>encu('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹'),
+	 									'user'=>encu('РџРѕР»СЊР·РѕРІР°С‚РµР»Рё')
 	 								}
 	 						)),	
 	 						td(password_field({-name=>'password',override=>1})),
 	 						td(password_field({-name=>'retpassword',override=>1})),
-	 						td (submit(-value=>enc('Создать нового'))) 
+	 						td (submit(-value=>encu('РЎРѕР·РґР°С‚СЊ РЅРѕРІРѕРіРѕ'))) 
 	);
 	print hidden({-name=>'action',-value=>'addnewuser',-override=>1});
 	print end_form;
@@ -440,9 +440,9 @@ sub viewusers {
 	
 	print hr;
 
-	print enc("Ограничение доступа через .htaccess"),br;		
+	print encu("РћРіСЂР°РЅРёС‡РµРЅРёРµ РґРѕСЃС‚СѓРїР° С‡РµСЂРµР· .htaccess"),br;		
    	print start_table;
-   	print Tr(th(enc('Интерфейс')),th(enc('Доступ')),th(enc('Действие')));
+   	print Tr(th(encu('РРЅС‚РµСЂС„РµР№СЃ')),th(encu('Р”РѕСЃС‚СѓРї')),th(encu('Р”РµР№СЃС‚РІРёРµ')));
    
    	for my $alias (keys %aliases) {
    		print start_Tr;
@@ -465,12 +465,12 @@ sub viewusers {
 	 					-override=>1,
 	 					-values=>['','admin','user'],
 	 					-labels=>{
-	 						''=>enc('Открыт'),
-	 						'admin'=>enc('Администраторы'),
-	 						'user'=>enc('Администраторы и пользователи')
+	 						''=>encu('РћС‚РєСЂС‹С‚'),
+	 						'admin'=>encu('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹'),
+	 						'user'=>encu('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹ Рё РїРѕР»СЊР·РѕРІР°С‚РµР»Рё')
 	 					}
 	 	));
-   		print td(submit(-value=>enc('Сохранить уровень доступа')));
+   		print td(submit(-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ СѓСЂРѕРІРµРЅСЊ РґРѕСЃС‚СѓРїР°')));
  	  	print hidden({-name=>'action',-value=>"rewriteht$alias",-override=>1});
    		print end_form();
    		print end_Tr;
@@ -486,29 +486,29 @@ sub viewusers {
 
 sub viewleft {
 	viewtree(0,0,1);
-	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},enc('Пользователи и .htaccess'));
-	print br,a({-href=>'?action=console',-target=>'_blank'},enc('Консоль'));
-	print br,a({-href=>'?action=config',-target=>'mainbody'},enc('Конфигурация'));
+	print br,a({-href=>'?action=viewusers',-target=>'mainbody'},encu('РџРѕР»СЊР·РѕРІР°С‚РµР»Рё Рё .htaccess'));
+	print br,a({-href=>'?action=console',-target=>'_blank'},encu('РљРѕРЅСЃРѕР»СЊ'));
+	print br,a({-href=>'?action=config',-target=>'mainbody'},encu('РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ'));
 	
-	print br,a({-href=>'?action=clearcache'},enc('Очистить кеш'));
+	print br,a({-href=>'?action=clearcache'},encu('РћС‡РёСЃС‚РёС‚СЊ РєРµС€'));
 	
-	print br,a({-href=>'?action=viewleft'},enc('Обновить'));
-    print br,a({-href=>'https://github.com/vjp/fcms/wiki',-target=>'_blank'},enc('Документация'));	
-    print br,a({-href=>'?action=updatescripts'},enc('Обновить скрипты'));
+	print br,a({-href=>'?action=viewleft'},encu('РћР±РЅРѕРІРёС‚СЊ'));
+    print br,a({-href=>'https://github.com/vjp/fcms/wiki',-target=>'_blank'},encu('Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ'));	
+    print br,a({-href=>'?action=updatescripts'},encu('РћР±РЅРѕРІРёС‚СЊ СЃРєСЂРёРїС‚С‹'));
     
     
     
 	
 	print br,start_form(-method=>'post',-name=>'gotobj',-target=>'mainbody');
-	print br,enc('Перейти к объекту');
-	print br,enc(' по ID '),textfield(-name=>"objid",-size=>5,-override=>1);
-	print enc(' или ключу '),textfield(-name=>"objkey",-size=>10,-override=>1);
+	print br,encu('РџРµСЂРµР№С‚Рё Рє РѕР±СЉРµРєС‚Сѓ');
+	print br,encu(' РїРѕ ID '),textfield(-name=>"objid",-size=>5,-override=>1);
+	print encu(' РёР»Рё РєР»СЋС‡Сѓ '),textfield(-name=>"objkey",-size=>10,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'editlowform',-override=>1);
 	print endform;
 	
 	print br,start_form(-method=>'post',-name=>'gotoprm',-target=>'mainbody');
-	print br,enc('Перейти к параметру'),textfield(-name=>"pkey",-size=>15,-override=>1);
+	print br,encu('РџРµСЂРµР№С‚Рё Рє РїР°СЂР°РјРµС‚СЂСѓ'),textfield(-name=>"pkey",-size=>15,-override=>1);
 	print submit(-value=>'>'); 
 	print hidden(-name=>'action',value=>'viewprm',-override=>1);
 	print endform;
@@ -536,9 +536,9 @@ sub viewlow
  my $id=$_[0];
  my $all=$_[1];
  
- print enc('Дерево объекта '),a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
+ print encu('Р”РµСЂРµРІРѕ РѕР±СЉРµРєС‚Р° '),a({-href=>"?action=editform&id=$id"},b($obj->{$id}->{name})),br;
  print a({-href=>"?action=addlow&id=$id&objid=0"},'(+)');
- print a({-href=>"?action=clearlow&id=$id&objid=0",-onclick=>enc("return confirm('Подтвердите удаление объекта')")},'(X)');
+ print a({-href=>"?action=clearlow&id=$id&objid=0",-onclick=>encu("return confirm('РџРѕРґС‚РІРµСЂРґРёС‚Рµ СѓРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р°')")},'(X)');
  print br;
  if ($all) {
  	checkload({uid=>$id});
@@ -568,10 +568,10 @@ sub viewtree
    	
     print "<nobr>$sep";
   
-    print a({-href=>"?action=delete&id=$_",-class=>'ldel',-onclick=>enc("return confirm('Подтвердите удаление объекта')")},'(X)')  unless $isupper;
+    print a({-href=>"?action=delete&id=$_",-class=>'ldel',-onclick=>encu("return confirm('РџРѕРґС‚РІРµСЂРґРёС‚Рµ СѓРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р°')")},'(X)')  unless $isupper;
     
     print "<a href='?action=add&id=$_' class=ladd target=mainbody>(+)</a>";
-    unless ($isupper) {print enc("<a href='#' onClick='var target=prompt(\"Скопировать в\",\"\");location.href=\"?action=copy&id=u$_&to=\"+target' class=ladd>(C)</a>")}
+    unless ($isupper) {print encu("<a href='#' onClick='var target=prompt(\"РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РІ\",\"\");location.href=\"?action=copy&id=u$_&to=\"+target' class=ladd>(C)</a>")}
     print "<a href='?action=editform&id=$_' class=lmenu target=mainbody>($_)$name</a><br></nobr>";
     viewtree($_,$level+1);
     
@@ -605,10 +605,10 @@ sub viewlowtree
    	$name=~s/\>/&gt;/g;
     print $sep,a({-href=>"?action=deletelow&objid=$_&id=$upobj"},'(X)'),
           a({-href=>"?action=addlow&objid=$_&id=$upobj"},'(+)'),
-          a({-href=>"#", -onclick=>enc("var target=prompt(\"Скопировать в\",\"\");location.href=\"$ENV{SCRIPT_NAME}?action=copylow&id=$upobj&objid=$_&to=\"+target"), -class=>'ladd'},'(C)'),
+          a({-href=>"#", -onclick=>encu("var target=prompt(\"РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РІ\",\"\");location.href=\"$ENV{SCRIPT_NAME}?action=copylow&id=$upobj&objid=$_&to=\"+target"), -class=>'ladd'},'(C)'),
           a({-href=>"?action=editlowform&objid=$_&id=$upobj"},"($_) $name"),br;
     if ($limit>0) {$limit--}      
-    if ($limit ne 'no' && $limit == 0) {print a({-href=>"?action=viewlow&id=$upobj&all=1"},enc("Просмотреть все ...")),br;}
+    if ($limit ne 'no' && $limit == 0) {print a({-href=>"?action=viewlow&id=$upobj&all=1"},encu("РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РІСЃРµ ...")),br;}
     viewlowtree($upobj,$_,$level+1,$limit);
    }
  }
@@ -622,7 +622,7 @@ sub editform
 	print "<form method='post' name='mfrm' enctype='multipart/form-data'>";
  	print "<hr>";
  	print "<table>";
- 	print Tr(th({-colspan=>7},enc('Изменение объекта ').b($obj->{$id}->{name})." ($id)"));
+ 	print Tr(th({-colspan=>7},encu('РР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚Р° ').b($obj->{$id}->{name})." ($id)"));
 	my $tl=template_list();
  	my %lhash=%LANGS;
  	my @llist=('mul',@LANGS);
@@ -636,7 +636,7 @@ sub editform
 			my $name=$obj->{$id}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$obj->{$id}->{name}}
 		 	print Tr(td(),
-		 			td(enc("Имя")."($LANGS{$lang})"),
+		 			td(encu("РРјСЏ")."($LANGS{$lang})"),
 		 			td({-colspan=>2},textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 		}	
 	} elsif ($obj->{$id}->{lang}) {
@@ -644,28 +644,28 @@ sub editform
 			my $name=$obj->{$id}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$obj->{$id}->{name}}
 		 	print Tr(td(),
-		 			td(enc("Имя ").$LANGS{$lang}),
+		 			td(encu("РРјСЏ ").$LANGS{$lang}),
 		 			td({-colspan=>2},textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40)));
 	} else {	
  			print Tr(td(),
- 					td(enc("Имя")),td({-colspan=>2},textfield(-name=>'name',-default=>$obj->{$id}->{name},-override=>1,-size=>40)));
+ 					td(encu("РРјСЏ")),td({-colspan=>2},textfield(-name=>'name',-default=>$obj->{$id}->{name},-override=>1,-size=>40)));
  	}				
  print Tr(td(),
-          td(enc('Номер/Ключ')),
+          td(encu('РќРѕРјРµСЂ/РљР»СЋС‡')),
           td({-colspan=>2},
              textfield(-name=>'indx',-default=>$obj->{$id}->{indx},-override=>1,-size=>5),
              textfield(-name=>'key',-default=>$obj->{$id}->{key},-override=>1,-size=>20)
           ),
         );
  print Tr(td(),
- 					td(enc('Язык')),td({-colspan=>2},
+ 					td(encu('РЇР·С‹Рє')),td({-colspan=>2},
  					           popup_menu(-name=>'lang',-default=>$obj->{$id}->{lang},-override=>1,-values=>\@llist,-labels=>\%lhash))
  				);
         
- print Tr(td(),td(enc('Шаблон')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$obj->{$id}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- print Tr(td(),td(enc('Шаблон наследования')),td({-colspan=>2},popup_menu(-name=>'ltemplate',-default=>$obj->{$id}->{ltemplate},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- print Tr(td(),td(enc('Установить у нижних объектов')),td({-colspan=>2},checkbox(-name=>'lowtempl',-value=>1,-checked=>0,-override=>1,-label=>'')));
- print Tr(td(),td(enc('Не хранить историю значений')),td({-colspan=>2},checkbox(-name=>'nolog',-value=>1,-checked=>$obj->{$id}->{nolog},-override=>1,-label=>'')));
+ print Tr(td(),td(encu('РЁР°Р±Р»РѕРЅ')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$obj->{$id}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ print Tr(td(),td(encu('РЁР°Р±Р»РѕРЅ РЅР°СЃР»РµРґРѕРІР°РЅРёСЏ')),td({-colspan=>2},popup_menu(-name=>'ltemplate',-default=>$obj->{$id}->{ltemplate},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ print Tr(td(),td(encu('РЈСЃС‚Р°РЅРѕРІРёС‚СЊ Сѓ РЅРёР¶РЅРёС… РѕР±СЉРµРєС‚РѕРІ')),td({-colspan=>2},checkbox(-name=>'lowtempl',-value=>1,-checked=>0,-override=>1,-label=>'')));
+ print Tr(td(),td(encu('РќРµ С…СЂР°РЅРёС‚СЊ РёСЃС‚РѕСЂРёСЋ Р·РЅР°С‡РµРЅРёР№')),td({-colspan=>2},checkbox(-name=>'nolog',-value=>1,-checked=>$obj->{$id}->{nolog},-override=>1,-label=>'')));
  
                
 
@@ -691,8 +691,8 @@ sub editform
  print "<input type='hidden' name='action' value='edit'>";
  my %oplist;
  if ($#{$obj->{$id}->{sprm}}>-1) {
- 	print Tr(th({-colspan=>8},enc('Свои параметры'))); 
- 	print enc(Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра ')));
+ 	print Tr(th({-colspan=>8},encu('РЎРІРѕРё РїР°СЂР°РјРµС‚СЂС‹'))); 
+ 	print encu(Tr(th(),th(' РРјСЏ '),th(' РљР»СЋС‡ '),th(' РўРёРї '),th(' РЈРјРѕР»С‡Р°РЅРёРµ '),th(' РћР±РЅ '),th(' Р’С‹Рї '),th(' Р­РєСЃС‚СЂР° ')));
  }
  buildlowtree($nobj->{MAINPRM}->{ind});
  
@@ -747,8 +747,8 @@ sub editform
   }
  }
  if ($#{$obj->{$id}->{prm}}>-1) {
- 	print Tr(th({-colspan=>8},enc('Параметры нижних объектов'))); 
-  	print enc(Tr(th(),th(' Имя '),th(' Ключ '),th(' Тип '),th(' Умолчание '),th(' Обн '),th(' Вып '),th(' Экстра ')));
+ 	print Tr(th({-colspan=>8},encu('РџР°СЂР°РјРµС‚СЂС‹ РЅРёР¶РЅРёС… РѕР±СЉРµРєС‚РѕРІ'))); 
+  	print encu(Tr(th(),th(' РРјСЏ '),th(' РљР»СЋС‡ '),th(' РўРёРї '),th(' РЈРјРѕР»С‡Р°РЅРёРµ '),th(' РћР±РЅ '),th(' Р’С‹Рї '),th(' Р­РєСЃС‚СЂР° ')));
  }
  for (@{$obj->{$id}->{prm}})
  {
@@ -814,8 +814,8 @@ sub editform
  
  
  if ($obj->{$id}->{method}) {
- 	print Tr(th({-colspan=>7},enc('Методы')));
-  	print enc(Tr(th(),th('Имя'),th('Ключ'),th('Экстра'),th('Экспорт')));
+ 	print Tr(th({-colspan=>7},encu('РњРµС‚РѕРґС‹')));
+  	print encu(Tr(th(),th('РРјСЏ'),th('РљР»СЋС‡'),th('Р­РєСЃС‚СЂР°'),th('Р­РєСЃРїРѕСЂС‚')));
  }
  
  my %mtlist;
@@ -827,7 +827,7 @@ sub editform
    	print td(a({-href=>"$ENV{SCRIPT_NAME}?action=deletemethod&id=$id&pname=$mname"},'X'));
    	print td("<input name='prmname$mname' value='$obj->{$id}->{method}->{$mname}->{name}' onchange='document.mfrm.mprm$mname.value=1'>");
    	print td($mname);
-   	print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editmethod&id=$id&pname=$mname",-target=>'_blank'},enc('Редактировать')));
+   	print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editmethod&id=$id&pname=$mname",-target=>'_blank'},encu('Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ')));
    	print start_td();
 	my $path=join('/',map {$_=$obj->{$_}->{key}} reverse treelist($id));
    	print a({-href=>"?action=sync&type=method&key=$mname&id=$id&path=$path&target=$_"},$_),'&nbsp;' for @SYNC;
@@ -838,8 +838,8 @@ sub editform
  
 
 	if ($obj->{$id}->{lmethod}) {
-		print Tr(th({-colspan=>7},enc('Методы нижних объектов')));
-  		print enc(Tr(th(),th('Имя'),th('Ключ'),th('Экстра')));
+		print Tr(th({-colspan=>7},encu('РњРµС‚РѕРґС‹ РЅРёР¶РЅРёС… РѕР±СЉРµРєС‚РѕРІ')));
+  		print encu(Tr(th(),th('РРјСЏ'),th('РљР»СЋС‡'),th('Р­РєСЃС‚СЂР°')));
 	}
  
  my %lmtlist;
@@ -850,12 +850,12 @@ sub editform
    		print "<tr><td><a href='$ENV{SCRIPT_NAME}?action=deletelmethod&id=$id&pname=$_'>X</a></td>";
    		print td("<input name='prmname$_' value='$obj->{$id}->{lmethod}->{$_}->{name}' onchange='document.mfrm.lmprm$_.value=1'>");
    		print td($_);
-   		print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editlmethod&id=$id&pname=$_",-target=>'_blank'},enc('Редактировать')));
+   		print td(a({-href=>"$ENV{SCRIPT_NAME}?action=editlmethod&id=$id&pname=$_",-target=>'_blank'},encu('Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ')));
    		print"</tr>";
  	}
 
-	print Tr(th({-colspan=>7},enc('Добавить параметр')));
-	print enc(Tr(th(),th('Имя'),th('Ключ'),th('Тип')));
+	print Tr(th({-colspan=>7},encu('Р”РѕР±Р°РІРёС‚СЊ РїР°СЂР°РјРµС‚СЂ')));
+	print encu(Tr(th(),th('РРјСЏ'),th('РљР»СЋС‡'),th('РўРёРї')));
  
 	print "<tr><td></td><td><input name=addprmname></td><td><input name=addprmkey></td>";
  	print "<td><select name=addprmtype>";
@@ -868,17 +868,17 @@ sub editform
  	print radio_group(-name=>'addprmself',
                    -values=>[0,1,2,3],
                    -default=>0,
-                   -labels=>{0=>enc('Для нижних'),1=>enc('Свой'),2=>enc('Метод'),3=>enc('Н.метод')}
+                   -labels=>{0=>encu('Р”Р»СЏ РЅРёР¶РЅРёС…'),1=>encu('РЎРІРѕР№'),2=>encu('РњРµС‚РѕРґ'),3=>encu('Рќ.РјРµС‚РѕРґ')}
                    );
  	print end_td();
  	print end_Tr();
 
  	print start_Tr();
-  	print td(),td(enc('Копировать параметр')),start_td({-colspan=>7});
+  	print td(),td(encu('РљРѕРїРёСЂРѕРІР°С‚СЊ РїР°СЂР°РјРµС‚СЂ')),start_td({-colspan=>7});
  	my @plist;
  	push(@plist,grep { !$oplist{$_} && $_!~/^_/} sort keys %$prm);
  	my %nlist;
- 	$nlist{0}=enc('Выберите параметр');
+ 	$nlist{0}=encu('Р’С‹Р±РµСЂРёС‚Рµ РїР°СЂР°РјРµС‚СЂ');
  	for (@plist) {$nlist{$_}="$prm->{$_}->{name} ($_)"}
  	@plist=(0,@plist);
  	print popup_menu(-name=>'copyprmname',-values=>\@plist, -labels=>\%nlist, -override=>1);
@@ -889,10 +889,10 @@ sub editform
  
  	my @mlist;
  	print start_Tr();
-  	print td(),td(enc('Копировать метод')),start_td({-colspan=>7});
+  	print td(),td(encu('РљРѕРїРёСЂРѕРІР°С‚СЊ РјРµС‚РѕРґ')),start_td({-colspan=>7});
  	push(@mlist,grep { !$mtlist{$_} } sort keys %$method);
  	my %mnlist;
- 	$mnlist{0}=enc('Выберите метод');
+ 	$mnlist{0}=encu('Р’С‹Р±РµСЂРёС‚Рµ РјРµС‚РѕРґ');
  	for (@mlist) {$mnlist{$_}="$method->{$_}->{name} ($_)"}
  	@mlist=(0,@mlist);
  	print popup_menu(-name=>'copymethodname',-values=>\@mlist, -labels=>\%mnlist, -override=>1);
@@ -904,8 +904,8 @@ sub editform
   	print hr;
   	
   	print start_table();
- 	print Tr(th({-colspan=>3},enc('Исправить значения ')."$obj->{$id}->{name} ($id)"));
-    print enc(Tr(th('Имя'),th('Параметр'),th('Значение')));
+ 	print Tr(th({-colspan=>3},encu('РСЃРїСЂР°РІРёС‚СЊ Р·РЅР°С‡РµРЅРёСЏ ')."$obj->{$id}->{name} ($id)"));
+    print encu(Tr(th('РРјСЏ'),th('РџР°СЂР°РјРµС‚СЂ'),th('Р—РЅР°С‡РµРЅРёРµ')));
  	for (uparamlist($id)){
    		if ($_){ 	 
     		my $vstr;
@@ -920,12 +920,12 @@ sub editform
  		print start_Tr;
  	  	print td($method->{$_}->{name});
  	  	print td($_);
- 	  	print td(a({-href=>"?action=execmethod&id=$id&method=$_&uid=u$id"},enc('Выполнить')));
+ 	  	print td(a({-href=>"?action=execmethod&id=$id&method=$_&uid=u$id"},encu('Р’С‹РїРѕР»РЅРёС‚СЊ')));
  	  	print end_Tr();
  	}
  
  	print end_table();
- 	print submit(-value=>enc('Зафиксировать изменения'));
+ 	print submit(-value=>encu('Р—Р°С„РёРєСЃРёСЂРѕРІР°С‚СЊ РёР·РјРµРЅРµРЅРёСЏ'));
  	print end_form();
  	viewlow($id);
 
@@ -944,8 +944,8 @@ sub editlowform
  	print "\n<form method='post' name='frm' enctype='multipart/form-data'>\n";
  	print start_table();
  	print Tr(
- 		th({-colspan=>2},enc('Объект:')." $lobj->{$objid}->{name} ($objid)"),
- 		th(a({-href=>"?action=deletelow&objid=$objid&id=$id",-onclick=>enc("confirm('Подтвердите удаление объекта')")},enc('Удалить')))
+ 		th({-colspan=>2},encu('РћР±СЉРµРєС‚:')." $lobj->{$objid}->{name} ($objid)"),
+ 		th(a({-href=>"?action=deletelow&objid=$objid&id=$id",-onclick=>encu("confirm('РџРѕРґС‚РІРµСЂРґРёС‚Рµ СѓРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р°')")},encu('РЈРґР°Р»РёС‚СЊ')))
  	);
 
 
@@ -955,33 +955,33 @@ sub editlowform
 			my $name=$lobj->{$objid}->{"name_$lang"};
 			if ($name eq '') {$name=$name=$lobj->{$objid}->{name}}
 		 	print Tr(
-		 			td(enc("Имя")."($LANGS{$lang})"),
+		 			td(encu("РРјСЏ")."($LANGS{$lang})"),
 		 			td(textfield(-name=>"name_$lang",-default=>$name,-override=>1,-size=>40))
 		 	);
 		}	
 	} else {	
- 			print Tr(th(enc('Имя')),
+ 			print Tr(th(encu('РРјСЏ')),
  				td(textfield(-name=>'name',-default=>$lobj->{$objid}->{name},-override=>1,-size=>60)),
- 				td(a({-href=>"?action=viewallhistory&objid=$objid",-target=>'_blank'},enc('История')))
+ 				td(a({-href=>"?action=viewallhistory&objid=$objid",-target=>'_blank'},encu('РСЃС‚РѕСЂРёСЏ')))
  			); 	
  	}				
 
 
 
 
- 	print Tr(th(enc('Номер/Ключ')),
+ 	print Tr(th(encu('РќРѕРјРµСЂ/РљР»СЋС‡')),
           td({-colspan=>2},
           		textfield(-name=>'indx',-default=>$lobj->{$objid}->{indx},-override=>1,-size=>5),
               textfield(-name=>'key',-default=>$lobj->{$objid}->{key},-override=>1),
               ));
- 	print Tr(th(enc('Шаблон')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$lobj->{$objid}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
- 	print Tr(th(enc('Язык')),td({-colspan=>2},$LANGS{$lobj->{$objid}->{lang}}));
+ 	print Tr(th(encu('РЁР°Р±Р»РѕРЅ')),td({-colspan=>2},popup_menu(-name=>'template',-default=>$lobj->{$objid}->{template},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1)));
+ 	print Tr(th(encu('РЇР·С‹Рє')),td({-colspan=>2},$LANGS{$lobj->{$objid}->{lang}}));
 
  	print "<input type='hidden' name='id' value='$id'>\n";
  	print "<input type='hidden' name='objid' value='$objid'>\n";
  	print "<input type='hidden' name='action' value='editlow'>\n";
- 	print Tr(th({-colspan=>3},enc('Значения')));
- 	print enc(Tr(th('Имя'),th('Ключ'),th('Значение'),th('Время')));
+ 	print Tr(th({-colspan=>3},encu('Р—РЅР°С‡РµРЅРёСЏ')));
+ 	print encu(Tr(th('РРјСЏ'),th('РљР»СЋС‡'),th('Р—РЅР°С‡РµРЅРёРµ'),th('Р’СЂРµРјСЏ')));
  	for (paramlist($objid)) {
    		if ($_) { 	
     		my $vstr;
@@ -999,12 +999,12 @@ sub editlowform
  		print start_Tr;
  	  	print td($lmethod->{$_}->{name});
  	  	print td($_);
- 	  	print td(a({-href=>"?action=execlmethod&objid=$objid&id=$id&method=$_"},enc('Выполнить')));
+ 	  	print td(a({-href=>"?action=execlmethod&objid=$objid&id=$id&method=$_"},encu('Р’С‹РїРѕР»РЅРёС‚СЊ')));
  	  	print end_Tr();
  	}
 
  
- 	print Tr(td({-colspan=>3},submit(-value=>enc('Редактировать'))));
+ 	print Tr(td({-colspan=>3},submit(-value=>encu('Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ'))));
 
  	print "</table>\n";
  	print "</form>\n";
@@ -1027,39 +1027,39 @@ sub cmsmethod {
 	print start_table();
 	
 	print start_Tr();
-   	print td(enc('Шаблон формы ввода параметров объекта'));
-	unless($cmsmtd->{edittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=edittemplate"},enc('Создать шаблон')))}
+   	print td(encu('РЁР°Р±Р»РѕРЅ С„РѕСЂРјС‹ РІРІРѕРґР° РїР°СЂР°РјРµС‚СЂРѕРІ РѕР±СЉРµРєС‚Р°'));
+	unless($cmsmtd->{edittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=edittemplate"},encu('РЎРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ')))}
 	else {
 			checkload({key=>$cmsmtd->{edittemplate}});
 			my $objid=$nobj->{$cmsmtd->{edittemplate}}->{id};
-			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&rebuildmethod=edittemplate"},enc('Пересоздать шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&deletemethod=edittemplate"},enc('Удалить шаблон')))
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},encu('РСЃРїСЂР°РІРёС‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=edittemplate"},encu('РџРµСЂРµСЃРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=edittemplate"},encu('РЈРґР°Р»РёС‚СЊ С€Р°Р±Р»РѕРЅ')))
 	}
 	print end_Tr();
 
   	print start_Tr();
-   	print td(enc('Шаблон формы ввода параметров списка объектов'));
-	unless($cmsmtd->{listedittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listedittemplate"},enc('Создать шаблон')))}
+   	print td(encu('РЁР°Р±Р»РѕРЅ С„РѕСЂРјС‹ РІРІРѕРґР° РїР°СЂР°РјРµС‚СЂРѕРІ СЃРїРёСЃРєР° РѕР±СЉРµРєС‚РѕРІ'));
+	unless($cmsmtd->{listedittemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listedittemplate"},encu('РЎРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ')))}
 	else {
 			checkload({key=>$cmsmtd->{listedittemplate}});
 			my $objid=$nobj->{$cmsmtd->{listedittemplate}}->{id};
-			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listedittemplate"},enc('Пересоздать шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&deletemethod=listedittemplate"},enc('Удалить шаблон')))
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},encu('РСЃРїСЂР°РІРёС‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listedittemplate"},encu('РџРµСЂРµСЃРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=listedittemplate"},encu('РЈРґР°Р»РёС‚СЊ С€Р°Р±Р»РѕРЅ')))
 	}
 	print end_Tr();
 
 
   	print start_Tr();
-   	print td(enc('Шаблон меню списка объектов'));
-	unless($cmsmtd->{listmenutemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listmenutemplate"},enc('Создать шаблон')))}
+   	print td(encu('РЁР°Р±Р»РѕРЅ РјРµРЅСЋ СЃРїРёСЃРєР° РѕР±СЉРµРєС‚РѕРІ'));
+	unless($cmsmtd->{listmenutemplate}) {print td(a({-href=>"?action=editform&id=$id&createmethod=listmenutemplate"},encu('РЎРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ')))}
 	else {
 			checkload({key=>$cmsmtd->{listmenuttemplate}});
 			my $objid=$nobj->{$cmsmtd->{listmenutemplate}}->{id};
-			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},enc('Исправить шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listmenutemplate"},enc('Пересоздать шаблон'))),
-			td(a({-href=>"?action=editform&id=$id&deletemethod=listmenutemplate"},enc('Удалить шаблон')))
+			print td(a({-href=>"?action=editmemo&objid=$objid&pkey=PAGETEMPLATE",-target=>'_blank'},encu('РСЃРїСЂР°РІРёС‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&rebuildmethod=listmenutemplate"},encu('РџРµСЂРµСЃРѕР·РґР°С‚СЊ С€Р°Р±Р»РѕРЅ'))),
+			td(a({-href=>"?action=editform&id=$id&deletemethod=listmenutemplate"},encu('РЈРґР°Р»РёС‚СЊ С€Р°Р±Р»РѕРЅ')))
 	}
 	print end_Tr();
 
@@ -1070,10 +1070,10 @@ sub cmsmethod {
 
 
 sub evaluate {
-	print "Выполнение скрипта <hr>"; 
+	print "Р’С‹РїРѕР»РЅРµРЅРёРµ СЃРєСЂРёРїС‚Р° <hr>"; 
 	my ($output,$error)=&cmlcalc::scripteval($_[0]);
-	if ($error) {print "Ошибка выполнения скрипта: <b>$error</b> <hr> Исходный текст: <br> $_[0]"}
-	else {print $output,hr,enc('Выполнено без ошибок')}
+	if ($error) {print "РћС€РёР±РєР° РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРєСЂРёРїС‚Р°: <b>$error</b> <hr> РСЃС…РѕРґРЅС‹Р№ С‚РµРєСЃС‚: <br> $_[0]"}
+	else {print $output,hr,encu('Р’С‹РїРѕР»РЅРµРЅРѕ Р±РµР· РѕС€РёР±РѕРє')}
 	print hr;
 }
 
@@ -1086,7 +1086,7 @@ sub template_list
  	my @tvals=map { $obj->{$_}->{ind} } @tkeys;
  	$tvals[0]=0;
  	my $tlbls;
- 	for (@tvals) { $tlbls->{$_}=$_?"$obj->{$_}->{name} ($obj->{$_}->{key})":enc('Не определен') } 
+ 	for (@tvals) { $tlbls->{$_}=$_?"$obj->{$_}->{name} ($obj->{$_}->{key})":encu('РќРµ РѕРїСЂРµРґРµР»РµРЅ') } 
 
  
  	$tl->{vals}=\@tvals;
@@ -1104,7 +1104,7 @@ sub method_list {
  my @tvals=('');
  push (@tvals,sort keys %$method);
  for (@tvals) { $tlbls->{$_}="$method->{$_}->{name} ($_)" } 
- $tlbls->{''}=enc('Не определен');
+ $tlbls->{''}=encu('РќРµ РѕРїСЂРµРґРµР»РµРЅ');
  
  $tl->{vals}=\@tvals;
  $tl->{lbls}=$tlbls;
@@ -1117,5 +1117,5 @@ sub method_list {
 
 
 sub meta_redirect {
-		print "<META HTTP-EQUIV='Refresh' CONTENT='2; URL=$_[0]'/>Подождите, сохраняем...";
+		print "<META HTTP-EQUIV='Refresh' CONTENT='2; URL=$_[0]'/>РџРѕРґРѕР¶РґРёС‚Рµ, СЃРѕС…СЂР°РЅСЏРµРј...";
 }				
