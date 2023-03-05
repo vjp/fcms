@@ -282,7 +282,7 @@ sub tagparse {
   		my $ptime=time();
   		my $v;
     		eval {$v=&$subname({param=>$_[0]->{param},data=>$_[0]->{data},inner=>$inner,uinner=>$uinner}) };
-  		if ($@) { return "[<b>ERROR</b> Ошибка парсера <b>cml:$_[0]->{name}</b> $@]$_[0]->{data}" }
+  		if ($@) { return "[<b>ERROR</b> РћС€РёР±РєР° РїР°СЂСЃРµСЂР° <b>cml:$_[0]->{name}</b> $@]$_[0]->{data}" }
   		my $eptime=time()-$ptime;
   		if ($cmlcalc::ENV->{BENCHMARK} && $eptime>1) {
   			&cmlmain::message("BENCHMARK: TAG: $_[0]->{name} TIME: $eptime PARAM: $_[0]->{param}");
@@ -336,7 +336,7 @@ sub process_csvcols () {
 }
 
 
-############################### Обработчики тегов
+############################### РћР±СЂР°Р±РѕС‚С‡РёРєРё С‚РµРіРѕРІ
 
 sub tag_flag {
 	my $data=$_[0]->{data};
@@ -685,14 +685,14 @@ sub tag_menuitem	{
 	
 		 
 	$icohref.="&id=$id";	 
-	$itext='пустой' unless $itext;
+	$itext='РїСѓСЃС‚РѕР№' unless $itext;
 	$itext="<b>$itext</b>" if $pl->{head};
 	my $hcol=$pl->{head}?'#FFFFFF':'#dedede';
 	my $mstr=$pl->{delmethod}?"method='$pl->{delmethod}'":'';
 	$mstr.=" deleteid='$pl->{id}" if $pl->{id};
 	my $dtxt=($pl->{delete} || ($pl->{deleteexpr} && &cmlcalc::calc($id,$pl->{deleteexpr})))?
 		"<cml:deletebutton $mstr/>":'<img src="/cmsimg/0.gif" width="16" height="16" alt="" border="0">';
-	my $estr=&cmlmain::enc('Редактировать');
+	my $estr=&cmlmain::encu('Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ');
 	my $addlink;
 	if ($pl->{addupkey}) {
 		$addlink=qq(<td bgcolor="$hcol" width="16"><cml:actionlink action='add' upkey='$pl->{addupkey}' link='$pl->{addlink}' method='$pl->{addmethod}'><img src='$cmlmain::PLUSBUTTONURL' border='0'></cml:actionlink></td>);
@@ -883,7 +883,7 @@ sub tag_select {
 	if ($defopt ne '') {
 		$defopt="<option value='$defoptvalue'>$defopt</option>"
 	}  elsif (!$multiple && !$pl->{'nodefopt'})  {
-		$defopt=&cmlmain::enc("<option value='0'>Не задан</option>")
+		$defopt=&cmlmain::encu("<option value='0'>РќРµ Р·Р°РґР°РЅ</option>")
     }
 	
 	undef $inner->{selectedlist};
@@ -906,7 +906,7 @@ sub tag_select {
   		my $template=$pl->{template} || ($cmlmain::GLOBAL->{NEWSTYLE}?'NSPOPUPSELECTOR':'POPUPSELECTOR');
   		my $singlestr=$cmlmain::prm->{$prm}->{extra}->{single} eq 'y'?'&single=1':'';
   		my $lowliststr=$pl->{lowlist}?"&lowlist=$pl->{lowlist}":'';
-  		my $ch_str=&cmlmain::enc('Изменить');
+  		my $ch_str=&cmlmain::encu('РР·РјРµРЅРёС‚СЊ');
   		my $title=$pl->{title} || $ch_str;
   		my $pstr=qq(?popupview=$template&id=$id&selectorprm=${prm}${lowliststr}${singlestr});
         for ('resulttemplate','callback','orderby') {
@@ -1551,8 +1551,8 @@ sub tag_actionlink {
 	$title=cmlparser({data=>$_[0]->{data},inner=>$inner}) unless $title;
     
     	
-	my $succ_mes=$pl->{'alert'} || &cmlmain::enc('Успех');
-	my $err_mes=&cmlmain::enc('Ошибка');
+	my $succ_mes=$pl->{'alert'} || &cmlmain::encu('РЈСЃРїРµС…');
+	my $err_mes=&cmlmain::encu('РћС€РёР±РєР°');
 	
 	my $rd='location.reload()';
 	$rd="location.href='$pl->{redir}';" if $pl->{redir};
@@ -1596,7 +1596,7 @@ sub tag_actionlink {
 		$href.="&csv=1" if $pl->{csv};
 		$href.="&back=".uri_escape($ENV{REQUEST_URI}) if $pl->{back};
 		$href.='&'.$pl->{href} if $pl->{href};
-		my $header_title=$pl->{title} || &cmlmain::enc('Параметры');
+		my $header_title=$pl->{title} || &cmlmain::encu('РџР°СЂР°РјРµС‚СЂС‹');
         unless ($title) {
             if ($cmlmain::GLOBAL->{NEWSTYLE}) {
             $title="<i class='icon-edit glyphicon glyphicon-edit'></i>";
@@ -1638,7 +1638,7 @@ sub tag_actionlink {
 		
         if ($pl->{popup}) {
             my $template='POPUPLESELECTOR';
-            my $title=$pl->{title} || &cmlmain::enc('Изменить');
+            my $title=$pl->{title} || &cmlmain::encu('РР·РјРµРЅРёС‚СЊ');
             my $pstr=qq(?popupview=$template&id=$pl->{id}&selectorprm=$pl->{prm}&upkey=$pl->{upkey}&link=$pl->{link});
             return qq(
                 <a href='#' onclick="openBootstrapPopupJq('${pstr}',{title:'$title'});return false">$title</a>
@@ -1706,7 +1706,7 @@ sub tag_actionlink {
 		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=viewallhistory&objid=$pl->{id}' target='_blank'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'LOGOUT') {	
-		$title=&cmlmain::enc('Выйти') unless $title;
+		$title=&cmlmain::encu('Р’С‹Р№С‚Рё') unless $title;
 		return qq(<a href='#'  onclick='alert("IE NOT SUPPORTED")'>$title</a>) if $ENV{HTTP_USER_AGENT}=~/MSIE/;
 		my $href=CGI::url(-path_info=>1)."?httplogout=1";
 		$href=~s/(http:\/\/)/${1}logout\@/;
@@ -1716,17 +1716,17 @@ sub tag_actionlink {
 		        <a href='/cgi-bin/vcms/cmlsrv.pl?action=export&area=db' target='_blank'>$title</a>
 		);
 	} 	elsif ($pl->{action} eq 'RESORT') {
-		$title=&cmlmain::enc('Пересортировать') unless $title;
+		$title=&cmlmain::encu('РџРµСЂРµСЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ') unless $title;
 		my $onclick=qq(onclick="execute('BASERESORT',{up:'$pl->{id}'}, $defajaxcallback)");
 		return $pl->{button}?"<input type='button' $onclick value='$title' $clstr $param/>":"<a href='#' $onclick >$title</a>";
 	} 	elsif ($pl->{action} eq 'RESORTPOPUP') {
 		    my $width=$pl->{width} || 400;
 		    my $height=$pl->{height} || 700;
-		    my $title=&cmlmain::enc('Сортировка');
+		    my $title=&cmlmain::encu('РЎРѕСЂС‚РёСЂРѕРІРєР°');
 		    return qq(<a href='#' onclick="openPopup('?view=RESORTPOPUP&id=$pl->{id}',{title:'$title',width:$width,height:$height})">$title</a>)
 	} 	elsif ($pl->{action} eq 'SAVE') {
 			my $f_name=vCMS::Config::Get('jquery')?'multisetjq':'multiset';
-		    $title ||= &cmlmain::enc('Сохранить изменения');
+		    $title ||= &cmlmain::encu('РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ');
 		    return qq(<a href='#' $param onclick="${f_name}(this,undefined,'silent',undefined,undefined)">$title</a>)
 	} elsif ($pl->{method}) {
 		    return undef if $cmlcalc::ENV->{READONLY} && !$pl->{forcereadonly};
@@ -1808,9 +1808,9 @@ sub tag_actionlink {
 	my $hstr=join('&',@hlist);
 	if ($pl->{action} eq 'DEL') {
 		if ($cmlmain::GLOBAL->{DOUBLECONFIRM}) {
-			$param.=&cmlmain::enc(qq(onclick='return confirm("Вы уверены что хотите удалить объект") && confirm("Продолжить?")'));
+			$param.=&cmlmain::encu(qq(onclick='return confirm("Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ РѕР±СЉРµРєС‚") && confirm("РџСЂРѕРґРѕР»Р¶РёС‚СЊ?")'));
 		} else {
-			$param.=&cmlmain::enc(qq(onclick='return confirm("Вы уверены что хотите удалить объект")'));
+			$param.=&cmlmain::encu(qq(onclick='return confirm("Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ РѕР±СЉРµРєС‚")'));
 		}	
 	}
 	
@@ -2544,7 +2544,7 @@ sub tag_text {
         if ($frmt) {
   			$result=sprintf ($frmt,$result)
         } elsif ($dfrmt && $result) {
-        	$result = &cmlmain::enc(strftime ($dfrmt,localtime($result)));
+        	$result = &cmlmain::encu(strftime ($dfrmt,localtime($result)));
         }	elsif ($spl && $result) {
         	$result = &cmlcalc::splitprice($result);
         }	 
@@ -2723,7 +2723,7 @@ sub tag_date {
         $result=&cmlcalc::calculate({key=>$key,id=>$id,ukey=>$ukey,expr=>$expr,uid=>$uid});
         $result=$result->{value} if ref $result eq 'HASH';
     }
-    $result=&cmlmain::enc(strftime $frmt,localtime($result)) if $result;
+    $result=&cmlmain::encu(strftime $frmt,localtime($result)) if $result;
     push (@cmlcalc::CSVCOLS, $result ) if $pl->{csv};
     if ($data) {
     	$data=~s/\*/$result/;
@@ -3363,9 +3363,9 @@ sub tag_deletebutton {
   	my $hstr=join('&',@hlist);
   	
 	my $imgsrc=$cmlmain::DELIMAGEURL;
-	my $deltext=&cmlmain::enc('Удалить');
-	my $alert1=$pl->{'alert'} || &cmlmain::enc('Вы уверены, что хотите удалить объект?');
-	my $alert2=&cmlmain::enc('Продолжить?');
+	my $deltext=&cmlmain::encu('РЈРґР°Р»РёС‚СЊ');
+	my $alert1=$pl->{'alert'} || &cmlmain::encu('Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ РѕР±СЉРµРєС‚?');
+	my $alert2=&cmlmain::encu('РџСЂРѕРґРѕР»Р¶РёС‚СЊ?');
 	my $confjs=$cmlmain::GLOBAL->{DOUBLECONFIRM}?qq(confirm("$alert1") && confirm("$alert2")):qq(confirm("$alert1"));
 	my $scriptjs;
 	if ($pl->{method}) {
@@ -3437,7 +3437,7 @@ sub tag_changebutton {
 	
 	my $classstr;
 	if ($cmlmain::GLOBAL->{NEWSTYLE}) {
-		$pl->{title} ||=&cmlmain::enc('Сохранить изменения');
+		$pl->{title} ||=&cmlmain::encu('РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ');
 		$classstr='class="btn btn-primary"'
 	}
 	
@@ -3586,7 +3586,7 @@ sub _filter_fname {
  		$fname = Encode::encode('windows-1251',Encode::decode('utf-8',$fname));
  	}	
 	$fname =~s{^.+\\(.+?)$}{${id}_${prm}_$1}i;
- 	$fname =~s{[а-яА-Я\"\s\'\#\+]}{}g;
+ 	$fname =~s{[Р°-СЏРђ-РЇ\"\s\'\#\+]}{}g;
 	$fname="o_${id}_p_${prm}_${fname}" if length $fname<7;
 	return $fname;
 }
