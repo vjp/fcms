@@ -365,7 +365,7 @@ sub execute 	{
  		my $ev=eval "use cmlmain; use vCMS; $METHODID->{script}";
  		unless($METHODID->{script}) {
  		
- 			$res=enc($low?"Ìåòîä íèæíèõ îáúåêòîâ $method íå íàéäåí":"Ìåòîä $method íå íàéäåí");
+ 			$res=encu($low?"ÐœÐµÑ‚Ð¾Ð´ Ð½Ð¸Ð¶Ð½Ð¸Ñ… Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² $method Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½":"ÐœÐµÑ‚Ð¾Ð´ $method Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½");
  			if (
  				$cmlcalc::CGIPARAM->{_MODE} eq 'USERAJAX' ||
  				$cmlcalc::CGIPARAM->{_MODE} eq 'ADMINAJAX' 
@@ -381,7 +381,7 @@ sub execute 	{
  			) {
  				$res=$@;
  			} else {
- 				&cmlmain::alert(enc("Îøèáêà âûïîëíåíèÿ ìåòîäà $method : $@"));
+ 				&cmlmain::alert(encu("ÐžÑˆÐ¸Ð±ÐºÐ° Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° $method : $@"));
  			}	 
  		} else {
  			$res=$ev
@@ -1265,7 +1265,7 @@ sub baselparser (;$)
 
 	unless ($opts->{silent} || $CGIPARAM->{silent}) {
 		my $alerttext=$CGIPARAM->{alerttext};
-		$alerttext=enc('Çíà÷åíèÿ èçìåíåíû') unless $alerttext;
+		$alerttext=encu('Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ñ‹') unless $alerttext;
 		alert($alerttext);
 	}	
 	redir($CGIPARAM->{back}) if $CGIPARAM->{back}; 
