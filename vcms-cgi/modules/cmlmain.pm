@@ -244,7 +244,7 @@ sub export_static (;$)
 
 sub rf_enc_name ($)
 {
-	 return $_[0] if $_[0]!~/\.рф/i;
+	 return $_[0] if $_[0]!~/\.СЂС„/i;
 	 return join('.',map {'xn--'.encode_punycode(Encode::decode('cp1251',$_))} split(/\./,$_[0])); 
 }
 
@@ -261,7 +261,7 @@ sub ajax_ok(;$$)
 {
 	my ($message,$data)=@_;
 	$data->{'status'}=1;
-	$data->{'message'}=$message || enc('Успешно');	
+	$data->{'message'}=$message || encu('РЈСЃРїРµС€РЅРѕ');	
 	$data->{'back'} ||=$CGIPARAM->{back};
 	$data->{'elapsed'} ||=$CGIPARAM->{elapsed};
 	
@@ -275,7 +275,7 @@ sub ajax_error($)
 	$cmlcalc::ENV->{'LASTERROR'}=$errormessage;
 	return {
 		'status'=>0,
-		'message'=>enc("Ошибка: ").$errormessage,	
+		'message'=>encu("РћС€РёР±РєР°: ").$errormessage,	
 	}
 }
 
@@ -1344,7 +1344,7 @@ sub setvalue  {
 		 $ind=$nobj->{$key}->{ind};
 		 return 0 unless $id;
   	}	
-    $value=enc($value) if $_[0]->{convert}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+    $value=encu($value) if $_[0]->{convert}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
     undef $value if $prm->{$pkey}->{type} eq 'LIST' && $value eq '0';
     
 	if (defined $prm->{$pkey}->{type} && $prm->{$pkey}->{type} eq 'FILE' && $append) {
@@ -1614,7 +1614,7 @@ sub init	{
  	$LsthAV=$dbh->prepare("SELECT * FROM ${DBPREFIX}vls WHERE upobj=? AND lang=?")|| die $dbh->errstr;
 
  
- 	$LANGS{mul}=enc('Мультиязычный');
+ 	$LANGS{mul}=encu('РњСѓР»СЊС‚РёСЏР·С‹С‡РЅС‹Р№');
 
  
  	$sthTV=$dbh->prepare("SELECT * FROM ${DBPREFIX}tvls WHERE id=? AND ptkey=?") || die $dbh->errstr;
@@ -1859,7 +1859,7 @@ sub viewlog {
               		var sWnd;
               		var pWnd = window.open('',sWnd,'scrollbars=yes,toolbar=no,location=no,status=no,menubar=no,fullscreen=no, resizable=yes,centered=yes,width=800,height=150');
               		pWnd.document.open();
-              		pWnd.document.write(\"<html><head><title>Окно сообщений</title>\");
+              		pWnd.document.write(\"<html><head><title>РћРєРЅРѕ СЃРѕРѕР±С‰РµРЅРёР№</title>\");
               		pWnd.document.write(\"<style type='text/css'> td {font-family : Verdana, Tahoma;   font-size   : 10px;} </style>\");
               		pWnd.document.write(\"</head><body>\");
            	";
@@ -1899,7 +1899,7 @@ sub addobject {
 		$indx=$_[0]->{indx};
 		$forced=$_[0]->{forced};
 		if ($_[0]->{upkey}) {	$up=$nobj->{$_[0]->{upkey}}->{ind} }
-		$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+		$name=encu($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 	
 	}
 	else { $up=$_[0] }
@@ -1909,7 +1909,7 @@ sub addobject {
 	
 	$up=~s/u(\d+)/$1/;
 	
- 	unless ($name) {$name=enc('Новый объект')}
+ 	unless ($name) {$name=encu('РќРѕРІС‹Р№ РѕР±СЉРµРєС‚')}
  	
  	unless ($template) {
 
@@ -1979,7 +1979,7 @@ sub addlowobject {
 				checkload({key=>$_[0]->{upkey}});
 				$upobj=$nobj->{$_[0]->{upkey}}->{id};
 		}		
-		$name=enc($name) if $_[0]->{convertname} && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+		$name=encu($name) if $_[0]->{convertname} && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 		
 	}	 
 	else {
@@ -1997,7 +1997,7 @@ sub addlowobject {
  	if ($upobj=~/u(\d+)/) {$upobj=$1}
   	#checkload({uid=>$upobj});
  	
-	#unless ($name) {$name=enc('Новый объект')}
+	#unless ($name) {$name=encu('РќРѕРІС‹Р№ РѕР±СЉРµРєС‚')}
  	unless ($template) {
  		if    ( $lobj->{$up} && $lobj->{$up}->{template} && $obj->{$lobj->{$up}->{template}}->{ltemplate})   {$template=$obj->{$lobj->{$up}->{template}}->{ltemplate}}
  		elsif ($obj->{$obj->{$upobj}->{template}}->{ltemplate}) {$template=$obj->{$obj->{$upobj}->{template}}->{ltemplate}}
@@ -2283,8 +2283,8 @@ sub addmethod {
 	my $key=$_[0]->{key};
 	my $script=$_[0]->{script};
 	my $lflag=$_[0]->{lflag};
-	$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
-	$script=enc($script) if $_[0]->{convertscript}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+	$name=encu($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+	$script=encu($script) if $_[0]->{convertscript}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
 	if ($_[0]->{objkey}) { $id=$nobj->{$_[0]->{objkey}}->{ind} }
 	
 	
@@ -2313,7 +2313,7 @@ sub addprm {
  		my $key=$_[0]->{key};
  		my $defval=$_[0]->{defval};
  		my $upd=$_[0]->{upd} || 'y';
- 		$name=enc($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
+ 		$name=encu($name) if $_[0]->{convertname}  && $cmlcalc::CGIPARAM->{_MODE} ne 'CONSOLE';
  		my $self;
  		my $evl;
  		if ($id=~/u(\d+)/) {$id=$1}
@@ -2474,7 +2474,7 @@ sub snapshot ($)
 
 	my $sid=&cmlcalc::add(&cmlcalc::id('SNAPSHOTS'),
 	{
-		_NAME=>'Слепок объекта '.&cmlcalc::p(_NAME,$id).' от '.scalar localtime(),
+		_NAME=>'РЎР»РµРїРѕРє РѕР±СЉРµРєС‚Р° '.&cmlcalc::p(_NAME,$id).' РѕС‚ '.scalar localtime(),
 		SNAPSHOT=>$snapshottext,
 		SNAPSHOTOBJ=>$id,
 		SNAPSHOTOBJNAME=>$vhash->{_NAME},
@@ -2758,15 +2758,15 @@ sub createcmsmethod {
 	
 	if ($prm eq 'listedittemplate') {
 		$method="LISTEDIT_$key";
-		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон редактирования списка")." '$name'"});
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>encu("РЁР°Р±Р»РѕРЅ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЃРїРёСЃРєР°")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}	elsif ($prm eq 'edittemplate') {
 		$method="EDIT_$key";
-		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон объекта")." '$name'"});
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>encu("РЁР°Р±Р»РѕРЅ РѕР±СЉРµРєС‚Р°")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}	elsif ($prm eq 'listmenutemplate') {
 		$method="LISTMENU_$key";
-		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>enc("Шаблон меню списка объекта")." '$name'"});
+		my $newid=addlowobject({upobj=>$nobj->{CMSDESIGN}->{id},key=>$method,name=>encu("РЁР°Р±Р»РѕРЅ РјРµРЅСЋ СЃРїРёСЃРєР° РѕР±СЉРµРєС‚Р°")." '$name'"});
 		setvalue({id=>$newid,param=>'PAGETEMPLATE',value=>$template});
 	}
 
@@ -2850,10 +2850,10 @@ sub loaduserlist {
 sub adduser {
 	my ($login,$password,$group,$fio,$opts)=@_;
 	if ($login!~/^[a-zA-Z][a-zA-Z0-9_]+$/) {
-		return (undef,'Неправильные символы в логине');
+		return (undef,'РќРµРїСЂР°РІРёР»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹ РІ Р»РѕРіРёРЅРµ');
 	}
 	if (&cmlcalc::id("SU_$login")) {
-		return (undef,'Пользователь с таким логином существует');
+		return (undef,'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ С‚Р°РєРёРј Р»РѕРіРёРЅРѕРј СЃСѓС‰РµСЃС‚РІСѓРµС‚');
 	}
 	my $upkey='SYSTEMUSERS';
 	$upkey.="_$group" if $group;
