@@ -121,7 +121,7 @@ sub lmethod_list {
  	my @tvals=('');
  	push (@tvals,sort keys %$lmethod);
  	for (@tvals) { $tlbls->{$_}="$lmethod->{$_}->{name} ($_)" } 
- 	$tlbls->{''}=enc('Не определен');
+ 	$tlbls->{''}=encu('РќРµ РѕРїСЂРµРґРµР»РµРЅ');
  
  	$tl->{vals}=\@tvals;
  	$tl->{lbls}=$tlbls;
@@ -131,7 +131,7 @@ sub lmethod_list {
 
 sub config {
 	print start_form(-method=>'post',-name=>'mfrm');
-	print enc("Конфигурация");
+	print encu("РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ");
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
@@ -141,10 +141,10 @@ sub config {
 	read (FC,$fcontent,-s FC);
 	close(FC); 
 
- 	print button(-name=>'bt2',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js),br;
+ 	print button(-name=>'bt2',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ РєРѕРЅС„РёРіСѓСЂР°С†РёСЋ'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$fcontent,-rows=>20,-cols=>100,-override=>1);	
  	print br;
-	print button(-name=>'bt',-value=>enc('Сохранить конфигурацию'),-onclick=>$save_js);
+	print button(-name=>'bt',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ РєРѕРЅС„РёРіСѓСЂР°С†РёСЋ'),-onclick=>$save_js);
 	print hr;
 	print qq(
 		<script language="javascript" type="text/javascript">
@@ -165,7 +165,7 @@ sub config {
 	
 	
 	print start_form(-method=>'post',-name=>'mfrm2');
-	print enc("HTACCESS");
+	print encu("HTACCESS");
 	print start_table();
 	print Tr(td(),td(),td());
 	print end_table();
@@ -175,10 +175,10 @@ sub config {
 	read (FC2,$fcontent2,-s FC2);
 	close(FC2); 
 
- 	print button(-name=>'b2bt2',-value=>enc('Сохранить htaccess'),-onclick=>$save_js2),br;
+ 	print button(-name=>'b2bt2',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ htaccess'),-onclick=>$save_js2),br;
 	print textarea(-id=>'editarea2',-default=>$fcontent2,-rows=>20,-cols=>100,-override=>1);	
  	print br;
-	print button(-name=>'b2bt',-value=>enc('Сохранить htaccess'),-onclick=>$save_js2);
+	print button(-name=>'b2bt',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ htaccess'),-onclick=>$save_js2);
 
 	
 	print qq(
@@ -191,12 +191,12 @@ sub config {
 	
 	
 	print hr;
-	print enc("Экспорт"),br;
+	print encu("Р­РєСЃРїРѕСЂС‚"),br;
 	print end_form();
-	print a({-href=>"?action=export&area=scripts"},enc('скрипты')),br;
-	print a({-href=>"?action=export&area=docs"},enc('статика')),br;
-	print a({-href=>"?action=export&area=data"},enc('файлы и картинки')),br;
-	print a({-href=>"?action=export&area=db"},enc('база данных')),br;
+	print a({-href=>"?action=export&area=scripts"},encu('СЃРєСЂРёРїС‚С‹')),br;
+	print a({-href=>"?action=export&area=docs"},encu('СЃС‚Р°С‚РёРєР°')),br;
+	print a({-href=>"?action=export&area=data"},encu('С„Р°Р№Р»С‹ Рё РєР°СЂС‚РёРЅРєРё')),br;
+	print a({-href=>"?action=export&area=db"},encu('Р±Р°Р·Р° РґР°РЅРЅС‹С…')),br;
 	
 }
 
@@ -220,7 +220,7 @@ sub viewprmform{
 	my $prm_struct=prminfo($pkey);
 	print "PRM $pkey";
 	print start_table();
-	print Tr(th(enc('Имя')),th(enc('Тип')),th(enc('Объект')),th(enc('Формула')),th(enc('Вып')),th(enc('Изм')),th(enc('Свой')));
+	print Tr(th(encu('РРјСЏ')),th(encu('РўРёРї')),th(encu('РћР±СЉРµРєС‚')),th(encu('Р¤РѕСЂРјСѓР»Р°')),th(encu('Р’С‹Рї')),th(encu('РР·Рј')),th(encu('РЎРІРѕР№')));
 	for my $p (@{$prm_struct->{prm}}) {
 		print Tr(
 			td($p->{pname}),
@@ -273,10 +273,10 @@ sub viewallhistoryform ($) {
 	my $r=$pObj->History();
     print start_table();
 	print Tr(
-		th(enc('Время')),
-		th(enc('Параметр')),
-		th(enc('Значение')),
-		th(enc('Пользователь')),
+		th(encu('Р’СЂРµРјСЏ')),
+		th(encu('РџР°СЂР°РјРµС‚СЂ')),
+		th(encu('Р—РЅР°С‡РµРЅРёРµ')),
+		th(encu('РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ')),
 	);    
     for (@$r) {
 		print Tr(
@@ -305,26 +305,26 @@ sub editprmform {
   	print hidden (-name=>'id',-default=>$id);
 	
 	print start_table();
-	print Tr(th(enc('Объект')),td(b($obj->{$id}->{name})));
-	print Tr(th(enc('Наименование параметра')),td(b(textfield(-name=>'prmname',-default=>$prm->{$pkey}->{name},override=>1,size=>130))));
-	print Tr(th(enc('Ключ')),td(b($pkey)));
-	print Tr(th(enc('Тип')),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
+	print Tr(th(encu('РћР±СЉРµРєС‚')),td(b($obj->{$id}->{name})));
+	print Tr(th(encu('РќР°РёРјРµРЅРѕРІР°РЅРёРµ РїР°СЂР°РјРµС‚СЂР°')),td(b(textfield(-name=>'prmname',-default=>$prm->{$pkey}->{name},override=>1,size=>130))));
+	print Tr(th(encu('РљР»СЋС‡')),td(b($pkey)));
+	print Tr(th(encu('РўРёРї')),td(b($ptype{$prm->{$pkey}->{type}}->{name})));
 	
 	my $tl=lmethod_list();
-	print Tr(th(enc('Обработчик OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
+	print Tr(th(encu('РћР±СЂР°Р±РѕС‚С‡РёРє OnChange')),td(b(popup_menu(-name=>'onchange',-default=>$prm->{$pkey}->{extra}->{onchange},-values=>$tl->{vals},-labels=>$tl->{lbls},-override=>1))));
 	if ($prm->{$pkey}->{upd}->{$id} eq 'y') {$ss=1} else {$ss=''}
-	print Tr(th(enc('Исправляемый')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
+	print Tr(th(encu('РСЃРїСЂР°РІР»СЏРµРјС‹Р№')),td(b(checkbox(-name=>'prmupd',-value=>1,-checked=>$ss,-label=>'',override=>1))));
 	if ($prm->{$pkey}->{evaluate} eq 'y') {$ss=1} else {$ss=''}
-	print Tr(th(enc('Выполняемый')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
-  	print Tr(th(enc('Умолчание')),td(textarea(-id=>'editarea',-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
-	print Tr(th(enc('Условие доступа')),td(textarea(-name=>'hasaccess',-default=>$prm->{$pkey}->{extra}->{hasaccess},override=>1,rows=>15,cols=>130)));  
+	print Tr(th(encu('Р’С‹РїРѕР»РЅСЏРµРјС‹Р№')),td(b(checkbox(-name=>'prmevl',-value=>1,-checked=>$ss,-label=>'',override=>1))));  
+  	print Tr(th(encu('РЈРјРѕР»С‡Р°РЅРёРµ')),td(textarea(-id=>'editarea',-name=>'prmdef',-default=>$prm->{$pkey}->{defval}->{$id},override=>1,rows=>15,cols=>130)));
+	print Tr(th(encu('РЈСЃР»РѕРІРёРµ РґРѕСЃС‚СѓРїР°')),td(textarea(-name=>'hasaccess',-default=>$prm->{$pkey}->{extra}->{hasaccess},override=>1,rows=>15,cols=>130)));  
   	if (ref $extra eq 'ARRAY') {
-    	print Tr(th({-colspan=>2},enc("Дополнительные атрибуты")));
+    	print Tr(th({-colspan=>2},encu("Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹")));
     	for (@$extra) {
     		print Tr(th($_->[0]),td($_->[1]));
     	}	
   	}	
-	print Tr(th(),td(submit(-value=>enc('Исправить'))));
+	print Tr(th(),td(submit(-value=>encu('РСЃРїСЂР°РІРёС‚СЊ'))));
 	print end_table();
   	if (ref $extra ne 'ARRAY') {  
   		print $extra,br 
@@ -348,14 +348,14 @@ sub console {
     my $save_js="vcms_console(myCodeMirror.getValue())";
 	print textarea(-id=>'editarea',-default=>$value,-override=>1);
 	print br;
-	print button(-value=>enc('Выполнить'),-onclick=>$save_js);
-	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
+	print button(-value=>encu('Р’С‹РїРѕР»РЅРёС‚СЊ'),-onclick=>$save_js);
+	print hr,table(Tr(td(encu("Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРєСЂРёРїС‚Р° : ")),td("<div id='statusDiv'></div>")));
 	print hr,"<textarea id='resultDiv' rows='30' cols='100'></textarea>";
-	print enc(q(
+	print encu(q(
 	        <script language="javascript" type="text/javascript">
 			function vcms_console (script) {
 				$('resultDiv').update('...');
-				$('statusDiv').update('ВЫПОЛНЕНИЕ');
+				$('statusDiv').update('Р’Р«РџРћР›РќР•РќРР•');
           		var dt={script: script};
           		ajax_call('console', dt, console_callback);
   			}
@@ -363,9 +363,9 @@ sub console {
 				     $('resultDiv').update(json.result);
 				     var statusstr;
 				     if (json.status=='SUCCESS') {
-				     	statusstr='УСПЕХ';
+				     	statusstr='РЈРЎРџР•РҐ';
 				     } else {
-				     	statusstr='ОШИБКА';
+				     	statusstr='РћРЁРР‘РљРђ';
 				     }		
 				     $('statusDiv').update(statusstr);
 				     
@@ -416,7 +416,7 @@ sub editlist	{
         	}	
         	if ($prm->{$pkey}->{extra}->{single} eq 'y') {
         		@overall=('',@overall);
-        	  $lhash->{''}=enc('Ничего');
+        	  $lhash->{''}=encu('РќРёС‡РµРіРѕ');
 						$outp=popup_menu(-name=>$prmname,
                                      -values=>\@overall,
                                      -default=>$val->{value},
@@ -484,7 +484,7 @@ sub editdate	{
 	 			);
 	}
 	else {
-		### часы
+		### С‡Р°СЃС‹
 		$format=~s{\%H}{
 			my $val=$tm[2];
 			if ($val<10) {$val="0$val"}
@@ -496,7 +496,7 @@ sub editdate	{
  				-override=>1
  				  );
 		}ges; 	
-		### минуты 
+		### РјРёРЅСѓС‚С‹ 
 		$format=~s{\%M}{
 			my $val=$tm[1];
 			if ($val<10) {$val="0$val"}
@@ -508,7 +508,7 @@ sub editdate	{
  				-override=>1
  				  );
 		}ges; 	
-		### годы					
+		### РіРѕРґС‹					
 		$format=~s{\%Y}{
 			my $val=$tm[5]+1900;
 			textfield(	
@@ -519,7 +519,7 @@ sub editdate	{
  				-override=>1
  				  );
 		}ges; 	
-		### месяцы
+		### РјРµСЃСЏС†С‹
 		$format=~s{\%m}{
 			my $val=$tm[4]+1;
 			if ($val<10) {$val="0$val"}
@@ -531,7 +531,7 @@ sub editdate	{
  				-override=>1
  				  );
 		}ges; 	
-		### дни
+		### РґРЅРё
 		$format=~s{\%d}{
 			my $val=$tm[3];
 			if ($val<10) {$val="0$val"}
@@ -545,7 +545,7 @@ sub editdate	{
 		}ges; 	
 		
 		$format=~s{\%(c|a)}{
-			enc(strftime ("\%$1",localtime($val->{value})));
+			encu(strftime ("\%$1",localtime($val->{value})));
 		}ges;	
 		return $format;
  	}
@@ -776,7 +776,7 @@ sub editfile
 
  
  my $val=calculate({id=>$id,uid=>$uid,tabkey=>$tabkey,tabpkey=>$tabpkey,pkey=>$pkey,expr=>"p($pkey)"});
- my $label=enc('Скачать');
+ my $label=encu('РЎРєР°С‡Р°С‚СЊ');
  if ($val->{value}) {$outp="<a href='$GLOBAL->{FILEURL}/$val->{value}'>$label</a><br>"}
  if (checkupd({id=>$_[0]->{id},uid=>$_[0]->{uid},tabkey=>$_[0]->{tabkey},pkey=>$_[0]->{pkey}})) {	 
  	$outp="$outp <input type='file' name='$prmname' value='$val->{value}' onchange='document.$formname.$flagname.value=1'>\n";
@@ -827,16 +827,16 @@ sub editmemo {
  
  	if ($lang eq 'mul') {
  		for (@LANGS) {
- 		   push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},enc("Редактировать ")."($LANGS{$_})"));			 
+ 		   push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$_", -target=>'_blank'},encu("Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ ")."($LANGS{$_})"));			 
  		}	 
 	} elsif ($lang) {
-		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang", -target=>'_blank'},enc("Редактировать ")."($LANGS{$lang})"));			 
+		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey&lang=$lang", -target=>'_blank'},encu("Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ ")."($LANGS{$lang})"));			 
 	}	else {	
-		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},enc("Редактировать")));			 
+		  push(@outp,a({-href=>"?action=editmemo&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},encu("Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ")));			 
   } 	
   
   if ($prm->{$pkey}->{extra}->{script} eq 'y') {
-  	push(@outp,a({-href=>"?action=execscript&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},enc("Выполнить")));			 
+  	push(@outp,a({-href=>"?action=execscript&objid=$id&objuid=$uid&pkey=$pkey&tabkey=$tabkey&tabpkey=$tabpkey", -target=>'_blank'},encu("Р’С‹РїРѕР»РЅРёС‚СЊ")));			 
 	}	
   
   return join('<br>',@outp);
@@ -847,7 +847,7 @@ sub editmatrix
  my $id=$_[0]->{id};
  my $uid=$_[0]->{uid};
  my $pkey=$_[0]->{pkey};
- my $outp=a({-href=>"$ENV{SCRIPT_NAME}?action=editmatrix&objid=$id&objuid=$uid&pkey=$pkey",-target=>'_blank'},enc('Редактировать'));
+ my $outp=a({-href=>"$ENV{SCRIPT_NAME}?action=editmatrix&objid=$id&objuid=$uid&pkey=$pkey",-target=>'_blank'},encu('Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ'));
  return $outp;
 }
 
@@ -856,26 +856,26 @@ sub editmethodform ($$;$)
 {
 	my ($id,$pkey,$lflag)=@_;
 
-	my $r=enc($lflag?'Метод нижних объектов ':'Метод ');
+	my $r=encu($lflag?'РњРµС‚РѕРґ РЅРёР¶РЅРёС… РѕР±СЉРµРєС‚РѕРІ ':'РњРµС‚РѕРґ ');
 	
 	my $n=$lflag?'lmethod':'method';
 	
-	print enc("Объект "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
+	print encu("РћР±СЉРµРєС‚ "),b($obj->{$id}->{name})," ($obj->{$id}->{key})",br;
 	print $r,b($obj->{$id}->{$n}->{$pkey}->{name})," ($pkey) ",br;
 	
 	my $save_js="editmethod('$id','$pkey','$lflag',myCodeMirror.getValue())";
 	my $savenrun_js="vcms_console(myCodeMirror.getValue())";
 	print textarea(-id=>'editarea',-default=>$obj->{$id}->{$n}->{$pkey}->{script},-rows=>25,-cols=>150,-override=>1);
 	print br;
-	print button(-value=>enc('Сохранить'),-onclick=>$save_js);
-	print button(-value=>enc('Протестировать'),-onclick=>$savenrun_js);
+	print button(-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ'),-onclick=>$save_js);
+	print button(-value=>encu('РџСЂРѕС‚РµСЃС‚РёСЂРѕРІР°С‚СЊ'),-onclick=>$savenrun_js);
 
-	print hr,table(Tr(td(enc("Результат выполнения скрипта : ")),td("<div id='statusDiv'></div>")));
-	print enc(q(
+	print hr,table(Tr(td(encu("Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРєСЂРёРїС‚Р° : ")),td("<div id='statusDiv'></div>")));
+	print encu(q(
 		<script language="javascript" type="text/javascript">
 			function vcms_console (script) {
 				$('resultDiv').update('...');
-				$('statusDiv').update('ВЫПОЛНЕНИЕ');
+				$('statusDiv').update('Р’Р«РџРћР›РќР•РќРР•');
           		var dt={script: script};
           		ajax_call('console', dt, console_callback);
   			}
@@ -888,9 +888,9 @@ sub editmethodform ($$;$)
 					 }		
 				     var statusstr;
 				     if (json.status=='SUCCESS') {
-				     	statusstr='УСПЕХ';
+				     	statusstr='РЈРЎРџР•РҐ';
 				     } else {
-				     	statusstr='ОШИБКА';
+				     	statusstr='РћРЁРР‘РљРђ';
 				     }		
 				     $('statusDiv').update(statusstr);
 				     
@@ -922,8 +922,8 @@ sub editfilelinkfull
  	if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
  	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
-	print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)"),enc(" Файл "),b($fullpath);
-	print enc(" Язык "),b($LANGS{$lang}) if $lang;
+	print encu("РћР±СЉРµРєС‚ "),b($name),encu(" РџР°СЂР°РјРµС‚СЂ "),b("$prm->{$pkey}->{name} ($pkey)"),encu(" Р¤Р°Р№Р» "),b($fullpath);
+	print encu(" РЇР·С‹Рє "),b($LANGS{$lang}) if $lang;
 	print br(),br();  
 	my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
 	
@@ -932,12 +932,12 @@ sub editfilelinkfull
 	$mode='css' if $filename=~/css$/;
 	$mode='javascript' if $filename=~/js$/;
 	
- 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
+ 	print button(-name=>'bt2',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$fcontent,-override=>1);
 	print code_mirror_js({mode=>$mode});
 	
  	print br;
-	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
+	print button(-name=>'bt',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ'),-onclick=>$save_js);
  	print "</body></html>";
 }
 
@@ -960,27 +960,27 @@ sub editmemofull
  	elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
 	if ($tabpkey) {
-		print enc("Табличный объект "),b($name),enc(" Параметр "),b("$prm->{$tabpkey}->{name} ($tabpkey)"),br;
+		print encu("РўР°Р±Р»РёС‡РЅС‹Р№ РѕР±СЉРµРєС‚ "),b($name),encu(" РџР°СЂР°РјРµС‚СЂ "),b("$prm->{$tabpkey}->{name} ($tabpkey)"),br;
 		my @tablist = map {
 			if ($_=~/^u(\d+)$/) {$_=$obj->{$1}->{name}}
 			else {checkload ({id=>$_}); $_=$lobj->{$_}->{name}}
 		} split(/_/,$tabkey);
-		print enc("Объект "),b(@tablist),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)"),br();
+		print encu("РћР±СЉРµРєС‚ "),b(@tablist),encu(" РџР°СЂР°РјРµС‚СЂ "),b("$prm->{$pkey}->{name} ($pkey)"),br();
 	}
 	else {
-		print enc("Объект "),b($name),enc(" Параметр "),b("$prm->{$pkey}->{name} ($pkey)");
-		print enc(" Язык "),b($LANGS{$lang}) if $lang;
+		print encu("РћР±СЉРµРєС‚ "),b($name),encu(" РџР°СЂР°РјРµС‚СЂ "),b("$prm->{$pkey}->{name} ($pkey)");
+		print encu(" РЇР·С‹Рє "),b($LANGS{$lang}) if $lang;
 		print br(),br();  
 	}
  
     my $save_js="setvalue('$id','$uid','$pkey','$lang',myCodeMirror.getValue())";
- 	print button(-name=>'bt2',-value=>enc('Сохранить'),-onclick=>$save_js),br;
+ 	print button(-name=>'bt2',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ'),-onclick=>$save_js),br;
 	print textarea(-id=>'editarea',-default=>$val->{value},-rows=>40,-cols=>150,-override=>1);	
  	print br;
-	print button(-name=>'bt',-value=>enc('Сохранить'),-onclick=>$save_js);
+	print button(-name=>'bt',-value=>encu('РЎРѕС…СЂР°РЅРёС‚СЊ'),-onclick=>$save_js);
 	print code_mirror_js({mode=>"html"});
 	print hr;
- 	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},enc('История')),br;
+ 	print a({-href=>"?action=editmemo&objid=$id&pkey=$pkey&lang=$lang&history=1"},encu('РСЃС‚РѕСЂРёСЏ')),br;
     if (param('history')) {
     	my $r=o($id)->History({prm=>$pkey});
     	print start_table();
@@ -1006,7 +1006,7 @@ sub editmatrixfull
  if    ($id)  {$name="$lobj->{$id}->{name} ($lobj->{$id}->{key})"}
  elsif ($uid) {$name="$obj->{$uid}->{name} ($obj->{$uid}->{key})"}
 
- print "Объект <b> $name </b> Параметр <b>$prm->{$pkey}->{name} ($pkey) </b><hr>";
+ print "РћР±СЉРµРєС‚ <b> $name </b> РџР°СЂР°РјРµС‚СЂ <b>$prm->{$pkey}->{name} ($pkey) </b><hr>";
  
  my @dim=split(/;/,$prm->{$pkey}->{extra}->{param});
  
@@ -1047,7 +1047,7 @@ sub editmatrixfull
  	for (sort keys %$vls) {
  		my $n=retname($curcomb[$_]);
  		push (@cellkey,$curcomb[$_]);
- 		print "Параметр <b>$prm->{$vls->{$_}->{name}}->{name}</b> Объект  <b>$n</b> <br>";
+ 		print "РџР°СЂР°РјРµС‚СЂ <b>$prm->{$vls->{$_}->{name}}->{name}</b> РћР±СЉРµРєС‚  <b>$n</b> <br>";
  	}	
 	print "<table border=1>";
  		
@@ -1094,7 +1094,7 @@ sub editmatrixfull
 
  
  print "<br>";
- print "<input name='bt' value='Редактировать' type='submit'>";
+ print "<input name='bt' value='Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ' type='submit'>";
  print "<input type='hidden' name='objid' value='$id'>";
  print "<input type='hidden' name='objuid' value='$uid'>";
  print "<input type='hidden' name='pkey'  value='$pkey'>";
@@ -1293,11 +1293,11 @@ sub extralist {
  	if ($_[0]->{check}) { $onc="document.$formname.$flagname.value=1" } 
 	my @o;
 	if ($_[0]->{check}) {
-		push (@o,[enc('Формула'),textfield(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1)]);
+		push (@o,[encu('Р¤РѕСЂРјСѓР»Р°'),textfield(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1)]);
 	} else {
-		push (@o,[enc('Формула'),textarea(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1, -cols=>130,-rows=>15)])
+		push (@o,[encu('Р¤РѕСЂРјСѓР»Р°'),textarea(-name=>"exformula$pkey", -default=>$extra->{formula}, -onchange=>$onc, -override=>1, -cols=>130,-rows=>15)])
 	}
-  	push (@o,[enc('Одиночное'),checkbox(-name=>"exsingle$pkey", -value=>1, -checked=>$ss, -label=>'', -onchange=>"document.$formname.$flagname.value=1", -override=>1)]);
+  	push (@o,[encu('РћРґРёРЅРѕС‡РЅРѕРµ'),checkbox(-name=>"exsingle$pkey", -value=>1, -checked=>$ss, -label=>'', -onchange=>"document.$formname.$flagname.value=1", -override=>1)]);
  	return \@o;
 }
 
@@ -1317,14 +1317,14 @@ sub extradate {
  	if ($_[0]->{check}) {
 	 	my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
- 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1).br;
- 		$outp.=enc('Фикс ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -onchange=>"document.$formname.$flagname.value=1", -override=>1, -label=>'');
- 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
+ 		my $outp=encu('Р¤РѕСЂРјР°С‚ ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>"document.$formname.$flagname.value=1", -override=>1).br;
+ 		$outp.=encu('Р¤РёРєСЃ ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -onchange=>"document.$formname.$flagname.value=1", -override=>1, -label=>'');
+ 		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');
 		return $outp;
 	} else {
- 		my $outp=enc('Формат ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1).br;
- 		$outp.=enc('Фикс ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -override=>1, -label=>'');
- 		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -label=>'');
+ 		my $outp=encu('Р¤РѕСЂРјР°С‚ ').textfield(-name=>"exformat$pkey", -default=>$extra->{format}, -override=>1).br;
+ 		$outp.=encu('Р¤РёРєСЃ ').checkbox(-name=>"fix$pkey", -value=>1, -checked=>$fix, -override=>1, -label=>'');
+ 		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -label=>'');
 		return $outp;
 	}			
 }
@@ -1338,16 +1338,16 @@ sub extratext {
  		my $formname=$_[0]->{form};
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
- 		$outp=enc('Длина').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
- 		$outp.=enc('Строк').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
-		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
+ 		$outp=encu('Р”Р»РёРЅР°').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
+ 		$outp.=encu('РЎС‚СЂРѕРє').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -onchange=>"document.$formname.$flagname.value=1", -override=>1);
+		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
 
 	} else {
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp=enc('Длина').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -override=>1);
-		$outp.=enc('Строк').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -override=>1);
-		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
+		$outp=encu('Р”Р»РёРЅР°').textfield(-size=>1, -name=>"excols$pkey", -default=>$extra->{cols}, -override=>1);
+		$outp.=encu('РЎС‚СЂРѕРє').textfield(-size=>1, -name=>"exrows$pkey", -default=>$extra->{rows}, -override=>1);
+		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
 	}	
   	return $outp;	
 }
@@ -1361,12 +1361,12 @@ sub extraflag {
  		my $formname=$_[0]->{form};
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
+		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>"document.$formname.$flagname.value=1", -label=>'');		
 
 	} else {
  		my $ss;
  		if ($extra->{srch} eq 'y') {$ss='checked'} else {$ss=''}
-		$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
+		$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'');		
 	}	
   return $outp;	
 	
@@ -1375,7 +1375,7 @@ sub extraflag {
 sub extrafilelink {
  	my $pkey=$_[0]->{pkey};
  	my $extra=$prm->{$pkey}->{extra};
-	my $outp=enc('CGI').checkbox(
+	my $outp=encu('CGI').checkbox(
 			-name=>"excgi$pkey", 
 			-checked=>$extra->{cgi} eq 'y'?'checked':'', 
 			-override=>1, 
@@ -1383,7 +1383,7 @@ sub extrafilelink {
 			-onchange=>$_[0]->{check}?"document.$_[0]->{form}.$_[0]->{flag}.value=1":'', 
 			-label=>'',
 	);	
-	$outp.=enc('ABS').checkbox(
+	$outp.=encu('ABS').checkbox(
 			-name=>"exabs$pkey", 
 			-checked=>$extra->{abs} eq 'y'?'checked':'', 
 			-override=>1, 
@@ -1405,9 +1405,9 @@ sub extranumber {
  	my $flagname=$_[0]->{flag};
 	my $formname=$_[0]->{form};
  	my $oc=$_[0]->{check}?"document.$formname.$flagname.value=1":'';
-	my $outp=enc('Формат ').textfield(-size=>2, -name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>$oc, -override=>1);
-	$outp.=enc('Поиск').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>$oc, -label=>'');
-	$outp.=enc('Разбить').checkbox(-name=>"exsplt$pkey", -checked=>$sp, -override=>1, -value=>1, -onchange=>$oc, -label=>''); 		
+	my $outp=encu('Р¤РѕСЂРјР°С‚ ').textfield(-size=>2, -name=>"exformat$pkey", -default=>$extra->{format}, -onchange=>$oc, -override=>1);
+	$outp.=encu('РџРѕРёСЃРє').checkbox(-name=>"exsrch$pkey", -checked=>$ss, -override=>1, -value=>1, -onchange=>$oc, -label=>'');
+	$outp.=encu('Р Р°Р·Р±РёС‚СЊ').checkbox(-name=>"exsplt$pkey", -checked=>$sp, -override=>1, -value=>1, -onchange=>$oc, -label=>''); 		
 	
 	
 }
@@ -1426,9 +1426,9 @@ sub extramemo {
  	my $flagname=$_[0]->{flag};
  	my $formname=$_[0]->{form};
  	
- 	my $outp=enc('Разбор').checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');		
-	$outp.=enc('Вып').checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
-	$outp.=enc('Виз').checkbox(-name=>"exvisual$pkey", -checked=>$ssv, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+ 	my $outp=encu('Р Р°Р·Р±РѕСЂ').checkbox(-name=>"exparse$pkey", -checked=>$ss, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');		
+	$outp.=encu('Р’С‹Рї').checkbox(-name=>"exscript$pkey", -checked=>$sse, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
+	$outp.=encu('Р’РёР·').checkbox(-name=>"exvisual$pkey", -checked=>$ssv, -override=>1, -value=>1, label=>'', onchange=>$_[0]->{check}?"document.$formname.$flagname.value=1":'');
 			
 	return $outp;
 }
@@ -1442,12 +1442,12 @@ sub extramatrix {
  	if ($_[0]->{check}) {
 		my $flagname=$_[0]->{flag};
  		my $formname=$_[0]->{form};
- 	   	my $outp=enc('Параметры').  " <input name='exparam$pkey'  value='$extra->{param}' onchange='document.$formname.$flagname.value=1'><br>";
-        $outp.=enc('Шаблон ячейки')." <input name='excell$pkey'   value='$extra->{cell}' onchange='document.$formname.$flagname.value=1'>";   
+ 	   	my $outp=encu('РџР°СЂР°РјРµС‚СЂС‹').  " <input name='exparam$pkey'  value='$extra->{param}' onchange='document.$formname.$flagname.value=1'><br>";
+        $outp.=encu('РЁР°Р±Р»РѕРЅ СЏС‡РµР№РєРё')." <input name='excell$pkey'   value='$extra->{cell}' onchange='document.$formname.$flagname.value=1'>";   
         return $outp;
     } else {
- 	   	my $outp=enc('Параметры')." <input name='exparam$pkey'  value='$extra->{param}'><br>";
-        $outp.=enc('Шаблон ячейки')." <input name='excell$pkey'   value='$extra->{cell}'>";   
+ 	   	my $outp=encu('РџР°СЂР°РјРµС‚СЂС‹')." <input name='exparam$pkey'  value='$extra->{param}'><br>";
+        $outp.=encu('РЁР°Р±Р»РѕРЅ СЏС‡РµР№РєРё')." <input name='excell$pkey'   value='$extra->{cell}'>";   
         return $outp;
 	}	
 }
@@ -1525,21 +1525,21 @@ sub extramatrixparse {
 
 sub buildvparam {
   	$ptype{TEXT}={
-        	 name       =>enc('Строка'),
+        	 name       =>encu('РЎС‚СЂРѕРєР°'),
                  editview   =>\&cmlview::edittext,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extratext,
                  extraparse =>\&cmlview::extratextparse,
         };
  	$ptype{NUMBER}={
-                 name       =>enc('Число'),
+                 name       =>encu('Р§РёСЃР»Рѕ'),
                  editview   =>\&cmlview::editnumber,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extranumber,
                  extraparse =>\&cmlview::extranumberparse,
         };
   	$ptype{LONGTEXT}={
-                 name       =>enc('Текст'),
+                 name       =>encu('РўРµРєСЃС‚'),
                  editview   =>\&cmlview::editmemo,
                  extra      =>\&cmlview::extramemo,
                  extraparse =>\&cmlview::extramemoparse,
@@ -1547,28 +1547,28 @@ sub buildvparam {
                  extendset=>\&cmlview::setmemofull,
         };
   	$ptype{FLAG}={
-                 name       =>enc('Флаг'),
+                 name       =>encu('Р¤Р»Р°Рі'),
                  editview   =>\&cmlview::editflag,
                  setvalue   =>\&cmlview::settext,
                  extra      =>\&cmlview::extraflag,
                  extraparse =>\&cmlview::extraflagparse,
         };
   	$ptype{DATE}={
-                 name       =>enc('Дата'),
+                 name       =>encu('Р”Р°С‚Р°'),
                  editview   =>\&cmlview::editdate,
                  setvalue   =>\&cmlview::setdate,
                  extra      =>\&cmlview::extradate,
                  extraparse =>\&cmlview::extradateparse,
         };
   	$ptype{LIST}={
-                 name       =>enc('Список'),
+                 name       =>encu('РЎРїРёСЃРѕРє'),
                  editview   =>\&cmlview::editlist,
                  setvalue   =>\&cmlview::setlist,
                  extra      =>\&cmlview::extralist,
                  extraparse =>\&cmlview::extralistparse,
         };
   	$ptype{MATRIX}={
-                 name       =>enc('Матрица'),
+                 name       =>encu('РњР°С‚СЂРёС†Р°'),
                  editview   =>\&cmlview::editmatrix,
                  extra      =>\&cmlview::extramatrix,
                  extraparse =>\&cmlview::extramatrixparse,
@@ -1576,14 +1576,14 @@ sub buildvparam {
                  extendset=>\&cmlview::setmatrixfull,
         };
  	$ptype{PICTURE}={
-                 name       =>enc('Картинка'),
+                 name       =>encu('РљР°СЂС‚РёРЅРєР°'),
                  editview   =>\&cmlview::editpicture,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
                  extraparse =>\&cmlview::emptysub,
         };
         $ptype{VIDEO}={
-                 name       =>enc('Видеоролик'),        	
+                 name       =>encu('Р’РёРґРµРѕСЂРѕР»РёРє'),        	
                  editview   =>\&cmlview::editvideo,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
@@ -1592,7 +1592,7 @@ sub buildvparam {
         
         
  	$ptype{FILE}={
-                 name       =>enc('Файл'),
+                 name       =>encu('Р¤Р°Р№Р»'),
                  editview   =>\&cmlview::editfile,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
@@ -1600,7 +1600,7 @@ sub buildvparam {
         };
 
    $ptype{AUDIO}={
-                 name       =>enc('Музыка'),
+                 name       =>encu('РњСѓР·С‹РєР°'),
                  editview   =>\&cmlview::editfile,
                  setvalue   =>\&cmlview::setpicture,
                  extra      =>\&cmlview::emptysub,
@@ -1610,7 +1610,7 @@ sub buildvparam {
 
 
 	$ptype{FILELINK}={
-                 name       =>enc('Ссылка на файл'),
+                 name       =>encu('РЎСЃС‹Р»РєР° РЅР° С„Р°Р№Р»'),
                  editview   =>\&cmlview::editfilelink,
                  extra      =>\&cmlview::extrafilelink,
                  extraparse =>\&cmlview::extrafilelinkparse,

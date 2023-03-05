@@ -57,7 +57,7 @@ BEGIN
               
               &checkdatastruct &deletelowlist &sync &remote_sync
               
-              &prminfo &enc
+              &prminfo &enc &encu
               
               &get_sec_id &check_sec_id &get_sec_key &check_captcha
               
@@ -1695,6 +1695,12 @@ sub enc
 	if ($GLOBAL->{CODEPAGE} eq 'utf-8') {
 		$val=Encode::encode('utf-8',Encode::decode('windows-1251',$val));
 	}
+	return $val;
+}
+
+sub encu 
+{
+	my ($val)=@_;
 	return $val;
 }
 
